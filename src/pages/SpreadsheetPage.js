@@ -18,7 +18,10 @@ import { requestData } from '../reducers/request'
 class SpreadsheetPage extends Component {
   handleRequestData = props => {
     const { requestData, sellerId } = props
-    sellerId && requestData('GET', 'offers?sellerId=${sellerId}')
+    if (!this.hasRequired && sellerId) {
+      requestData('GET', 'offers?sellerId=${sellerId}')
+      this.hasRequired = true
+    }
   }
   componentWillMount () {
     this.props.sellerId && this.handleRequestData(this.props)
@@ -31,15 +34,13 @@ class SpreadsheetPage extends Component {
   render () {
     const { offers } = this.props
     return (
-      <main className='page flex items-center justify-center'>
-        <div>
-          <OfferNew />
-          {
-            offers && offers.map((offer, index) => (
-              <OfferItem key={index} {...offer} />
-            ))
-          }
-        </div>
+      <main className='spreadsheet-page p2'>
+        <OfferNew />
+        {
+          offers && offers.map((offer, index) => (
+            <OfferItem key={index} {...offer} />
+          ))
+        }
       </main>
     )
   }

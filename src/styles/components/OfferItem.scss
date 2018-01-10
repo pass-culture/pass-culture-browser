@@ -1,6 +1,6 @@
 .offer-item {
+  border: 2px solid black;
   border-radius: $border-radius;
-  transition: all 1s ease-out;
   img {
     height: 100px;
     width: 100px;
@@ -9,13 +9,6 @@
       width: 200px;
     }
   }
-  &:hover {
-    background-color: $very-light-grey;
-  }
-  &__space {
-    width: 50px;
-    @media (min-width: $md) {
-      width: 300px;
-    }
+  &__info {
   }
 }

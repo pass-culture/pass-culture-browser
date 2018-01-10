@@ -65,7 +65,6 @@ class BookForm extends Component {
             </div>
           )
         }
-
       </div>
     )
   }

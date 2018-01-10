@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Icon from './Icon'
 import OfferForm from './OfferForm'
 import { showModal } from '../reducers/modal'
 
@@ -14,7 +15,7 @@ class OfferNew extends Component {
         <button className='button button--alive button--inversed'
           onClick={this.onNewClick}
         >
-          New
+          <Icon name='add' />
         </button>
       </div>
     )

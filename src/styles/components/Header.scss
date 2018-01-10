@@ -3,13 +3,14 @@
   background-color: black;
   &__logo {
     position: absolute;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, 0);
     color: white;
     text-align: center;
     font-size: 25px;
   }
   &__avatar {
+    border-radius: 50%;
     height: 90%;
     width: auto;
   }

@@ -86,6 +86,21 @@ label {
   color: $dark-grey;
 }
 
+option {
+  font-family: $font-family;
+}
+
 .page {
   padding: 5px;
+}
+
+select {
+  border: $border;
+  border-radius: $border-radius;
+  font-family: $font-family;
+  font-size: 20px;
+  font-weight: 500;
+  &:focus {
+    outline: none;
+  }
 }

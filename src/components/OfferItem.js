@@ -1,39 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Icon from './Icon'
+import OfferForm from './OfferForm'
 import { showModal } from '../reducers/modal'
 
 class OfferItem extends Component {
-  onDeleteClick = () => {
-    this.props.showModal(<div> Hello </div>)
-  }
-  onEditClick = () => {
-    this.props.showModal(<div> Hello </div>)
+  onClick = action => {
+    const { id, showModal } = this.props
+    showModal(<OfferForm action={action} id={id} />)
   }
   render () {
     const { name,
       // style,
-      work: { thumbnailUrl }
+      work,
+      thumbnailUrl
     } = this.props
     // const { imgStyle } = style
     return (
-      <div className='offer-item flex items-center justify-between mb1 p1'
-      >
+      <div className='offer-item flex items-center justify-between p1 mb1'>
+        <button className='button button--alive mr2'
+          onClick={() => this.onClick('edit')}
+        >
+          <Icon name='edit' />
+        </button>
         <img alt='thumbnail'
           className='offer-item__image mr2'
-          src={thumbnailUrl}
+          src={thumbnailUrl || work.thumbnailUrl}
         />
-        {name}
-        <div className='offer-item__space flex-auto' />
+        <div className='offer-item__info flex-auto'>
+          {name}
+        </div>
         <button className='button button--alive'
-          onClick={this.onEditClick}
+          onClick={() => this.onClick('delete')}
         >
-          Edit
-        </button>
-        <button className='button button--alive'
-          onClick={this.onDeleteClick}
-        >
-          Delete
+          <Icon name='delete' />
         </button>
       </div>
     )
