@@ -17,7 +17,7 @@ import { requestData } from '../reducers/request'
 
 class SpreadsheetPage extends Component {
   handleRequestData = props => {
-    const { requestData, sellerId } = this.props
+    const { requestData, sellerId } = props
     sellerId && requestData('GET', 'offers?sellerId=${sellerId}')
   }
   componentWillMount () {
