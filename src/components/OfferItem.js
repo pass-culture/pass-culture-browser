@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Icon from './Icon'
-import OfferForm from './OfferForm'
+import DeleteButton from './DeleteButton'
+import EditOffer from './EditOffer'
 import { showModal } from '../reducers/modal'
 
 class OfferItem extends Component {
   onClick = action => {
-    const { id, showModal } = this.props
-    showModal(<OfferForm action={action} id={id} />)
+    const { showModal } = this.props
+    showModal(<EditOffer {...this.props} />)
   }
   render () {
-    const { name,
+    const { id,
+      name,
       // style,
       work,
       thumbnailUrl
@@ -31,11 +33,7 @@ class OfferItem extends Component {
         <div className='offer-item__info flex-auto'>
           {name}
         </div>
-        <button className='button button--alive'
-          onClick={() => this.onClick('delete')}
-        >
-          <Icon name='delete' />
-        </button>
+        <DeleteButton collectionName='offers' id={id} />
       </div>
     )
   }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 import OfferItem from '../components/OfferItem'
-import OfferNew from '../components/OfferNew'
+import NewOfferButton from '../components/NewOfferButton'
 import withLogin from '../hocs/withLogin'
 import { requestData } from '../reducers/request'
 
@@ -35,7 +35,7 @@ class SpreadsheetPage extends Component {
     const { offers } = this.props
     return (
       <main className='spreadsheet-page p2'>
-        <OfferNew />
+        <NewOfferButton />
         {
           offers && offers.map((offer, index) => (
             <OfferItem key={index} {...offer} />

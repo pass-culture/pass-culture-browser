@@ -1,10 +1,13 @@
-.offer-form {
+.edit-offer {
   height: 75vh;
+  &__name {
+    border-bottom: 2px solid black;
+  }
   img {
-    height: 200px;
+    height: auto;
     width: 200px;
     @media (min-width: $md) {
-      height: 300px;
+      height: auto;
       width: 300px;
     }
   }
