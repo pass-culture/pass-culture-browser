@@ -1,6 +1,7 @@
 .edit-offer {
   height: 75vh;
-  img {
+  img, textarea {
+    border-radius: $border-radius;
     height: auto;
     width: 200px;
     @media (min-width: $md) {

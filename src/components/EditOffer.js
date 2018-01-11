@@ -2,7 +2,6 @@ import React, { Component }  from 'react'
 
 import FormInput from './FormInput'
 import FormTextarea from './FormTextarea'
-import Icon from './Icon'
 import PriceItem from './PriceItem'
 import SellerFavorite from './SellerFavorite'
 
@@ -24,7 +23,7 @@ class EditOffer extends Component {
     return (
       <div className='edit-offer p2'>
 
-        <FormInput className='input mb1'
+        <FormInput className='input mt1 mb3'
           defaultValue={name}
           name='name'
           placeholder="titre de l'offre"
@@ -48,9 +47,9 @@ class EditOffer extends Component {
         <div className='h2 mb2'>
           Coups de Coeur
         </div>
-        <div className='flex items-center flex-start'>
-          <button className='button button--alive mb1 left-align' onClick={this.onAddFavoriteClick}>
-            <Icon name='add' />
+        <div className='flex items-center flex-start mb1'>
+          <button className='button button--alive button--rounded left-align' onClick={this.onAddFavoriteClick}>
+            +
           </button>
         </div>
         {
@@ -62,18 +61,24 @@ class EditOffer extends Component {
         <div className='sep mb2' />
 
         <div className='h2 mb2'>
-          Prix
+          Offres
         </div>
-        <div className='flex items-center flex-start'>
-          <button className='button button--alive' onClick={this.onAddPriceClick}>
-            <Icon name='add' />
+        <div className='flex items-center flex-start mb1 col-9 mx-auto'>
+          <button className='button button--alive button--rounded' onClick={this.onAddPriceClick}>
+            +
           </button>
         </div>
         {
-          prices && prices.map((price, index) => {
+          prices && prices.map((price, index) => (
             <PriceItem key={index} {...price} />
-          })
+          ))
         }
+
+        <div className='sep mb2' />
+
+        <button className='button button--alive mb2'>
+          Soumettre
+        </button>
       </div>
     )
   }

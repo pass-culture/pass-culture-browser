@@ -1,6 +1,6 @@
 // ACTIONS
-const CLOSE_MODAL = 'CLOSE_MODAL'
-const SHOW_MODAL = 'SHOW_MODAL'
+export const CLOSE_MODAL = 'CLOSE_MODAL'
+export const SHOW_MODAL = 'SHOW_MODAL'
 
 // INITIAL STATE
 const initialState = {
@@ -12,10 +12,12 @@ const initialState = {
 function modal (state = initialState, action) {
   switch (action.type) {
     case CLOSE_MODAL:
+      // document.body.style.overflow = 'scroll'
       return Object.assign({}, state, {
         isActive: false
       })
     case SHOW_MODAL:
+      // document.body.style.overflow = 'hidden'
       return Object.assign({}, state, {
         isActive: true,
         content: action.newContent || state.content

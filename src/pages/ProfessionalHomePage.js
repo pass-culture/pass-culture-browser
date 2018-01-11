@@ -41,8 +41,10 @@ class ProfessionalHomePage extends Component {
 export default compose(
   withLogin,
   connect(
-    ({ request: { offers }, user }) =>
-      ({ offers, sellerId: user && user.sellerId }),
+    state =>({
+      offers: state.request.offers,
+      sellerId: state.user && state.user.sellerId
+    }),
     { requestData }
   )
 )(ProfessionalHomePage)

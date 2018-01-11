@@ -7,19 +7,43 @@ class PriceItem extends Component {
     console.log('his.props', this.props)
     const { endDate, startDate, size, value } = this.props
     return (
-      <div className='price-item'>
-        <FormInput defaultValue={startDate}
+      <div className='price-item mb3 col-9 mx-auto p2'>
+
+        <label className='mr1'>
+          début
+        </label>
+        <FormInput className='input price-item__form-input mb1'
+          defaultValue={startDate}
           name='startDate'
         />
-        <FormInput defaultValue={endDate}
+        <br />
+
+        <label className='mr1'>
+          fin
+        </label>
+        <FormInput className='input price-item__form-input mb1'
+          defaultValue={endDate}
           name='endDate'
         />
-        <FormInput defaultValue={size}
+        <br />
+
+        <label className='mr1'>
+          groupe
+        </label>
+        <FormInput className='input price-item__form-input mb1'
+          defaultValue={size}
           name='size'
         />
-        <FormInput defaultValue={value}
+        <br />
+
+        <label className='mr1'>
+          prix
+        </label>
+        <FormInput className='input price-item__form-input'
+          defaultValue={value}
           name='value'
         />
+
       </div>
     )
   }
