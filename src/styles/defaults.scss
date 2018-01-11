@@ -105,6 +105,11 @@ select {
   }
 }
 
+.sep {
+  background-color: $very-light-grey;
+  height: 1px;
+}
+
 .textarea {
   border: solid 0.5px $medium-grey;
   border-radius: $border-radius;

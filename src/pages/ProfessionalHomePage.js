@@ -7,19 +7,11 @@ import NewOfferButton from '../components/NewOfferButton'
 import withLogin from '../hocs/withLogin'
 import { requestData } from '../reducers/request'
 
-/*
-{ alignItems: 'center',
-  display: 'flex',
-  height: '100vh',
-  justifyContent: 'space-between'
-}
-*/
-
-class SpreadsheetPage extends Component {
+class ProfessionalHomePage extends Component {
   handleRequestData = props => {
     const { requestData, sellerId } = props
     if (!this.hasRequired && sellerId) {
-      requestData('GET', 'offers?sellerId=${sellerId}')
+      requestData('GET', `offers?sellerId=${sellerId}`)
       this.hasRequired = true
     }
   }
@@ -53,4 +45,4 @@ export default compose(
       ({ offers, sellerId: user && user.sellerId }),
     { requestData }
   )
-)(SpreadsheetPage)
+)(ProfessionalHomePage)

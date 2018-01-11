@@ -6,7 +6,7 @@ import App from './App'
 import ActivitiesPage from './pages/ActivitiesPage'
 import ClientHomePage from './pages/ClientHomePage'
 import ClientOfferPage from './pages/ClientOfferPage'
-import SpreadsheetPage from './pages/SpreadsheetPage'
+import ProfessionalHomePage from './pages/ProfessionalHomePage'
 import WelcomePage from './pages/WelcomePage'
 import store from './utils/store'
 
@@ -28,8 +28,8 @@ const Root = () => {
             render={() => <ActivitiesPage />}
           />
           <Route exact
-            path='/spreadsheet'
-            render={() => <SpreadsheetPage />}
+            path='/gestion'
+            render={() => <ProfessionalHomePage />}
           />
           <Route exact
             path='/welcome'
