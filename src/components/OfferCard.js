@@ -12,21 +12,15 @@ const OfferCard = ({ bargainPrices,
   work
 }) => {
   return (
-    <div className='offer-card'>
-      <img alt=''
-        className='offerPicture'
-        src={`${API_URL}/thumbs/${work.id}`} />
-      {
-        sellersFavorites && sellersFavorites.length > 0 &&
-        <Icon name='favorite-outline' />
-      }
-      {
-        bargainPrices && bargainPrices.length > 0 &&
-        <Icon name='error' />
-      }
-      { sortedPrices && sortedPrices[0].value }&nbsp;€&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; à {(20-id)*15}m
-      <div className='offerName'>
-        { name || work.name }
+    <div className='offer-card flex items-center justify-center'>
+      <div className='offer-card__content relative' style={{
+        backgroundImage: `url(${API_URL}/thumbs/${work.id})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+      }}>
+        <div className='offer-card__content__info absolute bottom-0 left-0 right-0 m2 p1'>
+          à {(20-id)*15}m
+        </div>
       </div>
     </div>
   )
