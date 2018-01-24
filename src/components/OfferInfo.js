@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
-import Icon from '../components/Icon'
+import ControlBar from './ControlBar'
+import Icon from './Icon'
 import withSelectors from '../hocs/withSelectors'
 import { requestData } from '../reducers/data'
 import { API_URL } from '../utils/config'
@@ -57,6 +58,7 @@ class OfferInfo extends Component {
             </div>
             )
         }
+        <ControlBar offerId={id} />
       </div>
     )
   }
