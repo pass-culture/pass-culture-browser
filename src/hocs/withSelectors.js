@@ -17,9 +17,9 @@ const withSelectors = patch => WrappedComponent => {
     componentWillReceiveProps (nextProps) {
       this.handleSelectorsUpdate(nextProps)
     }
-    handleSelectorsUpdate (props) {
+    handleSelectorsUpdate = props => {
       const nextState = {}
-      Object.keys(this.state)
+      Object.keys(patch)
         .forEach(key => {
           nextState[key] = this[`${key}Selector`](props)
         })

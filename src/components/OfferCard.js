@@ -1,5 +1,4 @@
 import React from 'react'
-import createSelector from 'reselect'
 
 import Icon from './Icon'
 import withSelectors from '../hocs/withSelectors'
@@ -35,11 +34,11 @@ const OfferCard = ({ bargainPrices,
 
 export default withSelectors({
   bargainPrices: [
-    ({ prices }) => prices,
+    ownProps => ownProps.prices,
     prices => prices.filter(p => p.groupSize>1)
   ],
   sortedPrices: [
-    ({ prices }) => prices,
+    ownProps => ownProps.prices,
     prices => prices.sort((p1, p2) => p1.value > p2.value)
   ]
 })(OfferCard)

@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import { withRouter } from 'react-router'
+import { compose } from 'redux'
 
 import OfferCard from './OfferCard'
 // import OfferSlide fom './OfferSlide'
+import withSelectors from '../hocs/withSelectors'
 
 class OffersCaroussel extends Component {
   handleCardClick = index => {
@@ -12,7 +14,7 @@ class OffersCaroussel extends Component {
     history.push('/offres/' + offerId);
   }
   render () {
-    const { carousselsCount, modulo, offers } = this.props;
+    const { filteredOffers } = this.props
     return (
       <Carousel emulateTouch
         onClickItem={ index => this.handleCardClick(index) }
@@ -23,12 +25,23 @@ class OffersCaroussel extends Component {
         showThumbs={false}
         transitionTime={250} >
         {
-          offers.filter((offer, index) => index % carousselsCount === modulo )
-            .map((offer, index) => <OfferCard key={index} {...offer} />)
+          filteredOffers && filteredOffers.map((offer, index) =>
+            <OfferCard key={index} {...offer} />)
         }
       </Carousel>
     )
   }
 }
 
-export default withRouter(OffersCaroussel)
+export default compose(
+  withRouter,
+  withSelectors({
+    filteredOffers: [
+      ownProps => ownProps.carousselsCount,
+      ownProps => ownProps.modulo,
+      ownProps => ownProps.offers,
+      (carousselsCount, modulo, offers) =>
+        offers.filter((offer, index) => index % carousselsCount === modulo )
+    ]
+  })
+)(OffersCaroussel)
