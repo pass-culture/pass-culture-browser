@@ -30,8 +30,8 @@ class Icon extends Component {
   }
 }
 
-Icon.propTypes = { icon: PropTypes.string.isRequired,
-  className: PropTypes.string
+Icon.propTypes = { className: PropTypes.string,
+  name: PropTypes.string.isRequired
 }
 
 export default Icon
