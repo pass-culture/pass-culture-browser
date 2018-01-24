@@ -1,14 +1,11 @@
 import React from 'react'
 
-import Icon from './Icon'
-import withSelectors from '../hocs/withSelectors'
+import SellerFavoriteItem from './SellerFavoriteItem'
 import { API_URL } from '../utils/config'
 
-const OfferCard = ({ bargainPrices,
-  id,
+const OfferCard = ({ id,
   name,
   sellersFavorites,
-  sortedPrices,
   work
 }) => {
   return (
@@ -20,19 +17,15 @@ const OfferCard = ({ bargainPrices,
       }}>
         <div className='offer-card__content__info absolute bottom-0 left-0 right-0 m2 p1'>
           à {(20-id)*15}m
+          {
+            sellersFavorites && sellersFavorites.map((sellersFavorite, index) =>
+              <SellerFavoriteItem key={index} {...sellersFavorite} />
+            )
+          }
         </div>
       </div>
     </div>
   )
 }
 
-export default withSelectors({
-  bargainPrices: [
-    ownProps => ownProps.prices,
-    prices => prices.filter(p => p.groupSize>1)
-  ],
-  sortedPrices: [
-    ownProps => ownProps.prices,
-    prices => prices.sort((p1, p2) => p1.value > p2.value)
-  ]
-})(OfferCard)
+export default OfferCard

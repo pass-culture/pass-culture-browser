@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
 import Icon from '../components/Icon'
+import withSelectors from '../hocs/withSelectors'
 import { requestData } from '../reducers/data'
 import { API_URL } from '../utils/config'
 
@@ -12,7 +14,7 @@ class ClientOfferPage extends Component {
   }
 
   render = () => {
-    const { offer } = this.props;
+    const { bargainPrices, offer, sortedPrices } = this.props;
     return (
       <main className='page client-offer-page flex flex-column'>
         {
@@ -21,14 +23,17 @@ class ClientOfferPage extends Component {
           <div>
             <h2>
               { offer.name || offer.work.name }
-              { offer.sellersFavorites && offer.sellersFavorites.length>0 && <Icon name='favorite-outline' /> }
-              { offer.prices.filter(p => p.groupSize>1) && <Icon name='error' /> }
+              {
+                offer.sellersFavorites && offer.sellersFavorites.length > 0 &&
+                <Icon name='favorite-outline' />
+              }
+              { bargainPrices && bargainPrices.length > 1 && <Icon name='error' /> }
             </h2>
             <img alt='' className='offerPicture' src={ API_URL+'/thumbs/'+offer.work.id } />
             { offer.description }
             <div className='clearfix' />
             <div className='sellerInfos'>
-              <b>{ offer.prices.sort((p1, p2) => p1.value > p2.value)[0].value }&nbsp;€</b><br/>
+              <b>{ sortedPrices && sortedPrices[0].value }&nbsp;€</b><br/>
               { offer.work.type==="book" ? "À la librairie" : "À 20h au théatre" } Tartenshmoll<br/>
               2 rue des Lilas (à {(20-offer.id)*15}m)<br/>
               <img alt='' src='/map.png' /><br/>
@@ -61,6 +66,22 @@ class ClientOfferPage extends Component {
   }
 }
 
-export default connect((state, ownProps) => ({ offer: state.data['offers/'+ownProps.offerId] && state.data['offers/'+ownProps.offerId][0] }),
-                       { requestData }
-                      )(ClientOfferPage)
+export default compose(
+  withSelectors({
+    bargainPrices: [
+      ownProps => ownProps.prices,
+      prices => prices.filter(p => p.groupSize>1)
+    ],
+    sortedPrices: [
+      ownProps => ownProps.prices,
+      prices => prices.sort((p1, p2) => p1.value > p2.value)
+    ]
+  }),
+  connect(
+    (state, ownProps) => ({
+      offer: state.data['offers/'+ownProps.offerId] &&
+        state.data['offers/'+ownProps.offerId][0]
+    }),
+    { requestData }
+  )
+)(ClientOfferPage)
