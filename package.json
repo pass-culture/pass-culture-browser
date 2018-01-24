@@ -62,7 +62,7 @@
     "build": "node scripts/build.js",
     "deploy-staging": "netlify deploy -e staging",
     "deploy-production": "netlify deploy -e production",
-    "icons": "svg-sprite -d --di --defs-dest=src --ds svgs.svg --dx --defs-example-dest=src/svgs.svg icons/*.svg && node scripts/svg.js",
+    "icons": "svg-sprite -d --di --defs-dest=src --ds svgs.svg icons/*.svg && node scripts/svg.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom"
   },

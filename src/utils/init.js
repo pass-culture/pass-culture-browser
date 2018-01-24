@@ -10,7 +10,7 @@ const init = store => {
   if (IS_DEV) {
     store.dispatch(requestData(
       'POST',
-      'signin',
+      'users/signin',
       { body, key: 'users' }
     ))
   }

@@ -26,7 +26,7 @@ const Sign = () => {
         type='password'
       />
       <SubmitButton getBody={form => form.usersById[NEW]}
-        path='signin'
+        path='users/signin'
         storeKey='users'
         text='Connecter'
       />
