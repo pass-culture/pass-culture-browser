@@ -240,7 +240,7 @@ class Card extends Component {
     } else if (isLast) {
       bounds.left = 0
     }
-    // console.log('RENDER: Card content', content)
+    // type === 'current' && console.log('RENDER: Card content', content)
     return (
       [
         <Draggable axis='x'

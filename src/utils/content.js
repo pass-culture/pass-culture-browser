@@ -25,8 +25,9 @@ export function getContentFromUserMediation (userMediation) {
   let venue
   if (!mediation && chosenOffer) {
     if (chosenOffer.eventOccurence) {
-      source = chosenOffer.eventOccurence
-      sourceCollectionName = 'eventOccurences'
+      source = chosenOffer.eventOccurence.event
+      sourceCollectionName = 'events'
+      venue = chosenOffer.eventOccurence.venue
     } else {
       source = chosenOffer.thing
       sourceCollectionName = 'things'
