@@ -161,7 +161,7 @@ class UserMediationsDeck extends Component {
       return
     }
     let afterLimit = userMediations.length - afterCount
-    if (afterLimit < 1) { afterLimit = userMediations.length }
+    if (afterLimit < 1) { afterLimit = userMediations.length - 1 }
     this.setState({ afterLimit })
   }
   handleSetBeforeLimit = props => {
