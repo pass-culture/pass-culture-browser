@@ -3,19 +3,32 @@ const { NODE_ENV } = process.env
 export const IS_DEBUG = true
 
 export const IS_DEV = NODE_ENV === 'development'
-export const IS_PROD = !IS_DEV
+export const IS_STAGING = NODE_ENV === 'staging'
+export const IS_PROD = NODE_ENV === 'production'
 
 export const NEW = '_new_'
 
-export const API_URL = IS_DEV ? 'http://localhost'
-                              : 'https://api.passculture.beta.gouv.fr'
+const API_URLS = { 'development' : 'http://localhost',
+                   'staging' : 'https://api.passculture-staging.beta.gouv.fr',
+                   'production' : 'https://api.passculture.beta.gouv.fr'
+                 }
 
-export const BROWSER_URL = IS_DEV ? 'http://localhost:3000'
-                                  : 'https://app.passculture.beta.gouv.fr'
+export const API_URL = API_URLS[NODE_ENV]
 
-export const THUMBS_URL = IS_DEV
-  ? `${API_URL}/static/object_store_data/thumbs`
-  : `${API_URL}/static/object_store_data/thumbs`
+const BROWSER_URLS = { 'development' : 'http://localhost:3000',
+                       'staging' : 'https://app.passculture-staging.beta.gouv.fr',
+                       'production' : 'https://app.passculture.beta.gouv.fr'
+                     }
+
+export const BROWSER_URL = BROWSER_URLS[NODE_ENV]
+
+const THUMBS_URLS = { 'development' : `${API_URL}/static/object_store_data/thumbs`,
+                      'staging' : `${API_URL}/static/object_store_data/thumbs`,
+                      'production' : `${API_URL}/static/object_store_data/thumbs`
+                    }
+
+export const THUMBS_URL = THUMBS_URLS[NODE_ENV]
+
 
 function getMobileOperatingSystem() {
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
