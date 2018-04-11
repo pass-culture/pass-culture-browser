@@ -5,15 +5,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { rgb_to_hsv } from 'colorsys'
 
-import Card, { CURRENT } from './Card'
+import Card from './Card'
 import Clue from './Clue'
-
 import Icon from './Icon'
-import { debug, warn } from '../utils/logguers'
-import { ROOT_PATH } from '../utils/config';
-
 import { flip, unFlip } from '../reducers/verso'
 import selectHeaderColor from '../selectors/headerColor'
+import { MOBILE_OS, ROOT_PATH } from '../utils/config';
+import { debug, warn } from '../utils/logguers'
 
 class Deck extends Component {
   constructor (props) {
@@ -31,12 +29,13 @@ class Deck extends Component {
     }
     this.onDebouncedResize = debounce(this.onResize, props.resizeTimeout)
   }
-  handleSetTypeCard = (cardProps, cardState) => {
+
+  handleSetStyleCard = (cardProps, cardState) => {
     // only set things for the current Card
-    if (cardState.type !== CURRENT) {
+    if (cardProps.item !== 0) {
       return
     }
-    this.props.isDebug && debug('Deck - handleSetTypeCard')
+    this.props.isDebug && debug('Deck - handleSetStyleCard')
     // no need to set in state the current cardProps
     this.currentCardProps = cardProps
     this.currentCardState = cardState
@@ -51,6 +50,7 @@ class Deck extends Component {
     // update
     this.setState(newState)
   }
+
   handleNextItemCard = diffIndex => {
     // unpack
     const { handleNextItemCard, isDebug } = this.props
@@ -70,10 +70,12 @@ class Deck extends Component {
     // hook if Deck has parent manager component
     handleNextItemCard && handleNextItemCard(diffIndex, this)
   }
+
   handleRelaxItemCard = data => {
     this.props.isDebug && debug('Deck - handleResetItemCard')
     this.setState({ cursor: 0 })
   }
+
   handleResetItems = (config = {}) => {
     // unpack
     const { isDebug } = this.props
@@ -90,6 +92,7 @@ class Deck extends Component {
     // update
     this.setState({ items })
   }
+
   handleSetCurrentContent = () => {
     // unpack
     const { items } = this
@@ -114,6 +117,7 @@ class Deck extends Component {
     // update
     this.setState({ currentContent, previousContent, nextContent })
   }
+
   handleSetStyle = () => {
     // unpack
     const { currentContent } = this
@@ -137,6 +141,7 @@ class Deck extends Component {
     // update
     this.setState({ buttonStyle, gradientStyle, style })
   }
+
   handleSetReadCard = card => {
     // unpack
     const { handleSetReadCard, isDebug } = this.props
@@ -144,41 +149,77 @@ class Deck extends Component {
     // hook if Deck has parent manager component
     handleSetReadCard && handleSetReadCard(card)
   }
+
   handleSetCursorCard = cursor => {
     this.props.isDebug && debug('Deck - handleSetCursorCard')
     this.setState({ cursor, transition: 'none' })
   }
-  onStart = (event, data) => {
-    this.props.isDebug && debug('Deck - onStart')
-    this.setState({ isFlipping: true, clientY: event.clientY })
-  }
-  onDrag = (event, data) => {
+
+  //
+  // HORIZONTAL DRAG HANDLING
+  //
+
+  // FIX ME !! pour l'instant j'ai remonte les fonctions qui etaient dans CARD
+  // donc doit y avoir des props qui etaient definies au niveau Card dans les fonctions
+  // juste en dessous
+
+  onHorizontalDrag = (event, data) => {
+    /*
     // unpack
-    const { flipRatio, isDebug } = this.props
-    const { deckElement } = this.state
-    isDebug && debug('Deck - onDrag')
-    // cursor
-    const cursor = (event.clientY - this.state.clientY) / deckElement.offsetHeight
-    if (!this.props.isFlipped && cursor < -flipRatio) {
-      this.props.flip()
-    } else if (this.props.isFlipped && cursor > flipRatio) {
-      this.props.unFlip()
-    }
+    const { deckElement,
+      handleSetCursor
+    } = this.props
+    const { x } = data
+    // compute the cursor
+    const cursor = x / deckElement.offsetWidth
+    // hook
+    handleSetCursor && handleSetCursor(cursor)
+    */
   }
-  onNext = (event, diffIndex) => {
-    this.props.isDebug && debug('Deck - onNext')
+
+  onHorizontalStop = (event, data) => {
+    /*
+    // unpack
+    const { isFirst,
+      isLast
+    } = this.props
+    const { x } = data
+    // special reset for the CURRENT CARD
+    // we need to clear the position given by x and y
+    // and transfer the position state into the style state one
+    this.setState({
+      position: { x:0, y:0 },
+      style: Object.assign({}, this.state.style, { left: x })
+    })
+    // thresholds
+    const leftThreshold = - 0.1 * this.element.offsetWidth
+    const rightThreshold = 0.1 * this.element.offsetWidth
+    if (!isLast && x < leftThreshold) {
+      this.handleNextItem(-1)
+    } else if (!isFirst && x > rightThreshold) {
+      this.handleNextItem(1)
+    } else {
+      this.handleRelaxItem(data)
+    }
+    */
+  }
+
+  //
+  // NEXT TRANSITION HANDLING
+  //
+
+  onSlide = (event, diffIndex) => {
+    this.props.isDebug && debug('Deck - onSlide')
     event.preventDefault()
     event.stopPropagation()
     this.handleNextItemCard(diffIndex)
   }
-  onStop = (event, data) => {
-    this.props.isDebug && debug('Deck - onStop')
-    this.setState({ isFlipping: false, y: null })
-  }
+
   onResize = event => {
     this.props.isDebug && debug('Deck - onResize')
     this.setState({ isResizing: true })
   }
+
   onTransitionEndCard = (event, cardProps) => {
     // check and unpack
     const { transitions } = this
@@ -205,6 +246,7 @@ class Deck extends Component {
       this.transitions = null
     }
   }
+
   onTransitionStartCard = (event, cardProps) => {
     // unpack
     const { transitions } = this
@@ -232,9 +274,38 @@ class Deck extends Component {
     }
     this.transitions = newTransitions
   }
+
+  //
+  // VERTICAL DRAG HANDLING
+  //
+  onVerticalStart = (event, data) => {
+    this.props.isDebug && debug('Deck - onStart')
+    this.setState({ isFlipping: true, clientY: event.clientY })
+  }
+
+  onVerticalDrag = (event, data) => {
+    // unpack
+    const { flipRatio, isDebug } = this.props
+    const { deckElement } = this.state
+    isDebug && debug('Deck - onDrag')
+    // cursor
+    const cursor = (event.clientY - this.state.clientY) / deckElement.offsetHeight
+    if (!this.props.isFlipped && cursor < -flipRatio) {
+      this.props.flip()
+    } else if (this.props.isFlipped && cursor > flipRatio) {
+      this.props.unFlip()
+    }
+  }
+
+  onVerticalStop = (event, data) => {
+    this.props.isDebug && debug('Deck - onStop')
+    this.setState({ isFlipping: false, y: null })
+  }
+
   componentWillMount() {
     this.handleResetItems(this.props)
   }
+
   componentWillReceiveProps (nextProps) {
     // unpack
     const { contents } = this.props
@@ -252,11 +323,13 @@ class Deck extends Component {
       }
     }
   }
+
   componentDidMount () {
     this.handleSetCurrentContent()
     this.setState({ deckElement: this.element })
-    window.addEventListener('resize', this.onDebouncedResize)
+    MOBILE_OS !== 'unknow' && window.addEventListener('resize', this.onDebouncedResize)
   }
+
   componentDidUpdate (prevProps, prevState) {
     // unpack
     const { contents,
@@ -296,22 +369,26 @@ class Deck extends Component {
       this.handleSetStyle()
     }
   }
+
   componentWillUnmount () {
-    window.removeEventListener('resize', this.onDebouncedResize)
+    MOBILE_OS !== 'unknow' && window.removeEventListener('resize', this.onDebouncedResize)
   }
+
   render () {
     const {
       handleNextItemCard,
       handleRelaxItemCard,
       handleSetCursorCard,
-      handleSetTypeCard,
+      handleSetStyleCard,
       handleSetReadCard,
-      onDrag,
-      onNext,
-      onStart,
-      onStop,
+      onHorizontalDrag,
+      onHorizontalStop,
+      onSlide,
       onTransitionEndCard,
-      onTransitionStartCard
+      onTransitionStartCard,
+      onVerticalDrag,
+      onVerticalStart,
+      onVerticalStop
     } = this
     const { children,
       contents,
@@ -346,12 +423,25 @@ class Deck extends Component {
       (currentContent && currentContent.mediation &&
         currentContent.userMediationOffers.length === 0 &&
         currentContent.mediation.thumbCount === 1)
+
+    /*
+    const isDraggable = type === 'current' &&
+      !isTransitioning &&
+      !this.props.isFlipped &&
+      !isFlipping
+    const bounds = {}
+    if (isFirst || (content && content.isFirst)) {
+      bounds.right = 0
+    } else if (isLast || (content && content.isLast)) {
+      bounds.left = 0
+    }
+    */
     return (
       <Draggable axis='none'
         bounds={{ bottom: 0, top: 0 }}
-        onDrag={onDrag}
-        onStart={onStart}
-        onStop={onStop} >
+        onDrag={onVerticalDrag}
+        onStart={onVerticalStart}
+        onStop={onVerticalStop} >
         <div className='deck'
           id='deck'
           style={style}
@@ -364,35 +454,38 @@ class Deck extends Component {
               <Icon svg='ico-close' />
             </button>
           )}
-          {
-            items && items.map((item, index) =>
-              contents && contents[index] &&
-              Math.abs(item) < 2 &&
-                <Card content={contents && Object.assign({},
-                  contents[index], extraContents && extraContents[index])}
-                  contentLength={contents && contents.length}
-                  cursor={cursor}
-                  deckElement={deckElement}
-                  handleNextItem={handleNextItemCard}
-                  handleRelaxItem={handleRelaxItemCard}
-                  handleSetCursor={handleSetCursorCard}
-                  handleSetRead={handleSetReadCard}
-                  handleSetType={handleSetTypeCard}
-                  isFirst={contents && !contents[index - 1]}
-                  isFlipping={isFlipping}
-                  isLast={contents && !contents[index + 1]}
-                  index={index}
-                  isResizing={isResizing}
-                  isTransitioning={isTransitioning}
-                  item={item}
-                  transition={transition}
-                  transitionTimeout={transitionTimeout}
-                  key={index}
-                  onTransitionEnd={onTransitionEndCard}
-                  onTransitionStart={onTransitionStartCard}
-                  readTimeout={readTimeout} />
-            )
-          }
+          <Draggable axis='x'
+            onDrag={onHorizontalDrag}
+            onStop={onHorizontalStop} >
+            <div className='cards-wrapper flex'>
+              {
+                items && items.map((item, index) =>
+                  contents && contents[index] &&
+                  Math.abs(item) < 2 &&
+                    <Card content={contents && Object.assign({},
+                      contents[index], extraContents && extraContents[index])}
+                      contentLength={contents && contents.length}
+                      cursor={cursor}
+                      deckElement={deckElement}
+                      handleSetRead={handleSetReadCard}
+                      handleSetStyle={handleSetStyleCard}
+                      isFirst={contents && !contents[index - 1]}
+                      isFlipping={isFlipping}
+                      isLast={contents && !contents[index + 1]}
+                      index={index}
+                      isResizing={isResizing}
+                      isTransitioning={isTransitioning}
+                      item={item}
+                      transition={transition}
+                      transitionTimeout={transitionTimeout}
+                      key={index}
+                      onTransitionEnd={onTransitionEndCard}
+                      onTransitionStart={onTransitionStartCard}
+                      readTimeout={readTimeout} />
+                )
+              }
+            </div>
+          </Draggable>
           <div className='board-wrapper'>
             <div className='board'
               id='deck__board'
@@ -406,7 +499,7 @@ class Deck extends Component {
                     'disabled': isBeforeDisabled,
                     'hidden': isBeforeHidden })}
                     disabled={isBeforeDisabled || isBeforeHidden}
-                    onClick={event => onNext(event, 1)}
+                    onClick={event => onSlide(event, 1)}
                     style={buttonStyle}>
                       <Icon svg='ico-prev-w-group' />
                   </button>
@@ -425,7 +518,7 @@ class Deck extends Component {
                   <button className={classnames('button after', {
                     'disabled': isAfterDisabled,
                     'hidden': isAfterHidden })}
-                    onClick={event => onNext(event, -1)}
+                    onClick={event => onSlide(event, -1)}
                     disabled={isAfterDisabled || isAfterHidden}
                     style={buttonStyle} >
                     <Icon svg='ico-next-w-group' />

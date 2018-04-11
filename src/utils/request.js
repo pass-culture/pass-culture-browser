@@ -53,7 +53,8 @@ export async function fetchData (method, path, config = {}) {
 
 export async function localData (method, path, config = {}) {
   // unpack
-  const { body } = config
+  const { diff, body } = config
+  let data
   // check the table
   const [pathWithoutQuery, queryString] = path.split('?')
   const collectionName = pathWithoutQuery.split('/')[0]
