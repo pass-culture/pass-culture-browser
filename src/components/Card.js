@@ -35,107 +35,107 @@ class Card extends Component {
     }, readTimeout)
   }
 
-  handleSetStyle = props => {
-    // unpack and check
-    const { deckElement,
-      handleSetStyle,
-      isSetRead,
-      item,
-      onTransitionStart,
-      transition,
-      transitionTimeout
-    } = props
-    if (!deckElement) {
-      return
-    }
-    // determine style
-    let style, transform
-    switch (item) {
-      case -1:
-        style = {
-          left: - deckElement.offsetWidth,
-          transition: transition ||
-            `left ${transitionTimeout}ms, transform 0s`,
-          width: deckElement.offsetWidth
-        }
-        break
-      case 0:
-        style = {
-          left: 0,
-          transition: transition ||
-            `left ${transitionTimeout}ms, transform 0s`,
-          width: deckElement.offsetWidth
-        }
-        break
-      case 1:
-        style = {
-          left: 2 * deckElement.offsetWidth,
-          transition: transition ||
-            `left ${transitionTimeout}ms, transform 0s`,
-          width: deckElement.offsetWidth
-        }
-        break
-      default:
-        break
-    }
-    // check read
-    isSetRead && item === 0 && !this.readTimeout && this.handleSetRead(props)
-    // transition happened when the style has been already set once
-    // and that the new style has a not none transform
-    if (this.state.style && style.transition !== 'none') {
-      onTransitionStart && Object.keys(style)
-       .filter(key => !/transition(.*)/.test(key))
-       .forEach(key => {
-          if (style[key] !== this.state.style[key]) {
-            onTransitionStart({ propertyName: key }, this.props)
-          }
-        })
-    }
-    // inform parent about the new current card
-    const newState = { isRead: false,
-      style,
-      transform
-    }
-    // update
-    this.setState(newState)
-    // hook
-    handleSetStyle && handleSetStyle(props, newState)
-  }
+  // handleSetStyle = props => {
+  //   // unpack and check
+  //   const { deckElement,
+  //     handleSetStyle,
+  //     isSetRead,
+  //     item,
+  //     onTransitionStart,
+  //     transition,
+  //     transitionTimeout
+  //   } = props
+  //   if (!deckElement) {
+  //     return
+  //   }
+  //   // determine style
+  //   let style, transform
+  //   switch (item) {
+  //     case -1:
+  //       style = {
+  //         left: - deckElement.offsetWidth,
+  //         transition: transition ||
+  //           `left ${transitionTimeout}ms, transform 0s`,
+  //         width: deckElement.offsetWidth
+  //       }
+  //       break
+  //     case 0:
+  //       style = {
+  //         left: 0,
+  //         transition: transition ||
+  //           `left ${transitionTimeout}ms, transform 0s`,
+  //         width: deckElement.offsetWidth
+  //       }
+  //       break
+  //     case 1:
+  //       style = {
+  //         left: 2 * deckElement.offsetWidth,
+  //         transition: transition ||
+  //           `left ${transitionTimeout}ms, transform 0s`,
+  //         width: deckElement.offsetWidth
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   // check read
+  //   isSetRead && item === 0 && !this.readTimeout && this.handleSetRead(props)
+  //   // transition happened when the style has been already set once
+  //   // and that the new style has a not none transform
+  //   if (this.state.style && style.transition !== 'none') {
+  //     onTransitionStart && Object.keys(style)
+  //      .filter(key => !/transition(.*)/.test(key))
+  //      .forEach(key => {
+  //         if (style[key] !== this.state.style[key]) {
+  //           onTransitionStart({ propertyName: key }, this.props)
+  //         }
+  //       })
+  //   }
+  //   // inform parent about the new current card
+  //   const newState = { isRead: false,
+  //     style,
+  //     transform
+  //   }
+  //   // update
+  //   this.setState(newState)
+  //   // hook
+  //   handleSetStyle && handleSetStyle(props, newState)
+  // }
 
   onTransitionEnd = event => {
     const { onTransitionEnd } = this.props
     onTransitionEnd && onTransitionEnd(event, this.props)
   }
 
-  componentDidMount () {
-    this.onTransitionEndListener = this.cardElement.addEventListener(
-      'transitionend',
-      this.onTransitionEnd
-    )
-  }
+  // componentDidMount () {
+  //   this.onTransitionEndListener = this.cardElement.addEventListener(
+  //     'transitionend',
+  //     this.onTransitionEnd
+  //   )
+  // }
 
-  componentWillMount () {
-    this.handleSetStyle(this.props)
-  }
+  // componentWillMount () {
+  //   this.handleSetStyle(this.props)
+  // }
 
-  componentWillReceiveProps (nextProps, nextState) {
-    const { cursor,
-      deckElement,
-      isResizing,
-      item
-    } = nextProps
-    if ( (deckElement && !this.props.deckElement)
-      || (item !== this.props.item)
-      || (isResizing && !this.props.isResizing)
-    ) {
-      this.handleSetStyle(nextProps)
-    }
-  }
+  // componentWillReceiveProps (nextProps, nextState) {
+  //   const { cursor,
+  //     deckElement,
+  //     isResizing,
+  //     item
+  //   } = nextProps
+  //   if ( (deckElement && !this.props.deckElement)
+  //     || (item !== this.props.item)
+  //     || (isResizing && !this.props.isResizing)
+  //   ) {
+  //     this.handleSetStyle(nextProps)
+  //   }
+  // }
 
-  componentWillUnmount () {
-    this.cardElement.removeEventListener('transitionend', this.onTransitionEnd)
-    this.readTimeout && clearTimeout(this.readTimeout)
-  }
+  // componentWillUnmount () {
+  //   this.cardElement.removeEventListener('transitionend', this.onTransitionEnd)
+  //   this.readTimeout && clearTimeout(this.readTimeout)
+  // }
 
   render () {
     const { onDrag,
@@ -148,6 +148,7 @@ class Card extends Component {
       isLast,
       isTransitioning,
       item,
+      userMediation,
     } = this.props
     const { style,
       transform
@@ -177,15 +178,17 @@ class Card extends Component {
         onDrag={onDrag}
         onStop={onStop} >
       */
-          <span className={classnames('card', {
+          <span
+            key={0}
+            className={classnames('card', {
               'card--current': item === 0,
               'card--draggable': isDraggable
             })}
-            key={0}
-            ref={element => this.cardElement = element}
-            style={style}>
+            style={{
+              transform: `translate(${((this.props.userMediation || {}).index) * 100}vw, 0)`,
+            }}>
             <div className='card__container' style={{ transform }}>
-              <Recto {...content} />
+              <Recto {...userMediation} />
             </div>
           </span>
       /*
@@ -204,7 +207,7 @@ Card.defaultProps = {
   isSetRead: true,
   readTimeout: 3000,
   transitionDelay: 100,
-  transitionTimeout: 250,
+  // transitionTimeout: 250,
 }
 
 export default connect(
