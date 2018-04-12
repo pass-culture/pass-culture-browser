@@ -2,8 +2,6 @@ import classnames from 'classnames'
 import get from 'lodash.get'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Draggable from 'react-draggable'
-import { Portal } from 'react-portal'
 
 import Recto from './Recto'
 import Verso from './Verso'
@@ -11,32 +9,26 @@ import Verso from './Verso'
 import selectHeaderColor from '../selectors/headerColor'
 
 class Card extends Component {
-  constructor () {
-    super()
-    this.state = { cursor: null,
-      isRead: false,
-      transform: null,
-      style: null
-    }
-  }
 
-  handleSetRead = props => {
-    // unpack and check
-    const { content,
-      handleSetRead,
-      item,
-      readTimeout
-    } = props
-    const { isRead } = this.state
-    if (!content || isRead) { return }
-    // wait a bit to trigger the fact that we stay on the same card
-    this.readTimeout = setTimeout(() => {
-      // make sure we are not going to do it circularly
-      this.setState({ isRead: true })
-      // check that style is still current
-      item === 0 && handleSetRead && handleSetRead(props)
-    }, readTimeout)
-  }
+  // TODO: handleSetRead
+
+  // handleSetRead = props => {
+  //   // unpack and check
+  //   const { content,
+  //     handleSetRead,
+  //     item,
+  //     readTimeout
+  //   } = props
+  //   const { isRead } = this.state
+  //   if (!content || isRead) { return }
+  //   // wait a bit to trigger the fact that we stay on the same card
+  //   this.readTimeout = setTimeout(() => {
+  //     // make sure we are not going to do it circularly
+  //     this.setState({ isRead: true })
+  //     // check that style is still current
+  //     item === 0 && handleSetRead && handleSetRead(props)
+  //   }, readTimeout)
+  // }
 
   // handleSetStyle = props => {
   //   // unpack and check
@@ -105,10 +97,10 @@ class Card extends Component {
   //   handleSetStyle && handleSetStyle(props, newState)
   // }
 
-  onTransitionEnd = event => {
-    const { onTransitionEnd } = this.props
-    onTransitionEnd && onTransitionEnd(event, this.props)
-  }
+  // onTransitionEnd = event => {
+  //   const { onTransitionEnd } = this.props
+  //   onTransitionEnd && onTransitionEnd(event, this.props)
+  // }
 
   // componentDidMount () {
   //   this.onTransitionEndListener = this.cardElement.addEventListener(
@@ -159,66 +151,28 @@ class Card extends Component {
     const { style,
       transform
     } = this.state
-
-    /*
-    const isDraggable = item === 0 &&
-      !isTransitioning &&
-      !this.props.isFlipped &&
-      !isFlipping &&
-      !isBeforeAfterDisabled
-    const bounds = {}
-    if (isFirst || (content && content.isFirst)) {
-      bounds.right = 0
-    } else if (isLast || (content && content.isLast)) {
-      bounds.left = 0
-    }
-    */
-
-    // console.log('RENDER: Card content', content)
-    return [
-      /*
-      <Draggable axis='x'
-        bounds={bounds}
-        disabled={!isDraggable}
-
-        position={position}
-        onDrag={onDrag}
-        onStop={onStop} >
-      */
-          <span
-            key={0}
-            className={classnames({
-              card: true,
-              current: position === 'current',
-            })}
-            style={{
-              transform: `translate(${get(userMediation, 'index') * 100}vw, 0)`,
-            }}>
-            <div className='card__container' style={{ transform }}>
-              <Recto {...userMediation} />
-              <div className='gradient' style={{
-                background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 25%,${headerColor} 100%)`,
-              }} />
-              { position === 'current' &&  <Verso /> }
-            </div>
-          </span>
-      /*
-      </Draggable>
-      */,
-      item === 0 && content.id && (
-        <Portal key={1} node={document.getElementById('deck')}>
-          <Verso />
-        </Portal>
-      )
-    ]
+    return (
+      <div
+        className={classnames({
+          card: true,
+          current: position === 'current',
+        })}
+        style={{
+          transform: `translate(${get(userMediation, 'index') * 100}vw, 0)`,
+        }}>
+          <Recto {...userMediation} />
+          <div className='gradient' style={{
+            background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 25%,${headerColor} 100%)`,
+          }} />
+          { position === 'current' &&  <Verso /> }
+      </div>
+    )
   }
 }
 
 Card.defaultProps = {
   isSetRead: true,
   readTimeout: 3000,
-  transitionDelay: 100,
-  // transitionTimeout: 250,
 }
 
 export default connect(
