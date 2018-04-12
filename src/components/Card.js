@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import get from 'lodash.get'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Draggable from 'react-draggable'
@@ -153,6 +154,7 @@ class Card extends Component {
       item,
       userMediation,
       headerColor,
+      position,
     } = this.props
     const { style,
       transform
@@ -185,18 +187,19 @@ class Card extends Component {
       */
           <span
             key={0}
-            className={classnames('card', {
-              'card--current': item === 0,
-              'card--draggable': isDraggable
+            className={classnames({
+              card: true,
+              current: position === 'current',
             })}
             style={{
-              transform: `translate(${((this.props.userMediation || {}).index) * 100}vw, 0)`,
+              transform: `translate(${get(userMediation, 'index') * 100}vw, 0)`,
             }}>
             <div className='card__container' style={{ transform }}>
               <Recto {...userMediation} />
               <div className='gradient' style={{
                 background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 25%,${headerColor} 100%)`,
               }} />
+              { position === 'current' &&  <Verso /> }
             </div>
           </span>
       /*
