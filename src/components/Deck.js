@@ -114,29 +114,6 @@ class Deck extends Component {
     // update
     this.setState({ currentContent, previousContent, nextContent })
   }
-  handleSetStyle = () => {
-    // unpack
-    const { currentContent } = this
-    const { transitionTimeout } = this.props
-    // style
-    const buttonStyle = { transition: `opacity ${transitionTimeout}ms` }
-    const style = {
-      backgroundColor: 'black',
-      transition: `background-color ${transitionTimeout}ms`
-    }
-    const gradientStyle = {
-      background: 'linear-gradient(transparent, black)',
-      transition: `background ${transitionTimeout}ms`
-    }
-    if (currentContent && currentContent.backgroundColor) {
-      const [red, green, blue] = currentContent.backgroundColor
-      const hue = rgb_to_hsv({r: red, g: green, b: blue}).h
-      style.backgroundColor = `hsl(${hue}, 100%, 15%)`
-      gradientStyle.background = `linear-gradient(transparent, hsl(${hue}, 100%, 15%))`
-    }
-    // update
-    this.setState({ buttonStyle, gradientStyle, style })
-  }
   handleSetReadCard = card => {
     // unpack
     const { handleSetReadCard, isDebug } = this.props
@@ -290,11 +267,6 @@ class Deck extends Component {
       isDebug && debug('Deck - componentDidUpdate handleSetCurrentContent')
       this.handleSetCurrentContent()
     }
-    // adapt style given current content
-    if (transitionTimeout !== prevProps.transitionTimeout ||
-      currentContent !== prevState.currentContent) {
-      this.handleSetStyle()
-    }
   }
   componentWillUnmount () {
     window.removeEventListener('resize', this.onDebouncedResize)
@@ -322,7 +294,7 @@ class Deck extends Component {
       readTimeout,
       headerColor,
     } = this.props
-    const { buttonStyle,
+    const { 
       currentContent,
       cursor,
       deckElement,
@@ -354,7 +326,10 @@ class Deck extends Component {
         onStop={onStop} >
         <div className='deck'
           id='deck'
-          style={style}
+          style={{
+                  backgroundColor: headerColor,
+                  transition: `background-color ${transitionTimeout}ms`,
+                }}
           ref={element => this.element = element }>
           {!this.props.unFlippable && (
             <button className={classnames('button close', {
@@ -396,18 +371,14 @@ class Deck extends Component {
           <div className='board-wrapper'>
             <div className='board'
               id='deck__board'
-              ref={element => this.boardElement = element}
-              style={{
-                background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 35%,${headerColor} 100%)`,
-              }} >
+              ref={element => this.boardElement = element} >
               <ul className='controls' style={{backgroundImage: `url('${ROOT_PATH}/mosaic-w.svg')`,}}>
                 <li>
                   <button className={classnames('button before', {
                     'disabled': isBeforeDisabled,
                     'hidden': isBeforeHidden })}
                     disabled={isBeforeDisabled || isBeforeHidden}
-                    onClick={event => onNext(event, 1)}
-                    style={buttonStyle}>
+                    onClick={event => onNext(event, 1)} >
                       <Icon svg='ico-prev-w-group' />
                   </button>
                 </li>
@@ -415,8 +386,7 @@ class Deck extends Component {
                   <button className={classnames('button to-recto ', {
                     'disabled': isFlipDisabled,
                     'hidden': isLoading || isFlipDisabled })}
-                    onClick={e => this.props.flip()}
-                    style={buttonStyle} >
+                    onClick={e => this.props.flip()} >
                     <Icon svg='ico-slideup-w' />
                   </button>
                   <Clue />
@@ -426,8 +396,7 @@ class Deck extends Component {
                     'disabled': isAfterDisabled,
                     'hidden': isAfterHidden })}
                     onClick={event => onNext(event, -1)}
-                    disabled={isAfterDisabled || isAfterHidden}
-                    style={buttonStyle} >
+                    disabled={isAfterDisabled || isAfterHidden} >
                     <Icon svg='ico-next-w-group' />
                   </button>
                 </li>
@@ -446,7 +415,7 @@ Deck.defaultProps = { deckKey: 0,
   isDebug: false,
   readTimeout: 3000,
   resizeTimeout: 250,
-  transitionTimeout: 500
+  transitionTimeout: 500,
 }
 
 export default connect(

@@ -213,6 +213,7 @@ class Card extends Component {
       isLast,
       isTransitioning,
       item,
+      transitionTimeout
     } = this.props
     const { position,
       style,
@@ -245,7 +246,7 @@ class Card extends Component {
             ref={element => this.cardElement = element}
             style={style}>
             <div className='card__container' style={{ transform }}>
-              <Recto {...content} />
+              <Recto transitionTimeout={transitionTimeout} {...content} />
             </div>
           </span>
       </Draggable>,

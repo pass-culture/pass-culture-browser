@@ -7,6 +7,7 @@ import RectoDebug from './RectoDebug'
 import withSelectors from '../hocs/withSelectors'
 import { getOffer } from '../selectors/offer'
 import { getMediation } from '../selectors/mediation'
+import selectHeaderColor from '../selectors/headerColor'
 import selectOffer from '../selectors/offer'
 import { getSource } from '../selectors/source'
 import { getThumbUrl } from '../selectors/thumbUrl'
@@ -37,11 +38,13 @@ class Recto extends Component {
   }
 
   render () {
-    const { isFromLoading,
-      mediation,
-      isLoading,
-      thumbUrl,
+    const { headerColor,
       isFlipped,
+      isFromLoading,
+      isLoading,
+      mediation,
+      thumbUrl,
+      transitionTimeout,
     } = this.props
     const { isRemoveLoading } = this.state
     const backgroundStyle = { backgroundImage: `url('${thumbUrl}')` };
@@ -72,6 +75,11 @@ class Recto extends Component {
           })} />
         )}
         {IS_DEV && <RectoDebug {...this.props} />}
+        <div className='card-gradient'
+              style={{
+              transition: `background ${transitionTimeout}ms`,
+              background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 75%,${headerColor} 100%)`
+              }} />
      </div>
     )
   }
@@ -82,6 +90,7 @@ export default compose(
     (state, ownProps) => ({
       currentOffer: selectOffer(state),
       currentUserMediation: selectUserMediation(state),
+      headerColor: selectHeaderColor(state),
       isFlipped: state.verso.isFlipped,
       userMediations: state.data.userMediations
     })),

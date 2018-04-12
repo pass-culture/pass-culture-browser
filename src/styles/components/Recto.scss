@@ -23,6 +23,13 @@
     margin-left: -50px;
     transition: all 0.25s ease-out;
   }
+  .card-gradient {
+    position: absolute;
+    bottom: 0;
+    height: 15%;
+    width: 100%;
+    z-index: 100;
+  }
   .loading {
     background-color: $menu-red;
     position: absolute;
@@ -31,7 +38,7 @@
     left: 0;
     right: 0;
     transition: opacity 1s, z-index 10ms 0.75s;
-    z-index: 1000;
+    z-index: 99;
     filter: none;
     div {
       color: white;
