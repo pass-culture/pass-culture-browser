@@ -370,12 +370,6 @@ class Deck extends Component {
     }
   }
 
-  onStart = e => {
-    this.setState({
-      transition: false,
-    })
-  }
-
   render () {
     // const {
     //   handleNextItemCard,
@@ -435,16 +429,16 @@ class Deck extends Component {
         ref={$el => (this.$deck = $el)}>
         {!this.props.unFlippable && (
           <button className={classnames('button close', {
-              'button--hidden': !this.props.isFlipped,
-              // 'button--disabled': isTransitioning
+              'hidden': !this.props.isFlipped,
             })}
             onClick={e => this.props.unFlip()} >
             <Icon svg='ico-close' />
           </button>
         )}
-        <Draggable axis='x'
+        <Draggable
+          axis='x'
+          disabled={this.props.isFlipped}
           position={{x: -1 * get(this.$deck, 'offsetWidth') * get(currentUserMediation, 'index', 0), y: 0}}
-          onStart={this.onStart}
           onStop={this.onStop}
           >
           <div className='cards-wrapper'>
