@@ -7,6 +7,8 @@ import { Portal } from 'react-portal'
 import Recto from './Recto'
 import Verso from './Verso'
 
+import selectHeaderColor from '../selectors/headerColor'
+
 class Card extends Component {
   constructor () {
     super()
@@ -150,6 +152,7 @@ class Card extends Component {
       isTransitioning,
       item,
       userMediation,
+      headerColor,
     } = this.props
     const { style,
       transform
@@ -191,6 +194,9 @@ class Card extends Component {
             }}>
             <div className='card__container' style={{ transform }}>
               <Recto {...userMediation} />
+              <div className='gradient' style={{
+                background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 25%,${headerColor} 100%)`,
+              }} />
             </div>
           </span>
       /*
@@ -214,5 +220,6 @@ Card.defaultProps = {
 
 export default connect(
   state => ({
-    isFlipped: state.verso.isFlipped
+    isFlipped: state.verso.isFlipped,
+    headerColor: selectHeaderColor(state),
   }))(Card)
