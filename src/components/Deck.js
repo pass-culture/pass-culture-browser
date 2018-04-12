@@ -1,26 +1,23 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
 import Draggable from 'react-draggable'
-import debounce from 'lodash.debounce'
+// TODO: set resize logic, but use https://github.com/renatorib/react-sizes instead
+// import debounce from 'lodash.debounce'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
-import { rgb_to_hsv } from 'colorsys'
 
 import Card from './Card'
 import Clue from './Clue'
 import Icon from './Icon'
-import Verso from './Verso'
 
 import { flip, unFlip } from '../reducers/verso'
-import { MOBILE_OS, ROOT_PATH } from '../utils/config';
-import { debug, warn } from '../utils/logguers'
+import { ROOT_PATH } from '../utils/config';
 
 import selectUserMediation from '../selectors/userMediation'
 import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import selectNextUserMediation from '../selectors/nextUserMediation'
-import selectHeaderColor from '../selectors/headerColor'
 import { getOffer } from '../selectors/offer'
 import { getDiscoveryPath } from '../utils/routes'
 
@@ -322,20 +319,21 @@ class Deck extends Component {
   //   MOBILE_OS !== 'unknow' && window.removeEventListener('resize', this.onDebouncedResize)
   // }
 
+
+
   goToPrev = () => {
     if (!this.props.previousUserMediation) return;
-    console.log(this.props.previousUserMediation)
     const offer = getOffer(this.props.previousUserMediation)
     this.props.history.push(getDiscoveryPath(offer, this.props.previousUserMediation));
+    // this.props.handleNextItemCard(-1)
   }
 
   goToNext = () => {
     if (!this.props.nextUserMediation) return;
-    console.log(this.props.nextUserMediation)
     const offer = getOffer(this.props.nextUserMediation)
     this.props.history.push(getDiscoveryPath(offer, this.props.nextUserMediation));
+    // this.props.handleNextItemCard(1)
   }
-
 
   onStop = (e, data) => {
     const deckWidth = this.$deck.offsetWidth;
@@ -353,72 +351,14 @@ class Deck extends Component {
   }
 
   render () {
-    // const {
-    //   handleNextItemCard,
-    //   handleRelaxItemCard,
-    //   handleSetCursorCard,
-    //   handleSetStyleCard,
-    //   handleSetReadCard,
-    //   onHorizontalDrag,
-    //   onHorizontalStop,
-    //   onSlide,
-    //   onTransitionEndCard,
-    //   onTransitionStartCard,
-    //   onVerticalDrag,
-    //   onVerticalStart,
-    //   onVerticalStop
-    // } = this
-    const { children,
-      contents,
-      extraContents,
-      isLoadingBefore,
-      isLoadingAfter,
-      transitionTimeout,
-      readTimeout,
-      headerColor,
+    const {
       currentUserMediation,
       nextUserMediation,
       previousUserMediation,
       isFlipDisabled,
       isFlipped,
     } = this.props
-    // const { buttonStyle,
-    //   currentContent,
-    //   cursor,
-    //   deckElement,
-    //   isFirstCard,
-    //   isFlipping,
-    //   isLastCard,
-    //   isResizing,
-    //   isTransitioning,
-    //   items,
-    //   //nextContent,
-    //   previousContent,
-    //   style,
-    //   transition
-    // } = this.state
-    // const isAfterDisabled = !items || isLastCard
-    // const isAfterHidden = previousContent && previousContent.isLast
-    // const isBeforeDisabled = !items || isFirstCard
-    // const isBeforeHidden = currentContent && currentContent.isFirst
-    // const isLoading = isLoadingBefore || isLoadingAfter
-    // const isFlipDisabled = !items || isLoading ||
-    //   (currentContent && currentContent.mediation &&
-    //     currentContent.userMediationOffers.length === 0 &&
-    //     currentContent.mediation.thumbCount === 1)
 
-    /*
-    const isDraggable = type === 'current' &&
-      !isTransitioning &&
-      !this.props.isFlipped &&
-      !isFlipping
-    const bounds = {}
-    if (isFirst || (content && content.isFirst)) {
-      bounds.right = 0
-    } else if (isLast || (content && content.isLast)) {
-      bounds.left = 0
-    }
-    */
     return (
       <div className='deck'
         id='deck'
@@ -498,11 +438,9 @@ export default compose(
   withRouter,
   connect(
     state => ({
-    loopLength: state.data.userMediations && state.data.userMediations.length,
     currentUserMediation: selectUserMediation(state),
     previousUserMediation: selectPreviousUserMediation(state),
     nextUserMediation: selectNextUserMediation(state),
-    headerColor: selectHeaderColor(state),
     isFlipped: state.verso.isFlipped,
     unFlippable: state.verso.unFlippable,
     }),
