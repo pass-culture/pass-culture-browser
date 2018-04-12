@@ -441,51 +441,46 @@ class Deck extends Component {
             <Card ref={$el => this.$current = $el} position='current' userMediation={currentUserMediation} />
             {nextUserMediation && <Card position='next' userMediation={nextUserMediation} />}
             <Verso />
-            <div className='board-wrapper'>
-              <div className='board'
-                id='deck__board'
-                ref={element => this.boardElement = element}
-                style={{
-                  background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor} 35%,${headerColor} 100%)`,
-                }} >
-                <ul className='controls' style={{backgroundImage: `url('${ROOT_PATH}/mosaic-w.svg')`,}}>
-                  <li>
-                    <button className={classnames({
-                        button: true,
-                        before: true,
-                        hidden: !previousUserMediation,
-                      })}
-                      onClick={this.goToPrev} >
-                        <Icon svg='ico-prev-w-group' />
-                    </button>
-                  </li>
-                  <li>
-                    <button className={classnames({
-                        button: true,
-                        'to-recto': true,
-                        disabled: isFlipDisabled,
-                      })}
-                      onClick={e => this.props.flip()} >
-                      <Icon svg='ico-slideup-w' />
-                    </button>
-                    <Clue />
-                  </li>
-                  <li>
-                    <button className={classnames({
-                        button: true,
-                        after: true,
-                        hidden: !nextUserMediation,
-                      })}
-                      onClick={this.goToNext} >
-                      <Icon svg='ico-next-w-group' />
-                    </button>
-                  </li>
-                </ul>
-                {children}
-              </div>
-            </div>
           </div>
         </Draggable>
+        <div className='board-wrapper'>
+          <div className='board'>
+            <ul className='controls' style={{backgroundImage: `url('${ROOT_PATH}/mosaic-w.svg')`,}}>
+              <li>
+                <button className={classnames({
+                    button: true,
+                    before: true,
+                    hidden: !previousUserMediation,
+                  })}
+                  onClick={this.goToPrev} >
+                    <Icon svg='ico-prev-w-group' />
+                </button>
+              </li>
+              <li>
+                <button className={classnames({
+                    button: true,
+                    'to-recto': true,
+                    disabled: isFlipDisabled,
+                  })}
+                  onClick={e => this.props.flip()} >
+                  <Icon svg='ico-slideup-w' />
+                </button>
+                <Clue />
+              </li>
+              <li>
+                <button className={classnames({
+                    button: true,
+                    after: true,
+                    hidden: !nextUserMediation,
+                  })}
+                  onClick={this.goToNext} >
+                  <Icon svg='ico-next-w-group' />
+                </button>
+              </li>
+            </ul>
+            {children}
+          </div>
+        </div>
       </div>
     )
   }

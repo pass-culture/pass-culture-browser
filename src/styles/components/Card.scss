@@ -9,6 +9,16 @@
   right: 0;
   z-index: -1;
 
+  .gradient {
+    position: absolute;
+    bottom: 0;
+    top: 65%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+
   &--draggable {
     cursor: -webkit-grab;
   }
