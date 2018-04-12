@@ -85,7 +85,6 @@ export async function putData (dexieMethod, collectionName, dataOrDatum, config 
     } else {
       await table.add(datum)
     }
-<<<<<<< HEAD
   }
   // diff or not
   if (diff) {
@@ -94,15 +93,6 @@ export async function putData (dexieMethod, collectionName, dataOrDatum, config 
       name: collectionName,
       ids: data.map(datum => datum.id)
     })
-=======
-    if (diff) {
-      await db.differences.add({
-        id: uuid(),
-        name: collectionName,
-        ids: data.map(datum => datum.id)
-      })
-    }
->>>>>>> refactor deck by setting horiz drag on deck (not anymore on card)
   }
   // get again
   result.data = table.toArray()

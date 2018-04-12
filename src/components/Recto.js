@@ -119,7 +119,7 @@ export default compose(
         const userMediationOffers = userMediation.userMediationOffers
         const offerId = userMediationOffers[
           Math.floor(Math.random() * userMediationOffers.length)].id
-        return getOffer(offerId, userMediation)
+        return getOffer(userMediation, offerId)
       }
     ],
     thumbUrl: [
