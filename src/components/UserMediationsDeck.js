@@ -146,10 +146,10 @@ class UserMediationsDeck extends Component {
     this.setState(newState)
   }
 
-  handleNextItemCard = diffIndex => {
+  handleGoTo = diffIndex => {
     // unpack
     const { isDebug } = this.props
-    isDebug && debug('UserMediationsDeck - handleNextItemCard')
+    isDebug && debug('UserMediationsDeck - handleGoTo')
     // update around
     this.nextAroundIndex = this.state.aroundIndex - diffIndex
     // set state
@@ -306,7 +306,7 @@ class UserMediationsDeck extends Component {
           key={0}
           handleTransitionEnd={this.handleTransitionEnd}
           handleTransitionStart={this.handleTransitionStart}
-          handleNextItemCard={this.handleNextItemCard}
+          handleGoTo={this.handleGoTo}
           handleSetReadCard={this.handleSetReadCard}
           isDebug={false} />,
           IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
