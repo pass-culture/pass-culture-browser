@@ -4,13 +4,14 @@ import { withRouter } from 'react-router'
 import { compose } from 'redux'
 
 import MenuButton from '../components/layout/MenuButton'
-import UserMediationsDeck from '../components/UserMediationsDeck'
+import Deck from '../components/Deck'
 import withLogin from '../hocs/withLogin'
 import { assignData } from '../reducers/data'
 import { getContentFromUserMediation } from '../utils/content'
 import { debug } from '../utils/logguers'
-import { worker } from '../workers/dexie/register'
 import { getDiscoveryPath } from '../utils/routes'
+import { worker } from '../workers/dexie/register'
+
 
 class DiscoveryPage extends Component {
   constructor () {
@@ -131,7 +132,7 @@ class DiscoveryPage extends Component {
   render () {
     return (
       <main className='page discovery-page center'>
-        <UserMediationsDeck {...this.state}
+        <Deck {...this.state}
           handleUserMediationChange={this.handleUserMediationChange} />
         <MenuButton borderTop />
       </main>
