@@ -19,6 +19,7 @@ import selectUserMediation from '../selectors/userMediation'
 import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import selectNextUserMediation from '../selectors/nextUserMediation'
 import selectIsFlipDisabled from '../selectors/isFlipDisabled'
+import { getMediation } from '../selectors/mediation'
 import { getOffer } from '../selectors/offer'
 import { getDiscoveryPath } from '../utils/routes'
 
@@ -40,17 +41,17 @@ class Deck extends Component {
   // }
 
 
-  // TODO: replug this.props.handleNextItemCard(diffIndex, this)
+  // TODO: replug this.props.handleGoTo(diffIndex, this)
 
-  // handleNextItemCard = diffIndex => {
+  // handleGoTo = diffIndex => {
   //   // unpack
-  //   const { handleNextItemCard, isDebug } = this.props
+  //   const { handleGoTo, isDebug } = this.props
   //   const { items } = this.state
   //   if (!items) {
   //     warn('items is not defined')
   //     return
   //   }
-  //   isDebug && debug('Deck - handleNextItemCard')
+  //   isDebug && debug('Deck - handleGoTo')
   //   // new state
   //   this.items = items.map(index => index + diffIndex)
   //   const newState = { cursor: 0,
@@ -59,7 +60,7 @@ class Deck extends Component {
   //   // update by shifting the items
   //   this.setState(newState)
   //   // hook if Deck has parent manager component
-  //   handleNextItemCard && handleNextItemCard(diffIndex, this)
+  //   handleGoTo && handleGoTo(diffIndex, this)
   // }
 
   // handleRelaxItemCard = data => {
@@ -176,7 +177,7 @@ class Deck extends Component {
   //   this.props.isDebug && debug('Deck - onSlide')
   //   event.preventDefault()
   //   event.stopPropagation()
-  //   this.handleNextItemCard(diffIndex)
+  //   this.handleGoTo(diffIndex)
   // }
 
   // onResize = event => {
@@ -341,31 +342,54 @@ class Deck extends Component {
 
 
   goToPrev = () => {
-    if (!this.props.previousUserMediation) return;
-    const offer = getOffer(this.props.previousUserMediation)
-    this.props.history.push(getDiscoveryPath(offer, this.props.previousUserMediation));
-    // this.props.handleNextItemCard(-1)
+    const { handleGoTo,
+      history,
+      isFlipped,
+      previousUserMediation
+    } = this.props
+    if (!previousUserMediation || isFlipped) return;
+    const offer = getOffer(previousUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
+    handleGoTo(-1)
   }
 
   goToNext = () => {
-    if (!this.props.nextUserMediation) return;
-    const offer = getOffer(this.props.nextUserMediation)
-    this.props.history.push(getDiscoveryPath(offer, this.props.nextUserMediation));
-    // this.props.handleNextItemCard(1)
+    const { handleGoTo,
+      history,
+      isFlipped,
+      previousUserMediation
+    } = this.props
+    if (!previousUserMediation || isFlipped) return;
+    const offer = getOffer(previousUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
+    handleGoTo(-1)
+  }
+
+  goToNext = () => {
+    const { handleGoTo,
+      history,
+      isFlipped,
+      previousUserMediation
+    } = this.props
+    if (!previousUserMediation || isFlipped) return;
+    const offer = getOffer(previousUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
   }
 
   onStop = (e, data) => {
+    const { horizontalSlideRatio, verticalSlideRatio } = this.props
     const deckWidth = this.$deck.offsetWidth;
     const deckHeight = this.$deck.offsetHeight;
     const index = get(this.props, 'currentUserMediation.index', 0)
     const offset = (data.x + deckWidth * index)/deckWidth
-    if (offset > (this.props.horizontalSlideRatio)) {
+    console.log('offset', offset, horizontalSlideRatio)
+    if (offset > horizontalSlideRatio) {
       this.goToPrev();
-    } else if (-offset > this.props.horizontalSlideRatio) {
+    } else if (-offset > horizontalSlideRatio) {
       this.goToNext();
-    } else if (data.y > deckHeight * this.props.verticalSlideRatio) {
+    } else if (data.y > deckHeight * verticalSlideRatio) {
       this.props.unFlip();
-    } else if (data.y < -deckHeight * this.props.verticalSlideRatio) {
+    } else if (data.y < -deckHeight * verticalSlideRatio) {
       this.props.flip();
     }
   }
@@ -403,9 +427,17 @@ class Deck extends Component {
           onStop={this.onStop}
           >
           <div className='cards-wrapper'>
-            {previousUserMediation && <Card position='previous' userMediation={previousUserMediation} />}
-            <Card ref={$el => this.$current = $el} position='current' userMediation={currentUserMediation} />
-            {nextUserMediation && <Card position='next' userMediation={nextUserMediation} />}
+            {
+              previousUserMediation && <Card position='previous'
+                userMediation={previousUserMediation} />
+            }
+            <Card ref={$el => this.$current = $el}
+              position='current'
+              userMediation={currentUserMediation} />
+            {
+              nextUserMediation && <Card position='next'
+                userMediation={nextUserMediation} />
+            }
           </div>
         </Draggable>
         <ul className={classnames({
@@ -463,12 +495,12 @@ export default compose(
   withRouter,
   connect(
     state => ({
-    currentUserMediation: selectUserMediation(state),
-    previousUserMediation: selectPreviousUserMediation(state),
-    nextUserMediation: selectNextUserMediation(state),
-    isFlipDisabled: selectIsFlipDisabled(state),
-    isFlipped: state.verso.isFlipped,
-    unFlippable: state.verso.unFlippable,
+      currentUserMediation: selectUserMediation(state),
+      previousUserMediation: selectPreviousUserMediation(state),
+      nextUserMediation: selectNextUserMediation(state),
+      isFlipDisabled: selectIsFlipDisabled(state),
+      isFlipped: state.verso.isFlipped,
+      unFlippable: state.verso.unFlippable,
     }),
     { flip, unFlip }
   )
