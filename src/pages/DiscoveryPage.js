@@ -132,8 +132,7 @@ class DiscoveryPage extends Component {
     return (
       <main className='page discovery-page center'>
         <UserMediationsDeck {...this.state}
-          handleUserMediationChange={this.handleUserMediationChange} >
-        </UserMediationsDeck>
+          handleUserMediationChange={this.handleUserMediationChange} />
         <MenuButton borderTop />
       </main>
     )
