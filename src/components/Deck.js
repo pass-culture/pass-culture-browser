@@ -356,15 +356,23 @@ class Deck extends Component {
   onStop = (e, data) => {
     const deckWidth = this.$deck.offsetWidth;
     const deckHeight = this.$deck.offsetHeight;
-    console.log('go to prev?', (data.x % deckWidth)/deckWidth);
-    if (!this.props.isFlipped && this.props.previousUserMediation && (data.x % deckWidth)/deckWidth > (this.props.horizontalSlideRatio)) {
+    const index = get(this.props, 'currentUserMediation.index', 0)
+    const offset = (data.x + deckWidth * index)/deckWidth
+    if (offset > (this.props.horizontalSlideRatio)) {
       this.goToPrev();
-    } else if (!this.props.isFlipped && this.props.nextUserMediation && (data.x % deckWidth)/deckWidth < -this.props.horizontalSlideRatio) {
+    } else if (-offset > this.props.horizontalSlideRatio) {
       this.goToNext();
     } else if (data.y > deckHeight * this.props.verticalSlideRatio) {
       this.props.unFlip();
     } else if (data.y < -deckHeight * this.props.verticalSlideRatio) {
       this.props.flip();
+    }
+  }
+
+  getDragPosition() {
+    return {
+      x: -1 * get(this.$deck, 'offsetWidth') * get(this.props, 'currentUserMediation.index', 0),
+      y: 0,
     }
   }
 
@@ -391,7 +399,7 @@ class Deck extends Component {
         <Draggable
           axis='x'
           disabled={this.props.isFlipped}
-          position={{x: -1 * get(this.$deck, 'offsetWidth') * get(currentUserMediation, 'index', 0), y: 0}}
+          position={this.getDragPosition()}
           onStop={this.onStop}
           >
           <div className='cards-wrapper'>
@@ -441,7 +449,7 @@ class Deck extends Component {
   }
 }
 
-Deck.defaultProps = { deckKey: 0,
+Deck.defaultProps = {
   flipRatio: 0.25,
   horizontalSlideRatio: 0.2,
   verticalSlideRatio: 0.1,
