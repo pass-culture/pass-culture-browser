@@ -392,8 +392,7 @@ class Deck extends Component {
           </button>
         )}
         <Draggable
-          axis='x'
-          disabled={this.props.isFlipped}
+          axis={this.props.isFlipped ? 'y' : 'exclude'}
           position={this.getDragPosition()}
           onStop={this.onStop}
           >
