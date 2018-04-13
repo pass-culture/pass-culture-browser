@@ -22,6 +22,7 @@ class UserMediationsDeck extends Component {
       isTransitioning: false
     }
   }
+
   handleBeforeContent = () => {
     // unpack and check
     const { nextAroundIndex } = this
@@ -50,6 +51,7 @@ class UserMediationsDeck extends Component {
       return
     }
   }
+
   handleAfterContent = () => {
     // check unpack
     const { nextAroundIndex } = this
@@ -79,6 +81,7 @@ class UserMediationsDeck extends Component {
       return
     }
   }
+
   handleSetContents = (config = {}) => {
     // unpack and check
     const { dirtyUserMediations } = this
@@ -142,6 +145,7 @@ class UserMediationsDeck extends Component {
     // update
     this.setState(newState)
   }
+
   handleNextItemCard = diffIndex => {
     // unpack
     const { isDebug } = this.props
@@ -155,6 +159,7 @@ class UserMediationsDeck extends Component {
       ? this.handleBeforeContent()
       : this.handleAfterContent()
   }
+
   handleSetAfterLimit = props => {
     const { afterCount, userMediations } = props
     if (!userMediations) {
@@ -164,6 +169,7 @@ class UserMediationsDeck extends Component {
     if (afterLimit < 1) { afterLimit = userMediations.length }
     this.setState({ afterLimit })
   }
+
   handleSetBeforeLimit = props => {
     const { beforeCount, userMediations } = props
     if (!userMediations) {
@@ -175,6 +181,7 @@ class UserMediationsDeck extends Component {
     }
     this.setState({ beforeLimit })
   }
+
   handleSetReadCard = card => {
     // unpack
     const { isCheckRead, isDebug, requestData } = this.props
@@ -191,6 +198,7 @@ class UserMediationsDeck extends Component {
     isCheckRead && requestData('PUT', 'userMediations',
       { _body: body, body: [], local: true })
   }
+
   handleTransitionEnd = () => {
     this.props.isDebug && debug('UserMediationsDeck - handleTransitionEnd')
     if (this.state.dirtyUserMediations) {
@@ -198,14 +206,17 @@ class UserMediationsDeck extends Component {
     }
     this.setState({ isTransitioning: false })
   }
+
   handleTransitionStart = () => {
     this.setState({ isTransitioning: true })
   }
+
   componentWillMount () {
     this.handleSetContents(this.props)
     this.handleSetAfterLimit(this.props)
     this.handleSetBeforeLimit(this.props)
   }
+
   componentWillReceiveProps (nextProps) {
     // check
     const { afterCount,
@@ -238,6 +249,7 @@ class UserMediationsDeck extends Component {
       this.handleSetAfterLimit(nextProps)
     }
   }
+
   componentDidUpdate (prevProps, prevState) {
     // unpack
     const { dirtyUserMediations } = this
@@ -277,6 +289,7 @@ class UserMediationsDeck extends Component {
       }
     }
   }
+
   render () {
     return [
         <Deck {...this.props}
