@@ -413,16 +413,16 @@ class Deck extends Component {
       <div className='deck'
         id='deck'
         ref={$el => (this.$deck = $el)}>
-        {!this.props.unFlippable && (
+        {!unFlippable && (
           <button className={classnames('button close', {
-              'hidden': !this.props.isFlipped,
+              'hidden': !isFlipped,
             })}
             onClick={e => this.props.unFlip()} >
             <Icon svg='ico-close' />
           </button>
         )}
         <Draggable
-          axis={this.props.isFlipped ? 'y' : 'exclude'}
+          axis={isFlipped ? 'y' : 'exclude'}
           position={this.getDragPosition()}
           onStop={this.onStop}
           >
