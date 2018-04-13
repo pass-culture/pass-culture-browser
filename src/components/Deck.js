@@ -18,6 +18,7 @@ import { ROOT_PATH } from '../utils/config';
 import selectUserMediation from '../selectors/userMediation'
 import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import selectNextUserMediation from '../selectors/nextUserMediation'
+import selectIsFlipDisabled from '../selectors/isFlipDisabled'
 import { getOffer } from '../selectors/offer'
 import { getDiscoveryPath } from '../utils/routes'
 
@@ -460,6 +461,7 @@ export default compose(
     currentUserMediation: selectUserMediation(state),
     previousUserMediation: selectPreviousUserMediation(state),
     nextUserMediation: selectNextUserMediation(state),
+    isFlipDisabled: selectIsFlipDisabled(state),
     isFlipped: state.verso.isFlipped,
     unFlippable: state.verso.unFlippable,
     }),
