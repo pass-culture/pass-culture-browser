@@ -15,7 +15,6 @@ class UserMediationsDeck extends Component {
     this.state = { afterLimit: null,
       aroundIndex: null,
       beforeLimit: null,
-      contents: [{ isLoading: true }],
       extraContents: null,
       isLoadingBefore: false,
       isLoadingAfter: false,
@@ -292,16 +291,14 @@ class UserMediationsDeck extends Component {
 
   render () {
     return [
-        <Deck {...this.props}
-          {...this.state}
-          key={0}
-          handleTransitionEnd={this.handleTransitionEnd}
-          handleTransitionStart={this.handleTransitionStart}
-          handleGoTo={this.handleGoTo}
-          handleSetReadCard={this.handleSetReadCard}
-          isDebug={false} />,
-          IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
-            {...this.props} {...this.state} />
+      <Deck key={0}
+        handleTransitionEnd={this.handleTransitionEnd}
+        handleTransitionStart={this.handleTransitionStart}
+        handleGoTo={this.handleGoTo}
+        handleSetReadCard={this.handleSetReadCard}
+        isDebug={false} />,
+        IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
+          {...this.props} {...this.state} />
     ]
   }
 }

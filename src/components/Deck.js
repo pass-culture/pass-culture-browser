@@ -342,27 +342,28 @@ class Deck extends Component {
 
 
   goToPrev = () => {
-    const { handleGoTo,
-      history,
+    const { history,
       isFlipped,
       previousUserMediation
     } = this.props
     if (!previousUserMediation || isFlipped) return;
     const offer = getOffer(previousUserMediation)
     history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
-    handleGoTo(-1)
   }
 
   goToNext = () => {
-    const { handleGoTo,
-      history,
+    const { history,
       isFlipped,
-      previousUserMediation
+      nextUserMediation
     } = this.props
-    if (!previousUserMediation || isFlipped) return;
-    const offer = getOffer(previousUserMediation)
-    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
-    handleGoTo(-1)
+    if (!nextUserMediation || isFlipped) return;
+    const offer = getOffer(nextUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(nextUserMediation)));
+  }
+
+  flip = () => {
+    if (this.props.isFlipDisabled) return;
+    this.props.flip()
   }
 
   goToNext = () => {
@@ -382,7 +383,6 @@ class Deck extends Component {
     const deckHeight = this.$deck.offsetHeight;
     const index = get(this.props, 'currentUserMediation.index', 0)
     const offset = (data.x + deckWidth * index)/deckWidth
-    console.log('offset', offset, horizontalSlideRatio)
     if (offset > horizontalSlideRatio) {
       this.goToPrev();
     } else if (-offset > horizontalSlideRatio) {
