@@ -1543,7 +1543,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@2.2.5, classnames@^2.2.3, classnames@^2.2.5:
+classnames@2.2.5, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -2213,10 +2213,6 @@ dom-converter@~0.1:
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.1.4.tgz#a45ef5727b890c9bffe6d7c876e7b19cb0e17f3b"
   dependencies:
     utila "~0.3"
-
-"dom-helpers@^2.4.0 || ^3.0.0":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
 
 dom-serializer@0:
   version "0.1.0"
@@ -4477,7 +4473,7 @@ longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.0, loose-envify@^1.3.1:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -5825,18 +5821,12 @@ react-dotdotdot@^1.2.3:
   dependencies:
     object.pick "^1.3.0"
 
-react-draggable@^3.0.5:
+react-draggable@augnustin/react-draggable:
   version "3.0.5"
-  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.0.5.tgz#c031e0ed4313531f9409d6cd84c8ebcec0ddfe2d"
+  resolved "https://codeload.github.com/augnustin/react-draggable/tar.gz/f1af30ea6395e95d9339623eede5c240b5628a3a"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
-
-react-easy-swipe@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.13.tgz#c00e90dabed8d0878e8c8313b867e01435f0f637"
-  dependencies:
-    prop-types "^15.5.8"
 
 react-error-overlay@^3.0.0:
   version "3.0.0"
@@ -5885,14 +5875,6 @@ react-redux@^5.0.3:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
-react-responsive-carousel@^3.1.30:
-  version "3.1.33"
-  resolved "https://registry.yarnpkg.com/react-responsive-carousel/-/react-responsive-carousel-3.1.33.tgz#702d51a890e2524fa3157267a31f4b3fc215752c"
-  dependencies:
-    classnames "^2.2.5"
-    prop-types "^15.5.8"
-    react-easy-swipe "^0.0.13"
-
 react-router-dom@^4.0.0:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
@@ -5927,16 +5909,6 @@ react-router@^4.2.0:
 react-timeago@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/react-timeago/-/react-timeago-3.4.3.tgz#eb9061eefb044e4a2b09ce8c99d34645b2dbfa25"
-
-react-virtualized@^9.18.5:
-  version "9.18.5"
-  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.18.5.tgz#42dd390ebaa7ea809bfcaf775d39872641679b89"
-  dependencies:
-    babel-runtime "^6.26.0"
-    classnames "^2.2.3"
-    dom-helpers "^2.4.0 || ^3.0.0"
-    loose-envify "^1.3.0"
-    prop-types "^15.6.0"
 
 react@^16.2.0:
   version "16.2.0"
