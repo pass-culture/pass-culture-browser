@@ -1,3 +1,20 @@
 .offer-info {
   padding: 1rem;
+
+  ul.dates-info {
+    margin-bottom: 1rem;
+    list-style: none;
+  }
+  a.distance {
+    float: right;
+    padding: 0;
+    font-weight: 500;
+    color: $menu-red;
+    font-size: 1.35rem;
+    text-decoration: none;
+    img {
+        vertical-align: -20%;
+        margin-left: 0.8rem;
+    }
+  }
 }

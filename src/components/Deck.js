@@ -322,26 +322,36 @@ class Deck extends Component {
 
 
   goToPrev = () => {
-    if (!this.props.previousUserMediation) return;
+    if (!this.props.previousUserMediation || this.props.isFlipped) return;
     const offer = getOffer(this.props.previousUserMediation)
     this.props.history.push(getDiscoveryPath(offer, this.props.previousUserMediation));
     // this.props.handleNextItemCard(-1)
   }
 
   goToNext = () => {
-    if (!this.props.nextUserMediation) return;
+    if (!this.props.nextUserMediation || this.props.isFlipped) return;
     const offer = getOffer(this.props.nextUserMediation)
     this.props.history.push(getDiscoveryPath(offer, this.props.nextUserMediation));
     // this.props.handleNextItemCard(1)
+  }
+
+  flip = () => {
+    if (this.props.isFlipDisabled) return;
+    this.props.flip()
+  }
+
+  unFlip = () => {
+    if (this.props.unFlippable) return;
+    this.props.unFlip()
   }
 
   onStop = (e, data) => {
     const deckWidth = this.$deck.offsetWidth;
     const deckHeight = this.$deck.offsetHeight;
     console.log('go to prev?', (data.x % deckWidth)/deckWidth);
-    if (!this.props.isFlipped && this.props.previousUserMediation && (data.x % deckWidth)/deckWidth > (this.props.horizontalSlideRatio)) {
+    if ((data.x % deckWidth)/deckWidth > (this.props.horizontalSlideRatio)) {
       this.goToPrev();
-    } else if (!this.props.isFlipped && this.props.nextUserMediation && (data.x % deckWidth)/deckWidth < -this.props.horizontalSlideRatio) {
+    } else if ((data.x % deckWidth)/deckWidth < -this.props.horizontalSlideRatio) {
       this.goToNext();
     } else if (data.y > deckHeight * this.props.verticalSlideRatio) {
       this.props.unFlip();
@@ -355,8 +365,9 @@ class Deck extends Component {
       currentUserMediation,
       nextUserMediation,
       previousUserMediation,
-      isFlipDisabled,
+      unFlippable,
       isFlipped,
+      isFlipDisabled,
     } = this.props
 
     return (
@@ -367,7 +378,7 @@ class Deck extends Component {
           <button className={classnames('button close', {
               'hidden': !this.props.isFlipped,
             })}
-            onClick={e => this.props.unFlip()} >
+            onClick={e => this.unFlip()} >
             <Icon svg='ico-close' />
           </button>
         )}
@@ -403,7 +414,7 @@ class Deck extends Component {
                 'to-recto': true,
                 disabled: isFlipDisabled,
               })}
-              onClick={e => this.props.flip()} >
+              onClick={e => this.flip()} >
               <Icon svg='ico-slideup-w' />
             </button>
             <Clue />
