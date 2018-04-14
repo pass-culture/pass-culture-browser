@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
@@ -15,72 +15,28 @@ import { IS_DEV } from '../utils/config'
 
 import Icon from './Icon'
 
-class Recto extends Component {
-  constructor () {
-    super()
-    this.state = { isRemoveLoading: false }
+const Recto = ({ mediation,
+  thumbUrl,
+  isFlipped
+}) => {
+  const backgroundStyle = { backgroundImage: `url('${thumbUrl}')` };
+  const thumbStyle = Object.assign({}, backgroundStyle);
+  if (mediation) {
+    thumbStyle.backgroundSize='cover';
   }
-
-  handleRemoveLoading = () => {
-    this.removeLoadingTimeout = setTimeout(() =>
-      this.setState({ isRemoveLoading: true }), 0)
-  }
-
-  componentDidMount () {
-    if (this.props.isRebootLoading) {
-      this.handleRemoveLoading()
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!nextProps.isRebootLoading && nextProps.isFromLoading && !this.props.isFromLoading) {
-      this.handleRemoveLoading()
-    }
-  }
-
-  componentWillUnmount () {
-    this.removeLoadingTimeout && clearTimeout(this.removeLoadingTimeout)
-  }
-
-  render () {
-    const { isFromLoading,
-      mediation,
-      isLoading,
-      thumbUrl,
-      isFlipped,
-    } = this.props
-    const { isRemoveLoading } = this.state
-    const backgroundStyle = { backgroundImage: `url('${thumbUrl}')` };
-    const thumbStyle = Object.assign({}, backgroundStyle);
-    if (mediation) {
-      thumbStyle.backgroundSize='cover';
-    }
-    return (
-      <div className='recto'>
-        <div className='card-background' style={backgroundStyle} />
-        {
-          (isLoading || isFromLoading) && (
-            <div className={classnames('loading flex items-center justify-center', {
-              'loading--ended': isRemoveLoading
-            })}>
-              <div>
-                <Icon draggable={false} svg='ico-loading-card' />
-                <div className='h2'>
-                  chargement des offres
-                </div>
-              </div>
-           </div>
-          )
-        }
-        { thumbUrl && (
+  return (
+    <div className='recto'>
+      <div className='background' style={backgroundStyle} />
+      {
+        thumbUrl && (
           <div style={thumbStyle} className={classnames('thumb', {
             translated: isFlipped
           })} />
-        )}
-        {IS_DEV && <RectoDebug {...this.props} />}
-     </div>
-    )
-  }
+        )
+      }
+      {IS_DEV && <RectoDebug {...this.props} />}
+   </div>
+  )
 }
 
 export default compose(

@@ -133,24 +133,10 @@ class Card extends Component {
   // }
 
   render () {
-    const { onDrag,
-      onStop
-    } = this
-    const { content,
-      isBeforeAfterDisabled,
-      isDraggable,
-      isFirst,
-      isFlipping,
-      isLast,
-      isTransitioning,
-      item,
-      userMediation,
+    const { userMediation,
       headerColor,
       position,
     } = this.props
-    const { style,
-      transform
-    } = this.state
     return (
       <div
         className={classnames({

@@ -9,7 +9,7 @@
   &--loading {
     height: 50%;
   }
-  .card-background {
+  .background {
     filter: blur(20px);
     background-size: 100% auto;
     background-position: center;
@@ -22,24 +22,6 @@
     margin-top: -50px;
     margin-left: -50px;
     transition: all 0.25s ease-out;
-  }
-  .loading {
-    background-color: $menu-red;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transition: opacity 1s, z-index 10ms 0.75s;
-    z-index: 1000;
-    filter: none;
-    div {
-      color: white;
-    }
-    &--ended {
-      opacity: 0;
-      z-index: -1000;
-    }
   }
   .thumb {
     position: absolute;
@@ -61,4 +43,5 @@
       transform: translate(0, -25%) scale(1.1);
     }
   }
+
 }

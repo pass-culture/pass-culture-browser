@@ -11,62 +11,18 @@ import { withRouter } from 'react-router-dom'
 import Card from './Card'
 import Clue from './Clue'
 import Icon from './Icon'
-
+import UserMediationsDebug from './UserMediationsDebug'
 import { flip, unFlip } from '../reducers/verso'
-import { ROOT_PATH } from '../utils/config';
-
 import selectUserMediation from '../selectors/userMediation'
 import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import selectNextUserMediation from '../selectors/nextUserMediation'
 import selectIsFlipDisabled from '../selectors/isFlipDisabled'
 import { getMediation } from '../selectors/mediation'
 import { getOffer } from '../selectors/offer'
+import { IS_DEV, ROOT_PATH } from '../utils/config';
 import { getDiscoveryPath } from '../utils/routes'
 
 class Deck extends Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.state = { currentContent: null,
-  //     cursor: 0,
-  //     deckElement: null,
-  //     transition: null,
-  //     isFirstCard: false,
-  //     isFlipping: false,
-  //     isLastCard: false,
-  //     isResizing: false,
-  //     isTransitioning: false,
-  //     items: null
-  //   }
-  //   this.onDebouncedResize = debounce(this.onResize, props.resizeTimeout)
-  // }
-
-
-  // TODO: replug this.props.handleGoTo(diffIndex, this)
-
-  // handleGoTo = diffIndex => {
-  //   // unpack
-  //   const { handleGoTo, isDebug } = this.props
-  //   const { items } = this.state
-  //   if (!items) {
-  //     warn('items is not defined')
-  //     return
-  //   }
-  //   isDebug && debug('Deck - handleGoTo')
-  //   // new state
-  //   this.items = items.map(index => index + diffIndex)
-  //   const newState = { cursor: 0,
-  //     items: this.items
-  //   }
-  //   // update by shifting the items
-  //   this.setState(newState)
-  //   // hook if Deck has parent manager component
-  //   handleGoTo && handleGoTo(diffIndex, this)
-  // }
-
-  // handleRelaxItemCard = data => {
-  //   this.props.isDebug && debug('Deck - handleResetItemCard')
-  //   this.setState({ cursor: 0 })
-  // }
 
   handleSetStyle = () => {
     // unpack
@@ -85,23 +41,6 @@ class Deck extends Component {
     // update
     this.setState({ buttonStyle, bgStyle, previousBgStyle })
   }
-
-  // handleResetItems = (config = {}) => {
-  //   // unpack
-  //   const { isDebug } = this.props
-  //   const contents = config.contents || this.props.contents
-  //   const currentIndex = config.currentIndex || this.props.currentIndex
-  //   if (!contents) {
-  //     return
-  //   }
-  //   isDebug && debug(`Deck - handleResetItems currentIndex=${currentIndex}`)
-  //   // we need to determine the dynamic mapping of the deck
-  //   const items = [...Array(contents.length).keys()]
-  //     .map(index => index - (currentIndex > -1 ? currentIndex : 0))
-  //   this.items = items
-  //   // update
-  //   this.setState({ items })
-  // }
 
   // TODO: replug the loading logic
 
@@ -169,22 +108,6 @@ class Deck extends Component {
   //   this.setState({ cursor, transition: 'none' })
   // }
 
-  //
-  // NEXT TRANSITION HANDLING
-  //
-
-  // onSlide = (event, diffIndex) => {
-  //   this.props.isDebug && debug('Deck - onSlide')
-  //   event.preventDefault()
-  //   event.stopPropagation()
-  //   this.handleGoTo(diffIndex)
-  // }
-
-  // onResize = event => {
-  //   this.props.isDebug && debug('Deck - onResize')
-  //   this.setState({ isResizing: true })
-  // }
-
   // onTransitionEndCard = (event, cardProps) => {
   //   // check and unpack
   //   const { transitions } = this
@@ -240,36 +163,7 @@ class Deck extends Component {
   //   this.transitions = newTransitions
   // }
 
-  // //
-  // // VERTICAL DRAG HANDLING
-  // //
-  // onVerticalStart = (event, data) => {
-  //   this.props.isDebug && debug('Deck - onStart')
-  //   this.setState({ isFlipping: true, clientY: event.clientY })
-  // }
 
-  // onVerticalDrag = (event, data) => {
-  //   // unpack
-  //   const { flipRatio, isDebug } = this.props
-  //   const { deckElement } = this.state
-  //   isDebug && debug('Deck - onDrag')
-  //   // cursor
-  //   const cursor = (event.clientY - this.state.clientY) / deckElement.offsetHeight
-  //   if (!this.props.isFlipped && cursor < -flipRatio) {
-  //     this.props.flip()
-  //   } else if (this.props.isFlipped && cursor > flipRatio) {
-  //     this.props.unFlip()
-  //   }
-  // }
-
-  // onVerticalStop = (event, data) => {
-  //   this.props.isDebug && debug('Deck - onStop')
-  //   this.setState({ isFlipping: false, y: null })
-  // }
-
-  // componentWillMount() {
-  //   this.handleResetItems(this.props)
-  // }
 
   // componentWillReceiveProps (nextProps) {
   //   // unpack
@@ -361,24 +255,12 @@ class Deck extends Component {
     history.push(getDiscoveryPath(offer, getMediation(nextUserMediation)));
   }
 
-  flip = () => {
-    if (this.props.isFlipDisabled) return;
-    this.props.flip()
-  }
-
-  goToNext = () => {
-    const { handleGoTo,
-      history,
-      isFlipped,
-      previousUserMediation
-    } = this.props
-    if (!previousUserMediation || isFlipped) return;
-    const offer = getOffer(previousUserMediation)
-    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
-  }
-
   onStop = (e, data) => {
-    const { horizontalSlideRatio, verticalSlideRatio } = this.props
+    const { flip,
+      horizontalSlideRatio,
+      verticalSlideRatio,
+      unFlip
+    } = this.props
     const deckWidth = this.$deck.offsetWidth;
     const deckHeight = this.$deck.offsetHeight;
     const index = get(this.props, 'currentUserMediation.index', 0)
@@ -388,9 +270,9 @@ class Deck extends Component {
     } else if (-offset > horizontalSlideRatio) {
       this.goToNext();
     } else if (data.y > deckHeight * verticalSlideRatio) {
-      this.props.unFlip();
+      unFlip();
     } else if (data.y < -deckHeight * verticalSlideRatio) {
-      this.props.flip();
+      flip();
     }
   }
 
@@ -406,21 +288,36 @@ class Deck extends Component {
       currentUserMediation,
       nextUserMediation,
       previousUserMediation,
+      flip,
       isFlipDisabled,
       isFlipped,
+      unFlip,
+      unFlippable,
     } = this.props
-    return (
+    console.log(previousUserMediation, currentUserMediation, nextUserMediation)
+    return [
       <div className='deck'
         id='deck'
+        key={0}
         ref={$el => (this.$deck = $el)}>
         {!unFlippable && (
           <button className={classnames('button close', {
-              'hidden': !isFlipped,
+              hidden: !isFlipped,
             })}
-            onClick={e => this.props.unFlip()} >
+            onClick={unFlip} >
             <Icon svg='ico-close' />
           </button>
         )}
+        <div className={classnames('loading flex items-center justify-center', {
+          'shown': !currentUserMediation
+        })}>
+          <div>
+            <Icon draggable={false} svg='ico-loading-card' />
+            <div className='h2'>
+              chargement des offres
+            </div>
+          </div>
+        </div>
         <Draggable
           axis={isFlipped ? 'y' : 'exclude'}
           position={this.getDragPosition()}
@@ -445,9 +342,7 @@ class Deck extends Component {
           hidden: isFlipped,
         })} style={{backgroundImage: `url('${ROOT_PATH}/mosaic-w.svg')`,}}>
           <li>
-            <button className={classnames({
-                button: true,
-                before: true,
+            <button className={classnames('button before', {
                 hidden: !previousUserMediation,
               })}
               onClick={this.goToPrev} >
@@ -455,20 +350,17 @@ class Deck extends Component {
             </button>
           </li>
           <li>
-            <button className={classnames({
-                button: true,
-                'to-recto': true,
-                disabled: isFlipDisabled,
+            <button className={classnames('button to-recto', {
+                hidden: isFlipDisabled,
               })}
-              onClick={e => this.props.flip()} >
+              disabled={isFlipDisabled}
+              onClick={flip} >
               <Icon svg='ico-slideup-w' />
             </button>
             <Clue />
           </li>
           <li>
-            <button className={classnames({
-                button: true,
-                after: true,
+            <button className={classnames('after button', {
                 hidden: !nextUserMediation,
               })}
               onClick={this.goToNext} >
@@ -476,8 +368,9 @@ class Deck extends Component {
             </button>
           </li>
         </ul>
-      </div>
-    )
+      </div>,
+      <UserMediationsDebug key={1} {...this.props} />
+    ]
   }
 }
 

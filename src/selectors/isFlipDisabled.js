@@ -1,12 +1,14 @@
-import get from 'lodash.get'
 import { createSelector } from 'reselect'
 
-
 import selectIsTuto from './isTuto'
+import selectUserMediation from './userMediation'
 import selectMediation from './mediation'
 
 export default createSelector(
+  selectUserMediation,
   selectIsTuto,
   selectMediation,
-  (isTuto, mediation) => isTuto && get(mediation, 'id') === 'AE' // TODO: write better rule
+  (userMediation, isTuto, mediation) => {
+    return !userMediation || (isTuto && mediation.thumbCount === 1)
+  }
 )

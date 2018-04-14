@@ -46,6 +46,26 @@
       }
     }
   }
+
+  .loading {
+    background-color: $menu-red;
+    opacity: 0;
+    z-index: -1000;
+    transition: opacity 1s 1s, z-index 1s 2s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    &.shown {
+      opacity: 1;
+      z-index: 2;
+    }
+    div {
+      color: white;
+    }
+  }
+
   .board-wrapper {
     bottom: 0;
 
