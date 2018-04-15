@@ -38,7 +38,7 @@ const Recto = ({ dateRead,
       }
       {
         IS_DEV && (
-          <div className='recto-debug absolute left-0 ml2 p2'>
+          <div className='debug absolute left-0 ml2 p2'>
             <span>
               {id} {offer && offer.id} {index}
             </span>

@@ -142,10 +142,9 @@ class Deck extends Component {
     } = this.props
     const { refreshKey } = this.state
     console.log(previousUserMediation, currentUserMediation, nextUserMediation)
-    return [
+    return (
       <div className='deck'
         id='deck'
-        key={0}
         ref={$el => (this.$deck = $el)}>
         {!unFlippable && (
           <button className={classnames('button close', {
@@ -171,7 +170,7 @@ class Deck extends Component {
           position={this.getDragPosition()}
           onStop={this.onStop}
           >
-          <div className='cards-wrapper'>
+          <div>
             {
               previousUserMediation && <Card position='previous'
                 userMediation={previousUserMediation} />
@@ -216,14 +215,16 @@ class Deck extends Component {
             </button>
           </li>
         </ul>
-      </div>,
-      IS_DEV && (
-        <div className='user-mediations-debug absolute left-0 ml2 p2' key={1}>
-          ({this.props.isLoadingBefore ? '?' : ' '}{this.props.previousLimit}) {this.props.currentUserMediation && this.props.currentUserMediation.index}{' '}
-          ({this.props.nextLimit} {this.props.isLoadingAfter ? '?' : ' '}) / {this.props.userMediations && this.props.userMediations.length - 1}
-        </div>
-      )
-    ]
+        {
+          IS_DEV && (
+            <div className='debug absolute left-0 ml2 p2'>
+              ({this.props.isLoadingBefore ? '?' : ' '}{this.props.previousLimit}) {this.props.currentUserMediation && this.props.currentUserMediation.index}{' '}
+              ({this.props.nextLimit} {this.props.isLoadingAfter ? '?' : ' '}) / {this.props.userMediations && this.props.userMediations.length - 1}
+            </div>
+          )
+        }
+      </div>
+    )
   }
 }
 

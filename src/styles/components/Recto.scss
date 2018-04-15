@@ -3,12 +3,14 @@
   height: 75%;
   overflow: hidden;
   position: relative;
+
   &--small {
     border-radius: $border-radius;
   }
   &--loading {
     height: 50%;
   }
+
   .background {
     filter: blur(20px);
     background-size: 100% auto;
@@ -23,6 +25,7 @@
     margin-left: -50px;
     transition: all 0.25s ease-out;
   }
+
   .thumb {
     position: absolute;
     height: 100%;
@@ -42,6 +45,13 @@
     &.translated {
       transform: translate(0, -25%) scale(1.1);
     }
+  }
+
+  .debug {
+    background-color: white;
+    border-radius: $border-radius;
+    top: 20%;
+    z-index: 10000;
   }
 
 }
