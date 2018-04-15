@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Deck from './Deck'
-import UserMediationsDebug from './UserMediationsDebug'
 import { requestData } from '../reducers/data'
 import { IS_DEV } from '../utils/config'
 import { debug, warn } from '../utils/logguers'
@@ -15,13 +14,13 @@ class UserMediationsDeck extends Component {
     this.state = { afterLimit: null,
       aroundIndex: null,
       beforeLimit: null,
-      contents: [{ isLoading: true }],
       extraContents: null,
       isLoadingBefore: false,
       isLoadingAfter: false,
       isTransitioning: false
     }
   }
+
   handleBeforeContent = () => {
     // unpack and check
     const { nextAroundIndex } = this
@@ -50,6 +49,7 @@ class UserMediationsDeck extends Component {
       return
     }
   }
+
   handleAfterContent = () => {
     // check unpack
     const { nextAroundIndex } = this
@@ -79,6 +79,7 @@ class UserMediationsDeck extends Component {
       return
     }
   }
+
   handleSetContents = (config = {}) => {
     // unpack and check
     const { dirtyUserMediations } = this
@@ -142,10 +143,11 @@ class UserMediationsDeck extends Component {
     // update
     this.setState(newState)
   }
-  handleNextItemCard = diffIndex => {
+
+  handleGoTo = diffIndex => {
     // unpack
     const { isDebug } = this.props
-    isDebug && debug('UserMediationsDeck - handleNextItemCard')
+    isDebug && debug('UserMediationsDeck - handleGoTo')
     // update around
     this.nextAroundIndex = this.state.aroundIndex - diffIndex
     // set state
@@ -155,6 +157,7 @@ class UserMediationsDeck extends Component {
       ? this.handleBeforeContent()
       : this.handleAfterContent()
   }
+
   handleSetAfterLimit = props => {
     const { afterCount, userMediations } = props
     if (!userMediations) {
@@ -164,6 +167,7 @@ class UserMediationsDeck extends Component {
     if (afterLimit < 1) { afterLimit = userMediations.length }
     this.setState({ afterLimit })
   }
+
   handleSetBeforeLimit = props => {
     const { beforeCount, userMediations } = props
     if (!userMediations) {
@@ -175,6 +179,7 @@ class UserMediationsDeck extends Component {
     }
     this.setState({ beforeLimit })
   }
+
   handleSetReadCard = card => {
     // unpack
     const { isCheckRead, isDebug, requestData } = this.props
@@ -191,6 +196,7 @@ class UserMediationsDeck extends Component {
     isCheckRead && requestData('PUT', 'userMediations',
       { _body: body, body: [], local: true })
   }
+
   handleTransitionEnd = () => {
     this.props.isDebug && debug('UserMediationsDeck - handleTransitionEnd')
     if (this.state.dirtyUserMediations) {
@@ -198,14 +204,17 @@ class UserMediationsDeck extends Component {
     }
     this.setState({ isTransitioning: false })
   }
+
   handleTransitionStart = () => {
     this.setState({ isTransitioning: true })
   }
+
   componentWillMount () {
     this.handleSetContents(this.props)
     this.handleSetAfterLimit(this.props)
     this.handleSetBeforeLimit(this.props)
   }
+
   componentWillReceiveProps (nextProps) {
     // check
     const { afterCount,
@@ -238,6 +247,7 @@ class UserMediationsDeck extends Component {
       this.handleSetAfterLimit(nextProps)
     }
   }
+
   componentDidUpdate (prevProps, prevState) {
     // unpack
     const { dirtyUserMediations } = this
@@ -277,18 +287,21 @@ class UserMediationsDeck extends Component {
       }
     }
   }
+
   render () {
     return [
-        <Deck {...this.props}
-          {...this.state}
-          key={0}
-          handleTransitionEnd={this.handleTransitionEnd}
-          handleTransitionStart={this.handleTransitionStart}
-          handleNextItemCard={this.handleNextItemCard}
-          handleSetReadCard={this.handleSetReadCard}
-          isDebug={false} />,
-          IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
-            {...this.props} {...this.state} />
+      <Deck key={0}
+        handleTransitionEnd={this.handleTransitionEnd}
+        handleTransitionStart={this.handleTransitionStart}
+        handleGoTo={this.handleGoTo}
+        handleSetReadCard={this.handleSetReadCard}
+<<<<<<< HEAD
+        isDebug={false} />
+=======
+        isDebug={false} />,
+        IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
+          {...this.props} {...this.state} />
+>>>>>>> f5c0502897a0a7432f3ddbc892be2d45161d5922
     ]
   }
 }

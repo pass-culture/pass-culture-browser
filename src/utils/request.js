@@ -1,4 +1,3 @@
-import 'fetch-everywhere'
 import { parse } from 'query-string'
 
 import { API_URL } from './config'
@@ -53,7 +52,7 @@ export async function fetchData (method, path, config = {}) {
 
 export async function localData (method, path, config = {}) {
   // unpack
-  const { body } = config
+  const { diff, body } = config
   // check the table
   const [pathWithoutQuery, queryString] = path.split('?')
   const collectionName = pathWithoutQuery.split('/')[0]
@@ -61,6 +60,6 @@ export async function localData (method, path, config = {}) {
   if (method === 'GET') {
     return await getData(collectionName, parse(queryString))
   } else {
-    return await putData('update', collectionName, body)
+    return await putData('update', collectionName, body, { diff })
   }
 }

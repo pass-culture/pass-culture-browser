@@ -47,9 +47,6 @@ class ControlBar extends Component {
       offer,
       booking
     } = this.props
-    if (booking) {
-      console.log('received booking', booking)
-    }
     return (
       <ul className='control-bar'>
         <li><small className='pass-label'>Mon Pass</small><span className='pass-value'>——€</span></li>

@@ -3,60 +3,88 @@
   overflow: hidden;
   position: relative;
 
-  .board-wrapper {
+  .react-draggable {
     width: 100%;
-    height: 40%;
+    height: 100%;
+    position: relative;
+    transition-property: transform;
+    transition-timing-function: ease;
+    transition-duration: 250ms;
+  }
+
+  ul.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     position: absolute;
-    bottom: 0;
-
-    .board-bg {
-      position: absolute;
-      z-index: 099;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      will-change: opacity;
+    top: 75%;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: opacity 250ms ease, visibility 250ms ease;
+    z-index: 1;
+    &.hidden {
+      visibility: hidden;
+      opacity: 0;
     }
-
-    .board {
-      position: absolute;
-      background-color: transparent;
-      background-size: 100% auto;
-      width: 100%;
-      height: 100%;
-      z-index: 100;
-
-      ul.controls {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: 0;
+    li {
+      position: relative;
+      .button {
         padding: 0;
-        list-style: none;
-        li {
-          position: relative;
-          .button {
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            background-color: transparent;
-            transition: none;
-            &.to-recto {
-              position: absolute;
-              top: -40px;
-              width: 100%;
-              display: block;
-            }
-          }
+        border: 0;
+        border-radius: 0;
+        background-color: transparent;
+        &.to-recto {
+          position: absolute;
+          top: -40px;
+          width: 100%;
+          display: block;
         }
       }
     }
   }
+
+  .loading {
+    background-color: $menu-red;
+    opacity: 0;
+    z-index: -1000;
+    transition: opacity 1s 1s, z-index 1s 2s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    &.shown {
+      opacity: 1;
+      z-index: 2;
+    }
+    div {
+      color: white;
+    }
+  }
+
+  .board-wrapper {
+    bottom: 0;
+  }
+
+  .board {
+    position: absolute;
+    background-color: transparent;
+    background-size: 100% auto;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    .deck-gradient {
+      position: relative;
+      top: -50px;
+      width: 100%;
+      height: 50px;
+    }
+  }
+
   .close {
     z-index: 1100;
     position: absolute;
@@ -68,7 +96,16 @@
     height: 16px;
     box-sizing: content-box;
   }
+
+  .debug {
+    background-color: white;
+    border-radius: $border-radius;
+    top: 5%;
+    z-index: 10000;
+  }
 }
+
+
 .android-with-statusbar .close {
   top: 2rem;
 }
