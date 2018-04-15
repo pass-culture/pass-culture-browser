@@ -173,7 +173,6 @@ class Deck extends Component {
     const { position,
       refreshKey
     } = this.state
-    console.log('this.props.width', this.props.width)
     return (
       <div className='deck'
         id='deck'
