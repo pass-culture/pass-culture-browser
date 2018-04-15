@@ -27,7 +27,87 @@ import { worker } from '../workers/dexie/register'
 class Deck extends Component {
   constructor () {
     super()
-    this.state = { refreshKey: 0 }
+    this.state = { position: null, refreshKey: 0 }
+  }
+
+  handleDeprecatedData = nextProps => {
+    // DEPRECATION HANDLING
+    // IF THE RECO ARE DEPRECATED, WE GO TO DECOUVERTE
+    const {
+      deprecatedUserMediations,
+      userMediations
+    } = nextProps
+    if (deprecatedUserMediations
+      && deprecatedUserMediations !== this.props.deprecatedUserMediations) {
+      nextProps.history.push('/decouverte')
+    }
+  }
+
+  handleGoNext = () => {
+    const { history,
+      isFlipped,
+      nextUserMediation
+    } = this.props
+    if (!nextUserMediation || isFlipped) return;
+    const offer = getOffer(nextUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(nextUserMediation)));
+    this.handleRefreshNext()
+  }
+
+  handleGoPrevious = () => {
+    const { history,
+      isFlipped,
+      previousUserMediation
+    } = this.props
+    if (!previousUserMediation || isFlipped) return;
+    const offer = getOffer(previousUserMediation)
+    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
+    this.handleRefreshPrevious()
+  }
+
+  handleRefreshPrevious = () => {
+    const { currentUserMediation, previousLimit } = this.props
+    if (currentUserMediation.index <= previousLimit) {
+      worker.postMessage({ key: 'dexie-push-pull',
+        state: { around: currentUserMediation.id }})
+    }
+  }
+
+  handleRefreshNext = () => {
+    const { currentUserMediation, nextLimit } = this.props
+    if (currentUserMediation.index >= nextLimit) {
+      worker.postMessage({ key: 'dexie-push-pull',
+        state: { around: currentUserMediation.id }})
+    }
+  }
+
+  handleRefreshedData = nextProps => {
+    // REFRESH HANDLING
+    // (ie kill the transition the short time we change the blob)
+    // WE CHANGE THE KEY OF THE DRAGGABLE
+    // TO FORCE IT TO REMOUNT AGAIN
+    if (nextProps && (
+         (!nextProps.userMediations || !this.props.userMediations)
+         || (nextProps.userMediations === this.props.userMediations)
+         || (!nextProps.currentUserMediation || !this.props.currentUserMediation)
+         || (nextProps.currentUserMediation.index === this.props.currentUserMediation.index)
+       )
+    ) {
+      return
+    }
+    this.setState({ refreshKey: this.state.refreshKey + 1 })
+  }
+
+  handleSetDragPosition = nextProps => {
+    const props = nextProps || this.props
+    if (nextProps
+      && nextProps.currentUserMediation === this.props.currentUserMediation
+    ) { return }
+    const offsetWidth = get(this.$deck, 'offsetWidth')
+    const index = get(props, 'currentUserMediation.index', 0)
+    const x = -1 * offsetWidth * index
+    const position = { x, y: 0 }
+    this.setState({ position })
   }
 
   handleSetStyle = () => {
@@ -47,49 +127,6 @@ class Deck extends Component {
     this.setState({ buttonStyle, bgStyle, previousBgStyle })
   }
 
-  handleDeprecatedData = () => {
-
-  }
-
-
-  refreshPrevious = () => {
-    const { currentUserMediation, previousLimit } = this.props
-    if (currentUserMediation.index <= previousLimit) {
-      worker.postMessage({ key: 'dexie-push-pull',
-        state: { around: currentUserMediation.id }})
-    }
-  }
-
-  refreshNext = () => {
-    const { currentUserMediation, nextLimit } = this.props
-    if (currentUserMediation.index >= nextLimit) {
-      worker.postMessage({ key: 'dexie-push-pull',
-        state: { around: currentUserMediation.id }})
-    }
-  }
-
-  goToPrevious = () => {
-    const { history,
-      isFlipped,
-      previousUserMediation
-    } = this.props
-    if (!previousUserMediation || isFlipped) return;
-    const offer = getOffer(previousUserMediation)
-    history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
-    this.refreshPrevious()
-  }
-
-  goToNext = () => {
-    const { history,
-      isFlipped,
-      nextUserMediation
-    } = this.props
-    if (!nextUserMediation || isFlipped) return;
-    const offer = getOffer(nextUserMediation)
-    history.push(getDiscoveryPath(offer, getMediation(nextUserMediation)));
-    this.refreshNext()
-  }
-
   onStop = (e, data) => {
     const { flip,
       horizontalSlideRatio,
@@ -101,9 +138,9 @@ class Deck extends Component {
     const index = get(this.props, 'currentUserMediation.index', 0)
     const offset = (data.x + deckWidth * index)/deckWidth
     if (offset > horizontalSlideRatio) {
-      this.goToPrevious();
+      this.handleGoPrevious();
     } else if (-offset > horizontalSlideRatio) {
-      this.goToNext();
+      this.handleGoNext();
     } else if (data.y > deckHeight * verticalSlideRatio) {
       unFlip();
     } else if (data.y < -deckHeight * verticalSlideRatio) {
@@ -111,48 +148,15 @@ class Deck extends Component {
     }
   }
 
-  handleRefresh = nextProps => {
-    // REFRESH HANDLING
-    // (ie kill the transition the short time we change the blob)
-    // WE CHANGE THE KEY OF THE DRAGGABLE
-    // TO FORCE IT TO REMOUNT AGAIN
-    const {
-      currentUserMediation,
-      userMediations
-    } = nextProps
-    if (
-      (userMediations && this.props.userMediations)
-      && (userMediations !== this.props.userMediations)
-      && (currentUserMediation && this.props.currentUserMediation)
-      && (currentUserMediation.index !== this.props.currentUserMediation.index)
-    ) {
-      this.setState({ refreshKey: this.state.refreshKey + 1 })
-    }
-  }
-
-  handleDeprecation = nextProps => {
-    // DEPRECATION HANDLING
-    // IF THE RECO ARE DEPRECATED, WE GO TO DECOUVERTE
-    const {
-      deprecatedUserMediations,
-      userMediations
-    } = nextProps
-    if (deprecatedUserMediations
-      && deprecatedUserMediations !== this.props.deprecatedUserMediations) {
-      nextProps.history.push('/decouverte')
-    }
+  componentDidMount () {
+    this.handleRefreshedData()
+    this.handleSetDragPosition()
   }
 
   componentWillReceiveProps (nextProps) {
-    this.handleRefresh(nextProps)
-    this.handleDeprecation(nextProps)
-  }
-
-  getDragPosition() {
-    const offsetWidth = get(this.$deck, 'offsetWidth')
-    const index = get(this.props, 'currentUserMediation.index', 0)
-    const x = -1 * offsetWidth * index
-    return { x, y: 0 }
+    this.handleRefreshedData(nextProps)
+    this.handleDeprecatedData(nextProps)
+    this.handleSetDragPosition(nextProps)
   }
 
   render () {
@@ -166,9 +170,9 @@ class Deck extends Component {
       unFlip,
       unFlippable,
     } = this.props
-    const { refreshKey } = this.state
-    console.log(previousUserMediation, currentUserMediation, nextUserMediation)
-    console.log('unFlippable', unFlippable, 'isFlipped', isFlipped, 'isFlipDisabled', isFlipDisabled)
+    const { position,
+      refreshKey
+    } = this.state
     return (
       <div className='deck'
         id='deck'
@@ -194,7 +198,7 @@ class Deck extends Component {
         <Draggable
           axis={isFlipped ? 'y' : 'exclude'}
           key={refreshKey}
-          position={this.getDragPosition()}
+          position={position}
           onStop={this.onStop}
           >
           <div>
@@ -219,7 +223,7 @@ class Deck extends Component {
             <button className={classnames('button before', {
                 hidden: !previousUserMediation,
               })}
-              onClick={this.goToPrevious} >
+              onClick={this.handleGoPrevious} >
                 <Icon svg='ico-prev-w-group' />
             </button>
           </li>
@@ -237,7 +241,7 @@ class Deck extends Component {
             <button className={classnames('after button', {
                 hidden: !nextUserMediation,
               })}
-              onClick={this.goToNext} >
+              onClick={this.handleGoNext} >
               <Icon svg='ico-next-w-group' />
             </button>
           </li>
