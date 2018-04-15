@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Deck from './Deck'
-import UserMediationsDebug from './UserMediationsDebug'
 import { requestData } from '../reducers/data'
 import { IS_DEV } from '../utils/config'
 import { debug, warn } from '../utils/logguers'
@@ -296,9 +295,7 @@ class UserMediationsDeck extends Component {
         handleTransitionStart={this.handleTransitionStart}
         handleGoTo={this.handleGoTo}
         handleSetReadCard={this.handleSetReadCard}
-        isDebug={false} />,
-        IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
-          {...this.props} {...this.state} />
+        isDebug={false} />
     ]
   }
 }

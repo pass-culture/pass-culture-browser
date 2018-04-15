@@ -11,22 +11,27 @@ import { withRouter } from 'react-router-dom'
 import Card from './Card'
 import Clue from './Clue'
 import Icon from './Icon'
-import UserMediationsDebug from './UserMediationsDebug'
 import { flip, unFlip } from '../reducers/verso'
-import selectUserMediation from '../selectors/userMediation'
-import selectPreviousUserMediation from '../selectors/previousUserMediation'
-import selectNextUserMediation from '../selectors/nextUserMediation'
 import selectIsFlipDisabled from '../selectors/isFlipDisabled'
 import { getMediation } from '../selectors/mediation'
+import selectNextLimit from '../selectors/nextLimit'
+import selectNextUserMediation from '../selectors/nextUserMediation'
+import selectPreviousLimit from '../selectors/previousLimit'
+import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import { getOffer } from '../selectors/offer'
+import selectUserMediation from '../selectors/userMediation'
 import { IS_DEV, ROOT_PATH } from '../utils/config';
 import { getDiscoveryPath } from '../utils/routes'
+import { worker } from '../workers/dexie/register'
 
 class Deck extends Component {
+  constructor () {
+    super()
+    this.state = { refreshKey: 0 }
+  }
 
   handleSetStyle = () => {
     // unpack
-    const { currentContent } = this
     const { headerColor, transitionTimeout } = this.props
     // style
     const buttonStyle = { transition: `opacity ${transitionTimeout}ms` }
@@ -42,57 +47,6 @@ class Deck extends Component {
     this.setState({ buttonStyle, bgStyle, previousBgStyle })
   }
 
-  // TODO: replug the loading logic
-
-  // handleSetCurrentContent = () => {
-  //   // unpack
-  //   const { items } = this
-  //   const { contents, isDebug } = this.props
-  //   isDebug && debug('Deck - handleSetCurrentContent')
-  //   // find
-  //   const currentIndex = items && items.indexOf(0)
-  //   const previousContent = contents && contents[currentIndex-1]
-  //   const currentContent = contents && contents[currentIndex]
-  //   const nextContent = contents && contents[currentIndex + 1]
-  //   this.currentContent = currentContent
-  //   // add a note if currentContent came from a loading card
-  //   if (this.state.currentContent && this.state.currentContent.isLoading) {
-  //     currentContent.isFromLoading = true
-  //   }
-  //   if (previousContent) {
-  //     previousContent.isFromLoading = false
-  //   }
-  //   if (nextContent) {
-  //     nextContent.isFromLoading = false
-  //   }
-  //   // update
-  //   this.setState({ currentContent, previousContent, nextContent })
-  // }
-
-  // handleSetStyle = () => {
-  //   // unpack
-  //   const { currentContent } = this
-  //   const { transitionTimeout } = this.props
-  //   // style
-  //   const buttonStyle = { transition: `opacity ${transitionTimeout}ms` }
-  //   const style = {
-  //     backgroundColor: 'black',
-  //     transition: `background-color ${transitionTimeout}ms`
-  //   }
-  //   const gradientStyle = {
-  //     background: 'linear-gradient(transparent, black)',
-  //     transition: `background ${transitionTimeout}ms`
-  //   }
-  //   if (currentContent && currentContent.backgroundColor) {
-  //     const [red, green, blue] = currentContent.backgroundColor
-  //     const hue = rgb_to_hsv({r: red, g: green, b: blue}).h
-  //     style.backgroundColor = `hsl(${hue}, 100%, 15%)`
-  //     gradientStyle.background = `linear-gradient(transparent, hsl(${hue}, 100%, 15%))`
-  //   }
-  //   // update
-  //   this.setState({ buttonStyle, gradientStyle, style })
-  // }
-
   // TODO: replug this.props.handleSetReadCard(card)
 
   // handleSetReadCard = card => {
@@ -101,11 +55,6 @@ class Deck extends Component {
   //   isDebug && debug('Deck - handleSetReadCard')
   //   // hook if Deck has parent manager component
   //   handleSetReadCard && handleSetReadCard(card)
-  // }
-
-  // handleSetCursorCard = cursor => {
-  //   this.props.isDebug && debug('Deck - handleSetCursorCard')
-  //   this.setState({ cursor, transition: 'none' })
   // }
 
   // onTransitionEndCard = (event, cardProps) => {
@@ -235,7 +184,25 @@ class Deck extends Component {
 
 
 
-  goToPrev = () => {
+  refreshPrevious = () => {
+    const { currentUserMediation, previousLimit } = this.props
+    if (currentUserMediation.index <= previousLimit) {
+      console.log('PUSH PULL')
+      worker.postMessage({ key: 'dexie-push-pull',
+        state: { around: currentUserMediation.id }})
+    }
+  }
+
+  refreshNext = () => {
+    const { currentUserMediation, nextLimit } = this.props
+    if (currentUserMediation.index >= nextLimit) {
+      console.log('PUSH PULL')
+      worker.postMessage({ key: 'dexie-push-pull',
+        state: { around: currentUserMediation.id }})
+    }
+  }
+
+  goToPrevious = () => {
     const { history,
       isFlipped,
       previousUserMediation
@@ -243,6 +210,7 @@ class Deck extends Component {
     if (!previousUserMediation || isFlipped) return;
     const offer = getOffer(previousUserMediation)
     history.push(getDiscoveryPath(offer, getMediation(previousUserMediation)));
+    this.refreshPrevious()
   }
 
   goToNext = () => {
@@ -253,6 +221,7 @@ class Deck extends Component {
     if (!nextUserMediation || isFlipped) return;
     const offer = getOffer(nextUserMediation)
     history.push(getDiscoveryPath(offer, getMediation(nextUserMediation)));
+    this.refreshNext()
   }
 
   onStop = (e, data) => {
@@ -266,13 +235,27 @@ class Deck extends Component {
     const index = get(this.props, 'currentUserMediation.index', 0)
     const offset = (data.x + deckWidth * index)/deckWidth
     if (offset > horizontalSlideRatio) {
-      this.goToPrev();
+      this.goToPrevious();
     } else if (-offset > horizontalSlideRatio) {
       this.goToNext();
     } else if (data.y > deckHeight * verticalSlideRatio) {
       unFlip();
     } else if (data.y < -deckHeight * verticalSlideRatio) {
       flip();
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { currentUserMediation, userMediations } = nextProps
+    if (
+      (userMediations && this.props.userMediations)
+      && (userMediations !== this.props.userMediations)
+      && (currentUserMediation && this.props.currentUserMediation)
+      && (currentUserMediation.index !== this.props.currentUserMediation.index)
+    ) {
+      // we change the key of draggable in order to force it
+      // to remount (else the transition between the old deck and the new one is not smooth)
+      this.setState({ refreshKey: this.state.refreshKey + 1 })
     }
   }
 
@@ -286,14 +269,15 @@ class Deck extends Component {
   render () {
     const {
       currentUserMediation,
-      nextUserMediation,
-      previousUserMediation,
       flip,
       isFlipDisabled,
       isFlipped,
+      nextUserMediation,
+      previousUserMediation,
       unFlip,
       unFlippable,
     } = this.props
+    const { refreshKey } = this.state
     console.log(previousUserMediation, currentUserMediation, nextUserMediation)
     return [
       <div className='deck'
@@ -320,6 +304,7 @@ class Deck extends Component {
         </div>
         <Draggable
           axis={isFlipped ? 'y' : 'exclude'}
+          key={refreshKey}
           position={this.getDragPosition()}
           onStop={this.onStop}
           >
@@ -345,7 +330,7 @@ class Deck extends Component {
             <button className={classnames('button before', {
                 hidden: !previousUserMediation,
               })}
-              onClick={this.goToPrev} >
+              onClick={this.goToPrevious} >
                 <Icon svg='ico-prev-w-group' />
             </button>
           </li>
@@ -369,7 +354,12 @@ class Deck extends Component {
           </li>
         </ul>
       </div>,
-      <UserMediationsDebug key={1} {...this.props} />
+      IS_DEV && (
+        <div className='user-mediations-debug absolute left-0 ml2 p2' key={1}>
+          ({this.props.isLoadingBefore ? '?' : ' '}{this.props.previousLimit}) {this.props.currentUserMediation && this.props.currentUserMediation.index}{' '}
+          ({this.props.nextLimit} {this.props.isLoadingAfter ? '?' : ' '}) / {this.props.userMediations && this.props.userMediations.length - 1}
+        </div>
+      )
     ]
   }
 }
@@ -389,10 +379,13 @@ export default compose(
   connect(
     state => ({
       currentUserMediation: selectUserMediation(state),
-      previousUserMediation: selectPreviousUserMediation(state),
-      nextUserMediation: selectNextUserMediation(state),
       isFlipDisabled: selectIsFlipDisabled(state),
       isFlipped: state.verso.isFlipped,
+      nextLimit: selectNextLimit(state),
+      nextUserMediation: selectNextUserMediation(state),
+      previousLimit: selectPreviousLimit(state),
+      previousUserMediation: selectPreviousUserMediation(state),
+      userMediations: state.data.userMediations,
       unFlippable: state.verso.unFlippable,
     }),
     { flip, unFlip }

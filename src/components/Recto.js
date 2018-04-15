@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
-import RectoDebug from './RectoDebug'
 import withSelectors from '../hocs/withSelectors'
 import { getOffer } from '../selectors/offer'
 import { getMediation } from '../selectors/mediation'
@@ -13,9 +12,12 @@ import { getThumbUrl } from '../selectors/thumbUrl'
 import selectUserMediation from '../selectors/userMediation'
 import { IS_DEV } from '../utils/config'
 
-import Icon from './Icon'
 
-const Recto = ({ mediation,
+const Recto = ({ dateRead,
+  id,
+  index,
+  mediation,
+  offer,
   thumbUrl,
   isFlipped
 }) => {
@@ -34,7 +36,25 @@ const Recto = ({ mediation,
           })} />
         )
       }
-      {IS_DEV && <RectoDebug {...this.props} />}
+      {
+        IS_DEV && (
+          <div className='recto-debug absolute left-0 ml2 p2'>
+            <span>
+              {id} {offer && offer.id} {index}
+            </span>
+            {
+              dateRead && [
+                <span key={0}>
+                  &middot;
+                </span>,
+                <span key={1}>
+                  {dateRead}
+                </span>
+              ]
+            }
+          </div>
+        )
+      }
    </div>
   )
 }

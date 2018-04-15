@@ -1,2 +1,1 @@
-const AFTER_COUNT = 5
-const BEFORE_COUNT = 5
+export const PREVIOUS_NEXT_LIMIT = 2
