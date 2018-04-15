@@ -14,6 +14,7 @@ const initialState = {
 function verso (state = initialState, action) {
   switch (action.type) {
     case CLOSE_VERSO:
+      document.getElementsByClassName("verso-wrapper")[0].scrollTo(0,0)
       return Object.assign({}, state, { isFlipped: false })
     case SHOW_VERSO:
       return Object.assign({}, state, { isFlipped: true })
@@ -29,10 +30,12 @@ function verso (state = initialState, action) {
 
 // ACTION CREATORS
 export function flip (action = {}) {
+  document.querySelector(".menu-button:not(.colored").style.display = "none"
   return { type: SHOW_VERSO }
 }
 
 export function unFlip (action = {}) {
+  document.querySelector(".menu-button:not(.colored").style.display = "block"
   return { type: CLOSE_VERSO }
 }
 
