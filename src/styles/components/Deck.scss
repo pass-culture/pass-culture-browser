@@ -11,6 +11,7 @@
     transition-timing-function: ease;
     transition-duration: 250ms;
   }
+<<<<<<< HEAD
 
   ul.controls {
     display: flex;
@@ -68,14 +69,28 @@
 
   .board-wrapper {
     bottom: 0;
+=======
+>>>>>>> f5c0502897a0a7432f3ddbc892be2d45161d5922
 
-    .board-bg {
-      position: absolute;
-      z-index: 099;
-      top: 0;
-      bottom: 0;
-      width: 100%;
+  ul.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 75%;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: opacity 250ms ease, visibility 250ms ease;
+    z-index: 1;
+    &.hidden {
+      visibility: hidden;
+      opacity: 0;
     }
+<<<<<<< HEAD
 
     .board {
       position: absolute;
@@ -101,27 +116,25 @@
         left: 0;
         right: 0;
         margin: 0;
+=======
+    li {
+      position: relative;
+      .button {
+>>>>>>> f5c0502897a0a7432f3ddbc892be2d45161d5922
         padding: 0;
-        list-style: none;
-        li {
-          position: relative;
-          .button {
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            background-color: transparent;
-            transition: none;
-            &.to-recto {
-              position: absolute;
-              top: -40px;
-              width: 100%;
-              display: block;
-            }
-          }
+        border: 0;
+        border-radius: 0;
+        background-color: transparent;
+        &.to-recto {
+          position: absolute;
+          top: -40px;
+          width: 100%;
+          display: block;
         }
       }
     }
   }
+
   .close {
     z-index: 1100;
     position: absolute;

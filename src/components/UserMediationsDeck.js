@@ -295,7 +295,13 @@ class UserMediationsDeck extends Component {
         handleTransitionStart={this.handleTransitionStart}
         handleGoTo={this.handleGoTo}
         handleSetReadCard={this.handleSetReadCard}
+<<<<<<< HEAD
         isDebug={false} />
+=======
+        isDebug={false} />,
+        IS_DEV && this.props.userMediations && <UserMediationsDebug key={1}
+          {...this.props} {...this.state} />
+>>>>>>> f5c0502897a0a7432f3ddbc892be2d45161d5922
     ]
   }
 }
