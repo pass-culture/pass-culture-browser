@@ -43,7 +43,7 @@ class Card extends Component {
           current: position === 'current',
         })}
         style={{
-          transform: `translate(${get(userMediation, 'index') * 100}vw, 0)`,
+          transform: `translate(${get(userMediation, 'index') * 100}%, 0)`,
         }}>
           <Recto {...userMediation} />
           <div className='gradient' style={{

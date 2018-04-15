@@ -20,7 +20,7 @@ import selectPreviousLimit from '../selectors/previousLimit'
 import selectPreviousUserMediation from '../selectors/previousUserMediation'
 import { getOffer } from '../selectors/offer'
 import selectUserMediation from '../selectors/userMediation'
-import { IS_DEV, ROOT_PATH } from '../utils/config';
+import { IS_DEV, MOBILE_OS, ROOT_PATH } from '../utils/config';
 import { getDiscoveryPath } from '../utils/routes'
 import { worker } from '../workers/dexie/register'
 
@@ -47,10 +47,14 @@ class Deck extends Component {
     this.setState({ buttonStyle, bgStyle, previousBgStyle })
   }
 
+  handleDeprecatedData = () => {
+
+  }
+
+
   refreshPrevious = () => {
     const { currentUserMediation, previousLimit } = this.props
     if (currentUserMediation.index <= previousLimit) {
-      console.log('PUSH PULL')
       worker.postMessage({ key: 'dexie-push-pull',
         state: { around: currentUserMediation.id }})
     }
@@ -59,7 +63,6 @@ class Deck extends Component {
   refreshNext = () => {
     const { currentUserMediation, nextLimit } = this.props
     if (currentUserMediation.index >= nextLimit) {
-      console.log('PUSH PULL')
       worker.postMessage({ key: 'dexie-push-pull',
         state: { around: currentUserMediation.id }})
     }
@@ -108,25 +111,48 @@ class Deck extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { currentUserMediation, userMediations } = nextProps
+  handleRefresh = nextProps => {
+    // REFRESH HANDLING
+    // (ie kill the transition the short time we change the blob)
+    // WE CHANGE THE KEY OF THE DRAGGABLE
+    // TO FORCE IT TO REMOUNT AGAIN
+    const {
+      currentUserMediation,
+      userMediations
+    } = nextProps
     if (
       (userMediations && this.props.userMediations)
       && (userMediations !== this.props.userMediations)
       && (currentUserMediation && this.props.currentUserMediation)
       && (currentUserMediation.index !== this.props.currentUserMediation.index)
     ) {
-      // we change the key of draggable in order to force it
-      // to remount (else the transition between the old deck and the new one is not smooth)
       this.setState({ refreshKey: this.state.refreshKey + 1 })
     }
   }
 
-  getDragPosition() {
-    return {
-      x: -1 * get(this.$deck, 'offsetWidth') * get(this.props, 'currentUserMediation.index', 0),
-      y: 0,
+  handleDeprecation = nextProps => {
+    // DEPRECATION HANDLING
+    // IF THE RECO ARE DEPRECATED, WE GO TO DECOUVERTE
+    const {
+      deprecatedUserMediations,
+      userMediations
+    } = nextProps
+    if (deprecatedUserMediations
+      && deprecatedUserMediations !== this.props.deprecatedUserMediations) {
+      nextProps.history.push('/decouverte')
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.handleRefresh(nextProps)
+    this.handleDeprecation(nextProps)
+  }
+
+  getDragPosition() {
+    const offsetWidth = get(this.$deck, 'offsetWidth')
+    const index = get(this.props, 'currentUserMediation.index', 0)
+    const x = -1 * offsetWidth * index
+    return { x, y: 0 }
   }
 
   render () {
@@ -142,6 +168,7 @@ class Deck extends Component {
     } = this.props
     const { refreshKey } = this.state
     console.log(previousUserMediation, currentUserMediation, nextUserMediation)
+    console.log('unFlippable', unFlippable, 'isFlipped', isFlipped, 'isFlipDisabled', isFlipDisabled)
     return (
       <div className='deck'
         id='deck'
@@ -238,11 +265,13 @@ Deck.defaultProps = {
   transitionTimeout: 500
 }
 
+
 export default compose(
   withRouter,
   connect(
     state => ({
       currentUserMediation: selectUserMediation(state),
+      deprecatedUserMediations: state.data.deprecatedUserMediations,
       isFlipDisabled: selectIsFlipDisabled(state),
       isFlipped: state.verso.isFlipped,
       nextLimit: selectNextLimit(state),
