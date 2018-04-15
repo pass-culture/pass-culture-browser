@@ -1,11 +1,10 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
 import Draggable from 'react-draggable'
-// TODO: set resize logic, but use https://github.com/renatorib/react-sizes instead
-// import debounce from 'lodash.debounce'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import withSizes from 'react-sizes'
 import { withRouter } from 'react-router-dom'
 
 import Card from './Card'
@@ -102,6 +101,7 @@ class Deck extends Component {
     const props = nextProps || this.props
     if (nextProps
       && nextProps.currentUserMediation === this.props.currentUserMediation
+      && nextProps.width === this.props.width
     ) { return }
     const offsetWidth = get(this.$deck, 'offsetWidth')
     const index = get(props, 'currentUserMediation.index', 0)
@@ -173,6 +173,7 @@ class Deck extends Component {
     const { position,
       refreshKey
     } = this.state
+    console.log('this.props.width', this.props.width)
     return (
       <div className='deck'
         id='deck'
@@ -286,5 +287,6 @@ export default compose(
       unFlippable: state.verso.unFlippable,
     }),
     { flip, unFlip }
-  )
+  ),
+  ...MOBILE_OS === 'unknown' && [withSizes(({ width }) => ({ width }))]
 )(Deck)
