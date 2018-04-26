@@ -9,18 +9,7 @@ const initialState = null
 function user(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return (
-        action.user &&
-        Object.assign(
-          {
-            isPro:
-              action.user &&
-              action.user.userOfferers &&
-              action.user.userOfferers[0],
-          },
-          action.user
-        )
-      )
+      return action.user
     case SET_USER_OFFERER:
       if (!state) {
         return state

@@ -7,6 +7,7 @@ import Icon from '../layout/Icon'
 import PageWrapper from '../layout/PageWrapper'
 import withLogin from '../hocs/withLogin'
 import { closeSplash } from '../../reducers/splash'
+import { getIsPro } from '../../selectors/isPro'
 
 class BetaPage extends Component {
   componentDidMount() {
@@ -37,7 +38,9 @@ class BetaPage extends Component {
 }
 
 export default compose(
-  withLogin({ redirectTo: '/decouverte' }),
+  withLogin({
+    redirectTo: ({ user }) => getIsPro(user) ? '/pro' : '/decouverte'
+  }),
   connect(state => ({ closeSplashTimeout: state.splash.closeTimeout }), {
     closeSplash,
   })
