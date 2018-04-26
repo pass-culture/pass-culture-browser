@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
 
 import OffererItem from './OffererItem'
 
@@ -15,6 +14,6 @@ const OfferersGrid = ({ offerers }) => {
   )
 }
 
-export default compose(
-  connect(state => ({ offerers: state.user && state.user.userOfferers }))
+export default connect(
+  state => ({ offerers: state.user && state.user.offerers })
 )(OfferersGrid)

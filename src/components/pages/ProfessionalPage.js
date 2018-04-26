@@ -14,7 +14,6 @@ class ProfessionalPage extends Component {
       match: { offererId },
       user
     } = this.props
-    console.log('offererId', offererId, user)
     if (user.offerers && user.offerers.length) {
       const randomOffererId = user.offerers[
         Math.floor(Math.random() * user.offerers.length)
@@ -24,7 +23,7 @@ class ProfessionalPage extends Component {
   }
 
   componentDidUpdate () {
-    this.handleSetRedirectTo()
+    // this.handleSetRedirectTo()
   }
 
   render () {
