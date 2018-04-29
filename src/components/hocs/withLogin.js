@@ -23,8 +23,6 @@ const withLogin = (config = {}) => WrappedComponent => {
       const { user, requestData } = this.props
       if (!user) {
         requestData('GET', `users/me`, { key: 'users', local: true })
-      } else if (redirectTo) {
-        this.setState({ redirectTo })
       }
     }
 
@@ -39,7 +37,11 @@ const withLogin = (config = {}) => WrappedComponent => {
           requestData('GET', `users/me`, { key: 'users' })
           this.hasBackendRequest = true
           if (redirectTo) {
-            history.push(redirectTo)
+           if (typeof redirectTo === 'function') {
+             history.push(redirectTo(nextProps))
+           } else {
+             history.push(redirectTo)
+           }
           }
         }
       } else if (isRequired) {
