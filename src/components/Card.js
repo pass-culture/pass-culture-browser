@@ -38,7 +38,7 @@ class Card extends Component {
           transform: `translate(${get(recommendation, 'index') * 100}%, 0)`,
         }}
       >
-        <Recto {...recommendation} position={position}/>
+        <Recto {...recommendation} position={position} />
         {position === 'current' && <Verso />}
       </div>
     )
