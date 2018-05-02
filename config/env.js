@@ -69,6 +69,8 @@ function getClientEnvironment(publicUrl) {
         // Helpful for quick testing the dexis sync
         // system in a worker or not
         HAS_WORKERS: process.env.HAS_WORKERS || false,
+        // Determine which application it is
+        IS_PRO: process.env.IS_PRO || false,
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
         NODE_ENV: process.env.NODE_ENV || 'development',

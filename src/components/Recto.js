@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Thumb from '../layout/Thumb'
-import selectCurrentRecommendation from '../../selectors/currentRecommendation'
-import selectNextRecommendation from '../../selectors/nextRecommendation'
-import selectPreviousRecommendation from '../../selectors/previousRecommendation'
-import { IS_DEV } from '../../utils/config'
+import Thumb from './layout/Thumb'
+import selectCurrentRecommendation from '../selectors/currentRecommendation'
+import selectNextRecommendation from '../selectors/nextRecommendation'
+import selectPreviousRecommendation from '../selectors/previousRecommendation'
+import { IS_DEV } from '../utils/config'
 
 const Recto = ({
   dateRead,
@@ -39,8 +39,9 @@ const Recto = ({
   )
 }
 
-export default connect((state, ownProps) =>
-  Object.assign(
+export default connect((state, ownProps) => {
+  console.log('ownProps', ownProps)
+  return Object.assign(
     {
       isFlipped: state.verso.isFlipped,
       recommendations: state.data.recommendations,
@@ -51,4 +52,4 @@ export default connect((state, ownProps) =>
         ? selectPreviousRecommendation(state)
         : ownProps.position === 'next' && selectNextRecommendation(state)
   )
-)(Recto)
+})(Recto)
