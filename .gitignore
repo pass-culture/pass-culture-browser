@@ -7,8 +7,13 @@
 /coverage
 
 # production
-/build
+/www
 target.zip
+
+# cordova
+/platforms
+/plugins
+/res
 
 # misc
 .DS_Store

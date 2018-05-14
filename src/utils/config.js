@@ -17,14 +17,26 @@ export const IS_DEXIE = Boolean(window.indexedDB ||
 export const IS_DEXIE = false
 
 export const IS_DEV = NODE_ENV === 'development'
+export const IS_EMULATOR = document.location.host === ""
 export const IS_STG = /-staging/.test(document.location.host)
 export const IS_PROD = !IS_DEV
 
 export const NEW = '_new_'
 
+setInterval(() => {
+  console.log(
+    'IS_DEV', IS_DEV,
+    'IS_EMULATOR', IS_EMULATOR,
+    'IS_STG', IS_STG,
+    'document.location.host', document.location.host
+  )
+}, 5000)
+
 let CALCULATED_API_URL
 if (window.cordova) {
-  CALCULATED_API_URL = 'https://api.passculture.beta.gouv.fr' // This will be replaced by 'yarn pgbuild' for staging
+  CALCULATED_API_URL = IS_EMULATOR
+    ? 'http://localhost'
+    : 'https://api.passculture.beta.gouv.fr' // This will be replaced by 'yarn pgbuild' for staging
 } else {
   CALCULATED_API_URL = IS_DEV
     ? process.env.NGROK_API_URL && process.env.NGROK_API_URL.length
