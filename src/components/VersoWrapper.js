@@ -35,21 +35,23 @@ class VersoWrapper extends Component {
     const author = get(source, 'extraData.author')
     return (
       <div className={`verso-wrapper ${className || ''}`}>
-        <div
-          className="verso-header"
-          style={{ backgroundColor: headerColor }}
-          ref={element => (this.element = element)}
-        >
-          <h2>
-            {' '}
-            {source && source.name}
-            {author && ', de ' + author}{' '}
-          </h2>
-          <h6> {venue && venue.name} </h6>
-        </div>
-        {hasControlBar && <ControlBar />}
-        <div className="verso-content" style={{ ...contentStyle }}>
-          {children}
+        <div className='wrapper-ios-scroll-bug'>
+          <div
+            className="verso-header"
+            style={{ backgroundColor: headerColor }}
+            ref={element => (this.element = element)}
+          >
+            <h2>
+              {' '}
+              {source && source.name}
+              {author && ', de ' + author}{' '}
+            </h2>
+            <h6> {venue && venue.name} </h6>
+          </div>
+          {hasControlBar && <ControlBar />}
+          <div className="verso-content" style={{ ...contentStyle }}>
+            {children}
+          </div>
         </div>
       </div>
     )
