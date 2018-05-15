@@ -13,6 +13,11 @@
     padding-top: 56.25%;
   }
 
+  .wrapper-ios-scroll-bug {
+    height: 100%;
+    height: calc(100% + 1px);
+  }
+
   .verso-header {
     background-color: $black;
     padding-top: 1rem;
