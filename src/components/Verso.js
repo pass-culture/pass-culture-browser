@@ -11,7 +11,11 @@ import { THUMBS_URL } from '../utils/config'
 
 class Verso extends Component {
   render() {
-    const { mediation, isFlipped, isCurrentTuto } = this.props
+    const {
+      mediation,
+      isFlipped,
+      isCurrentTuto
+    } = this.props
     return (
       <div
         className={classnames('verso', {

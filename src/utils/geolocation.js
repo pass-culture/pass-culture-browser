@@ -1,5 +1,20 @@
 import { MOBILE_OS } from '../utils/config'
 
+export async function getFuzzyPosition (config = {}) {
+  const geolocation = navigator.geolocation
+  if (!geolocation) {
+    alert("Erreur : pas de géolocalisation")
+    return null
+  }
+  return new Promise((resolve, reject) => {
+    geolocation.getCurrentPosition(
+      position => resolve(position),
+      error => reject(error),
+      config
+    )
+  })
+}
+
 export function distanceInMeters(lat1, lon1, lat2, lon2) {
   var EARTH_RADIUS_KM = 6378.137
   var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180
