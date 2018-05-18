@@ -7,6 +7,7 @@ import { withRouter } from 'react-router'
 import { compose } from 'redux'
 
 import { requestData } from '../../reducers/data'
+import { IS_DEXIE } from '../../utils/config'
 
 const withLogin = (config = {}) => WrappedComponent => {
   const { isRequired, redirectTo } = config
@@ -24,7 +25,7 @@ const withLogin = (config = {}) => WrappedComponent => {
       if (!user) {
         requestData('GET', `users/me`, {
           key: 'users',
-          local: true
+          local: IS_DEXIE
         })
       } else if (redirectTo) {
         this.setState({ redirectTo })
