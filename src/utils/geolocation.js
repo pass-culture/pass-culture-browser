@@ -7,9 +7,10 @@ export async function getFuzzyPosition (config = {}) {
     return null
   }
   return new Promise((resolve, reject) => {
+    window.log('geoloc currentPosition queried')
     geolocation.getCurrentPosition(
-      position => resolve(position),
-      error => reject(error),
+      position => resolve(window.log(position, 'geoloc received')),
+      error => reject(window.error(error, 'geoloc error')),
       config
     )
   })
