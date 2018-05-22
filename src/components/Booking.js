@@ -30,8 +30,11 @@ class Booking extends Component {
     }
   }
 
-  makeBooking = () => {
-    const { offer, recommendation, requestData } = this.props
+  makeBooking = event => {
+    const {
+      recommendation,
+      requestData
+    } = this.props
     this.setState({
       bookingInProgress: true,
     })
@@ -39,7 +42,7 @@ class Booking extends Component {
       add: 'append',
       body: {
         recommendationId: recommendation.id,
-        offerId: offer.id,
+        offerId: event.target.value.id,
         quantity: 1,
       },
     })
