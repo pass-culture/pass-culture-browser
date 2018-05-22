@@ -4,6 +4,8 @@ import {
 } from '../reducers/geolocation'
 import { worker } from '../workers/dexie/register'
 
+import { googleMapsLink } from './geolocation'
+
 const init = store => {
   window.log('Geoloc queried')
   const watchId = navigator.geolocation.watchPosition((position) => {

@@ -1,3 +1,5 @@
+import { getFuzzyPosition } from '../../utils/geolocation'
+
 const config = {
   name: 'pass_culture',
   collections: [
@@ -11,16 +13,26 @@ const config = {
       description: 'dehumanizedId',
       isSync: true,
       name: 'recommendations',
-      query: ({ around, mediationId, offerId, position }) => {
+      query: async ({ around, mediationId, offerId, position }) => {
         let query = around
           ? `around=${around}`
           : mediationId
             ? `mediationId=${mediationId}`
             : (offerId && `offerId=${offerId}`) || ''
+        // get the coords
+        // if there are not yet set try to get a fuzzy one
+        let coords
         if (position && position.coords) {
-          const { latitude, longitude } = position.coords
-          query = `${query}&&latitude=${latitude}&&longitude=${longitude}`
+          coords = position.coords
+        } else {
+          coords = await getFuzzyPosition().coords
         }
+        console.log('coords', coords)
+        if (!coords) {
+          return query
+        }
+        const { latitude, longitude } = coords
+        query = `${query}&&latitude=${latitude}&&longitude=${longitude}`
         return query
       },
       sortBy: 'dehumanizedId'

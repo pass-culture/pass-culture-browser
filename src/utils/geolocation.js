@@ -1,5 +1,21 @@
 import { MOBILE_OS } from '../utils/config'
 
+export async function getFuzzyPosition (config = {}) {
+  const geolocation = navigator.geolocation
+  if (!geolocation) {
+    alert("Erreur : pas de géolocalisation")
+    return null
+  }
+  return new Promise((resolve, reject) => {
+    window.log('geoloc currentPosition queried')
+    geolocation.getCurrentPosition(
+      position => resolve(window.log(position, 'geoloc received')),
+      error => reject(window.error(error, 'geoloc error')),
+      config
+    )
+  })
+}
+
 export function distanceInMeters(lat1, lon1, lat2, lon2) {
   var EARTH_RADIUS_KM = 6378.137
   var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180
@@ -15,17 +31,21 @@ export function distanceInMeters(lat1, lon1, lat2, lon2) {
   return d * 1000
 }
 
+export function googleMapsLink(lat, long) {
+  return `http://www.google.com/maps/place/${lat},${long}`
+}
+
 export function navigationLink(lat, long) {
   //see https://stackoverflow.com/questions/9688607/how-to-open-a-mobile-devices-map-app-when-a-user-clicks-on-a-link
   if (MOBILE_OS === 'ios') {
     return (
-      'maps://maps.google.com/maps?daddr=' + lat + ',' + long
+      `maps://maps.google.com/maps?daddr=${lat},${long}`
     )
   } else if (MOBILE_OS === 'android') {
     return (
-      'http://maps.google.com/maps?daddr=' + lat + ',' + long
+      `http://maps.google.com/maps?daddr=${lat},${long}`
     )
   } else {
-    return 'https://www.openstreetmap.org/#map=18/' + lat + '/' + long
+    return `https://www.openstreetmap.org/#map=18/=${lat}/${long}`
   }
 }

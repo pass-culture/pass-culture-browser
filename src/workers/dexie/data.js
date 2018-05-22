@@ -245,7 +245,7 @@ export async function pushPull(state = {}) {
       let path = table.name
       if (query) {
         const pathQuery = typeof query === 'function'
-          ? query(state)
+          ? await query(state)
           : query
         if (pathQuery && pathQuery !== '') {
           path = `${path}?${pathQuery}`
