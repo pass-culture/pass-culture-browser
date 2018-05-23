@@ -25,7 +25,6 @@ class OfferInfo extends Component {
       recommendation,
       offerer,
     } = this.props
-
     const infos = {
       image: thumbUrl,
       description: get(source, 'description'),
@@ -40,7 +39,6 @@ class OfferInfo extends Component {
         address: get(venue, 'address'),
       },
     }
-
     return (
       <div className="offer-info">
         {offerer && (
