@@ -14,6 +14,8 @@ import selectCurrentOfferer from '../selectors/currentOfferer'
 import selectCurrentRecommendation from '../selectors/currentRecommendation'
 import { requestData } from '../reducers/data'
 import { showModal } from '../reducers/modal'
+import { IS_DEXIE } from '../utils/config'
+
 
 class ControlBar extends Component {
   onClickDisable = event => {
@@ -22,14 +24,14 @@ class ControlBar extends Component {
   }
 
   onClickFavorite = () => {
-    this.props.requestData('PUT', 'recommendations', {
-      body: [
-        {
-          id: this.props.recommendation.id,
-          isFavorite: true,
-        },
-      ],
-      storeKey: 'recommendations',
+    const { recommendation, requestData } = this.props
+    const { id, isFavorite } = recommendation
+    requestData('PATCH', `recommendations/${id}`, {
+      body: {
+        isFavorite: !isFavorite,
+      },
+      local: IS_DEXIE,
+      key: 'recommendations'
     })
   }
 
@@ -55,7 +57,12 @@ class ControlBar extends Component {
   }
 
   render() {
-    const { isFavorite, offer, offerer, booking } = this.props
+    const {
+      booking,
+      offer,
+      offerer,
+      recommendation
+    } = this.props
     return (
       <ul className="control-bar">
         <li>
@@ -64,11 +71,14 @@ class ControlBar extends Component {
         </li>
         <li>
           <button
-            disabled
             className="button is-secondary"
             onClick={this.onClickFavorite}
           >
-            <Icon svg={isFavorite ? 'ico-like-w' : 'ico-like-w'} />
+            <Icon svg={
+              recommendation && recommendation.isFavorite
+              ? 'ico-like-f'
+              : 'ico-like-w'
+            } />
           </button>
         </li>
         <li>
