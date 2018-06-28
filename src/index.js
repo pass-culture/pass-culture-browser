@@ -13,7 +13,7 @@ import store from './utils/store'
 import registerCacheWorker from './workers/cache'
 import registerDexieWorker from './workers/dexie/register'
 
-Raven.config(IS_DEV && API_URL+'/client_errors', {
+Raven.config(!IS_DEV && API_URL+'/client_errors', {
   release: version,
   environment: process.env.NODE_ENV,
   logger: 'javascript'
