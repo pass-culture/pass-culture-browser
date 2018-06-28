@@ -13,15 +13,13 @@ import store from './utils/store'
 import registerCacheWorker from './workers/cache'
 import registerDexieWorker from './workers/dexie/register'
 
-Raven.config(IS_DEV && API_URL+'/client_errors', {
-  release: version,
-  environment: process.env.NODE_ENV,
-  logger: 'javascript'
-}).install()
-
-function UserException(message) {
-   this.message = message;
-   this.name = 'UserException';
+if (!IS_DEV) {
+  Raven
+  .config(API_URL+'/client_errors', {
+    release: version,
+    environment: process.env.NODE_ENV,
+    logger: 'javascript'})
+    .install()
 }
 
 const initApp = () => {
@@ -46,10 +44,4 @@ if (window.cordova) {
   document.addEventListener("deviceready", initApp, false);
 } else {
   initApp()
-  if (IS_DEV) {
-    // To test Raven.js
-    throw new UserException('InvalidMonthNo')
-  }
-
-
 }
