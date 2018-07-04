@@ -20,30 +20,32 @@ export default createSelector(
     // requests has been called
     // (as the state.data.recommendations is not mutated through these kinds of calls)
 
-    const [, , offerId, mediationId] = pathname.split('/')
     let filteredRecommendations
-    // NORMALY mediationId is ENOUGH TO FIND THE MATCHING
-    // USER MEDIATION (BECAUSE WE PROPOSE ONLY ONE OFFER PER MEDIATION)
-    // BUT TO BE SURE WE GET ALL THE AVAILABLES
-    // (IF AT ANY CASE BACKEND ALGO SENT BACK DOUBLONS...BECAUSE OF SOME MISTAKES)
-    if (mediationId) {
+
+    let [, , occasionTypeFr, occasionId, mediationId] = pathname.split('/')
+    if (occasionTypeFr === 'tuto') {
+      mediationId = occasionId
+      occasionId = undefined
+    }
+    console.log("OccasionType", occasionTypeFr)
+    console.log("OccasionId", occasionId)
+    console.log("mediationId", mediationId)
+
+    if (occasionTypeFr && (occasionId || mediationId)) {
       filteredRecommendations = recommendations.filter(
-        m => m.mediationId === mediationId
+        r => ((occasionTypeFr === 'e' && (r.eventId === occasionId || (r.mediation && r.mediation.eventId === occasionId)))
+             || (occasionTypeFr === 'o' && (r.thingId === occasionId  || (r.mediation && r.mediation.thingId === occasionId)))
+             || occasionTypeFr === 'tuto')
+            && (!mediationId || r.mediationId === mediationId)
       )
     } else {
       filteredRecommendations = recommendations
     }
-    // THEN DESAMBIGUATE WITH OFFER ID
-    let recommendation
-    if (offerId === 'tuto') {
-      recommendation = filteredRecommendations[0]
-    } else {
-      recommendation = filteredRecommendations.find(m =>
-        get(m, 'recommendationOffers', []).find(o => o.id === offerId)
-      )
-    }
+
+    const recommendation = filteredRecommendations[0]
+    console.log("FINAL RECO", recommendation)
+
     const hydratedRecommendation = getRecommendation({
-      offerId,
       recommendation,
       recommendations,
     })

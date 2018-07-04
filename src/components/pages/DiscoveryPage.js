@@ -35,17 +35,7 @@ class DiscoveryPage extends Component {
     if (!recommendations || (recommendations.length === 0) || mediationId || offerId)
       return
 
-    const targetRecommendation = recommendations[0]
-    // NOW CHOOSE AN OFFER AMONG THE ONES
-    const recommendationOffers = targetRecommendation.recommendationOffers
-    const chosenOffer =
-      recommendationOffers &&
-      recommendationOffers[
-        Math.floor(Math.random() * recommendationOffers.length)
-      ]
-
-    // PUSH
-    const path = getDiscoveryPath(chosenOffer, targetRecommendation.mediation)
+    const path = getDiscoveryPath(recommendations[0])
     history.push(path)
   }
 

@@ -85,7 +85,7 @@ class OfferInfo extends Component {
               {infos.when.length === 0 && <li>Plus de dates disponibles :(</li>}
               {infos.when.map(
                 (occurence, index) =>
-                  (
+                  index < 7 && console.log(tz) && (
                     <li key={index}>
                       <Capitalize>{tz && moment(occurence).tz(tz).format('dddd DD/MM/YYYY à H:mm')}</Capitalize>
                       {bookedDates.indexOf(occurence)>-1 && ' (réservé)'}
