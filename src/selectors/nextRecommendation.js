@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 
-import selectSortedRecommendations from './sortedRecommendations'
 import selectCurrentRecommendation from './currentRecommendation'
 import getRecommendation from '../getters/recommendation'
 
@@ -12,8 +11,7 @@ export default createSelector(
       currentRecommendation &&
       recommendations &&
       recommendations[
-        recommendations.findIndex(reco =>
-          reco.id === currentRecommendation.id) + 1
+        currentRecommendation.index + 1
       ]
     return getRecommendation({ recommendation: nextRecommendation })
   }

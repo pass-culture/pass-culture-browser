@@ -11,20 +11,21 @@ import SigninPage from '../components/pages/SigninPage'
 import SignupPage from '../components/pages/SignupPage'
 import TermsPage from '../components/pages/TermsPage'
 
-export const getDiscoveryPath = (offer, mediation = '') => {
-  const offerId =
-    typeof offer === 'string'
-      ? offer
-      : typeof offer === 'object'
-        ? offer.id
-        : 'tuto'
-  const mediationId =
-    typeof mediation === 'string'
-      ? mediation
-      : typeof mediation === 'object'
-        ? mediation.id
-        : ''
-  return `/decouverte/${offerId}/${mediationId}`
+export const getDiscoveryPath = (recommendation) => {
+  console.log("getDisco", recommendation)
+  if (recommendation.mediation) {
+      if (recommendation.mediation.tutoIndex !== null ) {
+        return `/decouverte/tuto/${recommendation.mediationId}`
+      } else if (recommendation.mediation.thingId) {
+        return `/decouverte/o/${recommendation.mediation.thingId}/${recommendation.mediationId}`
+      } else if (recommendation.mediation.eventId) {
+        return `/decouverte/e/${recommendation.mediation.eventId}/${recommendation.mediationId}`
+      }
+  } else if (recommendation.thingId) {
+      return `/decouverte/o/${recommendation.thingId}`
+  } else if (recommendation.eventId) {
+      return `/decouverte/e/${recommendation.eventId}`
+  }
 }
 
 const routes = [
@@ -54,17 +55,37 @@ const routes = [
   {
     exact: true,
     path: '/decouverte',
-    render: () => <Redirect to="/decouverte/empty" />,
+    render: () => <DiscoveryPage />,
   },
   {
     exact: true,
-    path: '/decouverte/:offerId/:mediationId?',
+    path: '/decouverte/tuto/:mediationId?',
+    title: 'Les offres (tutoriel)',
+    render: ({
+      match: {
+        params: { mediationId },
+      },
+    }) => <DiscoveryPage mediationId={mediationId} occasionType="Tuto"/>,
+  },
+  {
+    exact: true,
+    path: '/decouverte/e/:occasionId/:mediationId?',
     title: 'Les offres',
     render: ({
       match: {
-        params: { mediationId, offerId },
+        params: { mediationId, occasionId },
       },
-    }) => <DiscoveryPage mediationId={mediationId} offerId={offerId} />,
+    }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionType="Event" />,
+  },
+  {
+    exact: true,
+    path: '/decouverte/o/:occasionId/:mediationId?',
+    title: 'Les offres',
+    render: ({
+      match: {
+        params: { mediationId, occasionId },
+      },
+    }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionType="Thing" />,
   },
   {
     exact: true,

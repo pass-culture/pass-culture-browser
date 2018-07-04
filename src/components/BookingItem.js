@@ -22,13 +22,13 @@ const formatter = buildFormatter(
 )
 
 const BookingItem = props => {
-  const { mediation, offer, thumbUrl, token } = props
+  const { mediation, recommendation, offer, thumbUrl, token } = props
   const venue = getVenue(null, offer)
   const tz = getTimezone(venue)
   const date = get(offer, 'eventOccurence.beginningDatetime')
   return (
     <li className="booking-item">
-      <Link to={`${getDiscoveryPath(offer, mediation)}?to=verso`}>
+      <Link to={`${getDiscoveryPath(recommendation)}?to=verso`}>
         <Thumb src={thumbUrl} withMediation={mediation} />
         <div className="infos">
           <div className="top">
