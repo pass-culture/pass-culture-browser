@@ -69,7 +69,7 @@ class OfferInfo extends Component {
             <ul className="dates-info">
               {infos.when.map(
                 (occurence, index) =>
-                  index < 7 && (
+                  index < 7 && console.log(tz) && (
                     <li key={index}>
                       <Capitalize>{moment(occurence).tz(tz).format('dddd DD/MM/YYYY à H:mm')}</Capitalize>
                     </li>
