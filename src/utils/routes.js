@@ -57,36 +57,18 @@ const routes = [
     path: '/decouverte',
     render: () => <DiscoveryPage />,
   },
+  ,
   {
     exact: true,
-    path: '/decouverte/tuto/:mediationId?',
-    title: 'Les offres (tutoriel)',
-    render: ({
-      match: {
-        params: { mediationId },
-      },
-    }) => <DiscoveryPage mediationId={mediationId} occasionType="Tuto"/>,
-  },
-  {
-    exact: true,
-    path: '/decouverte/e/:occasionId/:mediationId?',
+    path: '/decouverte/:occasionTypeAbbr/:occasionId/:mediationId?',
     title: 'Les offres',
     render: ({
       match: {
-        params: { mediationId, occasionId },
+        params: { occasionTypeAbbr, mediationId, occasionId },
       },
-    }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionType="Event" />,
+    }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionTypeAbbr={occasionTypeAbbr} />,
   },
-  {
-    exact: true,
-    path: '/decouverte/o/:occasionId/:mediationId?',
-    title: 'Les offres',
-    render: ({
-      match: {
-        params: { mediationId, occasionId },
-      },
-    }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionType="Thing" />,
-  },
+  ,
   {
     exact: true,
     path: '/favoris',

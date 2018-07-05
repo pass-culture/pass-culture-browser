@@ -22,20 +22,18 @@ export default createSelector(
 
     let filteredRecommendations
 
-    let [, , occasionTypeFr, occasionId, mediationId] = pathname.split('/')
-    if (occasionTypeFr === 'tuto') {
+    console.log(pathname)
+    let [, , occasionTypeAbbr, occasionId, mediationId] = pathname.split('/')
+    if (occasionTypeAbbr === 'tuto') {
       mediationId = occasionId
       occasionId = undefined
     }
-    console.log("OccasionType", occasionTypeFr)
-    console.log("OccasionId", occasionId)
-    console.log("mediationId", mediationId)
 
-    if (occasionTypeFr && (occasionId || mediationId)) {
+    if (occasionTypeAbbr && (occasionId || mediationId)) {
       filteredRecommendations = recommendations.filter(
-        r => ((occasionTypeFr === 'e' && (r.eventId === occasionId || (r.mediation && r.mediation.eventId === occasionId)))
-             || (occasionTypeFr === 'o' && (r.thingId === occasionId  || (r.mediation && r.mediation.thingId === occasionId)))
-             || occasionTypeFr === 'tuto')
+        r => ((occasionTypeAbbr === 'e' && (r.eventId === occasionId || (r.mediation && r.mediation.eventId === occasionId)))
+             || (occasionTypeAbbr === 'o' && (r.thingId === occasionId  || (r.mediation && r.mediation.thingId === occasionId)))
+             || occasionTypeAbbr === 'tuto')
             && (!mediationId || r.mediationId === mediationId)
       )
     } else {

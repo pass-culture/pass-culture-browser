@@ -13,9 +13,9 @@ class DiscoveryPage extends Component {
     // ONLY TRIGGER AT MOUNT TIME
     // OR WHEN WE RECEIVED FRESH NON EMPTY DATA
     const props = nextProps || this.props
-    const { mediationId, occasionType, history, recommendations } = props
+    const { mediationId, occasionTypeAbbr, history, recommendations } = props
     if (
-      occasionType || mediationId ||
+      occasionTypeAbbr || mediationId ||
       (nextProps && !nextProps.recommendations) ||
       !recommendations || !recommendations.length
     ) {
