@@ -1,14 +1,12 @@
 import get from 'lodash.get'
-import { createSelector } from 'reselect'
+import createCachedSelector from 're-reselect';
 
-import selectCurrentRecommendation from './currentRecommendation'
+import recommendationSelector from './recommendation'
 
-export default createSelector(
+export default createCachedSelector(
   state => state.data.bookings,
-  selectCurrentRecommendation,
+  state => recommendationSelector(state),
   (bookings, recommendation) => {
-    return []
-      .concat(bookings)
-      .find(b => get(b, 'recommendationId') === get(recommendation, 'id'))
+    return bookings.find(b => get(b, 'recommendationId') === get(recommendation, 'id'))
   }
-)
+)()
