@@ -5,7 +5,12 @@ const REMOVE_DATA_ERROR = 'REMOVE_DATA_ERROR'
 const RESET_DATA = 'RESET_DATA'
 
 // INITIAL STATE
-const initialState = { referenceDate: null, isOptimist: false }
+const initialState = {
+  referenceDate: null,
+  isOptimist: false,
+  bookings: [],
+  recommendations: [],
+}
 
 // REDUCER
 const data = (state = initialState, action) => {
