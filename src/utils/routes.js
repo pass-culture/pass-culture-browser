@@ -15,20 +15,21 @@ export const getDiscoveryPath = (recommendation, toVerso = false) => {
   let url = '/decouverte/'
   if (recommendation.mediation) {
       if (recommendation.mediation.tutoIndex !== null ) {
-        url = `tuto/${recommendation.mediationId}`
+        url += `tuto/${recommendation.mediationId}`
       } else if (recommendation.mediation.thingId) {
-        url = `o/${recommendation.mediation.thingId}/${recommendation.mediationId}`
+        url += `o/${recommendation.mediation.thingId}/${recommendation.mediationId}`
       } else if (recommendation.mediation.eventId) {
-        url = `e/${recommendation.mediation.eventId}/${recommendation.mediationId}`
+        url += `e/${recommendation.mediation.eventId}/${recommendation.mediationId}`
       }
   } else if (recommendation.thingId) {
-      url = `o/${recommendation.thingId}`
+      url += `o/${recommendation.thingId}`
   } else if (recommendation.eventId) {
-      url = `e/${recommendation.eventId}`
+      url += `e/${recommendation.eventId}`
   }
   if (toVerso) {
     url += "?to=verso"
   }
+  return url
 }
 
 const routes = [
@@ -71,7 +72,6 @@ const routes = [
       },
     }) => <DiscoveryPage mediationId={mediationId} occasionId={occasionId} occasionTypeAbbr={occasionTypeAbbr} />,
   },
-  ,
   {
     exact: true,
     path: '/favoris',

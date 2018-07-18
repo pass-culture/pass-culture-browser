@@ -31,8 +31,8 @@ class DiscoveryPage extends Component {
   }
 
   handleRedirectFromLoading(props) {
-    const { history, mediationId, offerId, recommendations } = props
-    if (!recommendations || (recommendations.length === 0) || mediationId || offerId)
+    const { history, currentRecommendation, recommendations } = props
+    if (!recommendations || (recommendations.length === 0) || currentRecommendation)
       return
 
     const path = getDiscoveryPath(recommendations[0])
@@ -46,7 +46,7 @@ class DiscoveryPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.handleRedirectFromLoading(nextProps)
-    if (nextProps.offerId && nextProps.offerId !== this.props.offerId) {
+    if (nextProps.currentRecommendation && nextProps.currentRecommendation !== this.props.currentRecommendation) {
       this.ensureRecommendations(nextProps)
     }
   }

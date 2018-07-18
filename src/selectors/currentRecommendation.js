@@ -1,4 +1,3 @@
-import get from 'lodash.get'
 import { createSelector } from 'reselect'
 
 import selectRecommendationQuery from './recommendationQuery'
@@ -22,20 +21,21 @@ export default createSelector(
 
     let filteredRecommendations
 
-    console.log(pathname)
-    let [, , occasionTypeAbbr, occasionId, mediationId] = pathname.split('/')
-    if (occasionTypeAbbr === 'tuto') {
-      mediationId = occasionId
-      occasionId = undefined
-    }
+    let [, , typeAbbr, eventOrThingId, mediationId] = pathname.split('/')
 
-    if (occasionTypeAbbr && (occasionId || mediationId)) {
-      filteredRecommendations = recommendations.filter(
-        r => ((occasionTypeAbbr === 'e' && (r.eventId === occasionId || (r.mediation && r.mediation.eventId === occasionId)))
-             || (occasionTypeAbbr === 'o' && (r.thingId === occasionId  || (r.mediation && r.mediation.thingId === occasionId)))
-             || occasionTypeAbbr === 'tuto')
-            && (!mediationId || r.mediationId === mediationId)
-      )
+    if (typeAbbr && (eventOrThingId || mediationId)) {
+      const base_filter_fn = reco => (!mediationId || reco.mediationId === mediationId)
+      let filter_fn
+      if (typeAbbr === 'tuto') {
+        mediationId = eventOrThingId
+        eventOrThingId = undefined
+        filter_fn = base_filter_fn
+      } else if (typeAbbr === 'e') {
+        filter_fn = reco => base_filter_fn(reco) && (reco.eventId === eventOrThingId || (reco.mediation && reco.mediation.eventId === eventOrThingId))
+      } else if (typeAbbr === 'o') {
+        filter_fn = reco => base_filter_fn(reco) &&  (reco.thingId === eventOrThingId  || (reco.mediation && reco.mediation.thingId === eventOrThingId))
+      }
+      filteredRecommendations = recommendations.filter(filter_fn)
     } else {
       filteredRecommendations = recommendations
     }
