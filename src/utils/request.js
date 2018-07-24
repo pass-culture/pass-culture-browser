@@ -39,7 +39,15 @@ export async function fetchData(method, path, config = {}) {
     } else if (window.cordova) {
       console.warn('CookieManagementPlugin.flush is not available here')
     }
-    return { data: await result.json() }
+    // FIX TODO
+    let data = await result.json()
+    console.log('>>> data', data.length)
+    if (path === 'recommendations?') {
+      data = data.filter( r => !r.thingId || (!r.thingId  && !r.eventId ) )
+      console.log('>>> data', data)
+
+    }
+    return { data }
   } else {
     return { errors: await result.json() }
   }
