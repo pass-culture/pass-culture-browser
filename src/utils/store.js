@@ -1,7 +1,10 @@
 import { applyMiddleware, compose, createStore } from 'redux'
+import { persistReducer } from 'redux-persist'
+
 import createSagaMiddleware from 'redux-saga'
 
 import init from './init'
+import persist from './persist'
 import rootReducer from '../reducers'
 import rootSaga from '../sagas'
 
@@ -22,8 +25,11 @@ const storeEnhancer = composeEnhancers(
   applyMiddleware(...middlewares)
 )
 
+// PERSIST
+const persistedReducer = persistReducer(persist, rootReducer)
+
 // STORE
-const store = createStore(rootReducer, {}, storeEnhancer)
+const store = createStore(persistedReducer, {}, storeEnhancer)
 
 // RUN
 sagaMiddleware.run(rootSaga)

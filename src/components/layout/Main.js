@@ -34,8 +34,7 @@ class Main extends Component {
     })
     this.props.showNotification({
       type: 'danger',
-      text:
-        get(action, 'errors.global', []).join('\n') || 'Erreur de chargement',
+      text: get(action, 'errors.0.global') || 'Erreur de chargement',
     })
   }
 
