@@ -1,20 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const Price = ({ value, free, Tag, className }) => {
-  return (
-    <Tag className={['price'].concat(className).join(' ')}>
-      {typeof value === 'undefined'
-        ? ''
-        : value === 0
-          ? free
-          : value && value.toString().replace('.', ',') + '€'}
-    </Tag>
-  )
-}
+import { getPrice } from '../helpers'
+
+const Price = ({ value, free, className }) => (
+  <span className={`price ${className}`}>
+    {getPrice(value, free)}
+  </span>
+)
 
 Price.defaultProps = {
+  className: '',
   free: 'Gratuit',
-  Tag: 'span',
+  value: null,
+}
+
+Price.propTypes = {
+  className: PropTypes.string,
+  free: PropTypes.string,
+  value: PropTypes.number,
 }
 
 export default Price

@@ -16,11 +16,12 @@ class SignupPage extends Component {
   }
 
   render() {
+    const { $footer } = this.state
     return (
       <Main name="sign-up">
         <div className="section">
           <h2 className="subtitle is-italic">
-            Une minute pour créer un compte, et puis c'est tout&nbsp;!
+            {"Une minute pour créer un compte, et puis c'est tout !"}
           </h2>
 
           <br />
@@ -60,35 +61,43 @@ class SignupPage extends Component {
             />
             <br />
             <Field
-              label={
+              label={(
                 <span className="subtitle">
                   {' '}
-                  J'accepte d'être contacté par mail pour donner mon avis sur le{' '}
+                  {
+                    "J'accepte d'être contacté par mail pour donner mon avis sur le"
+                  }
+                  {' '}
                   <a
                     href="http://passculture.beta.gouv.fr"
-                    style={{ textDecoration: 'underline' }}>
+                    style={{ textDecoration: 'underline' }}
+                  >
                     Pass Culture
                   </a>
                   .
                 </span>
-              }
+)}
               name="contact_ok"
               required
               type="checkbox"
             />
 
-            <Portal node={this.state.$footer}>
+            <Portal node={$footer}>
               <SubmitButton className="button is-primary is-inverted">
                 Créer
               </SubmitButton>
               <NavLink to="/connexion" className="button is-secondary">
-                J'ai déjà un compte
+                {"J'ai déjà un compte"}
               </NavLink>
             </Portal>
           </Form>
         </div>
 
-        <footer ref={_e => { this.$footer = _e}} />
+        <footer
+          ref={_e => {
+            this.$footer = _e
+          }}
+        />
       </Main>
     )
   }

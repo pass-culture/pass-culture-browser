@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { requestData } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -12,12 +13,12 @@ import { bookingNormalizer } from '../../utils/normalizers'
 
 class BookingsPage extends Component {
   handleDataRequest = (handleSuccess, handleFail) => {
-    this.props.requestData('GET',
-      'bookings', {
-        handleSuccess,
-        handleFail,
-        normalizer: bookingNormalizer
-      })
+    const { dispatchRequestData } = this.props
+    dispatchRequestData('GET', 'bookings', {
+      handleFail,
+      handleSuccess,
+      normalizer: bookingNormalizer,
+    })
   }
 
   render() {
@@ -32,13 +33,13 @@ class BookingsPage extends Component {
       >
         <header>
           <h1>
-            Mes réservations
+Mes réservations
           </h1>
         </header>
         {soonBookings.length > 0 && (
           <div>
             <h4>
-              C'est bientôt !
+              {"C'est bientôt !"}
             </h4>
             <ul className="bookings">
               {soonBookings.map(booking => (
@@ -50,7 +51,7 @@ class BookingsPage extends Component {
         {otherBookings.length > 0 && (
           <div>
             <h4>
-              Réservations
+Réservations
             </h4>
             <ul className="bookings">
               {otherBookings.map(booking => (
@@ -63,7 +64,7 @@ class BookingsPage extends Component {
           otherBookings.length === 0 && (
             <div>
               <p className="nothing">
-                Pas encore de réservation.
+Pas encore de réservation.
               </p>
               <p className="nothing">
                 <Link to="/decouverte" className="button is-primary">
@@ -77,12 +78,18 @@ class BookingsPage extends Component {
   }
 }
 
+BookingsPage.propTypes = {
+  dispatchRequestData: PropTypes.func.isRequired,
+  otherBookings: PropTypes.array.isRequired,
+  soonBookings: PropTypes.array.isRequired,
+}
+
 export default compose(
   connect(
     state => ({
       otherBookings: otherBookingsSelector(state),
       soonBookings: soonBookingsSelector(state),
     }),
-    { requestData }
+    { dispatchRequestData: requestData }
   )
 )(BookingsPage)

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import get from 'lodash.get'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -11,28 +12,41 @@ import { ROOT_PATH } from '../utils/config'
 import { makeDraggable, makeUndraggable } from '../reducers/verso'
 
 class VersoWrapper extends Component {
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.props.isFlipped && prevProps.isFlipped) {
-      this.$header.scrollTo && this.$header.scrollTo(0, 0)
-    }
+  constructor(props) {
+    super(props)
+    this.toucheMoveHandler = this.toucheMoveHandler.bind(this)
   }
 
   componentDidMount() {
-    this.$el.addEventListener(
-      'touchmove',
-      e => {
-        if (this.props.draggable && this.$el.scrollTop > 0) {
-          this.props.makeUndraggable()
-        } else if (!this.props.draggable && this.$el.scrollTop <= 0) {
-          this.props.makeDraggable()
-        }
-      },
-      { passive: true }
-    )
+    if (!this.$el) return
+    const opts = { passive: true }
+    this.$el.addEventListener('touchmove', this.toucheMoveHandler, opts)
   }
 
-  componentWillUnMount() {
-    this.$el.removeEventListener('touchmove')
+  componentDidUpdate(prevProps) {
+    const { isFlipped } = this.props
+    const shouldScroll =
+      !isFlipped && prevProps.isFlipped && this.$header.scrollTo
+    if (!shouldScroll) return
+    this.$header.scrollTo(0, 0)
+  }
+
+  componentWillUnmount() {
+    if (!this.$el) return
+    this.$el.removeEventListener('touchmove', this.toucheMoveHandler)
+  }
+
+  toucheMoveHandler() {
+    const {
+      draggable,
+      dispatchMakeUndraggable,
+      dispatchMakeDraggable,
+    } = this.props
+    if (draggable && this.$el.scrollTop > 0) {
+      dispatchMakeUndraggable()
+    } else if (!draggable && this.$el.scrollTop <= 0) {
+      dispatchMakeDraggable()
+    }
   }
 
   render() {
@@ -42,17 +56,9 @@ class VersoWrapper extends Component {
       currentRecommendation,
       headerColor,
     } = this.props
-    const {
-      mediation,
-      offer
-    } = (currentRecommendation || {})
-    const {
-      eventOrThing,
-      venue
-    } = (offer || {})
-    const {
-      tutoIndex
-    } = (mediation || {})
+    const { mediation, offer } = currentRecommendation || {}
+    const { eventOrThing, venue } = offer || {}
+    const { tutoIndex } = mediation || {}
 
     const contentStyle = {}
     if (typeof tutoIndex === 'number') {
@@ -64,18 +70,27 @@ class VersoWrapper extends Component {
 
     return (
       <div
-        ref={$el => { this.$el = $el }}
-        className={`verso-wrapper ${className || ''}`}>
+        ref={$el => {
+          this.$el = $el
+        }}
+        className={`verso-wrapper ${className || ''}`}
+      >
         <div
           className="verso-header"
           style={{ backgroundColor: headerColor }}
-          ref={$el => { this.$header = $el }}>
+          ref={$el => {
+            this.$header = $el
+          }}
+        >
           <h1>
             {' '}
             {get(eventOrThing, 'name')}
-            {author && ', de ' + author}{' '}
+            {author && `, de ${author}`}
+            {' '}
           </h1>
-          <h2> {get(venue, 'name')} </h2>
+          <h2>
+            {get(venue, 'name')}
+          </h2>
         </div>
         {typeof tutoIndex !== 'number' && <VersoControl />}
         <div className="verso-content" style={{ ...contentStyle }}>
@@ -86,17 +101,40 @@ class VersoWrapper extends Component {
   }
 }
 
+VersoWrapper.defaultProps = {
+  currentRecommendation: null,
+  headerColor: null,
+}
+
+VersoWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string.isRequired,
+  currentRecommendation: PropTypes.object,
+  dispatchMakeDraggable: PropTypes.func.isRequired,
+  dispatchMakeUndraggable: PropTypes.func.isRequired,
+  draggable: PropTypes.bool.isRequired,
+  headerColor: PropTypes.string,
+  isFlipped: PropTypes.bool.isRequired,
+}
+
 export default compose(
   withRouter,
   connect(
     (state, ownProps) => {
       const { mediationId, offerId } = ownProps.match.params
       return {
-        currentRecommendation: currentRecommendationSelector(state, offerId, mediationId),
+        currentRecommendation: currentRecommendationSelector(
+          state,
+          offerId,
+          mediationId
+        ),
+        draggable: state.verso.draggable,
         isFlipped: state.verso.isFlipped,
-        draggable: state.verso.draggable
       }
     },
-    { makeDraggable, makeUndraggable }
+    {
+      dispatchMakeDraggable: makeDraggable,
+      dispatchMakeUndraggable: makeUndraggable,
+    }
   )
 )(VersoWrapper)

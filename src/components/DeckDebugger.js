@@ -29,15 +29,15 @@ const DeckDebugger = ({
 )
 
 DeckDebugger.defaultProps = {
+  currentRecommendation: null,
   isLoadingAfter: false,
   isLoadingBefore: false,
-  currentRecommendation: null,
 }
 
 DeckDebugger.propTypes = {
+  currentRecommendation: PropTypes.object,
   isLoadingAfter: PropTypes.bool,
   isLoadingBefore: PropTypes.bool,
-  currentRecommendation: PropTypes.object,
   nextLimit: PropTypes.number.isRequired,
   previousLimit: PropTypes.number.isRequired,
   recommendations: PropTypes.array.isRequired,
@@ -46,15 +46,17 @@ DeckDebugger.propTypes = {
 const mapStateToProps = state => {
   const recommendations = recommendationsSelector(state)
   return {
-    nextLimit: recommendations &&
+    nextLimit:
+      recommendations &&
       (PREVIOUS_NEXT_LIMIT >= recommendations.length - 1
         ? recommendations.length - 1
         : recommendations.length - 1 - PREVIOUS_NEXT_LIMIT),
-    previousLimit: recommendations &&
-    (PREVIOUS_NEXT_LIMIT < recommendations.length - 1
-      ? PREVIOUS_NEXT_LIMIT + 1
-      : 0),
-    recommendations
+    previousLimit:
+      recommendations &&
+      (PREVIOUS_NEXT_LIMIT < recommendations.length - 1
+        ? PREVIOUS_NEXT_LIMIT + 1
+        : 0),
+    recommendations,
   }
 }
 

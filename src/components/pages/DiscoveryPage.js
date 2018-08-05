@@ -1,5 +1,11 @@
+import PropTypes from 'prop-types'
 import get from 'lodash.get'
-import { closeLoading, requestData, showLoading } from 'pass-culture-shared'
+import {
+  closeLoading,
+  requestData,
+  showLoading,
+  Logger,
+} from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -11,16 +17,16 @@ import currentRecommendationSelector from '../../selectors/currentRecommendation
 import { recommendationNormalizer } from '../../utils/normalizers'
 
 class DiscoveryPage extends Component {
-  handleDataRequest = (handleSuccess, handleFail) => {
+  handleDataRequest = () => {
     const {
-      closeLoading,
+      dispatchCloseLoading,
       currentRecommendation,
       history,
       match: {
         params: { offerId, mediationId },
       },
-      requestData,
-      showLoading,
+      dispatchRequestData,
+      dispatchShowLoading,
     } = this.props
 
     if (!currentRecommendation) {
@@ -31,14 +37,14 @@ class DiscoveryPage extends Component {
         .filter(param => param)
         .join('&')
 
-      requestData('PUT', 'recommendations?' + query, {
+      dispatchRequestData('PUT', `recommendations?${query}`, {
         handleSuccess: (state, action) => {
           if (get(action, 'data.length')) {
             if (!offerId) {
               const firstOfferId = get(action, 'data.0.offerId')
 
               if (!firstOfferId) {
-                console.warn('first recommendation has no offer id, weird...')
+                Logger.warn('first recommendation has no offer id, weird...')
               }
 
               const firstMediationId = get(action, 'data.0.mediationId') || ''
@@ -46,12 +52,12 @@ class DiscoveryPage extends Component {
               history.push(`/decouverte/${firstOfferId}/${firstMediationId}`)
             }
           } else {
-            closeLoading({ isEmpty: true })
+            dispatchCloseLoading({ isEmpty: true })
           }
         },
         normalizer: recommendationNormalizer,
       })
-      showLoading({ isEmpty: false })
+      dispatchShowLoading({ isEmpty: false })
     }
   }
 
@@ -114,11 +120,31 @@ class DiscoveryPage extends Component {
   }
 }
 
+DiscoveryPage.defaultProps = {
+  currentRecommendation: null,
+  isMenuOnTop: false,
+}
+
+DiscoveryPage.propTypes = {
+  backButton: PropTypes.bool.isRequired,
+  currentRecommendation: PropTypes.object,
+  dispatchCloseLoading: PropTypes.func.isRequired,
+  dispatchRequestData: PropTypes.func.isRequired,
+  dispatchShowLoading: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isMenuOnTop: PropTypes.bool,
+  match: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = (state, ownProps) => {
   const { mediationId, offerId } = ownProps.match.params
   return {
     backButton: ownProps.location.search.indexOf('to=verso') > -1,
-    currentRecommendation: currentRecommendationSelector(state, offerId, mediationId),
+    currentRecommendation: currentRecommendationSelector(
+      state,
+      offerId,
+      mediationId
+    ),
     isMenuOnTop: state.loading.isActive || get(state, 'loading.config.isEmpty'),
     recommendations: state.data.recommendations,
   }
@@ -128,6 +154,10 @@ export default compose(
   withRouter,
   connect(
     mapStateToProps,
-    { closeLoading, requestData, showLoading }
+    {
+      dispatchCloseLoading: closeLoading,
+      dispatchRequestData: requestData,
+      dispatchShowLoading: showLoading,
+    }
   )
 )(DiscoveryPage)

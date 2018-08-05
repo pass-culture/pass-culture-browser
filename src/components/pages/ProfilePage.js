@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { requestData } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -7,19 +8,16 @@ import { compose } from 'redux'
 import Main from '../layout/Main'
 
 class ProfilePage extends Component {
-  onSignOutClick = () => {
-    const { requestData } = this.props
-    requestData('GET', 'users/signout')
+  componentWillReceiveProps(nextProps) {
+    const { user } = this.props
+    if (nextProps.user === false && user) {
+      nextProps.history.push('/')
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      history: { push },
-      user,
-    } = nextProps
-    if (user === false && this.props.user) {
-      push('/')
-    }
+  onSignOutClick = () => {
+    const { dispatchRequestData } = this.props
+    dispatchRequestData('GET', 'users/signout')
   }
 
   render() {
@@ -28,13 +26,20 @@ class ProfilePage extends Component {
       <Main
         name="profile"
         footer={{ borderTop: true, colored: true }}
-        backButton>
-        <header>Mon profil</header>
-        <h2 className="title is-2">Bienvenue !</h2>
+        backButton
+      >
+        <header>
+Mon profil
+        </header>
+        <h2 className="title is-2">
+Bienvenue !
+        </h2>
         <button
+          type="button"
           className="button is-default"
           disabled={!user}
-          onClick={this.onSignOutClick}>
+          onClick={this.onSignOutClick}
+        >
           Déconnexion
         </button>
       </Main>
@@ -42,10 +47,16 @@ class ProfilePage extends Component {
   }
 }
 
+ProfilePage.propTypes = {
+  dispatchRequestData: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+}
+
 export default compose(
   withRouter,
   connect(
     state => ({ user: state.user }),
-    { requestData }
+    { dispatchRequestData: requestData }
   )
 )(ProfilePage)

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { closeModal, Icon, requestData } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -14,11 +15,11 @@ class Menu extends Component {
   }
 
   onSignOutClick = () => {
-    const { closeModal, history, requestData } = this.props
-    requestData('GET', 'users/signout', {
+    const { dispatchCloseModal, history, dispatchRequestData } = this.props
+    dispatchRequestData('GET', 'users/signout', {
       handleSuccess: () => {
         history.push('/connexion')
-        closeModal()
+        dispatchCloseModal()
       },
     })
   }
@@ -37,9 +38,13 @@ class Menu extends Component {
             {user && user.publicName}
           </div>
           <div className="account">
-            <div>Mon Pass</div>
             <div>
-              <strong>——&nbsp;€</strong>
+Mon Pass
+            </div>
+            <div>
+              <strong>
+——&nbsp;€
+              </strong>
             </div>
           </div>
         </div>
@@ -101,12 +106,16 @@ class Menu extends Component {
             </a>
           </li>
           <li>
-            <a onClick={this.onSignOutClick}>
+            <button
+              type="button"
+              onClick={this.onSignOutClick}
+              className="button-as-link"
+            >
               <div className="menu-icon">
                 <Icon svg="ico-deconnect-w" alt="Déconnexion" />
               </div>
               Déconnexion
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -114,13 +123,20 @@ class Menu extends Component {
   }
 }
 
+Menu.propTypes = {
+  dispatchCloseModal: PropTypes.func.isRequired,
+  dispatchRequestData: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+}
+
 export default compose(
   withRouter,
   connect(
     state => ({ user: state.user }),
     {
-      closeModal,
-      requestData,
+      dispatchCloseModal: closeModal,
+      dispatchRequestData: requestData,
     }
   )
 )(Menu)

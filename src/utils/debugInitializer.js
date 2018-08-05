@@ -1,18 +1,19 @@
 import get from 'lodash.get'
+import { Logger } from 'pass-culture-shared'
 import { randomHash } from './random'
 
 const LOG_LENGTH = 100
 
 const appendToLog = ({ method, values }) => {
-  console[method](...values)
+  Logger[method](...values)
   window.logContent = get(window, 'logContent', [])
     .slice(-LOG_LENGTH)
     .concat([
       {
-        method,
-        values,
-        time: new Date(),
         hash: randomHash(),
+        method,
+        time: new Date(),
+        values,
       },
     ])
   return values[0]
@@ -43,12 +44,12 @@ const error = (...values) =>
   })
 
 const initialize = () => {
-  if (window.logContent) return
+  if (window.logContent) return false
   window.debug = debug
   window.log = log
   window.warn = warn
   window.error = error
-  console.debug('Debug initialized')
+  Logger.log('Debug initialized')
   return true
 }
 

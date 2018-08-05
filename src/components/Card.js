@@ -12,13 +12,16 @@ import currentRecommendationSelector from '../selectors/currentRecommendation'
 import nextRecommendationSelector from '../selectors/nextRecommendation'
 import previousRecommendationSelector from '../selectors/previousRecommendation'
 
+// FIXME -> move to pass-culture-shared
+const noop = () => {}
+
 class Card extends PureComponent {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const {
       isFlipped,
       recommendation,
       position,
-      requestDataAction
+      requestDataAction,
     } = this.props
 
     const isCurrent = recommendation && position === 'current'
@@ -29,23 +32,16 @@ class Card extends PureComponent {
     if (!shouldRequest) return
 
     const options = {
+      body: { isClicked: true },
       key: 'recommendations',
-      body: { isClicked: true }
     }
 
     requestDataAction('PATCH', `recommendations/${recommendation.id}`, options)
   }
 
   render() {
-    const {
-      position,
-      recommendation,
-      width
-    } = this.props
-    const {
-      headerColor,
-      index
-    } = (recommendation || {})
+    const { position, recommendation, width } = this.props
+    const { headerColor, index } = recommendation || {}
     const iscurrent = position === 'current'
     const translateTo = index * width
     return (
@@ -65,21 +61,34 @@ class Card extends PureComponent {
 
 Card.defaultProps = {
   isFlipped: false,
-  recommendation: null
+  recommendation: null,
 }
 
 Card.propTypes = {
   isFlipped: PropTypes.bool,
-  recommendation: PropTypes.object,
-  width: PropTypes.number.isRequired,
   position: PropTypes.string.isRequired,
+  recommendation: PropTypes.object,
   requestDataAction: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
 }
 
 const mapSizeToProps = ({ width, height }) => ({
-  width: Math.min(width, 500), // body{max-width: 500px;}
   height,
+  width: Math.min(width, 500), // body{max-width: 500px;}
 })
+
+const getSelectorByCardPosition = position => {
+  switch (position) {
+    case 'current':
+      return currentRecommendationSelector
+    case 'previous':
+      return previousRecommendationSelector
+    case 'next':
+      return nextRecommendationSelector
+    default:
+      return noop
+  }
+}
 
 export default compose(
   withSizes(mapSizeToProps),
@@ -87,13 +96,15 @@ export default compose(
   connect(
     (state, ownProps) => {
       const { mediationId, offerId } = ownProps.match.params
+      const recoSelector = getSelectorByCardPosition(ownProps.position)
       return {
-        recommendation: ownProps.position === 'current'
-          ? currentRecommendationSelector(state, offerId, mediationId, ownProps.position)
-          : ownProps.position === 'previous'
-            ? previousRecommendationSelector(state, offerId, mediationId, ownProps.position)
-            : ownProps.position === 'next' && nextRecommendationSelector(state, offerId, mediationId, ownProps.position),
         isFlipped: state.verso.isFlipped,
+        recommendation: recoSelector(
+          state,
+          offerId,
+          mediationId,
+          ownProps.position
+        ),
       }
     },
     { requestDataAction: requestData }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -10,17 +11,9 @@ import VersoWrapper from './VersoWrapper'
 import currentRecommendationSelector from '../selectors/currentRecommendation'
 import { THUMBS_URL } from '../utils/config'
 
-const Verso = ({
-  currentRecommendation,
-  isFlipped,
-}) => {
-  const {
-    mediation
-  } = (currentRecommendation || {})
-  const {
-    tutoIndex
-  } = (mediation || {})
-
+const Verso = ({ currentRecommendation, isFlipped }) => {
+  const { mediation } = currentRecommendation || {}
+  const { tutoIndex } = mediation || {}
   return (
     <div
       className={classnames('verso', {
@@ -45,12 +38,25 @@ const Verso = ({
   )
 }
 
+Verso.defaultProps = {
+  currentRecommendation: null,
+}
+
+Verso.propTypes = {
+  currentRecommendation: PropTypes.object,
+  isFlipped: PropTypes.bool.isRequired,
+}
+
 export default compose(
   withRouter,
   connect((state, ownProps) => {
     const { mediationId, offerId } = ownProps.match.params
     return {
-      currentRecommendation: currentRecommendationSelector(state, offerId, mediationId),
+      currentRecommendation: currentRecommendationSelector(
+        state,
+        offerId,
+        mediationId
+      ),
       isFlipped: state.verso.isFlipped,
     }
   })

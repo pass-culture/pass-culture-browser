@@ -10,6 +10,7 @@ const inputClassName = 'input block col-12 mb2 red'
 class SigninPage extends Component {
   constructor() {
     super()
+    this.$footer = null
     this.state = { $footer: null }
   }
 
@@ -18,12 +19,17 @@ class SigninPage extends Component {
   }
 
   render() {
+    const { $footer } = this.state
     return (
       <Main name="sign-in" redBg>
         <div className="section form-container">
-          <h1 className="title is-1 is-italic">Bonjour&nbsp;!</h1>
+          <h1 className="title is-1 is-italic">
+Bonjour&nbsp;!
+          </h1>
           <h2 className="subtitle is-2 is-italic">
-            Identifiez-vous <br />
+            Identifiez-vous 
+            {' '}
+            <br />
             pour accéder aux offres.
           </h2>
 
@@ -33,7 +39,8 @@ class SigninPage extends Component {
             layout="vertical"
             name="user"
             handleSuccessNotification={null}
-            handleSuccessRedirect={() => '/decouverte'}>
+            handleSuccessRedirect={() => '/decouverte'}
+          >
             <Field
               autoComplete="email"
               className={inputClassName}
@@ -51,7 +58,7 @@ class SigninPage extends Component {
               type="password"
             />
 
-            <Portal node={this.state.$footer}>
+            <Portal node={$footer}>
               <SubmitButton className="button is-primary is-inverted">
                 Connexion
               </SubmitButton>
@@ -62,7 +69,11 @@ class SigninPage extends Component {
           </Form>
         </div>
 
-        <footer ref={_e => (this.$footer = _e)} />
+        <footer
+          ref={elt => {
+            this.$footer = elt
+          }}
+        />
       </Main>
     )
   }

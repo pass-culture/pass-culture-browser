@@ -1,9 +1,6 @@
+import PropTypes from 'prop-types'
 import get from 'lodash.get'
-import {
-  Icon,
-  requestData,
-  showModal
-} from 'pass-culture-shared'
+import { Logger, Icon, requestData, showModal } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -23,9 +20,9 @@ class VersoControl extends Component {
   }
 
   onClickFavorite = () => {
-    const { currentRecommendation, requestData } = this.props
+    const { currentRecommendation, dispatchRequestData } = this.props
     const { id, isFavorite } = currentRecommendation
-    requestData('PATCH', `currentRecommendations/${id}`, {
+    dispatchRequestData('PATCH', `currentRecommendations/${id}`, {
       body: {
         isFavorite: !isFavorite,
       },
@@ -37,22 +34,16 @@ class VersoControl extends Component {
     // TODO
   }
 
-  onClickJyVais = event => {
-    const {
-      currentRecommendation,
-      offer,
-      showModal
-    } = this.props
-    const {
-      isFinished
-    } = (currentRecommendation || {})
+  onClickJyVais = () => {
+    const { currentRecommendation, offer, dispatchShowModal } = this.props
+    const { isFinished } = currentRecommendation || {}
 
     if (isFinished) return
     if (offer) {
-      showModal(<Booking />, {
+      dispatchShowModal(<Booking />, {
         fullscreen: true,
-        maskColor: 'transparent',
         hasCloseButton: false,
+        maskColor: 'transparent',
       })
     } else {
       alert("Ce bouton vous permet d'effectuer une reservation")
@@ -60,35 +51,28 @@ class VersoControl extends Component {
   }
 
   render() {
-    const {
-      bookings,
-      offer,
-      currentRecommendation
-    } = this.props
-    const {
-      isFinished
-    } = (currentRecommendation || {})
-    const {
-      venue
-    } = (offer || {})
-    const {
-      managingOfferer
-    } = (venue || {})
+    const { bookings, offer, currentRecommendation } = this.props
+    const { isFinished } = currentRecommendation || {}
+    const { venue } = offer || {}
+    const { managingOfferer } = venue || {}
     const isFavorite = currentRecommendation && currentRecommendation.isFavorite
+    Logger.fixme('VersoControl is mounted but not visible')
     return (
       <ul className="verso-control">
         <li>
           <small className="pass-label">
-            Mon Pass
+Mon Pass
           </small>
           <span className="pass-value">
-            ——€
+——€
           </span>
         </li>
         <li>
           <button
+            type="button"
             className="button is-secondary"
-            onClick={this.onClickFavorite}>
+            onClick={this.onClickFavorite}
+          >
             <Icon
               alt={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               svg={isFavorite ? 'ico-like-w-on' : 'ico-like-w'}
@@ -97,9 +81,11 @@ class VersoControl extends Component {
         </li>
         <li>
           <button
+            type="button"
             disabled
             className="button is-secondary"
-            onClick={this.onClickDisable}>
+            onClick={this.onClickDisable}
+          >
             <Icon svg="ico-share-w" alt="Partager" />
           </button>
         </li>
@@ -107,21 +93,24 @@ class VersoControl extends Component {
           {bookings.length > 0 ? (
             <Link
               to="/reservations"
-              className="button is-primary is-go is-medium">
+              className="button is-primary is-go is-medium"
+            >
               <Icon name="Check" />
               {' Réservé'}
             </Link>
           ) : (
             <Finishable finished={isFinished}>
               <button
+                type="button"
                 className="button is-primary is-go is-medium"
-                onClick={this.onClickJyVais}>
+                onClick={this.onClickJyVais}
+              >
                 <Price
                   value={get(offer, 'price') || get(offer, 'displayPrice')}
                   free="——"
                   className={managingOfferer ? 'strike' : ''}
                 />
-                J'y vais!
+                {"J'y vais!"}
               </button>
             </Finishable>
           )}
@@ -131,19 +120,38 @@ class VersoControl extends Component {
   }
 }
 
+VersoControl.defaultProps = {
+  currentRecommendation: null,
+  offer: null,
+}
+
+VersoControl.propTypes = {
+  bookings: PropTypes.array.isRequired,
+  currentRecommendation: PropTypes.object,
+  dispatchRequestData: PropTypes.func.isRequired,
+  dispatchShowModal: PropTypes.func.isRequired,
+  offer: PropTypes.object,
+}
+
 export default compose(
   withRouter,
-  connect((state, ownProps) => {
-    const { mediationId, offerId } = ownProps.match.params
-    const currentRecommendation = currentRecommendationSelector(state, offerId, mediationId)
-    const eventOrThingId = get(currentRecommendation, 'offer.eventOrThing.id')
-    return {
-      bookings: bookingsSelector(state, eventOrThingId),
-      currentRecommendation
+  connect(
+    (state, ownProps) => {
+      const { mediationId, offerId } = ownProps.match.params
+      const currentRecommendation = currentRecommendationSelector(
+        state,
+        offerId,
+        mediationId
+      )
+      const eventOrThingId = get(currentRecommendation, 'offer.eventOrThing.id')
+      return {
+        bookings: bookingsSelector(state, eventOrThingId),
+        currentRecommendation,
+      }
+    },
+    {
+      dispatchRequestData: requestData,
+      dispatchShowModal: showModal,
     }
-  },
-  {
-    requestData,
-    showModal,
-  })
+  )
 )(VersoControl)

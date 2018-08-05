@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import get from 'lodash.get'
 import {
@@ -21,47 +22,55 @@ class Main extends Component {
     Tag: 'main',
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
+  componentDidMount() {
+    this.handleHistoryBlock()
+    const { user } = this.props
+    if (user) this.dataRequestHandler()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { blockers, user, location } = this.props
+    const blockersChanged = prevProps.blockers !== blockers
+    const userChanged = !prevProps.user && user // User just loaded
+    const searchChanged = location.search !== prevProps.location.search
+
+    if (blockersChanged) {
+      this.handleHistoryBlock()
     }
+    if (userChanged || searchChanged) {
+      this.dataRequestHandler()
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.unblock) this.unblock()
+    const { dispatchResetForm } = this.props
+    dispatchResetForm()
   }
 
   handleDataFail = (state, action) => {
-    this.setState({
-      loading: false,
-    })
-    this.props.showNotification({
-      type: 'danger',
+    const { dispatchShowNotification } = this.props
+    dispatchShowNotification({
       text:
         get(action, 'errors.global', []).join('\n') || 'Erreur de chargement',
+      type: 'danger',
     })
   }
 
-  handleDataRequest = () => {
-    if (this.props.handleDataRequest) {
-      // possibility of the handleDataRequest to return
-      // false in order to not trigger the loading
-      this.setState({
-        loading: true,
-      })
-      this.props.handleDataRequest(this.handleDataSuccess, this.handleDataFail)
-    }
-  }
-
-  handleDataSuccess = (state, action) => {
-    this.setState({
-      loading: false,
-    })
+  dataRequestHandler = () => {
+    const { handleDataRequest } = this.props
+    if (!handleDataRequest) return
+    // possibility of the handleDataRequest to return
+    // false in order to not trigger the loading
+    handleDataRequest(this.handleDataSuccess, this.handleDataFail)
   }
 
   handleHistoryBlock = () => {
     const { blockers, history } = this.props
-    this.unblock && this.unblock()
+    if (this.unblock) this.unblock()
     this.unblock = history.block(() => {
       if (!blockers) {
-        return
+        return false
       }
       // test all the blockers
       for (const blocker of blockers) {
@@ -75,30 +84,6 @@ class Main extends Component {
       // the change of pathname
       return true
     })
-  }
-
-  componentDidMount() {
-    this.handleHistoryBlock()
-    this.props.user && this.handleDataRequest()
-  }
-
-  componentDidUpdate(prevProps) {
-    const blockersChanged = prevProps.blockers !== this.props.blockers
-    const userChanged = !prevProps.user && this.props.user // User just loaded
-    const searchChanged =
-      this.props.location.search !== prevProps.location.search
-
-    if (blockersChanged) {
-      this.handleHistoryBlock()
-    }
-    if (userChanged || searchChanged) {
-      this.handleDataRequest()
-    }
-  }
-
-  componentWillUnmount() {
-    this.unblock && this.unblock()
-    this.props.resetForm()
   }
 
   render() {
@@ -120,12 +105,12 @@ class Main extends Component {
     return [
       <Tag
         className={classnames({
-          page: true,
           [`${name}-page`]: true,
-          'with-header': Boolean(header),
-          'with-footer': Boolean(footer) || Boolean(footerProps),
-          'red-bg': redBg,
           'no-padding': noPadding,
+          page: true,
+          'red-bg': redBg,
+          'with-footer': Boolean(footer) || Boolean(footerProps),
+          'with-header': Boolean(header),
         })}
         key="main"
       >
@@ -143,6 +128,31 @@ class Main extends Component {
 
 Main.defaultProps = {
   Tag: 'main',
+  backButton: false,
+  footer: null,
+  handleDataRequest: null,
+  noPadding: false,
+  redBg: false,
+  user: null,
+}
+
+Main.propTypes = {
+  Tag: PropTypes.string,
+  backButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  blockers: PropTypes.array.isRequired,
+  children: PropTypes.node.isRequired,
+  closeNotification: PropTypes.func.isRequired,
+  dispatchResetForm: PropTypes.func.isRequired,
+  dispatchShowNotification: PropTypes.func.isRequired,
+  footer: PropTypes.object,
+  handleDataRequest: PropTypes.func,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  noPadding: PropTypes.bool,
+  redBg: PropTypes.bool,
+  requestData: PropTypes.func.isRequired,
+  user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 }
 
 export default compose(
@@ -158,9 +168,9 @@ export default compose(
     }),
     {
       closeNotification,
+      dispatchResetForm: resetForm,
+      dispatchShowNotification: showNotification,
       requestData,
-      resetForm,
-      showNotification,
     }
   )
 )(Main)

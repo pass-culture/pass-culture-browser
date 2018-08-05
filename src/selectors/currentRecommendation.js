@@ -36,7 +36,6 @@ export default createCachedSelector(
     }
 
     // is finished
-    // console.log('currentRecommendation', currentRecommendation)
     const isFinished = false
     /*
     const {}
@@ -54,8 +53,8 @@ export default createCachedSelector(
     // return
     return Object.assign(
       {
-        isFinished,
         headerColor,
+        isFinished,
       },
       currentRecommendation
     )

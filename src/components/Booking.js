@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import get from 'lodash.get'
 import moment from 'moment'
@@ -19,6 +20,7 @@ import Price from './Price'
 import VersoWrapper from './VersoWrapper'
 import bookingSelector from '../selectors/booking'
 import currentRecommendationSelector from '../selectors/currentRecommendation'
+
 moment.locale('fr')
 
 class Booking extends Component {
@@ -27,33 +29,12 @@ class Booking extends Component {
     this.state = {
       bookingInProgress: false,
       date: null,
-      time: null,
       focused: false,
+      time: null,
     }
   }
 
-  closeBooking = () => {
-    this.props.removeDataError()
-    this.props.closeModal()
-  }
-
-  currentStep = () => {
-    const {
-      booking,
-      error
-    } = this.props
-    const {
-      token
-    } = (booking || {})
-    const { bookingInProgress  } = this.state
-
-    if (error) return 'error'
-    if (token) return 'confirmation'
-    if (bookingInProgress) return 'loading'
-    return 'confirm'
-  }
-
-  getAvailableDateTimes = (selectedDate) => {
+  getAvailableDateTimes = selectedDate => {
     const mediatedOccurences = get(
       this.props,
       'currentRecommendation.mediatedOccurences',
@@ -61,12 +42,13 @@ class Booking extends Component {
     )
     const { tz } = this.props
     const NOW = moment()
+    const { date } = this.state
     const availableDates = mediatedOccurences
       .filter(o => moment(o.offer[0].bookingLimitDatetime).isAfter(NOW))
       .map(o => moment(o.beginningDatetime).tz(tz))
     const availableMediatedOccurences = []
     const availableHours = availableDates.filter((d, index) => {
-      const isFiltered = d.isSame(selectedDate || this.state.date, 'day')
+      const isFiltered = d.isSame(selectedDate || date, 'day')
       if (isFiltered) {
         availableMediatedOccurences.push(mediatedOccurences[index])
       }
@@ -79,26 +61,38 @@ class Booking extends Component {
     }
   }
 
+  closeBooking = () => {
+    const { dispatchRemoveDataError, dispatchCloseModal } = this.props
+    dispatchRemoveDataError()
+    dispatchCloseModal()
+  }
+
+  currentStep = () => {
+    const { booking, error } = this.props
+    const { token } = booking || {}
+    const { bookingInProgress } = this.state
+
+    if (error) return 'error'
+    if (token) return 'confirmation'
+    if (bookingInProgress) return 'loading'
+    return 'confirm'
+  }
+
   handleDateSelect = date => {
     const {
       availableMediatedOccurences,
       availableHours,
     } = this.getAvailableDateTimes(date)
     this.setState({
-      date: date,
+      date,
       occurences: availableMediatedOccurences,
       time: availableHours[0],
     })
   }
 
-  makeBooking = event => {
-    const {
-      currentRecommendation,
-      requestData
-    } = this.props
-    const {
-      offer
-    } = (currentRecommendation || {})
+  makeBooking = () => {
+    const { currentRecommendation, dispatchRequestData } = this.props
+    const { offer } = currentRecommendation || {}
     const { occurences } = this.state
     this.setState({
       bookingInProgress: true,
@@ -109,41 +103,27 @@ class Booking extends Component {
       occurences[0].offer &&
       occurences[0].offer[0]
     const offerId = selectedOffer ? selectedOffer.id : offer.id
-    requestData('POST', 'bookings', {
+    dispatchRequestData('POST', 'bookings', {
       body: {
         currentRecommendationId: currentRecommendation.id,
         offerId,
         quantity: 1,
       },
-      name: 'booking'
+      name: 'booking',
     })
   }
 
   render() {
-    const {
-      booking,
-      currentRecommendation,
-      error,
-    } = this.props
-    const {
-      token
-    } = (booking || {})
-    const {
-      offer,
-      tz
-    } = (currentRecommendation || {})
-    const {
-      price,
-      venue
-    } = (offer || {})
-    const {
-      managingOfferer
-    } = (venue || {})
-
+    const { booking, currentRecommendation, error } = this.props
+    const { token } = booking || {}
+    const { offer, tz } = currentRecommendation || {}
+    const { price, venue } = offer || {}
+    const { managingOfferer } = venue || {}
+    const { date, time, focused } = this.state
     const step = this.currentStep()
     const dateRequired =
       get(this.props, 'currentRecommendation.mediatedOccurences', []).length > 1
-    const dateOk = dateRequired ? this.state.date && this.state.time : true
+    const dateOk = dateRequired ? date && time : true
     const { availableDates, availableHours } = this.getAvailableDateTimes()
     return (
       <VersoWrapper>
@@ -153,25 +133,27 @@ class Booking extends Component {
               {dateRequired && (
                 <div>
                   <label htmlFor="date">
-                    <h6>Choisissez une date :</h6>
+                    <h6>
+Choisissez une date :
+                    </h6>
                   </label>
                   <div className="input-field date-picker">
                     <SingleDatePicker
-                      date={this.state.date}
+                      date={date}
                       onDateChange={this.handleDateSelect}
-                      focused={this.state.focused}
-                      onFocusChange={({ focused }) =>
-                        this.setState({ focused })
+                      focused={focused}
+                      onFocusChange={evt =>
+                        this.setState({ focused: evt.focused })
                       }
                       numberOfMonths={1}
-                      noBorder={true}
+                      noBorder
                       initialVisibleMonth={() =>
                         moment.min(availableDates.filter(d => d > moment.now()))
                       }
                       inputIconPosition="after"
                       anchorDirection="center"
-                      isDayBlocked={date =>
-                        !availableDates.find(d => d.isSame(date.tz(tz), 'day'))
+                      isDayBlocked={pdate =>
+                        !availableDates.find(d => d.isSame(pdate.tz(tz), 'day'))
                       }
                       customInputIcon={
                         <Icon svg="ico-calendar" alt="calendrier" />
@@ -181,22 +163,30 @@ class Booking extends Component {
                     />
                   </div>
                   <label htmlFor="time">
-                    <h6>Choisissez une heure :</h6>
+                    <h6>
+Choisissez une heure :
+                    </h6>
                   </label>
                   <div className="input-field" htmlFor="time">
                     <select
                       id="time"
-                      value={this.state.time || ''}
+                      value={time || ''}
                       className="input"
                       onChange={e => this.setState({ time: e.target.value })}
-                      disabled={!this.state.date}>
-                      {availableHours.length === 0 && <option>hh:mm</option>}
+                      disabled={!date}
+                    >
+                      {availableHours.length === 0 && (
+                      <option>
+hh:mm
+                      </option>
+)}
                       {availableHours.map(d => (
                         <option
                           key={d}
                           value={moment(d)
                             .tz(tz)
-                            .format('H:mm')}>
+                            .format('H:mm')}
+                        >
                           {moment(d)
                             .tz(tz)
                             .format('H:mm')}
@@ -218,11 +208,20 @@ class Booking extends Component {
                   {managingOfferer ? (
                     <div>
                       <p>
-                        Cette réservation d'une valeur de{' '}
-                        <Price value={price} /> vous est offerte par :<br />
-                        <strong>{managingOfferer.name}</strong>.
+                        {"Cette réservation d'une valeur de"}
+                        {' '}
+                        <Price value={price} /> 
+                        {' '}
+                        {'vous est offerte par :'}
+                        <br />
+                        <strong>
+                          {managingOfferer.name}
+                        </strong>
+.
                       </p>
-                      <p>Nous comptons sur vous pour en profiter !</p>
+                      <p>
+Nous comptons sur vous pour en profiter !
+                      </p>
                     </div>
                   ) : (
                     <div>
@@ -233,7 +232,10 @@ class Booking extends Component {
                             {price > 0 && (
                               <span>
                                 {' '}
-                                pour <Price value={price} />{' '}
+                                pour 
+                                {' '}
+                                <Price value={price} />
+                                {' '}
                               </span>
                             )}
                             .
@@ -241,7 +243,11 @@ class Booking extends Component {
                           <p>
                             <small>
                               Le montant sera déduit de votre pass. Il vous
-                              restera <Price value={0} free="——€" /> après cette
+                              restera 
+                              {' '}
+                              <Price value={0} free="——€" />
+                              {' '}
+après cette
                               réservation.
                             </small>
                           </p>
@@ -260,27 +266,40 @@ class Booking extends Component {
               )}
             </div>
           )}
-          {step === 'loading' && <p>Réservation en cours ...</p>}
+          {step === 'loading' && (
+          <p>
+Réservation en cours ...
+          </p>
+)}
           {step === 'confirmation' && (
             <div className="section finished">
               <Icon svg="picto-validation" alt="Réservation validée" />
-              <p>Votre réservation est validée.</p>
+              <p>
+Votre réservation est validée.
+              </p>
               <p>
                 {price > 0 && (
                   <small>
-                    <Price value={price} /> ont été déduits de votre pass.
+                    <Price value={price} />
+                    {' '}
+ont été déduits de votre pass.
                   </small>
                 )}
                 <br />
-                <small>Présentez le code suivant sur place :</small>
+                <small>
+Présentez le code suivant sur place :
+                </small>
               </p>
               <p>
-                <big>{token}</big>
+                <big>
+                  {token}
+                </big>
               </p>
               <p>
                 <small>
-                  Retrouvez ce code et les détails de l'offre dans la rubrique
-                  "Mes réservations" de votre compte.
+                  {
+                    'Retrouvez ce code et les détails de l\'offre dans la rubrique "Mes réservations" de votre compte.'
+                  }
                 </small>
               </p>
             </div>
@@ -288,14 +307,16 @@ class Booking extends Component {
           {step === 'error' && (
             <div className="section finished">
               <Icon svg="picto-echec" alt="Echec de réservation" />
-              <p>Une erreur est survenue lors de la réservation :</p>
+              <p>
+Une erreur est survenue lors de la réservation :
+              </p>
               {error && (
                 <p>
                   {capitalize(
                     Object.values(error)
                       .map(messages => messages.join(';'))
-                      .join(';'))
-                  }
+                      .join(';')
+                  )}
                 </p>
               )}
             </div>
@@ -304,19 +325,23 @@ class Booking extends Component {
             {step === 'confirm' && [
               <li key="submit">
                 <button
+                  type="button"
                   className={classnames({
                     button: true,
-                    'is-primary': true,
                     'is-hidden': !dateOk,
+                    'is-primary': true,
                   })}
-                  onClick={this.makeBooking}>
+                  onClick={this.makeBooking}
+                >
                   Valider
                 </button>
               </li>,
               <li key="cancel">
                 <button
+                  type="button"
                   className="button is-secondary"
-                  onClick={this.closeBooking}>
+                  onClick={this.closeBooking}
+                >
                   Annuler
                 </button>
               </li>,
@@ -329,8 +354,10 @@ class Booking extends Component {
             {step === 'confirmation' && (
               <li>
                 <button
+                  type="button"
                   className="button is-secondary"
-                  onClick={this.closeBooking}>
+                  onClick={this.closeBooking}
+                >
                   OK
                 </button>
               </li>
@@ -338,8 +365,10 @@ class Booking extends Component {
             {step === 'error' && (
               <li>
                 <button
+                  type="button"
                   className="button is-secondary"
-                  onClick={this.closeBooking}>
+                  onClick={this.closeBooking}
+                >
                   Retour
                 </button>
               </li>
@@ -351,6 +380,20 @@ class Booking extends Component {
   }
 }
 
+Booking.defaultProps = {
+  currentRecommendation: null,
+}
+
+Booking.propTypes = {
+  booking: PropTypes.object.isRequired,
+  currentRecommendation: PropTypes.object,
+  dispatchCloseModal: PropTypes.func.isRequired,
+  dispatchRemoveDataError: PropTypes.func.isRequired,
+  dispatchRequestData: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired,
+  tz: PropTypes.string.isRequired,
+}
+
 export default compose(
   withRouter,
   connect(
@@ -358,10 +401,18 @@ export default compose(
       const { mediationId, offerId } = ownProps.match.params
       return {
         booking: bookingSelector(state),
-        currentRecommendation: currentRecommendationSelector(state, offerId, mediationId),
-        error: state.errors.booking
+        currentRecommendation: currentRecommendationSelector(
+          state,
+          offerId,
+          mediationId
+        ),
+        error: state.errors.booking,
       }
     },
-    { closeModal, removeDataError, requestData }
+    {
+      dispatchCloseModal: closeModal,
+      dispatchRemoveDataError: removeDataError,
+      dispatchRequestData: requestData,
+    }
   )
 )(Booking)
