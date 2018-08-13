@@ -10,20 +10,28 @@ import {
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 
 import BackButton from './BackButton'
 import Footer from './Footer'
 
 class Main extends Component {
-  static defaultProps = {
-    Tag: 'main',
+  constructor(props) {
+    super(props)
+    const { dispatch } = props
+    const actions = { resetForm, showNotification }
+    this.actions = bindActionCreators(actions, dispatch)
   }
 
   componentDidMount() {
     this.handleHistoryBlock()
     const { user } = this.props
-    if (user) this.dataRequestHandler()
+    // si un utilisateur est connecte ?
+    // FIXME -> cela doit etre gere par un composant private
+    // heritage de ReactRouter
+    // https://reacttraining.com/react-router/web/example/auth-workflow
+    if (!user) return
+    this.dataRequestHandler()
   }
 
   componentDidUpdate(prevProps) {
@@ -42,14 +50,12 @@ class Main extends Component {
 
   componentWillUnmount() {
     if (this.unblock) this.unblock()
-    const { dispatchResetForm } = this.props
-    dispatchResetForm()
+    this.actions.resetForm()
   }
 
   handleDataFail = (state, action) => {
-    const { dispatchShowNotification } = this.props
     const error = get(action, 'errors.global', []).join('\n')
-    dispatchShowNotification({
+    this.actions.showNotification({
       text: error || 'Erreur de chargement',
       type: 'danger',
     })
@@ -57,6 +63,8 @@ class Main extends Component {
 
   dataRequestHandler = () => {
     const { handleDataRequest } = this.props
+    // la definition d'une propriete `handleDataRequest`
+    // dans un composant lance une requete
     if (!handleDataRequest) return
     // possibility of the handleDataRequest to return
     // false in order to not trigger the loading
@@ -92,8 +100,9 @@ class Main extends Component {
       name,
       noPadding,
       redBg,
-      Tag,
     } = this.props
+    // FIXME [PERFS] -> ne pas faire une itération
+    // utiliser plutot une propriete avec un composant
     const header = [].concat(children).find(e => e.type === 'header')
     const footer = [].concat(children).find(e => e.type === 'footer')
     const content = []
@@ -102,7 +111,7 @@ class Main extends Component {
 
     return (
       <React.Fragment>
-        <Tag
+        <main
           className={classnames({
             [`${name}-page`]: true,
             'no-padding': noPadding,
@@ -115,11 +124,11 @@ class Main extends Component {
         >
           {header}
           {backButton && <BackButton {...backButton} />}
-          <div className="page-content">
+          <div className="page-content is-relative">
             {content}
           </div>
           {footer || (footerProps && <Footer {...footerProps} />)}
-        </Tag>
+        </main>
         <Modal key="modal" />
       </React.Fragment>
     )
@@ -127,7 +136,6 @@ class Main extends Component {
 }
 
 Main.defaultProps = {
-  Tag: 'main',
   backButton: false,
   footer: null,
   handleDataRequest: null,
@@ -137,12 +145,10 @@ Main.defaultProps = {
 }
 
 Main.propTypes = {
-  Tag: PropTypes.string,
   backButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   blockers: PropTypes.array.isRequired,
   children: PropTypes.node.isRequired,
-  dispatchResetForm: PropTypes.func.isRequired,
-  dispatchShowNotification: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   footer: PropTypes.object,
   handleDataRequest: PropTypes.func,
   history: PropTypes.object.isRequired,
@@ -153,20 +159,14 @@ Main.propTypes = {
   user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 }
 
+const mapStateToProps = state => ({
+  blockers: state.blockers,
+  notification: state.notification,
+  user: state.user,
+})
+
 export default compose(
   withRouter,
-  withLogin({
-    failRedirect: '/connexion',
-  }),
-  connect(
-    state => ({
-      blockers: state.blockers,
-      notification: state.notification,
-      user: state.user,
-    }),
-    {
-      dispatchResetForm: resetForm,
-      dispatchShowNotification: showNotification,
-    }
-  )
+  withLogin({ failRedirect: '/connexion' }),
+  connect(mapStateToProps)
 )(Main)
