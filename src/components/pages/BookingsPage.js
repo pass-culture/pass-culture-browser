@@ -2,19 +2,39 @@ import PropTypes from 'prop-types'
 import { requestData } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 
 import BookingItem from '../BookingItem'
 import Main from '../layout/Main'
+import Footer from '../layout/Footer'
 import otherBookingsSelector from '../../selectors/otherBookings'
 import soonBookingsSelector from '../../selectors/soonBookings'
 import { bookingNormalizer } from '../../utils/normalizers'
 
+const renderPageHeader = () => (
+  <header>
+    <h1>
+      {'Mes réservations'}
+    </h1>
+  </header>
+)
+
+const renderPageFooter = () => {
+  const footerProps = { borderTop: true }
+  return <Footer {...footerProps} />
+}
+
 class BookingsPage extends Component {
+  constructor(props) {
+    super(props)
+    const { dispatch } = props
+    const actions = { requestData }
+    this.actions = bindActionCreators(actions, dispatch)
+  }
+
   handleDataRequest = (handleSuccess, handleFail) => {
-    const { dispatchRequestData } = this.props
-    dispatchRequestData('GET', 'bookings', {
+    this.actions.requestData('GET', 'bookings', {
       handleFail,
       handleSuccess,
       normalizer: bookingNormalizer,
@@ -26,16 +46,12 @@ class BookingsPage extends Component {
     return (
       <Main
         backButton
+        header={renderPageHeader}
         handleDataRequest={this.handleDataRequest}
         name="bookings"
-        footer={{ borderTop: true }}
+        footer={renderPageFooter}
         redBg
       >
-        <header>
-          <h1>
-Mes réservations
-          </h1>
-        </header>
         {soonBookings.length > 0 && (
           <div>
             <h4>
@@ -79,17 +95,14 @@ Pas encore de réservation.
 }
 
 BookingsPage.propTypes = {
-  dispatchRequestData: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   otherBookings: PropTypes.array.isRequired,
   soonBookings: PropTypes.array.isRequired,
 }
 
-export default compose(
-  connect(
-    state => ({
-      otherBookings: otherBookingsSelector(state),
-      soonBookings: soonBookingsSelector(state),
-    }),
-    { dispatchRequestData: requestData }
-  )
-)(BookingsPage)
+const mapStateToProps = state => ({
+  otherBookings: otherBookingsSelector(state),
+  soonBookings: soonBookingsSelector(state),
+})
+
+export default connect(mapStateToProps)(BookingsPage)

@@ -2,7 +2,7 @@ import { Icon } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
 import Price from './Price'
@@ -22,8 +22,8 @@ const DeckNavigation = ({
   const { stock } = offer || {}
   const { price } = stock || {}
   const { tutoIndex } = mediation || {}
-  const backgroundGradient = `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${headerColor ||
-    '#000'} 30%,${headerColor || '#000'} 100%)`
+  const color = headerColor || '#000'
+  const backgroundGradient = `linear-gradient(to bottom, rgba(0,0,0,0) 0%,${color} 30%,${color} 100%)`
   return (
     <div id="deck-navigation" style={{ background: backgroundGradient }}>
       <div

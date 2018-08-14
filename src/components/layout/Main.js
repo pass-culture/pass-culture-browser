@@ -7,23 +7,30 @@ import {
   showNotification,
   withLogin,
 } from 'pass-culture-shared'
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
-import { compose } from 'redux'
+import { withRouter } from 'react-router-dom'
+import { compose, bindActionCreators } from 'redux'
 
 import BackButton from './BackButton'
-import Footer from './Footer'
 
-class Main extends Component {
-  static defaultProps = {
-    Tag: 'main',
+class Main extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    const { dispatch } = props
+    const actions = { resetForm, showNotification }
+    this.actions = bindActionCreators(actions, dispatch)
   }
 
   componentDidMount() {
     this.handleHistoryBlock()
     const { user } = this.props
-    if (user) this.dataRequestHandler()
+    // si un utilisateur est connecte ?
+    // FIXME -> cela doit etre gere par un composant private
+    // heritage de ReactRouter
+    // NOTE -> https://reacttraining.com/react-router/web/example/auth-workflow
+    if (!user) return
+    this.dataRequestHandler()
   }
 
   componentDidUpdate(prevProps) {
@@ -42,21 +49,21 @@ class Main extends Component {
 
   componentWillUnmount() {
     if (this.unblock) this.unblock()
-    const { dispatchResetForm } = this.props
-    dispatchResetForm()
+    this.actions.resetForm()
   }
 
   handleDataFail = (state, action) => {
-    const { dispatchShowNotification } = this.props
-    dispatchShowNotification({
-      text:
-        get(action, 'errors.global', []).join('\n') || 'Erreur de chargement',
+    const error = get(action, 'errors.global', []).join('\n')
+    this.actions.showNotification({
+      text: error || 'Erreur de chargement',
       type: 'danger',
     })
   }
 
   dataRequestHandler = () => {
     const { handleDataRequest } = this.props
+    // la definition d'une propriete `handleDataRequest`
+    // dans un composant lance une requete
     if (!handleDataRequest) return
     // possibility of the handleDataRequest to return
     // false in order to not trigger the loading
@@ -88,61 +95,62 @@ class Main extends Component {
     const {
       backButton,
       children,
-      footer: footerProps,
       name,
       noPadding,
       redBg,
-      Tag,
+      footer,
+      header,
     } = this.props
-    const header = [].concat(children).find(e => e.type === 'header')
-    const footer = [].concat(children).find(e => e.type === 'footer')
-    const content = []
-      .concat(children)
-      .filter(e => e.type !== 'header' && e.type !== 'footer')
+    // FIXME [PERFS] -> ne pas faire une itération
+    // utiliser plutot une propriete avec un composant
+    // const footer = [].concat(children).find(e => e.type === 'footer')
+    // const content = [].concat(children).filter(e => e.type !== 'footer')
 
-    return [
-      <Tag
-        className={classnames({
-          [`${name}-page`]: true,
-          'no-padding': noPadding,
-          page: true,
-          'red-bg': redBg,
-          'with-footer': Boolean(footer) || Boolean(footerProps),
-          'with-header': Boolean(header),
-        })}
-        key="main"
-      >
-        {header}
-        {backButton && <BackButton {...backButton} />}
-        <div className="page-content">
-          {content}
-        </div>
-        {footer || (footerProps && <Footer {...footerProps} />)}
-      </Tag>,
-      <Modal key="modal" />,
-    ]
+    return (
+      <React.Fragment>
+        <main
+          className={classnames({
+            [`${name}-page`]: true,
+            'no-padding': noPadding,
+            page: true,
+            'red-bg': redBg,
+            'with-footer': footer !== null,
+            // Boolean(footer) || Boolean(footerProps),
+            'with-header': header !== null,
+          })}
+        >
+          {header && header()}
+          {backButton && <BackButton {...backButton} />}
+          <div className="page-content is-relative">
+            {children}
+          </div>
+          {footer && footer()}
+          {/* || (footerProps && <Footer {...footerProps} />)} */}
+        </main>
+        <Modal />
+      </React.Fragment>
+    )
   }
 }
 
 Main.defaultProps = {
-  Tag: 'main',
   backButton: false,
   footer: null,
   handleDataRequest: null,
+  header: null,
   noPadding: false,
   redBg: false,
   user: null,
 }
 
 Main.propTypes = {
-  Tag: PropTypes.string,
   backButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   blockers: PropTypes.array.isRequired,
   children: PropTypes.node.isRequired,
-  dispatchResetForm: PropTypes.func.isRequired,
-  dispatchShowNotification: PropTypes.func.isRequired,
-  footer: PropTypes.object,
+  dispatch: PropTypes.func.isRequired,
+  footer: PropTypes.func,
   handleDataRequest: PropTypes.func,
+  header: PropTypes.func,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
@@ -151,20 +159,14 @@ Main.propTypes = {
   user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 }
 
+const mapStateToProps = state => ({
+  blockers: state.blockers,
+  notification: state.notification,
+  user: state.user,
+})
+
 export default compose(
   withRouter,
-  withLogin({
-    failRedirect: '/connexion',
-  }),
-  connect(
-    state => ({
-      blockers: state.blockers,
-      notification: state.notification,
-      user: state.user,
-    }),
-    {
-      dispatchResetForm: resetForm,
-      dispatchShowNotification: showNotification,
-    }
-  )
+  withLogin({ failRedirect: '/connexion' }),
+  connect(mapStateToProps)
 )(Main)
