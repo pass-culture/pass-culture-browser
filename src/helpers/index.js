@@ -1,2 +1,5 @@
 export * from './getPrice'
+export * from './getTimezone'
+export * from './humanizeDistance'
 export * from './getMobileOperatingSystem'
+export * from './filterUniqRecommendations'

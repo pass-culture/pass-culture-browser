@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 import Thumb from './layout/Thumb'
 import recommendationSelector from '../selectors/recommendation'
-import { getTimezone } from '../utils/timezone'
+import { getTimezone } from '../helpers'
 
 const BookingItem = ({ booking, recommendation }) => {
   const { stock, token } = booking || {}
