@@ -7,6 +7,7 @@ import DiscoveryPage from '../components/pages/DiscoveryPage'
 import FavoritesPage from '../components/pages/FavoritesPage'
 import InventoryPage from '../components/pages/InventoryPage'
 import ProfilePage from '../components/pages/ProfilePage'
+import SearchPage from '../components/pages/SearchPage'
 import SigninPage from '../components/pages/SigninPage'
 import SignupPage from '../components/pages/SignupPage'
 import TermsPage from '../components/pages/TermsPage'
@@ -51,6 +52,11 @@ const routes = [
     component: ProfilePage,
     path: '/profil',
     title: 'Profil',
+  },
+  {
+    component: SearchPage,
+    path: '/recherche',
+    title: 'Recherche',
   },
   {
     component: BookingsPage,

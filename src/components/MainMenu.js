@@ -14,6 +14,7 @@ import { toggleMainMenu } from '../reducers/menu'
 const navigations = [
   // [route-path, link-label, link-icon, is-disabled]
   ['decouverte', 'Les offres', 'offres'],
+  ['recherche', 'Recherche', 'search'],
   ['reservations', 'Mes réservations', 'calendar'],
   ['favoris', 'Mes préférés', 'like'],
   ['reglages', 'Réglages', 'settings', true],
