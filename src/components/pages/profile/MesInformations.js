@@ -6,17 +6,18 @@ import { getDepartementByCode } from '../../../helpers'
 
 const noop = () => {}
 
-const renderInformation = (label, value, disabled = false) => {
+const renderInformation = (label, value, disabled = false, islast = false) => {
   const placeholder = 'Non renseigné'
-  const cssclass = (disabled && 'no-pointer') || ''
+  const cssclass = islast ? '' : 'dotted-bottom-black'
   const strvalue =
     (typeof value === 'string' && value.trim() !== '' && value) || false
   return (
-    <div className="mb40">
+    <div>
       <button
         type="button"
-        onClick={disabled ? noop : noop}
-        className={`no-border no-outline no-background dotted-bottom-black text-left is-full-width flex-columns items-center pt22 pb22 ${cssclass}`}
+        onClick={noop}
+        disabled={disabled}
+        className={`no-border no-outline no-background text-left is-full-width flex-columns items-center pt22 pb22 ${cssclass}`}
       >
         <span className="is-block flex-1">
           <span className="pc-label pb3 is-block is-uppercase">{label}</span>
@@ -38,7 +39,7 @@ const MesInformations = ({ provider }) => {
   const departementName = getDepartementByCode(departementCode)
   const departement = `${departementCode} - ${departementName}`
   return (
-    <div>
+    <div className="mb40">
       <h3 className="dotted-bottom-primary is-primary-text is-uppercase pb8 px12">
         <i>Mes Informations</i>
       </h3>
@@ -46,8 +47,8 @@ const MesInformations = ({ provider }) => {
         {renderInformation('Identifiant', publicName)}
         {renderInformation('Nom et prénom', '')}
         {renderInformation('Adresse e-mail', email)}
-        {renderInformation('Mot de passe', '')}
-        {renderInformation('Département de résidence', departement, true)}
+        {renderInformation('Mot de passe', '', true)}
+        {renderInformation('Département de résidence', departement, true, true)}
       </div>
     </div>
   )

@@ -164,7 +164,7 @@ class MainMenu extends React.PureComponent {
             <div className="inner is-relative is-clipped flex-rows">
               {this.renderMenuHeader()}
               <div className="scroll-container is-clipped">
-                <Scrollbars>
+                <Scrollbars autoHide>
                   <nav className="navigation flex-rows mt16 pb0">
                     {navigations.map(o => this.renderNavLink(...o))}
                     {renderContactUsLink()}
