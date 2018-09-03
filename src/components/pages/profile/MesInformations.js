@@ -20,7 +20,7 @@ const renderInformation = (label, value, disabled = false) => {
       >
         <span className="is-block flex-1">
           <span className="pc-label pb3 is-block is-uppercase">{label}</span>
-          {strvalue && <b className="is-block is-uppercase">{strvalue}</b>}
+          {strvalue && <b className="is-block">{strvalue}</b>}
           {!strvalue && (
             <span className="is-block is-uppercase">{placeholder}</span>
           )}

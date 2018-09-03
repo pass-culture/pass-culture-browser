@@ -9,6 +9,8 @@ export const getDepartementByCode = code => {
       return 'Finistère'
     case '34':
       return 'Hérault'
+    case '67':
+      return 'Bas-Rhin'
     case '93':
       return 'Seine-Saint-Denis'
     case '971':
@@ -19,6 +21,8 @@ export const getDepartementByCode = code => {
       return 'Guyane'
     case '974':
       return 'La Réunion'
+    case '975':
+      return 'Saint-Pierre-et-Miquelon'
     case '976':
       return 'Mayotte'
     default:
