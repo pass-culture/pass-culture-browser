@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import App from './App'
-import routes from './utils/routes'
+import routes from './routes'
 import { configureStore } from './utils/store'
 import NotMatch from './components/pages/NotMatch'
 

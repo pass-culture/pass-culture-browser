@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import { compose } from 'redux'
 import { withRouter, matchPath } from 'react-router-dom'
 
-import routes from './utils/routes'
+import routes from './routes'
 import MainMenu from './components/MainMenu'
 import Debug from './components/layout/Debug'
 import Splash from './components/layout/Splash'

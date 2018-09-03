@@ -1,16 +1,18 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 
-import BetaPage from '../components/pages/BetaPage'
-import BookingsPage from '../components/pages/BookingsPage'
-import DiscoveryPage from '../components/pages/DiscoveryPage'
-import FavoritesPage from '../components/pages/FavoritesPage'
-import ProfilePage from '../components/pages/ProfilePage'
-import SigninPage from '../components/pages/SigninPage'
-import SignupPage from '../components/pages/SignupPage'
-import TermsPage from '../components/pages/TermsPage'
+import BetaPage from './components/pages/BetaPage'
+import BookingsPage from './components/pages/BookingsPage'
+import DiscoveryPage from './components/pages/DiscoveryPage'
+import FavoritesPage from './components/pages/FavoritesPage'
+import ProfilePage from './components/pages/ProfilePage'
+import SigninPage from './components/pages/SigninPage'
+import SignupPage from './components/pages/SignupPage'
+import TermsPage from './components/pages/TermsPage'
 
-const routes = [
+// NOTE: la gestion des éléments du menu principal
+// se fait dans le fichier src/components/MainMenu
+export const routes = [
   {
     path: '/',
     render: () => <Redirect to="/beta" />,
