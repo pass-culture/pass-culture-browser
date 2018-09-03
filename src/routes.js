@@ -12,7 +12,7 @@ import TermsPage from './components/pages/TermsPage'
 
 // NOTE: la gestion des éléments du menu principal
 // se fait dans le fichier src/components/MainMenu
-export const routes = [
+const routes = [
   {
     path: '/',
     render: () => <Redirect to="/beta" />,
