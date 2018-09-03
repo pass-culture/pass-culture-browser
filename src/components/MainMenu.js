@@ -92,7 +92,7 @@ class MainMenu extends React.PureComponent {
     // regle stricte
     // si on est sur la page verso d'une offre
     // aucun menu n'est actif
-    const cssclass = (disabled && 'is-disabled') || ''
+    // const cssclass = (disabled && 'is-disabled') || ''
     const isverso =
       location.search && location.search.indexOf('?to=verso') !== -1
     const activeClass = isverso ? null : 'active'
@@ -100,9 +100,10 @@ class MainMenu extends React.PureComponent {
       <NavLink
         key={path}
         to={`/${path}`}
+        disabled={disabled}
         onClick={this.onNavLinkClick}
         activeClassName={activeClass}
-        className={`navlink flex-columns ${cssclass}`}
+        className="navlink flex-columns"
       >
         <span className="text-center menu-icon">
           <Icon svg={`ico-${icon}-w`} alt="" />
@@ -116,6 +117,7 @@ class MainMenu extends React.PureComponent {
 
   renderMenuHeader() {
     const { user, dispatch } = this.props
+    const wallet = user ? user.wallet_balance : '--'
     return (
       <div className="header flex-columns is-relative p16">
         <button
@@ -143,7 +145,7 @@ class MainMenu extends React.PureComponent {
           </p>
           <p>
             <strong>
-              {'—— €'}
+              {`${wallet}€`}
             </strong>
           </p>
         </div>

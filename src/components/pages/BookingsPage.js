@@ -15,7 +15,7 @@ import {
   selectOtherBookings,
   selectRecommendations,
 } from '../../selectors'
-import DeckLoader from '../deck/DeckLoader'
+import Loader from '../Loader'
 import { toggleMainMenu } from '../../reducers/menu'
 import ProfilePicture from '../layout/ProfilePicture'
 import { bookingNormalizer } from '../../utils/normalizers'
@@ -115,11 +115,7 @@ class BookingsPage extends Component {
           </div>
         )}
         {hasNoBooking && renderNoBookingSection()}
-        <DeckLoader
-          isempty={isempty}
-          haserror={haserror}
-          isloading={isloading}
-        />
+        <Loader isempty={isempty} haserror={haserror} isloading={isloading} />
       </Main>
     )
   }

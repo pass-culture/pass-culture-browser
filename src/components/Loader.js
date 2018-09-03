@@ -16,7 +16,7 @@ const transitionStyles = {
   exited: { display: 'none', visibility: 'none' },
 }
 
-const DeckLoader = ({ haserror, isempty, isloading }) => {
+const Loader = ({ haserror, isempty, isloading }) => {
   // on cache pas le loader
   // si il est en court de chargement
   // si il y a aucun produits à afficher pour l'utilisateur
@@ -25,7 +25,7 @@ const DeckLoader = ({ haserror, isempty, isloading }) => {
     <Transition in={!shouldhide} timeout={duration}>
       {state => (
         <div
-          id="deckloader"
+          id="application-loader"
           className="flex-rows flex-center is-overlay text-center is-italic"
           style={{ ...defaultStyle, ...transitionStyles[state] }}
         >
@@ -46,15 +46,15 @@ const DeckLoader = ({ haserror, isempty, isloading }) => {
   )
 }
 
-DeckLoader.defaultProps = {
+Loader.defaultProps = {
   haserror: false,
   isempty: false,
 }
 
-DeckLoader.propTypes = {
+Loader.propTypes = {
   haserror: PropTypes.bool,
   isempty: PropTypes.bool,
   isloading: PropTypes.bool.isRequired,
 }
 
-export default DeckLoader
+export default Loader

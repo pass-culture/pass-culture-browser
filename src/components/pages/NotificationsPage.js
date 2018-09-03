@@ -7,13 +7,13 @@ import { connect } from 'react-redux'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { withLogin } from 'pass-culture-shared'
 
+import Loader from '../Loader'
 import NavigationFooter from '../layout/NavigationFooter'
 
 const NotificationsPage = ({ user }) => {
   const isloaded = user || typeof user === 'object'
   return (
     <div id="notifications-page" className="page is-relative flex-rows">
-      {!isloaded && <span>is loading...</span>}
       {isloaded && (
         <React.Fragment>
           <header className="padded pc-primary-element text-center flex-0">
@@ -27,6 +27,7 @@ const NotificationsPage = ({ user }) => {
           <NavigationFooter className="pc-white-element dotted-top-primary" />
         </React.Fragment>
       )}
+      <Loader isloading={!isloaded} />
     </div>
   )
 }

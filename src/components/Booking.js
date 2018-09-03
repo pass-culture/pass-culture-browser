@@ -153,6 +153,7 @@ class Booking extends React.PureComponent {
       recommendationId: recommendation.id,
       stockId: null,
     }
+    const backgroundImage = `url('${ROOT_PATH}/mosaic-k@2x.png')`
     return (
       <Transition in={mounted} timeout={0}>
         {state => (
@@ -171,9 +172,7 @@ class Booking extends React.PureComponent {
             </header>
             <div
               className="main flex-1 items-center is-clipped is-relative"
-              style={{
-                backgroundImage: `url('${ROOT_PATH}/mosaic-w@2x.png')`,
-              }}
+              style={{ backgroundImage }}
             >
               <div className="views-container is-overlay">
                 {isSubmitting && <BookingLoader />}
