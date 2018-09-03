@@ -12,7 +12,7 @@ const renderInformation = (label, value, disabled = false) => {
   const strvalue =
     (typeof value === 'string' && value.trim() !== '' && value) || false
   return (
-    <div>
+    <div className="mb40">
       <button
         type="button"
         onClick={disabled ? noop : noop}

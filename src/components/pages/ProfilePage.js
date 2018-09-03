@@ -4,6 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { Scrollbars } from 'react-custom-scrollbars'
 import { requestData, withLogin } from 'pass-culture-shared'
 
 import UserProfile from './profile/UserProfile'
@@ -38,9 +39,11 @@ class ProfilePage extends React.PureComponent {
           </h1>
         </header>
         <main role="main" className="is-relative flex-1">
-          <UserProfile provider={user} />
-          <MonPassCulture provider={user} />
-          <MesInformations provider={user} />
+          <Scrollbars>
+            <UserProfile provider={user} />
+            <MonPassCulture provider={user} />
+            <MesInformations provider={user} />
+          </Scrollbars>
         </main>
         <NavigationFooter className="pc-white-element dotted-top-primary" />
       </div>
