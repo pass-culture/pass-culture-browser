@@ -1,10 +1,8 @@
-.no-border {
-  border: 0;
-}
+/* -------------------------------------------------
 
-.no-background {
-  background-color: transparent;
-}
+ DISPLAYS
+
+------------------------------------------------- */
 
 .is-block {
   display: block;
@@ -30,9 +28,37 @@
   position: absolute;
 }
 
+.is-full-width {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+
 /* -------------------------------------------------
 
- PADDING
+ NEGATES
+
+------------------------------------------------- */
+
+.no-border {
+  border: 0;
+}
+
+.no-background {
+  background-color: transparent;
+}
+
+.no-outline {
+  outline: none;
+}
+
+.no-pointer {
+  cursor: default;
+}
+
+/* -------------------------------------------------
+
+ PADDINGS
 
 ------------------------------------------------- */
 
@@ -44,7 +70,7 @@
 
 /* -------------------------------------------------
 
- TEXT
+ TEXTS
 
 ------------------------------------------------- */
 
@@ -75,4 +101,20 @@
 .is-capitalized {
   // capitalize each words first letter
   text-transform: capitalize;
+}
+
+.is-grey-text {
+  color: $grey;
+}
+
+.is-white-text {
+  color: $white;
+}
+
+.is-black-text {
+  color: $black;
+}
+
+.is-primary-text {
+  color: $primary;
 }

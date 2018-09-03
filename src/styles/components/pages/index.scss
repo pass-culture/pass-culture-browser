@@ -23,4 +23,12 @@
 }
 
 #profile-page {
+  button .icon-next {
+    color: $primary;
+    font-size: 1.4rem;
+  }
+
+  button.no-pointer .icon-next {
+    color: $grey-light;
+  }
 }

@@ -6,8 +6,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { requestData, withLogin } from 'pass-culture-shared'
 
+import UserProfile from './profile/UserProfile'
+import MonPassCulture from './profile/MonPassCulture'
+import MesInformations from './profile/MesInformations'
 import NavigationFooter from '../layout/NavigationFooter'
-import InformationInput from './profile/InformationField'
 
 class ProfilePage extends React.PureComponent {
   constructor(props) {
@@ -19,73 +21,42 @@ class ProfilePage extends React.PureComponent {
 
   render() {
     const { user } = this.props
-    console.log('user', user)
+    const isloaded = user || typeof user === 'object'
+    if (!isloaded) {
+      return (
+        // FIXME
+        <div id="profile-page" className="page flex-rows">
+          is loading
+        </div>
+      )
+    }
     return (
       <div id="profile-page" className="page flex-rows">
-        <header className="padded background-primary text-center flex-0">
+        <header className="padded pc-primary-element text-center flex-0">
           <h1>
             <span>Mon profil</span>
           </h1>
         </header>
         <main role="main" className="is-relative flex-1">
-          <div className="section">
-            <h3 className="dotted-bottom-primary is-uppercase">
-              <span>Mon PassCulture</span>
-            </h3>
-          </div>
-          <div className="section">
-            <h3 className="dotted-bottom-primary is-uppercase">
-              <span>Mes Informations</span>
-            </h3>
-            <div>
-              <InformationInput label="Identifiant" value="" />
-              <InformationInput label="Nom et prénom" />
-              <InformationInput
-                label="Adresse e-mail"
-                value="prenom.nom@domaine.fr"
-              />
-              <InformationInput label="Mot de passe" value="*****" />
-              <InformationInput
-                label="Département de résidence"
-                value="*****"
-              />
-              <InformationInput
-                label="Département de résidence"
-                value="93 - Seine-Saint-Denis"
-              />
-            </div>
-          </div>
+          <UserProfile provider={user} />
+          <MonPassCulture provider={user} />
+          <MesInformations provider={user} />
         </main>
-        <NavigationFooter className="flex-0" />
+        <NavigationFooter className="pc-white-element dotted-top-primary" />
       </div>
-      /* <Main
-        name="profile"
-        backButton
-        footer={renderPageFooter}
-        header={renderPageHeader}
-      >
-        <h2 className="title">
-          {'Bienvenue !'}
-        </h2>
-        <button
-          type="button"
-          className="button is-default"
-          disabled={!user}
-          onClick={this.onSignOutClick}
-        >
-          {'Déconnexion'}
-        </button>
-      </Main> */
     )
   }
 }
 
 ProfilePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 }
 
-const mapStateToProps = state => ({ user: state.user })
+const mapStateToProps = state => {
+  const user = state.user || false
+  return { user }
+}
 
 export default compose(
   withLogin({ failRedirect: '/connexion' }),

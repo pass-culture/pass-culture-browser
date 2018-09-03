@@ -1,6 +1,6 @@
 #deck {
   height: 100vh;
-  background-color: black;
+  background-color: $black;
 
   .react-draggable {
     width: 100%;
@@ -21,7 +21,7 @@
 #deckloader {
   z-index: $zindex-deckloader;
   opacity: 1;
-  color: white;
+  color: $white;
   background-color: $primary;
 
   img {

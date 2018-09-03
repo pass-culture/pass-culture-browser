@@ -18,7 +18,7 @@ const BetaPage = () => (
     </main>
     <footer
       role="navigation"
-      className="application-footer dotted-top flex-columns items-center flex-end flex-0"
+      className="pc-footer dotted-top flex-columns items-center flex-end flex-0"
     >
       <Link to="/inscription" className="flex-center items-center">
         <i>C&apos;est par là</i>

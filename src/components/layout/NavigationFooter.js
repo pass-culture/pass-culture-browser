@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { toggleMainMenu } from '../../reducers/menu'
 
 const NavigationFooter = ({ dispatch, className }) => {
-  const cssclass = `application-footer dotted-top is-absolute flex-columns flex-center items-center ${className}`
+  const cssclass = `pc-footer dotted-top flex-columns flex-center items-center flex-0 ${className}`
   return (
     <footer className={cssclass}>
       <button
