@@ -22,8 +22,6 @@
     .is-danger {
       color: $white;
     }
-
-
   }
 
   .page-content {
@@ -33,12 +31,10 @@
     left: 0;
     right: 0;
     top: 0;
-    bottom: 0;
     overflow-y: auto;
   }
 
   &.with-header {
-
     header {
       position: absolute;
       top: 0;
@@ -50,6 +46,7 @@
       background-color: $primary;
       color: $white;
       line-height: $header-height;
+
       @include dotted($white, bottom);
     }
 
@@ -58,9 +55,7 @@
     }
   }
 
-
   &.with-footer {
-
     .page-content {
       bottom: $footer-height;
     }
@@ -78,11 +73,11 @@
       align-items: center;
       flex-direction: row-reverse;
 
-      a, button {
+      a,
+      button {
         font-size: $size-medium;
       }
     }
-
   }
 
   &.no-padding .page-content {
