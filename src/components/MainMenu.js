@@ -17,7 +17,7 @@ const navigations = [
   ['reservations', 'Mes réservations', 'calendar'],
   ['favoris', 'Mes préférés', 'like'],
   ['reglages', 'Réglages', 'settings', true],
-  ['profil', 'Mon profil', 'user', true],
+  ['profil', 'Mon profil', 'user'],
   ['mentions-legales', 'Mentions légales', 'txt'],
 ]
 
