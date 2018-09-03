@@ -5,10 +5,7 @@ import { Link } from 'react-router-dom'
 
 const BetaPage = () => (
   <div id="beta-page" className="page flex-rows">
-    <main
-      role="main"
-      className="padding-section flex-rows flex-around items-center"
-    >
+    <main role="main" className="padded flex-rows flex-around items-center">
       <h1 className="text-center">
         <i className="is-block">Bienvenue dans la version beta</i>
         <i className="is-block">du Pass Culture</i>
@@ -27,7 +24,7 @@ const BetaPage = () => (
         <i>C&apos;est par là</i>
         <span
           aria-hidden="true"
-          className="icon-next"
+          className="icon-next-long"
           title="C&apos;est par là"
         />
       </Link>

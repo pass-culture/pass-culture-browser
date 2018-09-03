@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux'
 import { requestData, withLogin } from 'pass-culture-shared'
 
 import NavigationFooter from '../layout/NavigationFooter'
+import InformationInput from './profile/InformationField'
 
 class ProfilePage extends React.PureComponent {
   constructor(props) {
@@ -21,14 +22,14 @@ class ProfilePage extends React.PureComponent {
     console.log('user', user)
     return (
       <div id="profile-page" className="page flex-rows">
-        <header className="padding-section background-primary text-center flex-0">
+        <header className="padded background-primary text-center flex-0">
           <h1>
             <span>Mon profil</span>
           </h1>
         </header>
         <main role="main" className="is-relative flex-1">
           <div className="section">
-            <h3 className="dotted-bottom-black is-uppercase">
+            <h3 className="dotted-bottom-primary is-uppercase">
               <span>Mon PassCulture</span>
             </h3>
           </div>
@@ -36,6 +37,23 @@ class ProfilePage extends React.PureComponent {
             <h3 className="dotted-bottom-primary is-uppercase">
               <span>Mes Informations</span>
             </h3>
+            <div>
+              <InformationInput label="Identifiant" value="" />
+              <InformationInput label="Nom et prénom" />
+              <InformationInput
+                label="Adresse e-mail"
+                value="prenom.nom@domaine.fr"
+              />
+              <InformationInput label="Mot de passe" value="*****" />
+              <InformationInput
+                label="Département de résidence"
+                value="*****"
+              />
+              <InformationInput
+                label="Département de résidence"
+                value="93 - Seine-Saint-Denis"
+              />
+            </div>
           </div>
         </main>
         <NavigationFooter className="flex-0" />

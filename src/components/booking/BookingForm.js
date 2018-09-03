@@ -97,11 +97,11 @@ class BookingFormComponent extends React.PureComponent {
             provider={hoursAndPrices}
             placeholder="Heure et prix"
             label="Choisissez une heure"
-            className="has-text-centered"
+            className="text-center"
           />
         )}
         {stockId && (
-          <p className="has-text-centered">
+          <p className="text-center">
             <span className="is-block">Vous êtes sur le point de réserver</span>
             <span className="is-block">cette offre pour {price}€</span>
           </p>

@@ -1,0 +1,78 @@
+.no-border {
+  border: 0;
+}
+
+.no-background {
+  background-color: transparent;
+}
+
+.is-block {
+  display: block;
+}
+
+.is-relative {
+  position: relative;
+}
+
+.is-absolute {
+  position: absolute;
+}
+
+.is-clipped {
+  overflow: hidden !important;
+}
+
+.is-overlay {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+/* -------------------------------------------------
+
+ PADDING
+
+------------------------------------------------- */
+
+.padded {
+  // default padding to 1rem
+  // appliquer aux pages, aux sections de pages
+  padding: $page-padding;
+}
+
+/* -------------------------------------------------
+
+ TEXT
+
+------------------------------------------------- */
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.is-uppercase {
+  text-transform: uppercase;
+}
+
+.is-lowercase {
+  text-transform: lowercase;
+}
+
+.is-capitalized {
+  // capitalize each words first letter
+  text-transform: capitalize;
+}
