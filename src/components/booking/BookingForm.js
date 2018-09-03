@@ -88,7 +88,7 @@ class BookingFormComponent extends React.PureComponent {
           help="This is help"
           provider={calendarDates}
           label="Choisissez une date"
-          className="has-text-centered"
+          className="text-center"
           placeholder={moment().format('DD MMMM YYYY')}
         />
         {hoursAndPrices && (

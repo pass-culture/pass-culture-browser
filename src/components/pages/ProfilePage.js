@@ -1,22 +1,12 @@
-import PropTypes from 'prop-types'
-import { requestData, withLogin } from 'pass-culture-shared'
+/* eslint
+  react/jsx-one-expression-per-line: 0 */
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { requestData, withLogin } from 'pass-culture-shared'
 
-import Main from '../layout/Main'
-import Footer from '../layout/Footer'
-
-const renderPageHeader = () => (
-  <header>
-    {'Mon profil'}
-  </header>
-)
-
-const renderPageFooter = () => {
-  const footerProps = { borderTop: true, colored: true }
-  return <Footer {...footerProps} />
-}
+import NavigationFooter from '../layout/NavigationFooter'
 
 class ProfilePage extends React.PureComponent {
   constructor(props) {
@@ -26,27 +16,37 @@ class ProfilePage extends React.PureComponent {
     this.actions = bindActionCreators(actions, dispatch)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { user } = this.props
-    if (nextProps.user === false && user) {
-      nextProps.history.push('/')
-    }
-  }
-
-  onSignOutClick = () => {
-    this.actions.requestData('GET', 'users/signout')
-  }
-
   render() {
     const { user } = this.props
+    console.log('user', user)
     return (
-      <Main
+      <div id="profile-page" className="page flex-rows">
+        <header className="padding-section background-primary text-center flex-0">
+          <h1>
+            <span>Mon profil</span>
+          </h1>
+        </header>
+        <main role="main" className="is-relative flex-1">
+          <div className="section">
+            <h3 className="dotted-bottom-black is-uppercase">
+              <span>Mon PassCulture</span>
+            </h3>
+          </div>
+          <div className="section">
+            <h3 className="dotted-bottom-primary is-uppercase">
+              <span>Mes Informations</span>
+            </h3>
+          </div>
+        </main>
+        <NavigationFooter className="flex-0" />
+      </div>
+      /* <Main
         name="profile"
         backButton
         footer={renderPageFooter}
         header={renderPageHeader}
       >
-        <h2 className="title is-2">
+        <h2 className="title">
           {'Bienvenue !'}
         </h2>
         <button
@@ -57,14 +57,13 @@ class ProfilePage extends React.PureComponent {
         >
           {'Déconnexion'}
         </button>
-      </Main>
+      </Main> */
     )
   }
 }
 
 ProfilePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 }
 

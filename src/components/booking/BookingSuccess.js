@@ -14,7 +14,7 @@ const BookingSuccess = ({ isEvent, data }) => {
   price = getPrice(price)
   const cssclass = (isEvent && 'event') || 'thing'
   return (
-    <div className={`booked has-text-centered ${cssclass}`}>
+    <div className={`booked text-center ${cssclass}`}>
       <h3 style={{ fontSize: '22px' }}>
         <span
           className="is-block mb12"

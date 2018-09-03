@@ -7,13 +7,13 @@ const BetaPage = () => (
   <div id="beta-page" className="page flex-rows">
     <main
       role="main"
-      className="application-main flex-rows flex-around items-center"
+      className="padding-section flex-rows flex-around items-center"
     >
-      <h1 className="has-text-centered">
+      <h1 className="text-center">
         <i className="is-block">Bienvenue dans la version beta</i>
         <i className="is-block">du Pass Culture</i>
       </h1>
-      <p className="has-text-centered">
+      <p className="text-center">
         <i>
           Et merci de votre participation pour nous aider à l&apos;améliorer !
         </i>
