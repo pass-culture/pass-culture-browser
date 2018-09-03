@@ -39,7 +39,7 @@ const MesInformations = ({ provider }) => {
   const departementName = getDepartementByCode(departementCode)
   const departement = `${departementCode} - ${departementName}`
   return (
-    <div className="mb40">
+    <div className="mb40 mt20">
       <h3 className="dotted-bottom-primary is-primary-text is-uppercase pb8 px12">
         <i>Mes Informations</i>
       </h3>

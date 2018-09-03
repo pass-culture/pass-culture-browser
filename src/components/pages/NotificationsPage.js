@@ -4,8 +4,9 @@ import React from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Scrollbars } from 'react-custom-scrollbars'
+import { withRouter } from 'react-router-dom'
 import { withLogin } from 'pass-culture-shared'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import Loader from '../Loader'
 import NavigationFooter from '../layout/NavigationFooter'
@@ -42,6 +43,7 @@ const mapStateToProps = state => {
 }
 
 export default compose(
+  withRouter,
   withLogin({ failRedirect: '/connexion' }),
   connect(mapStateToProps)
 )(NotificationsPage)

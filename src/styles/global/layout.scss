@@ -58,6 +58,67 @@ button {
   z-index: 100000;
 }
 
+#wallet-jauges {
+  .jauges {
+    width: 50%;
+    height: 275px;
+    min-height: 275px;
+    max-height: 275px;
+  }
+
+  .jauge {
+    bottom: 0;
+    position: absolute;
+    width: 180px;
+    height: 100%;
+    background-color: #F4F4F6;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .jauge.all {
+    background-image: linear-gradient(
+      0deg,
+      rgba(50, 0, 150, 1) 0%,
+      rgba(235, 0, 85, 1) 100%
+    );
+  }
+
+  .jauge.digital,
+  .jauge.physical {
+    left: 2%;
+    width: 46%;
+  }
+
+  .jauge.digital {
+    background-image: linear-gradient(
+      0deg,
+      rgba(255, 92, 214, 1) 0%,
+      rgba(255, 151, 0, 1) 100%
+    );
+  }
+
+  .jauge.physical {
+    left: calc(2% + 50%);
+    background-image: linear-gradient(
+      0deg,
+      rgba(0, 210, 230, 1) 0%,
+      rgba(176, 222, 0, 1) 100%
+    );
+  }
+
+  .text.all {
+    color: $jauge-red;
+  }
+
+  .text.digital {
+    color: $jauge-green;
+  }
+
+  .text.physical {
+    color: $jauge-orange;
+  }
+}
+
 .app .beta-corner {
   left: 0;
   bottom: 0;
@@ -72,10 +133,13 @@ button {
 // Ex: .page main {} || .page footer {}
 
 .pc-footer {
-  font-size: 2.5rem;
   height: $footer-height;
   min-height: $footer-height;
   padding: 1rem 1rem 1rem 3rem;
+
+  .icon-user-circle-outline {
+    font-size: 2.7rem;
+  }
 }
 
 .pc-label {
