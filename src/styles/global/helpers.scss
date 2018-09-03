@@ -58,14 +58,18 @@
 
 /* -------------------------------------------------
 
- PADDINGS
+ PADDINGS/MARGINS
 
 ------------------------------------------------- */
 
+// default padding to 1rem
+// appliquer aux pages, aux sections de pages
 .padded {
-  // default padding to 1rem
-  // appliquer aux pages, aux sections de pages
   padding: $page-padding;
+}
+
+.marged {
+  margin: $page-padding;
 }
 
 /* -------------------------------------------------
