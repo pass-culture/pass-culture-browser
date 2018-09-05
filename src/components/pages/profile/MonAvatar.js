@@ -6,7 +6,7 @@ import ProfilePicture from '../../layout/ProfilePicture'
 const noop = () => {}
 
 const UserAvatar = ({ provider }) => (
-  <div className="padded flex-columns">
+  <div id="mon-avatar" className="padded flex-columns">
     <span className="flex-1 my22">
       <ProfilePicture colored="colored" style={{ height: 80, width: 80 }} />
       {provider &&
