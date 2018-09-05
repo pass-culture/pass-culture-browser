@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom'
 
 const BetaPage = () => (
   <div id="beta-page" className="page flex-rows">
-    <main role="main" className="padded flex-rows flex-around items-center">
-      <h1 className="text-center">
-        <i className="is-block">Bienvenue dans la version beta</i>
+    <main role="main" className="padded flex-rows flex-center">
+      <h1 className="text-left">
+        <i className="is-block">Bienvenue</i>
+        <i className="is-block">dans la version beta</i>
         <i className="is-block">du Pass Culture</i>
       </h1>
-      <p className="text-center">
-        <i>
-          Et merci de votre participation pour nous aider à l&apos;améliorer !
-        </i>
+      <p className="text-left mt36">
+        <i className="is-block">Et merci de votre participation</i>
+        <i className="is-block">pour nous aider à l&apos;améliorer !</i>
       </p>
     </main>
     <footer
