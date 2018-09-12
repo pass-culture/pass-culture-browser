@@ -37,12 +37,12 @@ jobs:
             rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           environment:
             DOCKERIZE_VERSION: v0.6.1
+            # TODO: replace gpg with ./pc install-private (after merge PR)
       - run:
           name: Running API server
           command: |
             cd ~/pass-culture-main
             export PC_GPG_PRIVATE=$PASS_PRIVATE
-#            ./pc install-private
             cd ~/pass-culture-main/api
             rm -rf private
             gpg --passphrase $PC_GPG_PRIVATE --batch --output private.tar.gz -d private.tar.gz.gpg
