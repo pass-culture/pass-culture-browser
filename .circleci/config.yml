@@ -42,7 +42,12 @@ jobs:
           command: |
             cd ~/pass-culture-main
             export PC_GPG_PRIVATE=$PASS_PRIVATE
-            ./pc install-private
+#            ./pc install-private
+            cd ~/pass-culture-main/api
+            rm -rf private
+            gpg --passphrase $PC_GPG_PRIVATE --batch --output private.tar.gz -d private.tar.gz.gpg
+            tar xf private.tar.gz
+            rm private.tar.gz
             ./pc start-backend
           background: true
       - run:
