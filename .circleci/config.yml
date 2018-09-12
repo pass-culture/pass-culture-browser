@@ -52,7 +52,12 @@ jobs:
             cd ~/pass-culture-main/webapp
             yarn start
           background: true
-
+      - run:
+          name: Running Test Backend (Local Providers)
+          command: |
+            cd pass-culture-main
+            dockerize -wait http://localhost/health -timeout 3m -wait-retry-interval 5s
+            ./pc test-backend tests/10_local_providers_test.py
       - run:
           name: Running tests
           command: |
@@ -60,7 +65,6 @@ jobs:
             export NVM_BIN=/usr/bin/nodejs
             export PATH=$NVM_BIN:$PATH
             cd ~/pass-culture-main/webapp
-            dockerize -wait http://localhost/health -timeout 3m -wait-retry-interval 5s
             yarn testcafe
 
   deploy:
