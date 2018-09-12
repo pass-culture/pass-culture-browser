@@ -41,7 +41,9 @@ jobs:
           name: Running API server
           command: |
             cd ~/pass-culture-main
-            docker-compose up
+            export PC_GPG_PRIVATE=$PASS_PRIVATE
+            ./pc install-private
+            ./pc start-backend
           background: true
       - run:
           name: Run Frontend
