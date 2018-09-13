@@ -38,7 +38,7 @@ const SearchByOfferType = ({ handleQueryParamsChange, title }) => (
       <input
         id="from_date"
         className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Ecouter' })}
+        onChange={() => handleQueryParamsChange({ type: 'Écouter' })}
         type="checkbox"
       />
     </div>
