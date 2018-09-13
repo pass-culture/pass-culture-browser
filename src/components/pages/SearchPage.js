@@ -107,7 +107,7 @@ class SearchPage extends Component {
                 onClick={this.onFilterClick}
               >
                 &nbsp;
-                <Icon svg="ico-slideup-w" />
+                <Icon svg="ico-chevron-up" />
                 &nbsp;
               </button>
             </div>
