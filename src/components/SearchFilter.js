@@ -3,6 +3,8 @@ import moment from 'moment'
 import React, { Component } from 'react'
 import { Transition } from 'react-transition-group'
 
+import SearchByOfferType from './SearchByOfferType'
+
 const transitionDelay = 250
 const transitionDuration = 250
 
@@ -119,110 +121,10 @@ Toutes distances
                     </option>
                   </select>
                 </div>
-                <div>
-                  <h2>
-QUOI (Scrollable horizontally)
-                  </h2>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Applaudir
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Découvrir
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Ecouter
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Jouer
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Lire
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Pratiquer
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                  <div className="field checkbox">
-                    <label id="from_date" className="label">
-                      {' '}
-                      Regarder
-                    </label>
-                    <input
-                      id="from_date"
-                      className="input is-normal"
-                      onChange={() =>
-                        handleQueryParamsChange({ type: moment.now() })
-                      }
-                      type="checkbox"
-                    />
-                  </div>
-                </div>
-
+                <SearchByOfferType
+                  handleQueryParamsChange={handleQueryParamsChange}
+                  title="QUOI"
+                />
                 <button
                   className="button"
                   type="button"

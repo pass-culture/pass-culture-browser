@@ -14,10 +14,11 @@ import {
 
 import Main from '../layout/Main'
 import Footer from '../layout/Footer'
+import SearchByOfferType from '../SearchByOfferType'
 import SearchResultItem from '../SearchResultItem'
-import { selectRecommendations } from '../../selectors'
 import SearchFilter from '../SearchFilter'
 import searchSelector from '../../selectors/search'
+import { selectRecommendations } from '../../selectors'
 import { toggleFilterMenu } from '../../reducers/filter'
 
 const renderPageHeader = () => (
@@ -130,6 +131,13 @@ class SearchPage extends Component {
             <SearchResultItem key={o.id} recommendation={o} />
           ))}
         </InfiniteScroller>
+        {recommendations &&
+          recommendations.length === 0 && (
+            <SearchByOfferType
+              handleQueryParamsChange={handleQueryParamsChange}
+              title="PAR CATEGORIES"
+            />
+          )}
       </Main>
     )
   }
