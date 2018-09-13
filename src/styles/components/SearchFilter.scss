@@ -1,7 +1,4 @@
 .search-filter {
-  background-color: $grey-light;
-  border-radius: 0.25em;
-
   h2 {
     font-style: italic;
     margin-bottom: 1em;
@@ -9,14 +6,20 @@
     text-transform: uppercase;
     text-align: center;
   }
-
-  div.field.checkbox {
-    border-color: $primary;
-  }
-
   button {
-    background-color: $grey-light;
+    background-color: #EDF1F2;
     border-color: white;
     border-radius: 0em;
+    color: $primary;
   }
+}
+
+#search-filter-menu {
+  background-color: #EDF1F2;
+  border-radius: 0.25em;
+  position: relative;
+
+  // div.is-overlay {
+  //   position: relative !important;
+  // }
 }
