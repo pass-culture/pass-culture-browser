@@ -18,7 +18,7 @@ import SearchResultItem from '../SearchResultItem'
 import { selectRecommendations } from '../../selectors'
 import SearchFilter from '../SearchFilter'
 import searchSelector from '../../selectors/search'
-import { toggleFilterMenu } from '../../reducers/filterMenu'
+import { toggleFilterMenu } from '../../reducers/filter'
 
 const renderPageHeader = () => (
   <header>
@@ -60,6 +60,7 @@ class SearchPage extends Component {
       handleQueryParamsChange,
       handleRemoveFilter,
       handleSearchChange,
+      isVisible,
       queryParams,
       recommendations,
     } = this.props
@@ -98,6 +99,16 @@ class SearchPage extends Component {
                 <Icon svg="ico-filter" />
                 &nbsp;
               </button>
+              <button
+                type="button"
+                id="close-filter-menu"
+                className="button is-secondary"
+                onClick={this.onFilterClick}
+              >
+                &nbsp;
+                <Icon svg="ico-slideup-w" />
+                &nbsp;
+              </button>
             </div>
           </form>
         </div>
@@ -105,6 +116,7 @@ class SearchPage extends Component {
           handleQueryParamsChange={handleQueryParamsChange}
           handleRemoveFilter={handleRemoveFilter}
           handleClearQueryParams={handleClearQueryParams}
+          isVisible={isVisible}
         />
         <InfiniteScroller
           className="recommendations-list main-list"
@@ -134,6 +146,7 @@ SearchPage.propTypes = {
   handleQueryParamsChange: PropTypes.func.isRequired,
   handleRemoveFilter: PropTypes.func.isRequired,
   handleSearchChange: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   queryParams: PropTypes.object.isRequired,
   querySearch: PropTypes.string,
@@ -150,6 +163,7 @@ export default compose(
   connect((state, ownProps) => {
     const queryParams = searchSelector(state, ownProps.location.search)
     return {
+      isVisible: state.filter,
       queryParams,
       recommendations: selectRecommendations(state),
       user: state.user,
