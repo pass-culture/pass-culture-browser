@@ -7,18 +7,19 @@ import { compose } from 'redux'
 import {
   Icon,
   InfiniteScroller,
-  requestData,
-  withSearch,
   pluralize,
+  requestData,
+  withLogin,
+  withSearch,
 } from 'pass-culture-shared'
 
-import Main from '../layout/Main'
 import Footer from '../layout/Footer'
+import Main from '../layout/Main'
 import SearchByOfferType from '../SearchByOfferType'
 import SearchResultItem from '../SearchResultItem'
 import SearchFilter from '../SearchFilter'
-import searchSelector from '../../selectors/search'
 import { selectRecommendations } from '../../selectors'
+import searchSelector from '../../selectors/search'
 import { toggleFilterMenu } from '../../reducers/filter'
 
 const renderPageHeader = () => (
@@ -61,12 +62,17 @@ class SearchPage extends Component {
       handleQueryParamsChange,
       handleRemoveFilter,
       handleSearchChange,
+      handleSearchFilterChange,
       isVisible,
       queryParams,
       recommendations,
     } = this.props
+
+    console.log('queryParams in Search Page', queryParams)
+
     const { search } = queryParams || {}
 
+    console.log('search in Search Page', search)
     return (
       <Main
         handleDataRequest={this.handleDataRequest}
@@ -91,6 +97,9 @@ class SearchPage extends Component {
                   Chercher
                 </button>
               </div>
+              <button type="button" onClick={handleRemoveFilter('search')}>
+                <Icon svg="ico-close-b" alt="Fermer" />
+              </button>
               <button
                 type="button"
                 className="button is-secondary"
@@ -117,6 +126,7 @@ class SearchPage extends Component {
           handleQueryParamsChange={handleQueryParamsChange}
           handleRemoveFilter={handleRemoveFilter}
           handleClearQueryParams={handleClearQueryParams}
+          handleSearchFilterChange={handleSearchFilterChange}
           isVisible={isVisible}
         />
         <InfiniteScroller
@@ -154,6 +164,7 @@ SearchPage.propTypes = {
   handleQueryParamsChange: PropTypes.func.isRequired,
   handleRemoveFilter: PropTypes.func.isRequired,
   handleSearchChange: PropTypes.func.isRequired,
+  handleSearchFilterChange: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   queryParams: PropTypes.object.isRequired,
@@ -162,10 +173,14 @@ SearchPage.propTypes = {
 }
 
 export default compose(
+  withLogin({ failRedirect: '/connexion' }),
   withSearch({
     dataKey: 'recommendations',
     defaultQueryParams: {
+      distance: undefined,
+      from_date: undefined,
       search: undefined,
+      type: undefined,
     },
   }),
   connect((state, ownProps) => {

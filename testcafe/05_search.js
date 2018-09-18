@@ -5,20 +5,23 @@ import { ROOT_PATH } from '../src/utils/config'
 
 const getPageUrl = ClientFunction(() => window.location.href.toString())
 
-fixture
-  .skip('O5_01 Recherche | Je ne suis pas connecté·e')
-  .page(`${ROOT_PATH}recherche`)
+fixture('O5_01 Recherche | Je ne suis pas connecté·e').page(
+  `${ROOT_PATH}recherche`
+)
 
 test('Je suis redirigé vers la page /connexion', async t => {
   await t
-  await t.expect(getPageUrl()).contains('/connexion', { timeout: 10000 })
+  await t.expect(getPageUrl()).contains('/connexion', { timeout: 5000 })
 })
 
-fixture
-  .skip("O5_02 Recherche | Après connexion | J'arrive sur la page de recherche")
-  .beforeEach(async t => {
-    await t.useRole(regularUser)
-  })
+fixture.skip('O5_02 Recherche | Après connexion').beforeEach(async t => {
+  await t.useRole(regularUser).navigateTo(`${ROOT_PATH}recherche/`)
+})
+
+test('Je peux accéder à la page /recherche', async t => {
+  await t
+  await t.expect(getPageUrl()).contains('/recherche', { timeout: 5000 })
+})
 
 // Je clique sur le menu vs navigateTo()
 
