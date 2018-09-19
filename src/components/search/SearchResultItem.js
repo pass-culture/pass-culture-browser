@@ -8,9 +8,9 @@ import React, { Fragment } from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 
-import { getQueryURL } from '../helpers'
-import { getTimezone } from '../utils/timezone'
-import Thumb from './layout/Thumb'
+import Thumb from '../layout/Thumb'
+import { getQueryURL } from '../../helpers'
+import { getTimezone } from '../../utils/timezone'
 
 const formatDate = (date, tz) =>
   capitalize(

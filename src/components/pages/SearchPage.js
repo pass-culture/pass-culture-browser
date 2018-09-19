@@ -15,9 +15,9 @@ import {
 
 import Footer from '../layout/Footer'
 import Main from '../layout/Main'
-import SearchFilter from '../SearchFilter'
-import SearchByOfferType from '../SearchByOfferType'
-import SearchResultItem from '../SearchResultItem'
+import SearchFilter from '../search/SearchFilter'
+import NavByOfferType from '../search/NavByOfferType'
+import SearchResultItem from '../search/SearchResultItem'
 import { selectRecommendations } from '../../selectors'
 import { toggleFilterMenu } from '../../reducers/filter'
 import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
@@ -43,6 +43,9 @@ class SearchPage extends Component {
 
   handleDataRequest = (handleSuccess = () => {}, handleFail = () => {}) => {
     const { dispatch, goToNextSearchPage, location, querySearch } = this.props
+
+    dispatch(requestData('GET', 'types'))
+
     const len = get(location, 'search.length')
     if (!len) return
 
@@ -149,7 +152,7 @@ class SearchPage extends Component {
         </InfiniteScroller>
         {recommendations &&
           recommendations.length === 0 && (
-            <SearchByOfferType
+            <NavByOfferType
               handleQueryParamsChange={handleQueryParamsChange}
               title="PAR CATEGORIES"
             />

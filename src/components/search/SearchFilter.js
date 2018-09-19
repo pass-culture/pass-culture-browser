@@ -3,7 +3,7 @@ import moment from 'moment'
 import React, { Component } from 'react'
 import { Transition } from 'react-transition-group'
 
-import SearchByOfferType from './SearchByOfferType'
+import FilterByOfferTypes from './FilterByOfferTypes'
 
 const transitionDelay = 250
 const transitionDuration = 250
@@ -118,7 +118,7 @@ Toutes distances
                   </option>
                 </select>
               </div>
-              <SearchByOfferType
+              <FilterByOfferTypes
                 handleQueryParamsChange={handleQueryParamsChange}
                 title="QUOI"
               />

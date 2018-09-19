@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const SearchByOfferType = ({ handleQueryParamsChange, title }) => (
+const FilterByOfferTypes = ({ handleQueryParamsChange, title }) => (
   <div>
     <h2>
       {title}
@@ -93,8 +93,8 @@ const SearchByOfferType = ({ handleQueryParamsChange, title }) => (
   </div>
 )
 
-SearchByOfferType.propTypes = {
+FilterByOfferTypes.propTypes = {
   handleQueryParamsChange: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
 }
-export default SearchByOfferType
+export default FilterByOfferTypes
