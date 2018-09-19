@@ -15,12 +15,12 @@ import {
 
 import Footer from '../layout/Footer'
 import Main from '../layout/Main'
+import SearchFilter from '../SearchFilter'
 import SearchByOfferType from '../SearchByOfferType'
 import SearchResultItem from '../SearchResultItem'
-import SearchFilter from '../SearchFilter'
 import { selectRecommendations } from '../../selectors'
-import searchSelector from '../../selectors/search'
 import { toggleFilterMenu } from '../../reducers/filter'
+import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
 
 const renderPageHeader = () => (
   <header>
@@ -45,8 +45,11 @@ class SearchPage extends Component {
     const { dispatch, goToNextSearchPage, location, querySearch } = this.props
     const len = get(location, 'search.length')
     if (!len) return
+
+    const frenchQuerySearch = frenchQueryStringToEnglishQueryString(querySearch)
+
     dispatch(
-      requestData('GET', `recommendations?${querySearch}`, {
+      requestData('GET', `recommendations?${frenchQuerySearch}`, {
         handleFail,
         handleSuccess: (state, action) => {
           handleSuccess(state, action)
@@ -59,18 +62,20 @@ class SearchPage extends Component {
   render() {
     const {
       handleClearQueryParams,
+      handleKeywordsChange,
       handleQueryParamsChange,
       handleRemoveFilter,
-      handleSearchChange,
-      handleSearchFilterChange,
       isVisible,
       queryParams,
       recommendations,
     } = this.props
 
-    const { keywords } = queryParams || {}
-
-    // const searchTextValue = !queryParams.keywords ? '' : queryParams.keywords
+    const keywords = queryParams['mots-cles']
+    // https://stackoverflow.com/questions/37946229/how-do-i-reset-the-defaultvalue-for-a-react-input
+    // WE NEED TO MAKE THE PARENT OF THE KEYWORD INPUT
+    // DEPENDING ON THE KEYWORDS VALUE IN ORDER TO RERENDER
+    // THE IN PUT WITH A SYNCED DEFAULT VALUE
+    const keywordsKey = typeof keywords === 'undefined' ? 'empty' : 'not-empty'
 
     return (
       <Main
@@ -80,9 +85,9 @@ class SearchPage extends Component {
         footer={renderPageFooter}
       >
         <div>
-          <form className="section" onSubmit={handleSearchChange}>
+          <form className="section" onSubmit={handleKeywordsChange}>
             <div className="field has-addons">
-              <div className="control is-expanded">
+              <div className="control is-expanded" key={keywordsKey}>
                 <input
                   id="keywords"
                   className="input search-input"
@@ -96,7 +101,7 @@ class SearchPage extends Component {
                   Chercher
                 </button>
               </div>
-              <button type="button" onClick={handleRemoveFilter('keywords')}>
+              <button type="button" onClick={handleRemoveFilter('mots-cles')}>
                 <Icon svg="ico-close-b" alt="Fermer" />
               </button>
               <button
@@ -125,7 +130,6 @@ class SearchPage extends Component {
           handleQueryParamsChange={handleQueryParamsChange}
           handleRemoveFilter={handleRemoveFilter}
           handleClearQueryParams={handleClearQueryParams}
-          handleSearchFilterChange={handleSearchFilterChange}
           isVisible={isVisible}
         />
         <InfiniteScroller
@@ -163,10 +167,9 @@ SearchPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   goToNextSearchPage: PropTypes.func.isRequired,
   handleClearQueryParams: PropTypes.func.isRequired,
+  handleKeywordsChange: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   handleRemoveFilter: PropTypes.func.isRequired,
-  handleSearchChange: PropTypes.func.isRequired,
-  handleSearchFilterChange: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   queryParams: PropTypes.object.isRequired,
@@ -181,17 +184,14 @@ export default compose(
     defaultQueryParams: {
       distance: undefined,
       from_date: undefined,
-      search: undefined,
+      [`mots-cles`]: undefined,
       type: undefined,
     },
+    keywordsQueryString: 'mots-cles',
   }),
-  connect((state, ownProps) => {
-    const queryParams = searchSelector(state, ownProps.location.search)
-    return {
-      isVisible: state.filter,
-      queryParams,
-      recommendations: selectRecommendations(state),
-      user: state.user,
-    }
-  })
+  connect(state => ({
+    isVisible: state.filter,
+    recommendations: selectRecommendations(state),
+    user: state.user,
+  }))
 )(SearchPage)

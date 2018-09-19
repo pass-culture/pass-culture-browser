@@ -1,9 +1,8 @@
 import createCachedSelector from 're-reselect'
 
-import queryStringToObject from '../utils/string'
-// TO DO import from /shared
+import { frenchQueryStringToEnglishObject } from '../utils/string'
 
 export default createCachedSelector(
   (state, search) => search,
-  queryStringToObject
+  frenchQueryStringToEnglishObject
 )((state, search) => search || '')
