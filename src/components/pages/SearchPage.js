@@ -7,17 +7,20 @@ import { compose } from 'redux'
 import {
   Icon,
   InfiniteScroller,
-  requestData,
-  withSearch,
   pluralize,
+  requestData,
+  withLogin,
+  withSearch,
 } from 'pass-culture-shared'
 
-import Main from '../layout/Main'
 import Footer from '../layout/Footer'
-import SearchResultItem from '../SearchResultItem'
+import Main from '../layout/Main'
+import NavByOfferType from '../search/NavByOfferType'
+import SearchFilter from '../search/SearchFilter'
+import SearchResultItem from '../search/SearchResultItem'
 import { selectRecommendations } from '../../selectors'
-import searchSelector from '../../selectors/search'
-import { toggleFilterMenu } from '../../reducers/filterMenu'
+import { toggleFilterMenu } from '../../reducers/filter'
+import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
 
 const renderPageHeader = () => (
   <header>
@@ -40,10 +43,16 @@ class SearchPage extends Component {
 
   handleDataRequest = (handleSuccess = () => {}, handleFail = () => {}) => {
     const { dispatch, goToNextSearchPage, location, querySearch } = this.props
+
+    dispatch(requestData('GET', 'types'))
+
     const len = get(location, 'search.length')
     if (!len) return
+
+    const frenchQuerySearch = frenchQueryStringToEnglishQueryString(querySearch)
+
     dispatch(
-      requestData('GET', `recommendations?${querySearch}`, {
+      requestData('GET', `recommendations?${frenchQuerySearch}`, {
         handleFail,
         handleSuccess: (state, action) => {
           handleSuccess(state, action)
@@ -54,8 +63,24 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { handleSearchChange, queryParams, recommendations } = this.props
-    const { search } = queryParams || {}
+    const {
+      handleClearQueryParams,
+      handleKeywordsChange,
+      handleQueryParamAdd,
+      handleQueryParamRemove,
+      handleQueryParamsChange,
+      handleRemoveFilter,
+      isVisible,
+      queryParams,
+      recommendations,
+    } = this.props
+
+    const keywords = queryParams['mots-cles']
+    // https://stackoverflow.com/questions/37946229/how-do-i-reset-the-defaultvalue-for-a-react-input
+    // WE NEED TO MAKE THE PARENT OF THE KEYWORD INPUT
+    // DEPENDING ON THE KEYWORDS VALUE IN ORDER TO RERENDER
+    // THE IN PUT WITH A SYNCED DEFAULT VALUE
+    const keywordsKey = typeof keywords === 'undefined' ? 'empty' : 'not-empty'
 
     return (
       <Main
@@ -65,15 +90,15 @@ class SearchPage extends Component {
         footer={renderPageFooter}
       >
         <div>
-          <form className="section" onSubmit={handleSearchChange}>
+          <form className="section" onSubmit={handleKeywordsChange}>
             <div className="field has-addons">
-              <div className="control is-expanded">
+              <div className="control is-expanded" key={keywordsKey}>
                 <input
-                  id="search"
+                  id="keywords"
                   className="input search-input"
                   placeholder="Saisissez une recherche"
                   type="text"
-                  defaultValue={search}
+                  defaultValue={keywords}
                 />
               </div>
               <div className="control">
@@ -81,6 +106,9 @@ class SearchPage extends Component {
                   Chercher
                 </button>
               </div>
+              <button type="button" onClick={handleRemoveFilter('mots-cles')}>
+                <Icon svg="ico-close-b" alt="Fermer" />
+              </button>
               <button
                 type="button"
                 className="button is-secondary"
@@ -90,21 +118,50 @@ class SearchPage extends Component {
                 <Icon svg="ico-filter" />
                 &nbsp;
               </button>
+              <button
+                type="button"
+                id="close-filter-menu"
+                className="button is-secondary"
+                onClick={this.onFilterClick}
+              >
+                &nbsp;
+                <Icon svg="ico-chevron-up" />
+                &nbsp;
+              </button>
             </div>
           </form>
         </div>
+        <SearchFilter
+          handleClearQueryParams={handleClearQueryParams}
+          handleQueryParamAdd={handleQueryParamAdd}
+          handleQueryParamRemove={handleQueryParamRemove}
+          handleQueryParamsChange={handleQueryParamsChange}
+          handleRemoveFilter={handleRemoveFilter}
+          isVisible={isVisible}
+          queryParams={queryParams}
+        />
         <InfiniteScroller
           className="recommendations-list main-list"
           handleLoadMore={this.handleDataRequest}
         >
           <h2>
-            {search &&
-              `"${search}" : ${pluralize(recommendations.length, 'résultats')}`}
+            {keywords &&
+              `"${keywords}" : ${pluralize(
+                recommendations.length,
+                'résultats'
+              )}`}
           </h2>
           {recommendations.map(o => (
             <SearchResultItem key={o.id} recommendation={o} />
           ))}
         </InfiniteScroller>
+        {recommendations &&
+          recommendations.length === 0 && (
+            <NavByOfferType
+              handleQueryParamsChange={handleQueryParamsChange}
+              title="PAR CATEGORIES"
+            />
+          )}
       </Main>
     )
   }
@@ -117,7 +174,13 @@ SearchPage.defaultProps = {
 SearchPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   goToNextSearchPage: PropTypes.func.isRequired,
-  handleSearchChange: PropTypes.func.isRequired,
+  handleClearQueryParams: PropTypes.func.isRequired,
+  handleKeywordsChange: PropTypes.func.isRequired,
+  handleQueryParamAdd: PropTypes.func.isRequired,
+  handleQueryParamRemove: PropTypes.func.isRequired,
+  handleQueryParamsChange: PropTypes.func.isRequired,
+  handleRemoveFilter: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   queryParams: PropTypes.object.isRequired,
   querySearch: PropTypes.string,
@@ -125,18 +188,20 @@ SearchPage.propTypes = {
 }
 
 export default compose(
+  withLogin({ failRedirect: '/connexion' }),
   withSearch({
     dataKey: 'recommendations',
     defaultQueryParams: {
-      search: undefined,
+      distance: undefined,
+      from_date: undefined,
+      [`mots-cles`]: undefined,
+      type: undefined,
     },
+    keywordsQueryString: 'mots-cles',
   }),
-  connect((state, ownProps) => {
-    const queryParams = searchSelector(state, ownProps.location.search)
-    return {
-      queryParams,
-      recommendations: selectRecommendations(state),
-      user: state.user,
-    }
-  })
+  connect(state => ({
+    isVisible: state.filter,
+    recommendations: selectRecommendations(state),
+    user: state.user,
+  }))
 )(SearchPage)
