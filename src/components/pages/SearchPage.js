@@ -15,8 +15,8 @@ import {
 
 import Footer from '../layout/Footer'
 import Main from '../layout/Main'
-import SearchFilter from '../search/SearchFilter'
 import NavByOfferType from '../search/NavByOfferType'
+import SearchFilter from '../search/SearchFilter'
 import SearchResultItem from '../search/SearchResultItem'
 import { selectRecommendations } from '../../selectors'
 import { toggleFilterMenu } from '../../reducers/filter'
