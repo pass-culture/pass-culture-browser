@@ -20,6 +20,11 @@
   }
 }
 
+.pc-theme-transparent-primary {
+  color: $primary;
+  background-color: transparent;
+}
+
 .pc-theme-default {
   color: $black;
   background-color: $white;

@@ -9,6 +9,7 @@ import PageSubmitButton from './header/PageSubmitButton'
 
 const PageHeader = ({
   canSubmit,
+  children,
   className,
   isloading,
   theme,
@@ -32,11 +33,13 @@ const PageHeader = ({
         />
       )}
     </h1>
+    {children}
   </header>
 )
 
 PageHeader.defaultProps = {
   canSubmit: true,
+  children: null,
   className: '',
   isloading: false,
   theme: 'red',
@@ -47,6 +50,7 @@ PageHeader.defaultProps = {
 
 PageHeader.propTypes = {
   canSubmit: PropTypes.bool,
+  children: PropTypes.node,
   className: PropTypes.string,
   isloading: PropTypes.bool,
   theme: PropTypes.string,

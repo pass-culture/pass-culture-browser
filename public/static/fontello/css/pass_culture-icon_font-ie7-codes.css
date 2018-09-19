@@ -73,3 +73,4 @@
 .icon-picto-accessibilite-famille { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe7;&nbsp;'); }
 .icon-ico-user { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8;&nbsp;'); }
 .icon-ico-txt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe9;&nbsp;'); }
+.icon-share { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80f;&nbsp;'); }

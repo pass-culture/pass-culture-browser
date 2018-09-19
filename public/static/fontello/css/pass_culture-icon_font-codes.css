@@ -73,3 +73,4 @@
 .icon-picto-accessibilite-famille:before { content: '\e7'; } /* 'ç' */
 .icon-ico-user:before { content: '\e8'; } /* 'è' */
 .icon-ico-txt:before { content: '\e9'; } /* 'é' */
+.icon-share:before { content: '\e80f'; } /* '' */

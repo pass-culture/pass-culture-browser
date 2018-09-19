@@ -3,7 +3,7 @@
 import React from 'react'
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
-import { Logger, Icon, requestData } from 'pass-culture-shared'
+import { Logger, requestData } from 'pass-culture-shared'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
@@ -12,6 +12,7 @@ import ShareButton from './share/ShareButton'
 import VersoBookingButton from './VersoBookingButton'
 import { getShareURL, isRecommendationFinished } from '../helpers'
 import { selectBookings } from '../selectors/selectBookings'
+// import FavoriteButton from './layout/buttons/FavoriteButton'
 import currentRecommendationSelector from '../selectors/currentRecommendation'
 
 class VersoControl extends React.PureComponent {
@@ -30,21 +31,10 @@ class VersoControl extends React.PureComponent {
     Logger.fixme('VersoControl ---> componentWillUnmount')
   }
 
-  onClickFavorite = () => {
-    const { isFavorite, recommendationId } = this.props
-    const method = 'PATCH'
-    const url = `currentRecommendations/${recommendationId}`
-    const opts = {
-      body: { isFavorite: !isFavorite },
-      key: 'currentRecommendations',
-    }
-    this.actions.requestData(method, url, opts)
-  }
-
   render() {
     const {
       booking,
-      isFavorite,
+      // isFavorite,
       isFinished,
       location,
       offer,
@@ -69,10 +59,10 @@ class VersoControl extends React.PureComponent {
             className="button is-secondary"
             onClick={this.onClickFavorite}
           >
-            <Icon
+            {/* <Icon
               alt={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               svg={isFavorite ? 'ico-like-w-on' : 'ico-like-w'}
-            />
+            /> */}
           </button>
         </li>
         <li>
@@ -93,23 +83,21 @@ class VersoControl extends React.PureComponent {
 
 VersoControl.defaultProps = {
   booking: null,
-  isFavorite: false,
+  // isFavorite: false,
   isFinished: false,
   offer: null,
   recommendation: null,
-  recommendationId: null,
+  // recommendationId: null,
   wallet: null,
 }
 
 VersoControl.propTypes = {
   booking: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
-  isFavorite: PropTypes.bool,
   isFinished: PropTypes.bool,
   location: PropTypes.object.isRequired,
   offer: PropTypes.object,
   recommendation: PropTypes.object,
-  recommendationId: PropTypes.string,
   url: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   wallet: PropTypes.number,
@@ -137,7 +125,6 @@ const mapStateToProps = (state, ownProps) => {
     isFinished,
     offer: recommendation.offer,
     recommendation,
-    recommendationId: recommendation.id,
     url: ownProps.match.url,
     user,
     wallet,
