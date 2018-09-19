@@ -68,11 +68,10 @@ class SearchPage extends Component {
       recommendations,
     } = this.props
 
-    console.log('queryParams in Search Page', queryParams)
+    const { keywords } = queryParams || {}
 
-    const { search } = queryParams || {}
+    // const searchTextValue = !queryParams.keywords ? '' : queryParams.keywords
 
-    console.log('search in Search Page', search)
     return (
       <Main
         handleDataRequest={this.handleDataRequest}
@@ -85,11 +84,11 @@ class SearchPage extends Component {
             <div className="field has-addons">
               <div className="control is-expanded">
                 <input
-                  id="search"
+                  id="keywords"
                   className="input search-input"
                   placeholder="Saisissez une recherche"
                   type="text"
-                  defaultValue={search}
+                  defaultValue={keywords}
                 />
               </div>
               <div className="control">
@@ -97,7 +96,7 @@ class SearchPage extends Component {
                   Chercher
                 </button>
               </div>
-              <button type="button" onClick={handleRemoveFilter('search')}>
+              <button type="button" onClick={handleRemoveFilter('keywords')}>
                 <Icon svg="ico-close-b" alt="Fermer" />
               </button>
               <button
@@ -134,8 +133,11 @@ class SearchPage extends Component {
           handleLoadMore={this.handleDataRequest}
         >
           <h2>
-            {search &&
-              `"${search}" : ${pluralize(recommendations.length, 'résultats')}`}
+            {keywords &&
+              `"${keywords}" : ${pluralize(
+                recommendations.length,
+                'résultats'
+              )}`}
           </h2>
           {recommendations.map(o => (
             <SearchResultItem key={o.id} recommendation={o} />
