@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+// hope that pass culture is just still playing on earth
+const INFINITE_DISTANCE = 20000
 
 const options = [
   {
-    label: 'Moins d&apos;1 km',
+    label: "Moins d'1 km",
     value: 1,
   },
   {
@@ -16,36 +20,54 @@ const options = [
   },
   {
     label: 'Toutes distances',
-    // hope that pass culture is just still playing
-    // on earth
-    value: 20000,
+    value: INFINITE_DISTANCE,
   },
 ]
 
-const FilterByDistance = ({ handleQueryParamsChange, queryParams }) => {
-  const distanceValue = queryParams.distance || 20000
+class FilterByDistance extends Component {
+  onFilterChange = e => {
+    const { geolocation, handleQueryParamsChange } = this.props
 
-  return (
-    <div>
-      <select
-        className="select"
-        defaultValue={distanceValue}
-        onChange={e => handleQueryParamsChange({ distance: e.target.value })}
-        name="distance"
-      >
-        {options.map(({ label, value }) => (
-          <option value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
+    const distance = e.target.value
+
+    let { latitude, longitude } = geolocation
+    if (distance === INFINITE_DISTANCE) {
+      latitude = null
+      longitude = null
+    }
+
+    handleQueryParamsChange({ distance, latitude, longitude })
+  }
+
+  render() {
+    const { queryParams } = this.props
+    const distanceValue = queryParams.distance || 20000
+
+    return (
+      <div>
+        <select
+          className="select"
+          defaultValue={distanceValue}
+          onChange={this.onFilterChange}
+          name="distance"
+        >
+          {options.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </div>
+    )
+  }
 }
 
 FilterByDistance.propTypes = {
+  geolocation: PropTypes.object.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   queryParams: PropTypes.object.isRequired,
 }
 
-export default FilterByDistance
+export default connect(state => ({ geolocation: state.geolocation }))(
+  FilterByDistance
+)
