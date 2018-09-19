@@ -1,100 +1,67 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-const FilterByOfferTypes = ({ handleQueryParamsChange, title }) => (
-  <div>
-    <h2>
-      {title}
-    </h2>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Applaudir
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Applaudir' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Découvrir
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Découvrir' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Ecouter
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Écouter' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Jouer
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Jouer' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Lire
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Lire' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Pratiquer
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Pratiquer' })}
-        type="checkbox"
-      />
-    </div>
-    <div className="field checkbox">
-      <label id="type" className="label">
-        {' '}
-        Regarder
-      </label>
-      <input
-        id="type"
-        className="input is-normal"
-        onChange={() => handleQueryParamsChange({ type: 'Regarder' })}
-        type="checkbox"
-      />
-    </div>
-  </div>
-)
+import selectTypeSublabels from '../../selectors/selectTypeSublabels'
+
+class FilterByOfferTypes extends Component {
+  onFilterChange = typeSublabel => {
+    const {
+      handleQueryParamAdd,
+      handleQueryParamRemove,
+      queryParams,
+    } = this.props
+
+    const typesValue = decodeURI(queryParams.types || '')
+
+    const isAdded = typesValue.includes(typeSublabel)
+
+    if (isAdded) {
+      handleQueryParamRemove('types', typeSublabel)
+      return
+    }
+
+    handleQueryParamAdd('types', typeSublabel)
+  }
+
+  render() {
+    const { queryParams, title, typeSublabels } = this.props
+
+    const typesValue = decodeURI(queryParams.types || '')
+
+    return (
+      <div>
+        <h2>
+          {title}
+        </h2>
+        {typeSublabels.map(typeSublabel => (
+          <div className="field field-checkbox" key={typeSublabel}>
+            <label id="type" className="label">
+              {' '}
+              {typeSublabel}
+            </label>
+            <input
+              checked={typesValue.includes(typeSublabel)}
+              className="input is-normal"
+              onChange={() => this.onFilterChange(typeSublabel)}
+              value={typeSublabel}
+              type="checkbox"
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+}
 
 FilterByOfferTypes.propTypes = {
-  handleQueryParamsChange: PropTypes.func.isRequired,
+  handleQueryParamAdd: PropTypes.func.isRequired,
+  handleQueryParamRemove: PropTypes.func.isRequired,
+  queryParams: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
+  typeSublabels: PropTypes.array.isRequired,
 }
-export default FilterByOfferTypes
+
+export default connect(state => ({
+  typeSublabels: selectTypeSublabels(state),
+}))(FilterByOfferTypes)

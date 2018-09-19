@@ -66,6 +66,8 @@ class SearchPage extends Component {
     const {
       handleClearQueryParams,
       handleKeywordsChange,
+      handleQueryParamAdd,
+      handleQueryParamRemove,
       handleQueryParamsChange,
       handleRemoveFilter,
       isVisible,
@@ -130,10 +132,13 @@ class SearchPage extends Component {
           </form>
         </div>
         <SearchFilter
+          handleClearQueryParams={handleClearQueryParams}
+          handleQueryParamAdd={handleQueryParamAdd}
+          handleQueryParamRemove={handleQueryParamRemove}
           handleQueryParamsChange={handleQueryParamsChange}
           handleRemoveFilter={handleRemoveFilter}
-          handleClearQueryParams={handleClearQueryParams}
           isVisible={isVisible}
+          queryParams={queryParams}
         />
         <InfiniteScroller
           className="recommendations-list main-list"
@@ -171,6 +176,8 @@ SearchPage.propTypes = {
   goToNextSearchPage: PropTypes.func.isRequired,
   handleClearQueryParams: PropTypes.func.isRequired,
   handleKeywordsChange: PropTypes.func.isRequired,
+  handleQueryParamAdd: PropTypes.func.isRequired,
+  handleQueryParamRemove: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   handleRemoveFilter: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,

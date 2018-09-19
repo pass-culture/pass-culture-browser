@@ -30,8 +30,11 @@ class SearchFilter extends Component {
   render() {
     const {
       handleClearQueryParams,
+      handleQueryParamAdd,
+      handleQueryParamRemove,
       handleQueryParamsChange,
       isVisible,
+      queryParams,
     } = this.props
 
     return (
@@ -47,13 +50,12 @@ class SearchFilter extends Component {
                 <h2>
 DATE (Scrollable horizontally)
                 </h2>
-                <div className="field checkbox">
-                  <label id="from_date" className="label">
+                <div className="field field-checkbox">
+                  <label className="label">
                     {' '}
-                    Tout de suite !
+Tout de suite !
                   </label>
                   <input
-                    id="from_date"
                     className="input is-normal"
                     onChange={() =>
                       handleQueryParamsChange({ from_date: moment.now() })
@@ -61,13 +63,12 @@ DATE (Scrollable horizontally)
                     type="checkbox"
                   />
                 </div>
-                <div className="field checkbox">
-                  <label id="from_date" className="label">
+                <div className="field field-checkbox">
+                  <label className="label">
                     {' '}
-                    Entre 1 et 5 jours
+Entre 1 et 5 jours
                   </label>
                   <input
-                    id="from_date"
                     className="input is-normal"
                     onChange={() =>
                       handleQueryParamsChange({ from_date: moment.now() })
@@ -75,13 +76,12 @@ DATE (Scrollable horizontally)
                     type="checkbox"
                   />
                 </div>
-                <div className="field checkbox">
-                  <label id="from_date" className="label">
+                <div className="field field-checkbox">
+                  <label className="label">
                     {' '}
-                    Plus de 5 jours
+Plus de 5 jours
                   </label>
                   <input
-                    id="from_date"
                     className="input is-normal"
                     onChange={() =>
                       handleQueryParamsChange({ from_date: moment.now() })
@@ -99,7 +99,9 @@ OU
                 </h2>
                 <select
                   className="select"
-                  onChange={() => handleQueryParamsChange()}
+                  onChange={e =>
+                    handleQueryParamsChange({ distance: e.target.value })
+                  }
                   name="distance"
                 >
                   <option value="1">
@@ -119,7 +121,9 @@ Toutes distances
                 </select>
               </div>
               <FilterByOfferTypes
-                handleQueryParamsChange={handleQueryParamsChange}
+                handleQueryParamAdd={handleQueryParamAdd}
+                handleQueryParamRemove={handleQueryParamRemove}
+                queryParams={queryParams}
                 title="QUOI"
               />
               <button
@@ -142,8 +146,11 @@ Toutes distances
 
 SearchFilter.propTypes = {
   handleClearQueryParams: PropTypes.func.isRequired,
+  handleQueryParamAdd: PropTypes.func.isRequired,
+  handleQueryParamRemove: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  queryParams: PropTypes.object.isRequired,
 }
 
 export default SearchFilter
