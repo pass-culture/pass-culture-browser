@@ -3,12 +3,11 @@
 import PropTypes from 'prop-types'
 import get from 'lodash.get'
 import moment from 'moment'
-import { capitalize, Icon } from 'pass-culture-shared'
+import { capitalize } from 'pass-culture-shared'
 import React, { Fragment } from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 
-import Thumb from '../layout/Thumb'
 import { getQueryURL } from '../../helpers'
 import { getTimezone } from '../../utils/timezone'
 
@@ -20,15 +19,11 @@ const formatDate = (date, tz) =>
   )
 
 const getRecommendationDateString = (offer, tz) => {
-  if (offer.eventId === null) {
-    return 'permanent'
-  }
+  if (offer.eventId === null) return 'permanent'
   const fromDate = offer.dateRange[0]
   const toDate = offer.dateRange[1]
-
   const formatedDate = `du
   ${formatDate(fromDate, tz)} au ${formatDate(toDate, tz)}`
-
   return formatedDate
 }
 
@@ -40,31 +35,33 @@ const SearchResultItem = ({ recommendation }) => {
 
   const queryURL = getQueryURL({ mediationId, offerId })
   const linkURL = `/decouverte/${queryURL}`
-
   return (
-    <li className="recommendation-item">
-      <Link to={linkURL}>
-        <Thumb src={recommendation.thumbUrl} />
-        <div className="infos">
-          <div className="top">
-            {recommendation.offer && (
-              <Fragment>
-                <h5 title={recommendation.offer.eventOrThing.name}>
-                  <Dotdotdot clamp="2">
-                    {recommendation.offer.eventOrThing.name}
-                  </Dotdotdot>
-                </h5>
-                ,
-                <span>
-                  {recommendation.offer &&
-                    getRecommendationDateString(recommendation.offer, tz)}
-                </span>
-              </Fragment>
-            )}
-          </div>
+    <li className="search-result-item">
+      <hr className="dotted-top-primary" />
+      <Link to={linkURL} className="flex-columns items-center">
+        <div className="image flex-0 dotted-right-primary flex-rows flex-center">
+          <img src={recommendation.thumbUrl} alt="" />
         </div>
-        <div className="arrow">
-          <Icon svg="ico-next-S" className="Suivant" />
+        <div className="infos ml18 flex-1">
+          {recommendation.offer && (
+            <Fragment>
+              <h5
+                className="fs18 is-bold"
+                title={recommendation.offer.eventOrThing.name}
+              >
+                <Dotdotdot clamp="2">
+                  {recommendation.offer.eventOrThing.name}
+                </Dotdotdot>
+              </h5>
+              <span className="fs13">
+                {recommendation.offer &&
+                  getRecommendationDateString(recommendation.offer, tz)}
+              </span>
+            </Fragment>
+          )}
+        </div>
+        <div className="flex-0 is-primary-text">
+          <span aria-hidden className="icon-next" title="" />
         </div>
       </Link>
     </li>

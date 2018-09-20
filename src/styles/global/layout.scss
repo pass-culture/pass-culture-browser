@@ -41,6 +41,16 @@ button {
   user-select: none;
 }
 
+hr[class^='dotted-top-'] {
+  @extend .is-block;
+  @extend .no-margin;
+  @extend .no-padding;
+  @extend .no-background;
+
+  width: 100%;
+  height: 1px;
+}
+
 #root,
 .app {
   height: 100%;
