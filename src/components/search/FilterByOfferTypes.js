@@ -7,27 +7,29 @@ import selectTypeSublabels from '../../selectors/selectTypeSublabels'
 class FilterByOfferTypes extends Component {
   onFilterChange = typeSublabel => {
     const {
-      handleQueryParamAdd,
-      handleQueryParamRemove,
-      queryParams,
+      handleFilterParamAdd,
+      handleFilterParamRemove,
+      filterParams,
     } = this.props
 
-    const typesValue = decodeURI(queryParams.types || '')
+    const typesValue = decodeURI(filterParams.types || '')
+
+    console.log('typesValue', typesValue, 'typeSublabel', typeSublabel)
 
     const isAdded = typesValue.includes(typeSublabel)
 
     if (isAdded) {
-      handleQueryParamRemove('types', typeSublabel)
+      handleFilterParamRemove('types', typeSublabel)
       return
     }
 
-    handleQueryParamAdd('types', typeSublabel)
+    handleFilterParamAdd('types', typeSublabel)
   }
 
   render() {
-    const { queryParams, title, typeSublabels } = this.props
+    const { filterParams, title, typeSublabels } = this.props
 
-    const typesValue = decodeURI(queryParams.types || '')
+    const typesValue = decodeURI(filterParams.types || '')
 
     return (
       <div>
@@ -55,9 +57,9 @@ class FilterByOfferTypes extends Component {
 }
 
 FilterByOfferTypes.propTypes = {
-  handleQueryParamAdd: PropTypes.func.isRequired,
-  handleQueryParamRemove: PropTypes.func.isRequired,
-  queryParams: PropTypes.object.isRequired,
+  filterParams: PropTypes.object.isRequired,
+  handleFilterParamAdd: PropTypes.func.isRequired,
+  handleFilterParamRemove: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   typeSublabels: PropTypes.array.isRequired,
 }

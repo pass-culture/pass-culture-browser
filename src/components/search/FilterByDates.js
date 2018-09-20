@@ -21,21 +21,21 @@ const checkboxes = [
 class FilterByDates extends Component {
   onFilterChange = typeSublabel => {
     const {
-      handleQueryParamAdd,
-      handleQueryParamRemove,
-      queryParams,
+      handleFilterParamAdd,
+      handleFilterParamRemove,
+      filterParams,
     } = this.props
 
-    const datesValue = decodeURI(queryParams.dates || '')
+    const datesValue = decodeURI(filterParams.dates || '')
 
     const isAdded = datesValue.includes(typeSublabel)
 
     if (isAdded) {
-      handleQueryParamRemove('dates', typeSublabel)
+      handleFilterParamRemove('days_segments', typeSublabel)
       return
     }
 
-    handleQueryParamAdd('dates', typeSublabel)
+    handleFilterParamAdd('days_segments', typeSublabel)
   }
 
   render() {
@@ -66,9 +66,9 @@ Par date
 }
 
 FilterByDates.propTypes = {
-  handleQueryParamAdd: PropTypes.func.isRequired,
-  handleQueryParamRemove: PropTypes.func.isRequired,
-  queryParams: PropTypes.object.isRequired,
+  filterParams: PropTypes.object.isRequired,
+  handleFilterParamAdd: PropTypes.func.isRequired,
+  handleFilterParamRemove: PropTypes.func.isRequired,
 }
 
 export default FilterByDates

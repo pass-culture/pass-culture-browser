@@ -1,8 +1,9 @@
+/* eslint-disable */
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { compose } from 'redux'
 
 import {
@@ -24,9 +25,7 @@ import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
 
 const renderPageHeader = () => (
   <header>
-    <h1>
-Recherche
-    </h1>
+    <h1>Recherche</h1>
   </header>
 )
 
@@ -36,15 +35,14 @@ const renderPageFooter = () => {
 }
 
 class SearchPage extends Component {
-  componentDidUpdate() {
-    const { history, match, queryParams, querySearch } = this.props
-    if (!match.params.resultats && queryParams['mots-cles']) {
-      history.push(`/recherche/resultats?${querySearch}`)
-    }
-  }
-
   handleDataRequest = (handleSuccess = () => {}, handleFail = () => {}) => {
-    const { dispatch, goToNextSearchPage, location, querySearch } = this.props
+    const {
+      dispatch,
+      goToNextSearchPage,
+      location,
+      match,
+      querySearch,
+    } = this.props
 
     dispatch(requestData('GET', 'types'))
 
@@ -58,7 +56,9 @@ class SearchPage extends Component {
         handleFail,
         handleSuccess: (state, action) => {
           handleSuccess(state, action)
-          goToNextSearchPage()
+          if (match.params.view === 'resultats' && !match.params.filtres) {
+            goToNextSearchPage()
+          }
         },
       })
     )
@@ -70,11 +70,10 @@ class SearchPage extends Component {
       handleQueryParamAdd,
       handleQueryParamRemove,
       handleQueryParamsChange,
-      handleRemoveFilter,
       history,
-      isVisible,
       match,
       queryParams,
+      querySearch,
       recommendations,
     } = this.props
 
@@ -89,11 +88,15 @@ class SearchPage extends Component {
 
     return (
       <Main
+        backButton={
+          match.params.view === 'resultats' && {
+            onClick: () => history.push('/recherche/types'),
+          }
+        }
         handleDataRequest={this.handleDataRequest}
         header={renderPageHeader}
         name="search"
-        footer={renderPageFooter}
-      >
+        footer={renderPageFooter}>
         <form
           className="section"
           onSubmit={e => {
@@ -103,16 +106,15 @@ class SearchPage extends Component {
               return
             }
 
-            handleQueryParamsChange({
-              [`mots-cles`]: e.target.elements.keywords.value,
-            })
-          }}
-        >
+            handleQueryParamsChange(
+              { [`mots-cles`]: e.target.elements.keywords.value },
+              { pathname: '/recherche/resultats' }
+            )
+          }}>
           <div className="field has-addons">
             <p
               className="control has-icons-right is-expanded"
-              key={keywordsKey}
-            >
+              key={keywordsKey}>
               <input
                 id="keywords"
                 className="input search-input"
@@ -124,8 +126,7 @@ class SearchPage extends Component {
                 <span className="icon is-small is-right">
                   <button
                     type="button"
-                    onClick={handleRemoveFilter('mots-cles')}
-                  >
+                    onClick={handleRemoveFilter('mots-cles')}>
                     <Icon svg="ico-close-b" alt="Fermer" />
                   </button>
                 </span>
@@ -139,17 +140,16 @@ class SearchPage extends Component {
             <button
               type="button"
               className="button is-secondary"
-              onClick={() =>
-                history.push(
-                  match.params.filter
-                    ? '/recherche/resultats'
-                    : '/recherche/resultats/filtres'
-                )
-              }
-            >
+              onClick={() => {
+                let pathname = '/recherche/resultats'
+                if (!match.params.filtres) {
+                  pathname = `${pathname}/filtres`
+                }
+                history.push(`${pathname}?${querySearch}`)
+              }}>
               &nbsp;
               <Icon
-                svg={`ico-${match.params.filter ? 'chevron-up' : 'filter'}`}
+                svg={`ico-${match.params.filtres ? 'chevron-up' : 'filter'}`}
               />
               &nbsp;
             </button>
@@ -159,7 +159,23 @@ class SearchPage extends Component {
         <Switch>
           <Fragment>
             <Route
+              exact
               path="/recherche"
+              render={() => <Redirect to="/recherche/types" />}
+            />
+            <Route
+              path="/recherche/:view/filtres"
+              render={() => (
+                <SearchFilter
+                  handleClearQueryParams={handleClearQueryParams}
+                  handleQueryParamsChange={handleQueryParamsChange}
+                  queryParams={queryParams}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/recherche/types"
               render={() => (
                 <NavByOfferType
                   handleQueryParamsChange={handleQueryParamsChange}
@@ -169,37 +185,25 @@ class SearchPage extends Component {
             />
             <Route
               path="/recherche/resultats"
-              render={() => (
-                <InfiniteScroller
-                  className="recommendations-list main-list"
-                  handleLoadMore={this.handleDataRequest}
-                >
-                  <h2>
-                    {keywords &&
-                      `"${keywords}" : ${pluralize(
-                        recommendations.length,
-                        'résultats'
-                      )}`}
-                  </h2>
-                  {recommendations.map(o => (
-                    <SearchResultItem key={o.id} recommendation={o} />
-                  ))}
-                </InfiniteScroller>
-              )}
-            />
-            <Route
-              path="/recherche/resultats/filtres"
-              render={() => (
-                <SearchFilter
-                  handleClearQueryParams={handleClearQueryParams}
-                  handleQueryParamAdd={handleQueryParamAdd}
-                  handleQueryParamRemove={handleQueryParamRemove}
-                  handleQueryParamsChange={handleQueryParamsChange}
-                  handleRemoveFilter={handleRemoveFilter}
-                  isVisible={isVisible}
-                  queryParams={queryParams}
-                />
-              )}
+              render={() => {
+                const resultString = pluralize(
+                  recommendations.length,
+                  'résultats'
+                )
+                return (
+                  <InfiniteScroller
+                    className="recommendations-list main-list"
+                    handleLoadMore={this.handleDataRequest}>
+                    <h2>
+                      {decodeURI(keywords || '')}{' '}
+                      {decodeURI(queryParams.types || '')} : {resultString}
+                    </h2>
+                    {recommendations.map(o => (
+                      <SearchResultItem key={o.id} recommendation={o} />
+                    ))}
+                  </InfiniteScroller>
+                )
+              }}
             />
           </Fragment>
         </Switch>
@@ -216,12 +220,8 @@ SearchPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   goToNextSearchPage: PropTypes.func.isRequired,
   handleClearQueryParams: PropTypes.func.isRequired,
-  handleQueryParamAdd: PropTypes.func.isRequired,
-  handleQueryParamRemove: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
-  handleRemoveFilter: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isVisible: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   queryParams: PropTypes.object.isRequired,
@@ -242,7 +242,6 @@ export default compose(
     keywordsQueryString: 'mots-cles',
   }),
   connect(state => ({
-    isVisible: state.filter,
     recommendations: selectRecommendations(state),
     user: state.user,
   }))

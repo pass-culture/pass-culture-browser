@@ -18,7 +18,12 @@ const NavByOfferType = ({ handleQueryParamsChange, title, typeSublabels }) => (
         <input
           id="type"
           className="input is-normal"
-          onChange={() => handleQueryParamsChange({ types: typeSublabel })}
+          onChange={() =>
+            handleQueryParamsChange(
+              { types: typeSublabel },
+              { pathname: '/recherche/resultats' }
+            )
+          }
           type="checkbox"
         />
       </div>

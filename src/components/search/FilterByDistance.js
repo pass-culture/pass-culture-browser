@@ -26,7 +26,7 @@ const options = [
 
 class FilterByDistance extends Component {
   onFilterChange = e => {
-    const { geolocation, handleQueryParamsChange } = this.props
+    const { geolocation, handleFilterParamsChange } = this.props
 
     const distance = e.target.value
 
@@ -36,12 +36,12 @@ class FilterByDistance extends Component {
       longitude = null
     }
 
-    handleQueryParamsChange({ distance, latitude, longitude })
+    handleFilterParamsChange({ distance, latitude, longitude })
   }
 
   render() {
-    const { queryParams } = this.props
-    const distanceValue = queryParams.distance || 20000
+    const { filterParams } = this.props
+    const distanceValue = filterParams.distance || 20000
 
     return (
       <div>
@@ -63,9 +63,9 @@ class FilterByDistance extends Component {
 }
 
 FilterByDistance.propTypes = {
+  filterParams: PropTypes.object.isRequired,
   geolocation: PropTypes.object.isRequired,
-  handleQueryParamsChange: PropTypes.func.isRequired,
-  queryParams: PropTypes.object.isRequired,
+  handleFilterParamsChange: PropTypes.func.isRequired,
 }
 
 export default connect(state => ({ geolocation: state.geolocation }))(

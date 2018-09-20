@@ -1,94 +1,115 @@
+/* eslint-disable */
+import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Transition } from 'react-transition-group'
 
 import FilterByDates from './FilterByDates'
 import FilterByDistance from './FilterByDistance'
 import FilterByOfferTypes from './FilterByOfferTypes'
 
-const transitionDelay = 250
-const transitionDuration = 250
-
-const defaultStyle = {
-  opacity: '0',
-  top: '100vh',
-  transitionDuration: `${transitionDuration}ms`,
-  transitionProperty: 'opacity, top',
-  transitionTimingFunction: 'ease',
-}
-
-const transitionStyles = {
-  entered: { opacity: 1, top: 0 },
-  entering: { opacity: 0, top: '100vh' },
-}
-
 class SearchFilter extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      filterParams: Object.assign({}, props.queryParams),
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { queryParams } = this.props
+    // TODO: eslint does not support setState inside componentDidUpdate
+    if (queryParams !== prevProps.queryParams) {
+      this.setState({ filterParams: queryParams })
+    }
+  }
+
+  onFilterClick = () => {
+    const { handleQueryParamsChange } = this.props
+    const { filterParams } = this.state
+
+    handleQueryParamsChange(filterParams)
+  }
+
+  handleFilterParamsChange = newValue => {
+    const { filterParams } = this.state
+
+    const nextFilterParams = Object.assign({}, filterParams, newValue)
+
+    this.setState({ filterParams: nextFilterParams })
+  }
+
+  handleFilterParamAdd = (key, value) => {
+    const { filterParams } = this.state
+
+    const encodedValue = encodeURI(value)
+    let nextValue = encodedValue
+    const previousValue = filterParams[key]
+    if (get(previousValue, 'length')) {
+      nextValue = `${previousValue},${encodedValue}`
+    }
+
+    this.handleFilterParamsChange({ [key]: nextValue })
+  }
+
+  handleFilterParamRemove = (key, value) => {
+    const { filterParams } = this.state
+
+    const previousValue = filterParams[key]
+
+    if (get(previousValue, 'length')) {
+      const encodedValue = encodeURI(value)
+      let nextValue = previousValue
+        .replace(`,${encodedValue}`, '')
+        .replace(encodedValue, '')
+      if (nextValue[0] === ',') {
+        nextValue = nextValue.slice(1)
+      }
+      this.handleFilterParamsChange({ [key]: nextValue })
+    }
   }
 
   render() {
-    const {
-      handleClearQueryParams,
-      handleQueryParamAdd,
-      handleQueryParamRemove,
-      handleQueryParamsChange,
-      isVisible,
-      queryParams,
-    } = this.props
-
+    const { handleClearQueryParams } = this.props
+    const { filterParams } = this.state
     return (
-      <Transition in={isVisible} timeout={transitionDelay}>
-        {state => (
-          <div
-            id="search-filter-menu"
-            className="is-overlay is-clipped flex-columns items-end p12"
-            style={{ ...defaultStyle, ...transitionStyles[state] }}
-          >
-            <div className="search-filter">
-              <FilterByDates
-                handleQueryParamAdd={handleQueryParamAdd}
-                handleQueryParamRemove={handleQueryParamRemove}
-                queryParams={queryParams}
-              />
-              <h2>
-OU
-              </h2>
-              <FilterByDistance
-                handleQueryParamsChange={handleQueryParamsChange}
-                queryParams={queryParams}
-              />
-              <FilterByOfferTypes
-                handleQueryParamAdd={handleQueryParamAdd}
-                handleQueryParamRemove={handleQueryParamRemove}
-                queryParams={queryParams}
-                title="QUOI"
-              />
-              <button
-                className="button"
-                type="button"
-                onClick={handleClearQueryParams}
-              >
-                Réinitialiser
-              </button>
-              <button className="button" type="submit">
-                Filtrer
-              </button>
-            </div>
-          </div>
-        )}
-      </Transition>
+      <div
+        id="search-filter-menu"
+        className="is-overlay is-clipped flex-columns items-end p12">
+        <div className="search-filter">
+          <FilterByDates
+            handleFilterParamAdd={this.handleFilterParamAdd}
+            handleFilterParamRemove={this.handleFilterParamRemove}
+            filterParams={filterParams}
+          />
+          <h2>OU</h2>
+          <FilterByDistance
+            handleFilterParamsChange={this.handleFilterParamsChange}
+            filterParams={filterParams}
+          />
+          <FilterByOfferTypes
+            handleFilterParamAdd={this.handleFilterParamAdd}
+            handleFilterParamRemove={this.handleFilterParamRemove}
+            filterParams={filterParams}
+            title="QUOI"
+          />
+          <button
+            className="button"
+            type="button"
+            onClick={handleClearQueryParams}>
+            Réinitialiser
+          </button>
+          <button className="button" onClick={this.onFilterClick} type="button">
+            Filtrer
+          </button>
+        </div>
+      </div>
     )
   }
 }
 
 SearchFilter.propTypes = {
   handleClearQueryParams: PropTypes.func.isRequired,
-  handleQueryParamAdd: PropTypes.func.isRequired,
-  handleQueryParamRemove: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
-  isVisible: PropTypes.bool.isRequired,
   queryParams: PropTypes.object.isRequired,
 }
 
