@@ -127,11 +127,12 @@ class SearchPage extends Component {
                 <span className="icon is-small is-right">
                   <button
                     type="button"
+                    className="no-border no-background is-red-text"
                     onClick={() =>
                       handleQueryParamsChange({ [`mots-cles`]: null })
                     }
                   >
-                    <Icon svg="ico-close-b" alt="Fermer" />
+                    <span aria-hidden className="icon-close" title="" />
                   </button>
                 </span>
               )}
