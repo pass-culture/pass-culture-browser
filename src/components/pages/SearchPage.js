@@ -1,4 +1,4 @@
-/* eslint-disable */
+// /* eslint-disable */
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
@@ -25,7 +25,9 @@ import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
 
 const renderPageHeader = () => (
   <header>
-    <h1>Recherche</h1>
+    <h1>
+Recherche
+    </h1>
   </header>
 )
 
@@ -35,6 +37,21 @@ const renderPageFooter = () => {
 }
 
 class SearchPage extends Component {
+  onSubmit = e => {
+    const { handleQueryParamsChange } = this.props
+
+    e.preventDefault()
+
+    if (!e.target.elements.keywords.value) {
+      return
+    }
+
+    handleQueryParamsChange(
+      { [`mots-cles`]: e.target.elements.keywords.value },
+      { pathname: '/recherche/resultats' }
+    )
+  }
+
   handleDataRequest = (handleSuccess = () => {}, handleFail = () => {}) => {
     const {
       dispatch,
@@ -66,9 +83,6 @@ class SearchPage extends Component {
 
   render() {
     const {
-      handleClearQueryParams,
-      handleQueryParamAdd,
-      handleQueryParamRemove,
       handleQueryParamsChange,
       history,
       match,
@@ -84,8 +98,6 @@ class SearchPage extends Component {
     // THE IN PUT WITH A SYNCED DEFAULT VALUE
     const keywordsKey = typeof keywords === 'undefined' ? 'empty' : 'not-empty'
 
-    console.log('match.params.resultats', match.params.resultats)
-
     return (
       <Main
         backButton={
@@ -96,25 +108,14 @@ class SearchPage extends Component {
         handleDataRequest={this.handleDataRequest}
         header={renderPageHeader}
         name="search"
-        footer={renderPageFooter}>
-        <form
-          className="section"
-          onSubmit={e => {
-            e.preventDefault()
-
-            if (!e.target.elements.keywords.value) {
-              return
-            }
-
-            handleQueryParamsChange(
-              { [`mots-cles`]: e.target.elements.keywords.value },
-              { pathname: '/recherche/resultats' }
-            )
-          }}>
+        footer={renderPageFooter}
+      >
+        <form className="section" onSubmit={this.onSubmit}>
           <div className="field has-addons">
             <p
               className="control has-icons-right is-expanded"
-              key={keywordsKey}>
+              key={keywordsKey}
+            >
               <input
                 id="keywords"
                 className="input search-input"
@@ -126,7 +127,10 @@ class SearchPage extends Component {
                 <span className="icon is-small is-right">
                   <button
                     type="button"
-                    onClick={handleRemoveFilter('mots-cles')}>
+                    onClick={() =>
+                      handleQueryParamsChange({ [`mots-cles`]: null })
+                    }
+                  >
                     <Icon svg="ico-close-b" alt="Fermer" />
                   </button>
                 </span>
@@ -146,7 +150,8 @@ class SearchPage extends Component {
                   pathname = `${pathname}/filtres`
                 }
                 history.push(`${pathname}?${querySearch}`)
-              }}>
+              }}
+            >
               &nbsp;
               <Icon
                 svg={`ico-${match.params.filtres ? 'chevron-up' : 'filter'}`}
@@ -167,7 +172,6 @@ class SearchPage extends Component {
               path="/recherche/:view/filtres"
               render={() => (
                 <SearchFilter
-                  handleClearQueryParams={handleClearQueryParams}
                   handleQueryParamsChange={handleQueryParamsChange}
                   queryParams={queryParams}
                 />
@@ -193,10 +197,14 @@ class SearchPage extends Component {
                 return (
                   <InfiniteScroller
                     className="recommendations-list main-list"
-                    handleLoadMore={this.handleDataRequest}>
+                    handleLoadMore={this.handleDataRequest}
+                  >
                     <h2>
-                      {decodeURI(keywords || '')}{' '}
-                      {decodeURI(queryParams.types || '')} : {resultString}
+                      {decodeURI(keywords || '')}
+                      {' '}
+                      {decodeURI(queryParams.types || '')}
+:
+                      {resultString}
                     </h2>
                     {recommendations.map(o => (
                       <SearchResultItem key={o.id} recommendation={o} />
@@ -219,7 +227,6 @@ SearchPage.defaultProps = {
 SearchPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   goToNextSearchPage: PropTypes.func.isRequired,
-  handleClearQueryParams: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,

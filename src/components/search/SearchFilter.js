@@ -30,6 +30,10 @@ class SearchFilter extends Component {
     handleQueryParamsChange(filterParams)
   }
 
+  onResetClick = () => {
+    this.setState({ filterParams: {} })
+  }
+
   handleFilterParamsChange = newValue => {
     const { filterParams } = this.state
 
@@ -92,10 +96,7 @@ class SearchFilter extends Component {
             filterParams={filterParams}
             title="QUOI"
           />
-          <button
-            className="button"
-            type="button"
-            onClick={handleClearQueryParams}>
+          <button className="button" type="button" onClick={this.onResetClick}>
             Réinitialiser
           </button>
           <button className="button" onClick={this.onFilterClick} type="button">
@@ -108,7 +109,6 @@ class SearchFilter extends Component {
 }
 
 SearchFilter.propTypes = {
-  handleClearQueryParams: PropTypes.func.isRequired,
   handleQueryParamsChange: PropTypes.func.isRequired,
   queryParams: PropTypes.object.isRequired,
 }
