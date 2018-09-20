@@ -52,7 +52,7 @@ const routes = [
     component: SearchPage,
     disabled: false,
     icon: 'search-w',
-    path: '/recherche/:view(types|resultats)?/:filtres?',
+    path: '/recherche/:view(categories|resultats)?/:filtres?',
     title: 'Recherche',
   },
   {

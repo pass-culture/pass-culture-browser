@@ -102,7 +102,7 @@ class SearchPage extends Component {
       <Main
         backButton={
           match.params.view === 'resultats' && {
-            onClick: () => history.push(`/recherche/types?${querySearch}`),
+            onClick: () => history.push(`/recherche/categories?${querySearch}`),
           }
         }
         handleDataRequest={this.handleDataRequest}
@@ -167,7 +167,7 @@ class SearchPage extends Component {
             <Route
               exact
               path="/recherche"
-              render={() => <Redirect to="/recherche/types" />}
+              render={() => <Redirect to="/recherche/categories" />}
             />
             <Route
               path="/recherche/:view/filtres"
@@ -179,8 +179,7 @@ class SearchPage extends Component {
               )}
             />
             <Route
-              exact
-              path="/recherche/types"
+              path="/recherche/categories"
               render={() => (
                 <NavByOfferType
                   handleQueryParamsChange={handleQueryParamsChange}

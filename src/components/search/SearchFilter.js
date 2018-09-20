@@ -2,19 +2,11 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { shallowCompare } from 'react-redux'
 
 import FilterByDates from './FilterByDates'
 import FilterByDistance from './FilterByDistance'
 import FilterByOfferTypes from './FilterByOfferTypes'
-
-const initialFilterParams = {
-  date: null,
-  day_segments: null,
-  distance: null,
-  latitude: null,
-  longitude: null,
-  types: null,
-}
 
 class SearchFilter extends Component {
   constructor(props) {
@@ -39,25 +31,39 @@ class SearchFilter extends Component {
   onFilterClick = () => {
     const { handleQueryParamsChange } = this.props
     const { filterParams, isNewFilter } = this.state
+
     handleQueryParamsChange(filterParams, { isRefreshing: isNewFilter })
   }
 
   onResetClick = () => {
-    this.setState({ filterParams: initialFilterParams })
-  }
-
-  handleFilterParamsChange = newValue => {
-    const { filterParams } = this.state
-
-    const nextFilterParams = Object.assign({}, filterParams, newValue)
-
     this.setState({
-      filterParams: nextFilterParams,
-      isNewFilter: true,
+      filterParams: this.props.queryParams,
+      isNewFilter: false,
     })
   }
 
-  handleFilterParamAdd = (key, value) => {
+  handleFilterParamsChange = (newValue, callback) => {
+    const { queryParams } = this.props
+    const { filterParams } = this.state
+
+    const atLeastOneChangingKey = Object.keys(newValue).find(
+      key =>
+        typeof queryParams[key] === 'undefined' ||
+        queryParams[key] !== newValue[key]
+    )
+
+    const nextFilterParams = Object.assign({}, filterParams, newValue)
+
+    this.setState(
+      {
+        filterParams: nextFilterParams,
+        isNewFilter: typeof atLeastOneChangingKey !== 'undefined',
+      },
+      callback
+    )
+  }
+
+  handleFilterParamAdd = (key, value, callback) => {
     const { filterParams } = this.state
 
     const encodedValue = encodeURI(value)
@@ -67,10 +73,10 @@ class SearchFilter extends Component {
       nextValue = `${previousValue},${encodedValue}`
     }
 
-    this.handleFilterParamsChange({ [key]: nextValue })
+    this.handleFilterParamsChange({ [key]: nextValue }, callback)
   }
 
-  handleFilterParamRemove = (key, value) => {
+  handleFilterParamRemove = (key, value, callback) => {
     const { filterParams } = this.state
 
     const previousValue = filterParams[key]
@@ -83,19 +89,21 @@ class SearchFilter extends Component {
       if (nextValue[0] === ',') {
         nextValue = nextValue.slice(1)
       }
-      this.handleFilterParamsChange({ [key]: nextValue })
+      this.handleFilterParamsChange({ [key]: nextValue }, callback)
     }
   }
 
   render() {
     const { handleClearQueryParams } = this.props
-    const { filterParams } = this.state
+    const { filterParams, isNewFilter } = this.state
+
     return (
       <div
         id="search-filter-menu"
         className="is-overlay is-clipped flex-columns items-end p12">
         <div className="search-filter">
           <FilterByDates
+            handleFilterParamsChange={this.handleFilterParamsChange}
             handleFilterParamAdd={this.handleFilterParamAdd}
             handleFilterParamRemove={this.handleFilterParamRemove}
             filterParams={filterParams}
@@ -111,10 +119,18 @@ class SearchFilter extends Component {
             filterParams={filterParams}
             title="QUOI"
           />
-          <button className="button" type="button" onClick={this.onResetClick}>
+          <button
+            className="button"
+            disabled={!isNewFilter}
+            onClick={this.onResetClick}
+            type="button">
             Réinitialiser
           </button>
-          <button className="button" onClick={this.onFilterClick} type="button">
+          <button
+            className="button"
+            disabled={!isNewFilter}
+            onClick={this.onFilterClick}
+            type="button">
             Filtrer
           </button>
         </div>

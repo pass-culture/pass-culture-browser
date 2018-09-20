@@ -1,3 +1,5 @@
+import get from 'lodash.get'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -21,29 +23,38 @@ const checkboxes = [
 class FilterByDates extends Component {
   onFilterChange = typeSublabel => {
     const {
+      handleFilterParamsChange,
       handleFilterParamAdd,
       handleFilterParamRemove,
       filterParams,
     } = this.props
 
-    const datesValue = decodeURI(filterParams.days_segments || '')
+    const daysSegmentsValue = decodeURI(filterParams.days_segments || '')
+    const isAdded = daysSegmentsValue.includes(typeSublabel)
 
-    const isAdded = datesValue.includes(typeSublabel)
+    console.log('isAdded', isAdded, daysSegmentsValue.split(','))
+
+    let callback
+    if (!get(daysSegmentsValue, 'length')) {
+      const date = moment(moment.now()).toISOString()
+      callback = () => handleFilterParamsChange({ date })
+    } else if (!isAdded && daysSegmentsValue.split(',').length === 1) {
+      console.log('ON ENLEVE')
+      callback = () => handleFilterParamsChange({ date: null })
+    }
 
     if (isAdded) {
-      handleFilterParamRemove('days_segments', typeSublabel)
+      handleFilterParamRemove('days_segments', typeSublabel, callback)
       return
     }
 
-    handleFilterParamAdd('days_segments', typeSublabel)
+    handleFilterParamAdd('days_segments', typeSublabel, callback)
   }
 
   render() {
     const { filterParams } = this.props
 
-    const datesValue = decodeURI(filterParams.days_segments || '')
-
-    console.log('datesValue', datesValue, checkboxes)
+    const daysSegmentsValue = decodeURI(filterParams.days_segments || '')
 
     return (
       <div>
@@ -57,7 +68,7 @@ DATE (Scrollable horizontally)
               {label}
             </label>
             <input
-              checked={datesValue.includes(value)}
+              checked={daysSegmentsValue.includes(value)}
               className="input is-normal"
               onChange={() => this.onFilterChange(value)}
               type="checkbox"
@@ -76,6 +87,7 @@ FilterByDates.propTypes = {
   filterParams: PropTypes.object.isRequired,
   handleFilterParamAdd: PropTypes.func.isRequired,
   handleFilterParamRemove: PropTypes.func.isRequired,
+  handleFilterParamsChange: PropTypes.func.isRequired,
 }
 
 export default FilterByDates
