@@ -119,6 +119,10 @@ a.is-white-text:hover {
   @include fontSize(16px);
 }
 
+.fs15 {
+  @include fontSize(15px);
+}
+
 .fs14 {
   @include fontSize(14px);
 }

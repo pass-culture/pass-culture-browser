@@ -1,25 +1,17 @@
-// /* eslint-disable */
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { compose } from 'redux'
 
-import {
-  Icon,
-  InfiniteScroller,
-  pluralize,
-  requestData,
-  withLogin,
-  withSearch,
-} from 'pass-culture-shared'
+import { Icon, requestData, withLogin, withSearch } from 'pass-culture-shared'
 
 import Main from '../layout/Main'
 import NavByOfferType from '../search/NavByOfferType'
 import SearchFilter from '../search/SearchFilter'
+import SearchResults from '../search/SearchResults'
 import NavigationFooter from '../layout/NavigationFooter'
-import SearchResultItem from '../search/SearchResultItem'
 import { selectRecommendations } from '../../selectors'
 import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
 
@@ -35,7 +27,7 @@ const renderPageFooter = () => (
   <NavigationFooter theme="white" className="dotted-top-red" />
 )
 
-class SearchPage extends Component {
+class SearchPage extends PureComponent {
   onSubmit = e => {
     const { handleQueryParamsChange } = this.props
 
@@ -188,29 +180,19 @@ class SearchPage extends Component {
             />
             <Route
               path="/recherche/resultats"
-              render={() => {
-                const resultString = pluralize(
-                  recommendations.length,
-                  'résultats'
-                )
-                return (
-                  <InfiniteScroller
-                    className="recommendations-list main-list"
-                    handleLoadMore={this.handleDataRequest}
-                  >
-                    <h2>
-                      {decodeURI(keywords || '')}
-                      {' '}
-                      {decodeURI(queryParams.types || '')}
-:
-                      {resultString}
-                    </h2>
-                    {recommendations.map(o => (
-                      <SearchResultItem key={o.id} recommendation={o} />
-                    ))}
-                  </InfiniteScroller>
-                )
-              }}
+              render={() => (
+                <Route
+                  path="/recherche/resultats"
+                  render={() => (
+                    <SearchResults
+                      keywords={keywords}
+                      items={recommendations}
+                      queryParams={queryParams}
+                      loadMoreHandler={this.handleDataRequest}
+                    />
+                  )}
+                />
+              )}
             />
           </Fragment>
         </Switch>

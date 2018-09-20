@@ -36,13 +36,13 @@ const SearchResultItem = ({ recommendation }) => {
   const queryURL = getQueryURL({ mediationId, offerId })
   const linkURL = `/decouverte/${queryURL}`
   return (
-    <li className="search-result-item">
+    <li className="recommendation-list-item">
       <hr className="dotted-top-primary" />
       <Link to={linkURL} className="flex-columns items-center">
         <div className="image flex-0 dotted-right-primary flex-rows flex-center">
           <img src={recommendation.thumbUrl} alt="" />
         </div>
-        <div className="infos ml18 flex-1">
+        <div className="m18 flex-1">
           {recommendation.offer && (
             <Fragment>
               <h5
