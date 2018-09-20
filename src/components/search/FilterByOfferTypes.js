@@ -14,9 +14,9 @@ class FilterByOfferTypes extends Component {
 
     const typesValue = decodeURI(filterParams.types || '')
 
-    const isAdded = typesValue.includes(typeSublabel)
+    const isAlreadyIncluded = typesValue.includes(typeSublabel)
 
-    if (isAdded) {
+    if (isAlreadyIncluded) {
       handleFilterParamRemove('types', typeSublabel)
       return
     }

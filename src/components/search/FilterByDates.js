@@ -30,20 +30,20 @@ class FilterByDates extends Component {
     } = this.props
 
     const daysSegmentsValue = decodeURI(filterParams.days_segments || '')
-    const isAdded = daysSegmentsValue.includes(typeSublabel)
+    const isAlreadyIncluded = daysSegmentsValue.includes(typeSublabel)
 
-    console.log('isAdded', isAdded, daysSegmentsValue.split(','))
-
+    // WE ADD THE DATE AT THE FIRST DAYS SEGMENTS CLICKED
+    // WE REMOVE THE DATE AT THE LAST DAYS SEGMENTS CLICKED
     let callback
     if (!get(daysSegmentsValue, 'length')) {
       const date = moment(moment.now()).toISOString()
       callback = () => handleFilterParamsChange({ date })
-    } else if (!isAdded && daysSegmentsValue.split(',').length === 1) {
+    } else if (isAlreadyIncluded && daysSegmentsValue.split(',').length === 1) {
       console.log('ON ENLEVE')
       callback = () => handleFilterParamsChange({ date: null })
     }
 
-    if (isAdded) {
+    if (isAlreadyIncluded) {
       handleFilterParamRemove('days_segments', typeSublabel, callback)
       return
     }

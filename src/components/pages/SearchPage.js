@@ -240,10 +240,13 @@ export default compose(
   withSearch({
     dataKey: 'recommendations',
     defaultQueryParams: {
-      distance: undefined,
-      from_date: undefined,
-      [`mots-cles`]: undefined,
-      type: undefined,
+      date: null,
+      days_segments: null,
+      distance: null,
+      latitude: null,
+      longitude: null,
+      [`mots-cles`]: null,
+      types: null,
     },
     keywordsQueryString: 'mots-cles',
   }),
