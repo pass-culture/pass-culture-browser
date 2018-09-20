@@ -15,10 +15,10 @@ import {
   withSearch,
 } from 'pass-culture-shared'
 
-import Footer from '../layout/Footer'
 import Main from '../layout/Main'
 import NavByOfferType from '../search/NavByOfferType'
 import SearchFilter from '../search/SearchFilter'
+import NavigationFooter from '../layout/NavigationFooter'
 import SearchResultItem from '../search/SearchResultItem'
 import { selectRecommendations } from '../../selectors'
 import { frenchQueryStringToEnglishQueryString } from '../../utils/string'
@@ -31,10 +31,9 @@ Recherche
   </header>
 )
 
-const renderPageFooter = () => {
-  const footerProps = { borderTop: true, colored: true }
-  return <Footer {...footerProps} />
-}
+const renderPageFooter = () => (
+  <NavigationFooter theme="white" className="dotted-top-red" />
+)
 
 class SearchPage extends Component {
   onSubmit = e => {
