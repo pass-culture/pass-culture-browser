@@ -39,9 +39,6 @@ class SearchFilter extends Component {
   onFilterClick = () => {
     const { handleQueryParamsChange } = this.props
     const { filterParams, isNewFilter } = this.state
-
-    console.log('isNewFilter', isNewFilter)
-
     handleQueryParamsChange(filterParams, { isRefreshing: isNewFilter })
   }
 

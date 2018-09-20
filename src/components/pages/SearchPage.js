@@ -102,7 +102,7 @@ class SearchPage extends Component {
       <Main
         backButton={
           match.params.view === 'resultats' && {
-            onClick: () => history.push('/recherche/types'),
+            onClick: () => history.push(`/recherche/types?${querySearch}`),
           }
         }
         handleDataRequest={this.handleDataRequest}

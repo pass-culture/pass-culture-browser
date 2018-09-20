@@ -26,7 +26,7 @@ class FilterByDates extends Component {
       filterParams,
     } = this.props
 
-    const datesValue = decodeURI(filterParams.dates || '')
+    const datesValue = decodeURI(filterParams.days_segments || '')
 
     const isAdded = datesValue.includes(typeSublabel)
 
@@ -39,6 +39,12 @@ class FilterByDates extends Component {
   }
 
   render() {
+    const { filterParams } = this.props
+
+    const datesValue = decodeURI(filterParams.days_segments || '')
+
+    console.log('datesValue', datesValue, checkboxes)
+
     return (
       <div>
         <h2>
@@ -51,6 +57,7 @@ DATE (Scrollable horizontally)
               {label}
             </label>
             <input
+              checked={datesValue.includes(value)}
               className="input is-normal"
               onChange={() => this.onFilterChange(value)}
               type="checkbox"
