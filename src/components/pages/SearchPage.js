@@ -145,7 +145,7 @@ class SearchPage extends Component {
               type="button"
               className="button is-secondary"
               onClick={() => {
-                let pathname = '/recherche/resultats'
+                let pathname = `/recherche/${match.params.view}`
                 if (!match.params.filtres) {
                   pathname = `${pathname}/filtres`
                 }

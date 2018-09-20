@@ -32,7 +32,10 @@ class SearchFilter extends Component {
     const { handleQueryParamsChange } = this.props
     const { filterParams, isNewFilter } = this.state
 
-    handleQueryParamsChange(filterParams, { isRefreshing: isNewFilter })
+    handleQueryParamsChange(filterParams, {
+      isRefreshing: isNewFilter,
+      pathname: '/recherche/resultats',
+    })
   }
 
   onResetClick = () => {
