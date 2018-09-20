@@ -41,10 +41,16 @@ class FilterByDistance extends Component {
 
   render() {
     const { filterParams } = this.props
+    // https://stackoverflow.com/questions/37946229/how-do-i-reset-the-defaultvalue-for-a-react-input
+    // WE NEED TO MAKE THE PARENT OF THE KEYWORD INPUT
+    // DEPENDING ON THE KEYWORDS VALUE IN ORDER TO RERENDER
+    // THE IN PUT WITH A SYNCED DEFAULT VALUE
+    const distanceKey = filterParams.distance === null ? 'empty' : 'not-empty'
+
     const distanceValue = filterParams.distance || 20000
 
     return (
-      <div>
+      <div key={distanceKey}>
         <select
           className="select"
           defaultValue={distanceValue}
