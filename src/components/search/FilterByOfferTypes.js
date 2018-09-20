@@ -14,8 +14,6 @@ class FilterByOfferTypes extends Component {
 
     const typesValue = decodeURI(filterParams.types || '')
 
-    console.log('typesValue', typesValue, 'typeSublabel', typeSublabel)
-
     const isAdded = typesValue.includes(typeSublabel)
 
     if (isAdded) {

@@ -7,11 +7,21 @@ import FilterByDates from './FilterByDates'
 import FilterByDistance from './FilterByDistance'
 import FilterByOfferTypes from './FilterByOfferTypes'
 
+const initialFilterParams = {
+  date: null,
+  day_segments: null,
+  distance: null,
+  latitude: null,
+  longitude: null,
+  types: null,
+}
+
 class SearchFilter extends Component {
   constructor(props) {
     super(props)
     this.state = {
       filterParams: Object.assign({}, props.queryParams),
+      isNewFilter: false,
     }
   }
 
@@ -19,19 +29,24 @@ class SearchFilter extends Component {
     const { queryParams } = this.props
     // TODO: eslint does not support setState inside componentDidUpdate
     if (queryParams !== prevProps.queryParams) {
-      this.setState({ filterParams: queryParams })
+      this.setState({
+        filterParams: queryParams,
+        isNewFilter: false,
+      })
     }
   }
 
   onFilterClick = () => {
     const { handleQueryParamsChange } = this.props
-    const { filterParams } = this.state
+    const { filterParams, isNewFilter } = this.state
 
-    handleQueryParamsChange(filterParams)
+    console.log('isNewFilter', isNewFilter)
+
+    handleQueryParamsChange(filterParams, { isRefreshing: isNewFilter })
   }
 
   onResetClick = () => {
-    this.setState({ filterParams: {} })
+    this.setState({ filterParams: initialFilterParams })
   }
 
   handleFilterParamsChange = newValue => {
@@ -39,7 +54,10 @@ class SearchFilter extends Component {
 
     const nextFilterParams = Object.assign({}, filterParams, newValue)
 
-    this.setState({ filterParams: nextFilterParams })
+    this.setState({
+      filterParams: nextFilterParams,
+      isNewFilter: true,
+    })
   }
 
   handleFilterParamAdd = (key, value) => {
