@@ -50,9 +50,9 @@ const routes = [
   },
   {
     component: SearchPage,
-    disabled: true,
+    disabled: false,
     icon: 'search-w',
-    path: '/recherche',
+    path: '/recherche/:resultats?/:filtre?',
     title: 'Recherche',
   },
   {
