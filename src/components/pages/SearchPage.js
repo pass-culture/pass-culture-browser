@@ -1,6 +1,6 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { compose } from 'redux'
@@ -76,6 +76,7 @@ class SearchPage extends PureComponent {
     const {
       handleQueryParamsChange,
       history,
+      location,
       match,
       queryParams,
       querySearch,
@@ -153,48 +154,46 @@ class SearchPage extends PureComponent {
           </div>
         </form>
 
-        <Switch>
-          <Fragment>
-            <Route
-              exact
-              path="/recherche"
-              render={() => <Redirect to="/recherche/categories" />}
-            />
-            <Route
-              path="/recherche/:view/filtres"
-              render={() => (
-                <SearchFilter
-                  handleQueryParamsChange={handleQueryParamsChange}
-                  queryParams={queryParams}
-                />
-              )}
-            />
-            <Route
-              path="/recherche/categories"
-              render={() => (
-                <NavByOfferType
-                  handleQueryParamsChange={handleQueryParamsChange}
-                  title="PAR CATEGORIES"
-                />
-              )}
-            />
-            <Route
-              path="/recherche/resultats"
-              render={() => (
-                <Route
-                  path="/recherche/resultats"
-                  render={() => (
-                    <SearchResults
-                      keywords={keywords}
-                      items={recommendations}
-                      queryParams={queryParams}
-                      loadMoreHandler={this.handleDataRequest}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Fragment>
+        <Switch location={location}>
+          <Route
+            exact
+            path="/recherche"
+            render={() => <Redirect to="/recherche/categories" />}
+          />
+          <Route
+            path="/recherche/:view/filtres"
+            render={() => (
+              <SearchFilter
+                handleQueryParamsChange={handleQueryParamsChange}
+                queryParams={queryParams}
+              />
+            )}
+          />
+          <Route
+            path="/recherche/categories"
+            render={() => (
+              <NavByOfferType
+                handleQueryParamsChange={handleQueryParamsChange}
+                title="PAR CATEGORIES"
+              />
+            )}
+          />
+          <Route
+            path="/recherche/resultats"
+            render={() => (
+              <Route
+                path="/recherche/resultats"
+                render={() => (
+                  <SearchResults
+                    keywords={keywords}
+                    items={recommendations}
+                    queryParams={queryParams}
+                    loadMoreHandler={this.handleDataRequest}
+                  />
+                )}
+              />
+            )}
+          />
         </Switch>
       </Main>
     )
