@@ -36,8 +36,7 @@ const withProfileForm = (
   // en tant que props du composant, comme pour la propriete `title` du header
   routePath = 'users/current',
   routeMethod = 'PATCH',
-  reducerKey = 'user',
-  initialValues = false
+  reducerKey = 'user'
 ) => {
   const name = WrappedComponent.displayName || 'Component'
   withProfileForm.displayName = `withProfileForm(${name})`
@@ -55,7 +54,7 @@ const withProfileForm = (
   class ProfilePasswordForm extends React.PureComponent {
     constructor(props) {
       super(props)
-      const { dispatch, user } = this.props
+      const { dispatch, initialValues, user } = this.props
       this.state = { isloading: false }
       // NOTE: initialValues sont detruites a chaque mount/unmount
       // mais la reference ne change pas au changement du state
@@ -78,7 +77,8 @@ const withProfileForm = (
       this.setState(nextstate, () => {
         formResolver()
         // NOTE: si aucune erreur alors
-        // on resout la promise du formulaire et on revient sur la page precedente
+        // on resout la promise du formulaire
+        // et on revient sur la page precedente
         const nexturl = `${location.pathname}/success`
         history.replace(nexturl)
       })

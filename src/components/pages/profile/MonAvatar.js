@@ -8,22 +8,10 @@ const MonAvatar = ({ user }) => (
     <span className="flex-1 my22">
       <ProfilePicture colored="colored" style={{ height: 80, width: 80 }} />
       {user && user.thumb && <img alt="Mon Avatar" src={user.thumb} />}
-      <b className="ml12" style={{ fontSize: '1.2rem' }}>
+      <b className="ml12 fs20">
         {user.publicName}
       </b>
     </span>
-    {/* <button
-      disabled
-      type="button"
-      onClick={() => {}}
-      className="no-border no-background flex-0"
-    >
-      <span
-        aria-hidden
-        className="icon-next"
-        title="Modifier Mes Notifications"
-      />
-    </button> */}
   </div>
 )
 
