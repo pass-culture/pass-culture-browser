@@ -11,7 +11,7 @@ class ProfileFirstLastNameForm extends React.PureComponent {
     const { isLoading } = this.props
     return (
       <div className="pc-scroll-container">
-        <div className="padded flex-1">
+        <div className="py30 px12 flex-1">
           <InputField
             required
             name="lastName"

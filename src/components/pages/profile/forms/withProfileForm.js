@@ -12,7 +12,7 @@ import PageHeader from '../../../layout/PageHeader'
 import NavigationFooter from '../../../layout/NavigationFooter'
 
 const noop = () => {}
-const BACKGROUND_IMAGE = `url('${ROOT_PATH}/mosaic-k@2x.png')`
+const BACKGROUND_IMAGE = `url('${ROOT_PATH}/mosaic-k.png')`
 
 /**
  * Permet la gestion des formulaires sur la page profil
