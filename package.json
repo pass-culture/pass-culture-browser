@@ -65,6 +65,7 @@
     "util.promisify": "^1.0.0"
   },
   "devDependencies": {
+    "@storybook/react": "^3.4.11",
     "archiver": "^2.1.1",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
@@ -134,6 +135,8 @@
     "testcafe": "testcafe 'chrome:headless' testcafe",
     "test": "jest --env=jsdom",
     "spec": "jest --env=jsdom --watchAll",
+    "prestorybook": "$(yarn bin)/node-sass -r ./src/styles/index.scss ./public/static/stories-styles.css --output-style compressed",
+    "storybook": "start-storybook -s ./public -p 9001 -c .storybook",
     "symlink-shared": "if [ -d \"../shared\" ]; then cd node_modules && rm -rf pass-culture-shared && ln -sf ../../shared pass-culture-shared && cd ../../shared && yarn run compile; fi"
   }
 }
