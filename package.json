@@ -65,6 +65,9 @@
     "util.promisify": "^1.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-info": "^3.4.11",
+    "@storybook/addon-storysource": "^3.4.11",
+    "@storybook/react": "^3.4.11",
     "archiver": "^2.1.1",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
@@ -99,6 +102,7 @@
     "jest": "^23.5.0",
     "node-env-file": "^0.1.8",
     "node-sass": "^4.9.0",
+    "node-sass-tilde-importer": "^1.0.2",
     "phonegap-build-api": "^0.4.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "prettier": "^1.14.0",
@@ -134,6 +138,8 @@
     "testcafe": "testcafe 'chrome:headless' testcafe",
     "test": "jest --env=jsdom",
     "spec": "jest --env=jsdom --watchAll",
+    "prestorybook": "$(yarn bin)/node-sass -r ./src/styles/index.scss ./public/.stories/styles.css --output-style compressed --importer=node_modules/node-sass-tilde-importer",
+    "storybook": "start-storybook -s ./public -p 9001 -c .storybook",
     "symlink-shared": "if [ -d \"../shared\" ]; then cd node_modules && rm -rf pass-culture-shared && ln -sf ../../shared pass-culture-shared && cd ../../shared && yarn run compile; fi"
   }
 }
