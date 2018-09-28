@@ -12,7 +12,7 @@ import NavigationFooter from '../../layout/NavigationFooter'
 
 const BACKGROUND_IMAGE = `url('${ROOT_PATH}/mosaic-k@2x.png')`
 
-const ProfileMainView = ({ config, user }) => (
+const ProfileMainView = ({ user }) => (
   <div
     id="profile-page-main-view"
     className="pc-page-view pc-theme-default flex-rows"
@@ -26,7 +26,7 @@ const ProfileMainView = ({ config, user }) => (
       <div className="pc-scroll-container">
         <MonAvatar user={user} />
         {/* <MonPassCulture user={user} /> */}
-        <MesInformations user={user} fields={config} />
+        <MesInformations user={user} />
       </div>
     </main>
     <NavigationFooter theme="white" className="dotted-top-red" />
@@ -34,7 +34,6 @@ const ProfileMainView = ({ config, user }) => (
 )
 
 ProfileMainView.propTypes = {
-  config: PropTypes.array.isRequired,
   user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 }
 

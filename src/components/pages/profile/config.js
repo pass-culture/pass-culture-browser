@@ -1,57 +1,90 @@
 import { getDepartementByCode } from '../../../helpers'
-// withProfileForm Component
+// formulaires pour les vues décorées par le HOC withProfileForm
 import ProfileIdentifiantForm from './forms/ProfileIdentifiantForm'
 import ProfilePasswordForm from './forms/ProfilePasswordForm'
 
-export const config = [
-  // TODO: passer par une lib type https://github.com/yahoo/react-intl
-  // pour gérer les pluralize et féminin des labels depuis un dictionnaire
-  // FIXME -> ajouter une proptypes custom pour pouvoir vérifier dans les vues
-  // que l'objet recu pour les définitions des fields du formulaires est valide
+/**
+ * Exemple d'un objet de configuration
+ * ---------
+ * FormComponent [Node]   Composant react affiche par la route
+ * editable [Boolean]     Si le bouton dans la vue MainView est cliquable
+ * initialValues [Object] Valeur par défaut du formulaire
+ *                        Sinon c'est la valeur de l'objet `user`
+ *                        qui sera utilisée
+ * key [String|Array]     La clé de la valeur sur l'object `user`
+ *                        Pour afficher dans la vue MesInformations
+ *                        Si le `resolver` est défini c'est la valeur
+ *                        la valeur de retour qui sera utilisée
+ * label [String]         Utilisé pour affiché le label au dessus des inputs
+ *                        Dans un formulaire
+ *                        ou dans le corps de la page success
+ * resolver [Function]    Retourne une valeur de la vue MesInformations
+ * routeName [String]     Label d'une bouton de la vue MesInformations
+ * title: [String]        Titre dans le PageHeader d'une page d'édition
+ *                        ou pour le titre la page success
+ */
+// on utilise un array d'objects pour garder l'ordre d'affichage
+// dans la vue MesInformations, plus simple que de rajouter une propriété order
+export const profileFields = [
   {
-    component: ProfileIdentifiantForm,
+    FormComponent: ProfileIdentifiantForm,
+    editable: true,
+    initialValues: null,
     key: 'publicName',
     label: 'Identifiant',
     resolver: null,
     routeName: 'identifiant',
     title: 'Votre identifiant',
+    validator: null,
   },
   {
-    // si la propriété `component` n'est pas définie
-    // on considère la route comme disabled
-    // component: ProfileFirstLastNameForm,
-    // utiliser par le resolver
-    // et la creation des items de type liste dans la vue main
+    FormComponent: null,
+    editable: false,
+    initialValues: null,
     key: ['firstName', 'lastName'],
-    // Utilise pour afficher au dessus d'un field dans la vue main
     label: 'Nom et prénom',
-    // ce champs est utile lorqu'on veut mettre un mainPlaceholder
-    // dans la partie mes identifiants et qu'il n'y a pas de valeur par défaut
-    mainPlaceholder: 'Renseigner mon nom et prénom',
-    resolver: (user, [firstnameKey, lastnameKey]) =>
-      [user[firstnameKey] || false, user[lastnameKey] || false]
+    placeholder: 'Renseigner mon nom et prénom',
+    resolver: (user, key) => {
+      const [keyFirstname, keyLastname] = key
+      return [user[keyFirstname] || false, user[keyLastname] || false]
         .filter(v => v)
-        .join(' '),
-    routeName: 'nom-prenom',
+        .join(' ')
+    },
+    routeName: false,
     title: 'Votre nom et prénom',
+    validator: null,
   },
   {
+    FormComponent: null,
+    editable: false,
+    initialValues: null,
     key: 'email',
     label: 'Adresse e-mail',
     resolver: null,
-    routeName: 'email',
+    routeName: false,
     title: 'Votre adresse e-mail',
+    validator: null,
   },
   {
-    component: ProfilePasswordForm,
+    FormComponent: ProfilePasswordForm,
+    editable: true,
+    initialValues: {
+      newPassword: null,
+      newPasswordConfirm: null,
+      oldPassword: null,
+    },
     key: 'password',
     label: 'Mot de passe',
-    mainPlaceholder: 'Changer mon mot de passe',
+    placeholder: 'Changer mon mot de passe',
     resolver: () => false,
-    routeName: 'password',
+    routeName: 'mot-de-passe',
     title: 'Votre mot de passe',
+    validator: null,
   },
   {
+    FormComponent: null,
+    editable: false,
+    initialValues: null,
     key: 'departementCode',
     label: 'Département de résidence',
     resolver: (user, key) => {
@@ -59,9 +92,30 @@ export const config = [
       const deptname = getDepartementByCode(code)
       return `${code} - ${deptname}`
     },
-    routeName: 'departement',
+    routeName: false,
     title: 'Votre Département de résidence',
+    validator: null,
   },
 ]
 
-export default config
+// cree une copie du tableau config
+// en gardant l'ordre defini pour l'affichage
+// de la liste de boutons de la vue MesInformations
+export const getOrderedFields = () => profileFields.slice(0)
+
+/**
+ * Cree une map d'object a partir
+ * de la clé routeName
+ */
+export const getRoutesConfigObject = () => {
+  // on garde uniquement les objets qui ont un component
+  const components = profileFields.filter(
+    o => o.editable && o.routeName && o.FormComponent
+  )
+  // creation d'un objet a partir de la cle d'objet `routeName`
+  const routes = components.reduce(
+    (acc, o) => ({ ...acc, [o.routeName]: o }),
+    {}
+  )
+  return routes
+}

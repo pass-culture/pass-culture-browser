@@ -7,24 +7,19 @@ import { connect } from 'react-redux'
 import { withLogin } from 'pass-culture-shared'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
-import { config } from './profile/config'
+import { getRoutesConfigObject } from './profile/config'
 import NotMatch from './NotMatch'
 import Loader from '../layout/Loader'
 import ProfileMainView from './profile/ProfileMainView'
 import ProfileUpdateSuccess from './profile/ProfileUpdateSuccess'
 
-const parseRoutesWithComponent = () => {
-  const components = config.filter(o => o.component)
-  const routes = components.reduce(
-    (acc, o) => ({ ...acc, [o.routeName]: o }),
-    {}
-  )
-  return routes
-}
-
 const ProfilePage = ({ isloaded, location, user }) => {
-  const routes = parseRoutesWithComponent()
-  const possibleRoutes = Object.keys(routes).join('|')
+  const routes = getRoutesConfigObject()
+  const routeNames = Object.keys(routes)
+  // seules les routes dans `allowedRoutes`
+  // sont autorisées à être affichées par React Router
+  // les autres/ou inconnues iront dans la route NotMatch (404)
+  const allowedRoutes = routeNames.join('|')
   return (
     <div id="profile-page" className="page is-relative">
       {isloaded && (
@@ -33,26 +28,34 @@ const ProfilePage = ({ isloaded, location, user }) => {
             exact
             path="/profil"
             key="route-profile-main-view"
-            render={() => <ProfileMainView user={user} config={config} />}
+            render={() => <ProfileMainView user={user} />}
           />
           <Route
             exact
-            path={`/profil/:view(${possibleRoutes})/success`}
+            path={`/profil/:view(${allowedRoutes})/success`}
             key="route-profile-update-success"
-            render={routeProps => (
-              <ProfileUpdateSuccess {...routeProps} config={routes} />
-            )}
+            render={routeProps => {
+              const { view } = routeProps.match.params
+              const { title } = routes[view]
+              return <ProfileUpdateSuccess title={title} />
+            }}
           />
           <Route
             exact
-            path={`/profil/:view(${possibleRoutes})`}
+            path={`/profil/:view(${allowedRoutes})`}
             key="route-profile-edit-form"
             render={routeProps => {
               const { view } = routeProps.match.params
-              const Component = routes[view].component
-              if (!Component) return null
-              const { title } = routes[view]
-              return <Component {...routeProps} title={title} user={user} />
+              // Object provenant de la configuration
+              const { FormComponent, initialValues, title } = routes[view]
+              return (
+                <FormComponent
+                  {...routeProps}
+                  user={user}
+                  title={title}
+                  initialValues={initialValues}
+                />
+              )
             }}
           />
           <Route

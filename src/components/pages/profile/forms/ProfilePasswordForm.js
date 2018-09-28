@@ -11,15 +11,7 @@ import validatePasswordForm from '../validators/validatePasswordForm'
 
 // NOTE: les anciens mot de passe lors de la phase beta
 // n'avaient de règle de validation
-// FIXME: peu être mettre un if avec une version du package.json
-// si on considére que la v1 correspond à la mise en ligne d'octobre
 const ERROR_OLD_PASSWORD = "L'ancien mot de passe est manquant"
-
-const initialValues = {
-  newPassword: null,
-  newPasswordConfirm: null,
-  oldPassword: null,
-}
 
 // azertyazertyP1$
 class ProfilePasswordForm extends React.PureComponent {
@@ -76,9 +68,7 @@ ProfilePasswordForm.displayName = 'ProfilePasswordForm'
 export default withProfileForm(
   ProfilePasswordForm,
   validatePasswordForm,
-  // TODO -> plutot les options de route par un objet
   'users/current/change-password',
   'POST',
-  false,
-  initialValues
+  false
 )
