@@ -12,18 +12,6 @@ const MonAvatar = ({ user }) => (
         {user.publicName}
       </b>
     </span>
-    {/* <button
-      disabled
-      type="button"
-      onClick={() => {}}
-      className="no-border no-background flex-0"
-    >
-      <span
-        aria-hidden
-        className="icon-next"
-        title="Modifier Mes Notifications"
-      />
-    </button> */}
   </div>
 )
 

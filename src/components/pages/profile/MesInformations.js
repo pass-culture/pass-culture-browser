@@ -34,10 +34,10 @@ class MesInformations extends React.PureComponent {
             )}
           </span>
           {!disabled && (
-            <span className="is-block flex-0">
+            <span className="is-block flex-0 is-red-text">
               <span
                 aria-hidden
-                className="icon-next"
+                className="pc-icon icon-ico-edit"
                 title={`Modifier ${label}`}
               />
             </span>

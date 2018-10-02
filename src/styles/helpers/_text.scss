@@ -1,6 +1,25 @@
 // creation des classes permettant de gerer la taille des polices
 // Exemple: .fs18, .fs32...
-$intSizes: (13, 14, 15, 16, 17, 18, 19, 20, 22, 30, 32, 48, 52, 60, 80);
+$intSizes: (
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  22,
+  24,
+  26,
+  28,
+  30,
+  32,
+  48,
+  52,
+  60,
+  80
+);
 
 @each $intSize in $intSizes {
   $pixelValue: number-to-pixel($intSize);
@@ -10,16 +29,22 @@ $intSizes: (13, 14, 15, 16, 17, 18, 19, 20, 22, 30, 32, 48, 52, 60, 80);
   }
 }
 
+.ln1 {
+  line-height: 1rem;
+}
+
+.ln2 {
+  line-height: 2rem;
+}
+
 /* ------------------------------------------------
 
  Helpers:
- - color
  - style
  - align
 
 ------------------------------------------------ */
 
-/* ------ ALIGN */
 .text-center,
 .has-text-centered {
   text-align: center;
@@ -40,43 +65,6 @@ $intSizes: (13, 14, 15, 16, 17, 18, 19, 20, 22, 30, 32, 48, 52, 60, 80);
 .text-ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-/* ------ COLORS */
-
-.is-grey-text {
-  color: $grey;
-}
-
-.is-dark-grey-text {
-  color: $grey-dark;
-}
-
-.is-white-text,
-a.is-white-text,
-a.is-white-text:hover {
-  color: $white;
-}
-
-.is-black-text {
-  color: $black;
-}
-
-.is-red-text,
-.is-primary-text,
-a.is-red-text,
-a.is-red-text:hover,
-a.is-primary-text,
-a.is-primary-text:hover {
-  color: $primary;
-}
-
-.is-purple-text {
-  color: $purple-red;
-}
-
-.is-green-text {
-  color: $green;
 }
 
 /* ------ STYLE / WEIGHT */

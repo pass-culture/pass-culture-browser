@@ -23,6 +23,10 @@
   box-shadow: 0 0 23px -1px rgba(0, 0, 0, 0.1);
 }
 
+.pc-icon:not([class*='fs']) {
+  font-size: 2rem;
+}
+
 .pc-label {
   color: $grey;
   font-size: 0.8rem;
@@ -49,9 +53,16 @@
 }
 
 .pc-header {
-  @extend .padded;
-  @extend .text-center;
   @extend .fs19;
+  @extend .px22;
+  @extend .flex-0;
+  @extend .flex-center;
+  @extend .text-center;
+  @extend .items-center;
+  @extend .flex-columns;
+
+  height: $header-height;
+  min-height: $header-height;
 }
 
 .pc-footer {
@@ -62,8 +73,8 @@
   height: $footer-height;
   min-height: $footer-height;
 
-  .icon-user-circle-outline {
-    font-size: 2.7rem;
+  .icon-ico-user-circled {
+    font-size: 3rem;
   }
 
   button {

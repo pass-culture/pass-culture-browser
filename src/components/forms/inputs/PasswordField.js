@@ -60,7 +60,7 @@ export class PasswordField extends React.PureComponent {
                   required={!!required} // cast to boolean
                   placeholder={placeholder}
                   autoComplete={autoComplete ? 'on' : 'off'}
-                  className="pc-final-form-input"
+                  className="pc-final-form-input no-radius"
                 />
 
                 <button
@@ -70,7 +70,7 @@ export class PasswordField extends React.PureComponent {
                 >
                   <span
                     aria-hidden
-                    className={`icon-eye${status} fs18`}
+                    className={`pc-icon icon-ico-eye${status} fs30 ln1`}
                     title=""
                   />
                 </button>

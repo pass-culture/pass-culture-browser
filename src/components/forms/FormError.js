@@ -35,7 +35,7 @@ export const FormError = ({ className, customMessage, meta }) => {
       {(errorMessage && (
         <span className="flex-columns is-primary-text">
           <span className="flex-0 mr3">
-            <span aria-hidden className="icon-warning-circled fs18" title="" />
+            <span aria-hidden className="pc-icon icon-ico-" title="" />
           </span>
           <span className="flex-1 is-semi-bold fs15">
             {errorMessage.map((err, index) => (

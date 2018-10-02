@@ -1,3 +1,9 @@
+/* ------------------------------------
+
+ THEME
+
+------------------------------------ */
+
 .pc-theme-purple {
   color: $white;
   background-color: $purple-blue;
@@ -41,5 +47,34 @@
 
   [class*='border-'] {
     border-color: $white;
+  }
+}
+
+.pc-theme-gradient {
+  color: $white;
+  background-image: linear-gradient(to bottom right, $primary, $purple-blue);
+
+  [class*='border-'] {
+    border-color: $white;
+  }
+}
+
+/* ------------------------------------
+
+ TEXT COLORS
+
+------------------------------------ */
+
+// Exemple: .is-white-text, is-primary-text
+$colors: (grey, white, black, red, primary, purple, green);
+
+@each $color in $colors {
+  .is-#{$color}-text,
+  a.is-#{$color}-text,
+  a.is-#{$color}-text:active,
+  a.is-#{$color}-text:link,
+  a.is-#{$color}-text:hover,
+  a.is-#{$color}-text:visited {
+    color: #{$color};
   }
 }

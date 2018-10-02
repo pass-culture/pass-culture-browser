@@ -18,20 +18,20 @@ const PageHeader = ({
   useSubmit,
 }) => (
   <header className={`pc-theme-${theme} pc-header is-relative ${className}`}>
+    {/* FIXME: a voir si géré par un switch ou des if */}
+    {useBack &&
+      !useClose && <PageBackButton disabled={isloading} theme={theme} />}
     <h1>
       <span>{title}</span>
-      {/* FIXME: a voir si géré par un switch ou des if */}
-      {useBack &&
-        !useClose && <PageBackButton disabled={isloading} theme={theme} />}
-      {useClose && <PageCloseButton disabled={isloading} theme={theme} />}
-      {useSubmit && (
-        <PageSubmitButton
-          theme={theme}
-          disabled={!canSubmit}
-          isloading={isloading}
-        />
-      )}
     </h1>
+    {useClose && <PageCloseButton disabled={isloading} theme={theme} />}
+    {useSubmit && (
+      <PageSubmitButton
+        theme={theme}
+        disabled={!canSubmit}
+        isloading={isloading}
+      />
+    )}
   </header>
 )
 

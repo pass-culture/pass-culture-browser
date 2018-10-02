@@ -1,11 +1,10 @@
 @import './search/index.scss';
 @import 'BookingsPage.scss';
-@import 'FavoritesPage.scss';
 @import 'SignInAndUpPage.scss';
 @import 'SearchPage.scss';
 
 #beta-page {
-  color: $white;
+  // color: $white;
 
   .pc-main {
     height: 66%;
@@ -26,6 +25,8 @@
 
   .pc-footer .pc-icon {
     @include font-size-to-rem(38px);
+
+    line-height: 1rem;
   }
 }
 
@@ -34,17 +35,14 @@
     background-color: $white;
   }
 
-  #mes-informations .icon-next {
-    color: $primary;
-    font-size: 1.4rem;
-  }
-
   #mes-informations a[disabled] {
     // reset default disabled rule
     opacity: 1;
   }
 
   #mes-informations .list .item:last-child {
+    // dernier element dans la liste
+    // il s'agit du bouton déconnexion
     @extend .no-dotted-border;
   }
 }

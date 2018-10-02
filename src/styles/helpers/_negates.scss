@@ -15,6 +15,10 @@
   border: 0;
 }
 
+.no-radius {
+  border-radius: 0;
+}
+
 .no-background {
   background-color: transparent;
 }
@@ -39,8 +43,15 @@
   background-image: none !important;
 }
 
+.no-decoration,
+.no-underline,
 a.no-decoration,
+a.no-underline,
+a.no-decoration:active,
+a.no-underline:active,
 a.no-decoration:hover,
-a.no-decoration:visited {
+a.no-underline:hover,
+a.no-decoration:visited,
+a.no-underline:visited {
   text-decoration: none;
 }
