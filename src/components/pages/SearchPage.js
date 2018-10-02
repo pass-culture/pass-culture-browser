@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
@@ -45,6 +46,7 @@ class SearchPage extends PureComponent {
         props,
         `pagination.windowQuery.${mapApiToWindow.search}`
       ),
+      withFilter: false,
     }
   }
 
@@ -65,6 +67,7 @@ class SearchPage extends PureComponent {
   handleDataRequest = (handleSuccess = () => {}, handleFail = () => {}) => {
     const { dispatch, location, match, pagination, search } = this.props
     const { apiQueryString, goToNextPage, page } = pagination
+    const { withFilter } = this.state
 
     // BECAUSE THE INFINITE SCROLLER CALLS ONCE THIS FUNCTION
     // BUT THEN PUSH THE SEARCH TO PAGE + 1
@@ -86,7 +89,7 @@ class SearchPage extends PureComponent {
         handleFail,
         handleSuccess: (state, action) => {
           handleSuccess(state, action)
-          if (match.params.view === 'resultats' && !match.params.filtres) {
+          if (match.params.view === 'resultats' && !withFilter) {
             goToNextPage()
           }
         },
@@ -103,9 +106,8 @@ class SearchPage extends PureComponent {
 
   render() {
     const { history, location, match, pagination, recommendations } = this.props
-    const { page, windowQuery, windowQueryString } = pagination
-    const { keywordsKey, keywordsValue } = this.state
-
+    const { windowQuery } = pagination
+    const { keywordsKey, keywordsValue, withFilter } = this.state
     const keywords = windowQuery[mapApiToWindow.search]
 
     const filtersActive = isSearchFiltersAdded(
@@ -127,73 +129,78 @@ class SearchPage extends PureComponent {
         footer={renderPageFooter}
       >
         <form className="section" onSubmit={this.onSubmit}>
-          <div className="field has-addons">
-            <p
-              className="control has-icons-right is-expanded"
-              key={keywordsKey}
-            >
-              <input
-                id="search"
-                defaultValue={keywordsValue}
-                className="input search-input"
-                placeholder="Saisissez une recherche"
-                type="text"
-                onChange={e => this.setState({ keywordsValue: e.target.value })}
-              />
-
-              {get(keywordsValue, 'length') > 0 && (
-                <span className="icon is-small is-right">
-                  <button
-                    type="button"
-                    className="no-border no-background is-red-text"
-                    id="refresh-keywords-button"
-                    onClick={() =>
-                      this.setState({
-                        // https://stackoverflow.com/questions/37946229/how-do-i-reset-the-defaultvalue-for-a-react-input
-                        // WE NEED TO MAKE THE PARENT OF THE KEYWORD INPUT
-                        // DEPENDING ON THE KEYWORDS VALUE IN ORDER TO RERENDER
-                        // THE INPUT WITH A SYNCED DEFAULT VALUE
-                        keywordsKey: keywordsKey + 1,
-                        keywordsValue: '',
-                      })
-                    }
-                  >
-                    <span aria-hidden className="icon-close" title="" />
-                  </button>
-                </span>
-              )}
-            </p>
-            <div className="control">
-              <button
-                className="button is-rounded is-medium"
-                id="keywords-search-button"
-                type="submit"
+          <div className="flex-columns">
+            <div className="field has-addons flex-1">
+              <p
+                className="control has-icons-right is-expanded"
+                key={keywordsKey}
               >
-                Chercher
+                <input
+                  id="search"
+                  defaultValue={keywordsValue}
+                  className="input search-input"
+                  placeholder="Saisissez une recherche"
+                  type="text"
+                  onChange={e =>
+                    this.setState({ keywordsValue: e.target.value })
+                  }
+                />
+
+                {get(keywordsValue, 'length') > 0 && (
+                  <span className="icon is-small is-right">
+                    <button
+                      type="button"
+                      className="no-border no-background is-red-text"
+                      id="refresh-keywords-button"
+                      onClick={() =>
+                        this.setState({
+                          // https://stackoverflow.com/questions/37946229/how-do-i-reset-the-defaultvalue-for-a-react-input
+                          // WE NEED TO MAKE THE PARENT OF THE KEYWORD INPUT
+                          // DEPENDING ON THE KEYWORDS VALUE IN ORDER TO RERENDER
+                          // THE INPUT WITH A SYNCED DEFAULT VALUE
+                          keywordsKey: keywordsKey + 1,
+                          keywordsValue: '',
+                        })
+                      }
+                    >
+                      <span aria-hidden className="icon-close" title="" />
+                    </button>
+                  </span>
+                )}
+              </p>
+              <div className="control flex-0">
+                <button
+                  className="button is-rounded is-medium"
+                  id="keywords-search-button"
+                  type="submit"
+                >
+                  Chercher
+                </button>
+              </div>
+            </div>
+
+            <div
+              className={classnames('show-filter', {
+                'is-visible': withFilter,
+              })}
+            >
+              <button
+                type="button"
+                className="button is-secondary"
+                id="open-close-filter-menu-button"
+                onClick={() => this.setState({ withFilter: !withFilter })}
+              >
+                &nbsp;
+                <Icon
+                  svg={`ico-${withFilter ? 'chevron-up' : isfilterIconActive}`}
+                />
+                &nbsp;
               </button>
             </div>
-            <button
-              type="button"
-              className="button is-secondary"
-              id="open-close-filter-menu-button"
-              onClick={() => {
-                let pathname = `/recherche/${match.params.view}`
-                if (!match.params.filtres) {
-                  pathname = `${pathname}/filtres`
-                }
-                history.push(`${pathname}?page=${page}&${windowQueryString}`)
-              }}
-            >
-              &nbsp;
-              <Icon
-                svg={`ico-${
-                  match.params.filtres ? 'chevron-up' : isfilterIconActive
-                }`}
-              />
-              &nbsp;
-            </button>
           </div>
         </form>
+
+        <SearchFilter filterIsVisible={withFilter} pagination={pagination} />
 
         <Switch location={location}>
           <Route
@@ -204,23 +211,13 @@ class SearchPage extends PureComponent {
             )}
           />
           <Route
-            path="/recherche/:view/filtres"
-            render={() => <SearchFilter pagination={pagination} />}
-          />
-
-          <Route
             path="/recherche/resultats"
             render={() => (
-              <Route
-                path="/recherche/resultats"
-                render={() => (
-                  <SearchResults
-                    keywords={keywords}
-                    items={recommendations}
-                    pagination={pagination}
-                    loadMoreHandler={this.loadMoreHandler}
-                  />
-                )}
+              <SearchResults
+                keywords={keywords}
+                items={recommendations}
+                loadMoreHandler={this.loadMoreHandler}
+                pagination={pagination}
               />
             )}
           />
@@ -228,10 +225,6 @@ class SearchPage extends PureComponent {
       </Main>
     )
   }
-}
-
-SearchPage.defaultProps = {
-  querySearch: null,
 }
 
 SearchPage.propTypes = {
