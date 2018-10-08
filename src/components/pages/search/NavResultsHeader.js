@@ -11,11 +11,14 @@ const NavResultsHeader = ({ category, description }) => {
   const imgDescription = `Liste des offres de type ${category}`
   return (
     <div id="nav-results-header">
-      <div className="flex-rows text-right is-white-text">
-        <div className="flex-1 fs22 is-bold">
-          <h2>
+      <div
+        className="flex-rows text-left is-absolute is-white-text ml24 mr48 mt20 mb32 "
+        id="category-description"
+      >
+        <div className="flex-1 fs22">
+          <span className="is-bold">
             {category}
-          </h2>
+          </span>
         </div>
         <div className="flex-1">
           {description}
