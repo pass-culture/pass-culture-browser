@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | pages | NavByOfferType snapshot should match snapshot 1`] = `
+exports[`src | components | pages | SearchPage snapshot should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Provider
@@ -15,9 +15,14 @@ ShallowWrapper {
       }
     }
   >
-    <NavByOfferType
+    <withRouter(Connect(_withLogin))
+      dispatch={[MockFunction]}
+      history={Object {}}
+      location={Object {}}
+      match={Object {}}
       pagination={Object {}}
-      title="fake Title"
+      recommendations={Array []}
+      search={Object {}}
       typeSublabels={Array []}
     />
   </Provider>,
@@ -34,8 +39,13 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "function",
     "props": Object {
+      "dispatch": [MockFunction],
+      "history": Object {},
+      "location": Object {},
+      "match": Object {},
       "pagination": Object {},
-      "title": "fake Title",
+      "recommendations": Array [],
+      "search": Object {},
       "typeSublabels": Array [],
     },
     "ref": null,
@@ -48,8 +58,13 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "function",
       "props": Object {
+        "dispatch": [MockFunction],
+        "history": Object {},
+        "location": Object {},
+        "match": Object {},
         "pagination": Object {},
-        "title": "fake Title",
+        "recommendations": Array [],
+        "search": Object {},
         "typeSublabels": Array [],
       },
       "ref": null,

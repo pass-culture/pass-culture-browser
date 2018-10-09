@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | pages | NavByOfferType snapshot should match snapshot 1`] = `
+exports[`src | components | pages | search | FilterByOfferTypes snapshot should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Provider
@@ -15,9 +15,9 @@ ShallowWrapper {
       }
     }
   >
-    <NavByOfferType
-      pagination={Object {}}
-      title="fake Title"
+    <Connect(FilterByOfferTypes)
+      filter={Object {}}
+      title="Fake title"
       typeSublabels={Array []}
     />
   </Provider>,
@@ -32,10 +32,10 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "function",
+    "nodeType": "class",
     "props": Object {
-      "pagination": Object {},
-      "title": "fake Title",
+      "filter": Object {},
+      "title": "Fake title",
       "typeSublabels": Array [],
     },
     "ref": null,
@@ -46,10 +46,10 @@ ShallowWrapper {
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
-        "pagination": Object {},
-        "title": "fake Title",
+        "filter": Object {},
+        "title": "Fake title",
         "typeSublabels": Array [],
       },
       "ref": null,

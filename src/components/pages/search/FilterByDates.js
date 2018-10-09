@@ -1,7 +1,7 @@
 import get from 'lodash.get'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import { mapApiToWindow } from '../../../utils/pagination'
 
@@ -20,9 +20,13 @@ const checkboxes = [
     // guess that 273 years are enough
     value: '5-100000',
   },
+  {
+    label: 'DATE PICKER TO DO',
+    value: 'date-picker',
+  },
 ]
 
-class FilterByDates extends Component {
+class FilterByDates extends PureComponent {
   onChange = day => {
     const { filter } = this.props
 
@@ -38,7 +42,6 @@ class FilterByDates extends Component {
     } else if (isAlreadyIncluded && days.split(',').length === 1) {
       callback = () => filter.change({ date: null })
     }
-
     if (isAlreadyIncluded) {
       filter.remove(mapApiToWindow.days, day, callback)
       return
@@ -53,31 +56,35 @@ class FilterByDates extends Component {
     const days = decodeURI(filter.query[mapApiToWindow.days] || '')
 
     return (
-      <div className="dotted-bottom-primary" id="filter-by-dates">
-        <h2 className="fs18 is-italic is-uppercase text-center">
+      <div id="filter-by-dates" className="px12 pt20">
+        <h2 className="fs15 is-italic is-uppercase text-center mb12">
           {title}
         </h2>
-        <div className="filter-menu-outer">
-          {checkboxes.map(({ label, value }) => (
-            <div id="date-checkbox" className="filter-menu-inner" key={value}>
-              <div className="field field-checkbox">
-                <label className="fs22"> 
-                  {' '}
+        {/* FIXME: le scroll sous ios est pas terrible
+        du fait que le input soit cliquable */}
+        <div className="pc-scroll-horizontal is-relative is-full-width">
+          <div className="list flex-columns pb32">
+            {checkboxes.map(({ label, value }) => (
+              <label
+                key={value}
+                className="item flex-columns items-center py5 pl7 pr22"
+              >
+                <span className="flex-0 field field-checkbox">
+                  <input
+                    type="checkbox"
+                    className="input no-background"
+                    checked={days.includes(value)}
+                    onChange={() => this.onChange(value)}
+                  />
+                </span>
+                <span className="fs19 flex-1" style={{ whiteSpace: 'pre' }}>
                   {label}
-                </label>
-                <input
-                  checked={days.includes(value)}
-                  className="input is-normal"
-                  onChange={() => this.onChange(value)}
-                  type="checkbox"
-                />
-              </div>
-            </div>
-          ))}
-          <div className="filter-menu-inner">
-DATE PICKER TO DO
+                </span>
+              </label>
+            ))}
           </div>
         </div>
+        <hr className="dotted-bottom-primary" />
       </div>
     )
   }
