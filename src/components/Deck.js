@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
 import withSizes from 'react-sizes'
+import { compose, bindActionCreators } from 'redux'
 
 import Card from './Card'
 import DeckNavigation from './deck/DeckNavigation'
@@ -258,6 +258,7 @@ class Deck extends Component {
   render() {
     const {
       currentRecommendation,
+      height,
       nextRecommendation,
       isFlipDisabled,
       isFlipped,
@@ -289,6 +290,7 @@ class Deck extends Component {
             handleGoPrevious={
               (previousRecommendation && this.handleGoPrevious) || null
             }
+            height={height}
           />
         )}
       </div>
