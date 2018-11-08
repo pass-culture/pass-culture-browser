@@ -11,6 +11,7 @@ import Splash from './components/layout/Splash'
 import Overlay from './components/layout/Overlay'
 import SharePopin from './components/share/SharePopin'
 import { getReactRoutes } from './utils/routes-utils'
+import ErrorCatcher from './components/layout/ErrorCatcher'
 import { ROOT_PATH, IS_DEV, PROJECT_NAME } from './utils/config'
 
 const appRoutes = getReactRoutes(routes)
@@ -34,7 +35,7 @@ const App = ({ location, children }) => {
   const bodyClass = getBodyClass(currentRouteObj)
   const pageTitle = getPageTitle(currentRouteObj)
   return (
-    <React.Fragment>
+    <ErrorCatcher>
       <Helmet>
         <body className={`web ${bodyClass}`} />
         <title>
@@ -54,7 +55,7 @@ const App = ({ location, children }) => {
           srcSet={`${ROOT_PATH}/beta@2x.png`}
         />
       </Debug>
-    </React.Fragment>
+    </ErrorCatcher>
   )
 }
 
