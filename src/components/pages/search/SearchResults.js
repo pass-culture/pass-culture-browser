@@ -20,6 +20,8 @@ const SearchResults = ({
     withNavigation
   )
 
+  const scrollingElement = document.querySelector('.page-content')
+
   return (
     <div className="search-results">
       <h2
@@ -30,10 +32,16 @@ const SearchResults = ({
       >
         {resultTitle}
       </h2>
-      <InfiniteScroller handleLoadMore={loadMoreHandler}>
-        {items &&
-          items.map(o => <SearchResultItem key={o.id} recommendation={o} />)}
-      </InfiniteScroller>
+      {scrollingElement && (
+        <InfiniteScroller
+          handleLoadMore={loadMoreHandler}
+          listeningScrollingElement={scrollingElement}
+          scrollingElement={scrollingElement}
+        >
+          {items &&
+            items.map(o => <SearchResultItem key={o.id} recommendation={o} />)}
+        </InfiniteScroller>
+      )}
     </div>
   )
 }
