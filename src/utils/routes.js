@@ -9,7 +9,7 @@ import ForgotPasswordPage from '../components/pages/ForgotPasswordPage'
 import ProfilePage from '../components/pages/ProfilePage'
 import SearchPage from '../components/pages/SearchPage'
 import { Signin } from '../components/pages/signin'
-import SignupPage from '../components/pages/SignupPage'
+// import SignupPage from '../components/pages/SignupPage'
 import TermsPage from '../components/pages/TermsPage'
 
 // NOTE: la gestion des éléments du menu principal
@@ -29,11 +29,11 @@ const routes = [
     path: '/connexion',
     title: 'Connexion',
   },
-  {
-    component: SignupPage,
-    path: '/inscription',
-    title: 'Inscription',
-  },
+  // {
+  //   component: SignupPage,
+  //   path: '/inscription',
+  //   title: 'Inscription',
+  // },
   {
     component: ForgotPasswordPage,
     path: '/mot-de-passe-perdu/:view?',
