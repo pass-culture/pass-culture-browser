@@ -119,6 +119,10 @@ class VersoBookingButton extends React.PureComponent {
   )
 
   renderOfflineButton = booking => {
+    if (booking.isCancelled) {
+      return this.renderBookingLink()
+    }
+
     if (booking.isUserCancellable) {
       return this.renderOfflineCancelableButton(booking)
     }
