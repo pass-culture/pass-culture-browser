@@ -7,7 +7,6 @@ import { Icon } from 'pass-culture-shared'
 import { flattenErrors } from './utils'
 
 // NOTE: hack pour contourner le no-array-index-key
-// !!! BAD PRACTICE mais permise ici car ce n'est pas un affiche critique
 // lire plus -> https://reactjs.org/docs/lists-and-keys.html#keys
 const getArrayIndex = index => `error_${index}`
 
