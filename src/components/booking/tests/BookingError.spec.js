@@ -6,25 +6,26 @@ import BookingError from '../BookingError'
 
 describe('src | components | pages | search | BookingError', () => {
   describe('snapshot', () => {
-    it('should match snapshot with empty errors', () => {
-      // given
-      const props = { errors: {} }
+    it('should match snapshot', () => {
       // when
-      const wrapper = shallow(<BookingError {...props} />)
+      const errors = {}
+      const wrapper = shallow(<BookingError errors={errors} />)
       // then
       expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
-    it('should match snapshot with errors as array', () => {
+  })
+  describe('render', () => {
+    it('when errors is an array, does not output any messages', () => {
       // given
       const props = { errors: ['do not output something'] }
       // when
       const wrapper = shallow(<BookingError {...props} />)
+      const list = wrapper.find('#booking-error-reasons p')
       // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
+      expect(list).toHaveLength(1)
     })
-    it('should match snapshot with errors as object with array', () => {
+    it('when errors is an object, does output some messages', () => {
       // given
       const props = {
         errors: {
@@ -35,9 +36,11 @@ describe('src | components | pages | search | BookingError', () => {
       }
       // when
       const wrapper = shallow(<BookingError {...props} />)
+      const list = wrapper.find('#booking-error-reasons p')
       // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
+      expect(list).toHaveLength(5)
+      expect(list.at(1).text()).toEqual('Reason value 1')
+      expect(list.at(4).text()).toEqual('Reason value 4')
     })
   })
 })

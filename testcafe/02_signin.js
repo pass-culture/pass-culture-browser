@@ -1,4 +1,3 @@
-/* eslint no-param-reassign: ["error", { "props": false }] */
 import { Selector } from 'testcafe'
 import getPageUrl from './helpers/getPageUrl'
 import { fetchSandbox } from './helpers/sandboxes'
