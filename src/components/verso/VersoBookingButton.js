@@ -38,7 +38,7 @@ class VersoBookingButton extends React.PureComponent {
     const priceValue = get(offer, 'price') || get(offer, 'displayPrice')
     return (
       <Link to={`${url}/booking`} className="button is-primary is-medium">
-        <Price free="——" value={priceValue} />
+        <Price free="Gratuit" value={priceValue} />
         <span>J&apos;y vais!</span>
       </Link>
     )
