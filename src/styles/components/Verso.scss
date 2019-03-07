@@ -18,6 +18,15 @@
     margin-top: $header-height;
   }
 
+  .verso-header {
+    .drag {
+      color: green;
+      margin-top: -50px;
+      height: 50px;
+      width: 100%;
+    }
+  }
+
   .over-wrapper {
     margin-top: 50%;
   }

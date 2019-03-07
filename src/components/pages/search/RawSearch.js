@@ -4,8 +4,6 @@ import React, { Fragment, PureComponent } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { assignData, requestData } from 'redux-saga-data'
 
-import BackButton from '../../layout/BackButton'
-import { Icon } from '../../layout/Icon'
 import Footer from './Footer'
 import Header from './Header'
 import NavByOfferType from './NavByOfferType'
@@ -18,6 +16,9 @@ import isInitialQueryWithoutFilters, {
   INITIAL_FILTER_PARAMS,
   translateBrowserUrlToApiUrl,
 } from './utils'
+import BackButton from '../../layout/BackButton'
+import { Icon } from '../../layout/Icon'
+import { mapApiToBrowser } from '../../../utils/translate'
 
 class RawSearch extends PureComponent {
   constructor(props) {
@@ -30,7 +31,7 @@ class RawSearch extends PureComponent {
       hasMore: false,
       isFilterVisible: false,
       keywordsKey: 0,
-      keywordsValue: queryParams['mots-cles'],
+      keywordsValue: queryParams[mapApiToBrowser.keywords],
     }
 
     props.dispatch(assignData({ recommendations: [] }))
@@ -140,7 +141,7 @@ class RawSearch extends PureComponent {
         jours: null,
         latitude: null,
         longitude: null,
-        'mots-cles': null,
+        [mapApiToBrowser.keywords]: null,
         page: null,
       },
       {
@@ -162,7 +163,7 @@ class RawSearch extends PureComponent {
 
     query.change(
       {
-        'mots-cles': value === '' ? null : value,
+        [mapApiToBrowser.keywords]: value === '' ? null : value,
         page: null,
       },
       { pathname: '/recherche/resultats' }
@@ -203,7 +204,7 @@ class RawSearch extends PureComponent {
     const queryParams = query.parse()
 
     const { hasMore, keywordsKey, keywordsValue, isFilterVisible } = this.state
-    const keywords = queryParams[`mots-cles`]
+    const keywords = queryParams['mots-cles']
 
     const whithoutFilters = isInitialQueryWithoutFilters(
       INITIAL_FILTER_PARAMS,

@@ -1,6 +1,7 @@
 export { default as filterAvailableStocks } from './filterAvailableStocks'
 export * from './getDepartementByCode'
 export * from './getMobileOperatingSystem'
+export * from './getPageY'
 export * from './getPrice'
 export { default as getPriceRangeFromStocks } from './getPriceRangeFromStocks'
 export * from './getQueryParams'

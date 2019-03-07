@@ -2,15 +2,15 @@ import get from 'lodash.get'
 import { Icon } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import Draggable from 'react-draggable'
 
 import Price from '../../layout/Price'
 import Finishable from '../../layout/Finishable'
 import { getHeaderColor } from '../../../utils/colors'
-import { getPriceRangeFromStocks } from '../../../helpers'
+import { getPageY, getPriceRangeFromStocks } from '../../../helpers'
 import { isRecommendationFinished } from '../../../helpers/discovery'
 import { ROOT_PATH } from '../../../utils/config'
 
@@ -19,15 +19,6 @@ const toRectoDraggableBounds = {
   left: 0,
   right: 0,
   top: 0,
-}
-
-function getPageY(event) {
-  if (window.TouchEvent && event instanceof TouchEvent) {
-    const lastTouchIndex = event.changedTouches.length - 1
-    return event.changedTouches[lastTouchIndex].pageY
-  }
-
-  return event.pageY
 }
 
 export class RawDeckNavigation extends React.PureComponent {

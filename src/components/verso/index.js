@@ -1,6 +1,7 @@
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
@@ -10,6 +11,14 @@ import VersoInfo from './VersoInfo'
 import VersoWrapper from './VersoWrapper'
 import currentRecommendationSelector from '../../selectors/currentRecommendation'
 import StaticVerso from './StaticVerso'
+import { getPageY } from '../../helpers'
+
+const toRectoDraggableBounds = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+}
 
 const Verso = ({
   areDetailsVisible,
