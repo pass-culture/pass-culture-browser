@@ -11,7 +11,7 @@ import { selectCurrentUser } from 'with-login'
 
 import { getWalletValue } from '../../utils/user'
 import { ShareButton } from '../share/ShareButton'
-import VersoBookingButton from './VersoBookingButton'
+import VersoBookingButton from './booking-button'
 import currentRecommendationSelector from '../../selectors/currentRecommendation'
 
 class VersoControl extends React.PureComponent {

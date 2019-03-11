@@ -2,7 +2,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import VersoBookingButton, { getBookingName } from '../VersoBookingButton'
+import VersoBookingButton, { getBookingName } from '../index'
 
 describe('src | components | verso | VersoBookingButton', () => {
   describe('snapshot', () => {

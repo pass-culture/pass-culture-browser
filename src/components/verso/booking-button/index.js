@@ -8,12 +8,12 @@ import { Link, withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
-import Price from '../layout/Price'
-import Finishable from '../layout/Finishable'
-import { isRecommendationFinished } from '../../helpers'
-import { openSharePopin, closeSharePopin } from '../../reducers/share'
-import { selectBookings } from '../../selectors/selectBookings'
-import currentRecommendation from '../../selectors/currentRecommendation'
+import Price from '../../layout/Price'
+import Finishable from '../../layout/Finishable'
+import { isRecommendationFinished } from '../../../helpers'
+import { openSharePopin, closeSharePopin } from '../../../reducers/share'
+import { selectBookings } from '../../../selectors/selectBookings'
+import currentRecommendation from '../../../selectors/currentRecommendation'
 
 export const getButton = (label, onClick) => (
   <button
@@ -54,7 +54,7 @@ class VersoBookingButton extends React.PureComponent {
       <Link
         to={to}
         id="verso-booking-button"
-        className="button is-primary is-medium"
+        className="pc-rect-button button is-primary is-medium"
       >
         <Price free="——" value={priceValue} />
         <span>J&apos;y vais!</span>
@@ -125,6 +125,7 @@ class VersoBookingButton extends React.PureComponent {
 
   renderOfflineCancelableButton = booking => (
     <button
+      id="verso-cancel-booking-button"
       type="button"
       className="cancel-button"
       onClick={() => this.openCancelPopin(booking)}
@@ -137,7 +138,7 @@ class VersoBookingButton extends React.PureComponent {
     <Link
       id="verso-already-booked-button"
       to="/reservations"
-      className="button is-primary is-medium"
+      className="pc-rect-button button is-primary is-medium"
     >
       Réservé
     </Link>
@@ -160,7 +161,7 @@ class VersoBookingButton extends React.PureComponent {
         href={`${onlineOfferUrl}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="button is-primary is-medium"
+        className="pc-rect-button button is-primary is-medium"
       >
         Accéder
       </a>
