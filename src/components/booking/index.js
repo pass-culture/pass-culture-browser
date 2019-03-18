@@ -88,15 +88,13 @@ class Booking extends PureComponent {
   }
 
   updateUserFromStore = (state, action) => {
-    const { payload } = action
-    const bookedPayload = payload.datum
+    const bookedPayload = get(action, 'payload.datum')
     this.actions.requestData({
       apiPath: '/users/current',
       body: {},
       handleFail: this.handleRequestFail,
       handleSuccess: this.handleRequestSuccess(bookedPayload),
       method: 'PATCH',
-      stateKey: 'user',
     })
   }
 
@@ -110,9 +108,10 @@ class Booking extends PureComponent {
   }
 
   handleRequestFail = (state, action) => {
+    const isErrored = get(action, 'payload')
     const nextState = {
       bookedPayload: false,
-      isErrored: action,
+      isErrored,
       isSubmitting: false,
     }
     this.setState(nextState)
