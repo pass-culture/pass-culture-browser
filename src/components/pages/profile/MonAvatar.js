@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
-import { selectCurrentUser } from 'with-login'
 
+import { withCurrentUser } from '../../hocs'
 import ProfilePicture from '../../layout/ProfilePicture'
 
-const MonAvatar = ({ currentUser }) => (
+export const RawMonAvatar = ({ currentUser }) => (
   <div id="mon-avatar" className="padded flex-columns">
     <div className="flex-columns items-center flex-1 my22">
       <ProfilePicture
@@ -20,17 +19,11 @@ const MonAvatar = ({ currentUser }) => (
   </div>
 )
 
-MonAvatar.defaultProps = {}
+RawMonAvatar.defaultProps = {}
 
-MonAvatar.propTypes = {
+RawMonAvatar.propTypes = {
   currentUser: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
     .isRequired,
 }
 
-function mapStateToProps(state) {
-  return {
-    currentUser: selectCurrentUser(state),
-  }
-}
-
-export default connect(mapStateToProps)(MonAvatar)
+export default withCurrentUser(RawMonAvatar)

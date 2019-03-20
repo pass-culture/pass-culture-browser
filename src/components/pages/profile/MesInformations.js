@@ -4,17 +4,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 
+import { withCurrentUser } from '../../hocs'
+
 const EMPTY_FIELD_PLACEHOLDER = 'Non renseigné'
 
-class MesInformations extends React.PureComponent {
+class RawMesInformations extends React.PureComponent {
   renderInformation = field => {
-    const { user } = this.props
+    const { currentUser } = this.props
     const { key, label, mainPlaceholder, resolver, routeName } = field
     const disabled = !field.component
-    // NOTE: par défaut on sette la valeur sur la clé de l'objet user
+    // NOTE: par défaut on sette la valeur sur la clé de l'objet currentUser
     // pour le password on ne souhaite pas affiché la valeur
     // pour cela on utilise le resolver retournant une valeur falsey
-    const value = (resolver && resolver(user, key)) || user[key]
+    const value = (resolver && resolver(currentUser, key)) || currentUser[key]
     return (
       <div key={key} className="item dotted-bottom-black">
         <NavLink
@@ -54,7 +56,7 @@ class MesInformations extends React.PureComponent {
   render() {
     const { fields } = this.props
     return (
-      // const dptCode = user.departementCode
+      // const dptCode = currentUser.departementCode
       // const departementName = getDepartementByCode(dptCode)
       // const departement = `${dptCode} - ${departementName}`
       <div id="mes-informations" className="pb40 pt20">
@@ -67,9 +69,10 @@ class MesInformations extends React.PureComponent {
   }
 }
 
-MesInformations.propTypes = {
+RawMesInformations.propTypes = {
+  currentUser: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+    .isRequired,
   fields: PropTypes.array.isRequired,
-  user: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 }
 
-export default MesInformations
+export default withCurrentUser(RawMesInformations)
