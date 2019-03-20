@@ -22,7 +22,7 @@ const parseRoutesWithComponent = () => {
   return routes
 }
 
-const ProfilePage = ({ currentUser, isCurrentUserLoaded, location }) => {
+const ProfilePage = ({ isCurrentUserLoaded, location }) => {
   const routes = parseRoutesWithComponent()
   const possibleRoutes = Object.keys(routes).join('|')
   return (
@@ -33,9 +33,7 @@ const ProfilePage = ({ currentUser, isCurrentUserLoaded, location }) => {
             exact
             path="/profil/:menu(menu)?"
             key="route-profile-main-view"
-            render={() => (
-              <ProfileMainView currentUser={currentUser} config={config} />
-            )}
+            render={() => <ProfileMainView config={config} />}
           />
           <Route
             exact

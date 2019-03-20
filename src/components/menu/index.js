@@ -2,17 +2,15 @@
   react/jsx-one-expression-per-line: 0 */
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { Transition } from 'react-transition-group'
 import { withRouter } from 'react-router-dom'
-import { selectCurrentUser } from 'with-login'
+import { Transition } from 'react-transition-group'
+import { compose } from 'redux'
 
-import routes from '../../utils/routes'
-import MenuItem from './MenuItem'
 import MenuHeader from './MenuHeader'
+import MenuItem from './MenuItem'
 import MenuSignoutButton from './MenuSignoutButton'
 import { toggleOverlay } from '../../reducers/overlay'
+import routes from '../../utils/routes'
 import { getMainMenuItems } from '../../utils/routes-utils'
 
 const transitionDelay = 250
@@ -84,7 +82,6 @@ class MainMenu extends React.PureComponent {
   )
 
   render() {
-    const { currentUser } = this.props
     const { isVisible } = this.state
     return (
       <Transition in={isVisible} timeout={transitionDelay}>
@@ -101,7 +98,7 @@ class MainMenu extends React.PureComponent {
                   className="pc-theme-red is-relative"
                 >
                   {this.renderCloseButton()}
-                  <MenuHeader currentUser={currentUser} />
+                  <MenuHeader />
                   <nav id="main-menu-navigation" className="flex-rows mt16 pb0">
                     {this.renderNavigationLinks()}
                   </nav>
@@ -115,21 +112,9 @@ class MainMenu extends React.PureComponent {
   }
 }
 
-MainMenu.defaultProps = {
-  currentUser: null,
-}
-
 MainMenu.propTypes = {
-  currentUser: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  currentUser: selectCurrentUser(state),
-})
-
-export default compose(
-  withRouter,
-  connect(mapStateToProps)
-)(MainMenu)
+export default compose(withRouter)(MainMenu)

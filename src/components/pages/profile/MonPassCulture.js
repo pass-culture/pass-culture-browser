@@ -2,10 +2,9 @@
   react/jsx-one-expression-per-line: 0 */
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
-import { selectCurrentUser } from 'with-login'
 
 import { getAvailableBalanceByType } from './utils'
+import { withCurrentUser } from '../../hocs'
 import { getWalletValue } from '../../../utils/user'
 
 export const RawMonPassCulture = ({ currentUser }) => {
@@ -43,10 +42,4 @@ RawMonPassCulture.propTypes = {
   currentUser: PropTypes.object.isRequired,
 }
 
-function mapStateToProps(state) {
-  return {
-    currentUser: selectCurrentUser(state),
-  }
-}
-
-export default connect(mapStateToProps)(RawMonPassCulture)
+export default withCurrentUser(RawMonPassCulture)
