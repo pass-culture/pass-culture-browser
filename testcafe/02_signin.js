@@ -108,7 +108,7 @@ test("J'ai un mot de passe vide, avant envoi à l'API, je vois un message d'erre
     .expect(passwordError.count)
     .gte(1)
     .expect(passwordError.nth(0).innerText)
-    .eql('Ce champs est requis.')
+    .eql('Ce champ est requis.')
     .expect(location.pathname)
     .eql('/connexion')
 })
