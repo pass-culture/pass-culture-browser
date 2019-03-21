@@ -8,10 +8,7 @@ import { fetchSandbox } from './helpers/sandboxes'
 import { getVersoWallet, getVersoWalletValue } from './helpers/getVersoWallet'
 import { ROOT_PATH } from '../src/utils/config'
 
-const thingBaseURL = 'KU/F4'
 const discoverURL = `${ROOT_PATH}decouverte`
-const offerPage = `${discoverURL}/${thingBaseURL}`
-
 const versoOfferName = Selector('#verso-offer-name')
 const versoOfferVenue = Selector('#verso-offer-venue')
 const closeVersoButton = Selector('#deck-close-verso-button')
@@ -23,6 +20,12 @@ fixture(`04 Verso`).beforeEach(async t => {
     'webapp_04_verso',
     'get_existing_webapp_hbs_user'
   )
+  const { offer } = await fetchSandbox(
+    'webapp_08_booking',
+    'get_non_free_thing_offer'
+  )
+  t.ctx.sandbox = { offer, user }
+  const offerPage = `${discoverURL}/${offer.id}`
   await t.useRole(createUserRole(user)).navigateTo(offerPage)
 })
 
@@ -47,12 +50,15 @@ test(`La somme affichée est supérieure à 0`, async t => {
 })
 
 test('Le titre et le nom du lieu sont affichés', async t => {
+  // given
+  const { offer } = t.ctx.sandbox
+
   await t
     .click(openVersoButton)
-    .expect(versoOfferName.textContent)
-    .eql('Dormons peu soupons bien, de Eloise Jomenrency')
+    .expect(versoOfferName.textContent.includes(offer.thingName))
+    .eql(true)
     .expect(versoOfferVenue.textContent)
-    .eql('Cinéma de la fin (Offre en ligne)')
+    .eql(offer.venueName)
 })
 
 fixture(`04 Verso, quand l'user n'a plus d'argent`).beforeEach(async t => {
@@ -61,6 +67,11 @@ fixture(`04 Verso, quand l'user n'a plus d'argent`).beforeEach(async t => {
     'webapp_04_verso',
     'get_existing_webapp_hnmm_user'
   )
+  const { offer } = await fetchSandbox(
+    'webapp_08_booking',
+    'get_non_free_thing_offer'
+  )
+  const offerPage = `${discoverURL}/${offer.id}`
   await t.useRole(createUserRole(user)).navigateTo(offerPage)
 })
 
