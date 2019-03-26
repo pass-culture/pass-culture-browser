@@ -3,7 +3,7 @@ import React from 'react'
 
 import { THUMBS_URL } from '../../utils/config'
 
-const StaticVerso = ({ mediationId }) => (
+const VersoStaticCard = ({ mediationId }) => (
   <img
     alt="verso"
     className="verso-tuto-mediation"
@@ -11,8 +11,8 @@ const StaticVerso = ({ mediationId }) => (
   />
 )
 
-StaticVerso.propTypes = {
+VersoStaticCard.propTypes = {
   mediationId: PropTypes.string.isRequired,
 }
 
-export default StaticVerso
+export default VersoStaticCard
