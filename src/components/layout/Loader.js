@@ -86,9 +86,7 @@ export class RawLoader extends React.PureComponent {
               {isLoading && (
                 <Icon draggable={false} svg="ico-loading-card" alt="" />
               )}
-              <h2 className="fs20">
-                {this.renderMessage()}
-              </h2>
+              <h2 className="fs20">{this.renderMessage()}</h2>
             </div>
             {showFooter && (
               <NavigationFooter

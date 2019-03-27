@@ -113,7 +113,7 @@ class MyBookingsPage extends Component {
           </React.Fragment>
         )}
         {!isempty && (
-          <Loader isempty={isempty} haserror={haserror} isloading={isloading} />
+          <Loader isempty={isempty} haserror={haserror} isLoading={isloading} />
         )}
       </div>
     )
