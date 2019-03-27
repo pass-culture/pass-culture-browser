@@ -116,6 +116,7 @@
     "jest": "23.5.0",
     "jest-fetch-mock": "^2.1.1",
     "license-reporter": "^1.2.2",
+    "lodash.set": "^4.3.2",
     "minimist": "^1.2.0",
     "node-env-file": "^0.1.8",
     "node-sass": "^4.9.0",

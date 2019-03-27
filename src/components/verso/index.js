@@ -6,10 +6,10 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
 import Footer from '../layout/Footer'
-import VersoInfo from './VersoInfo'
+import VersoOfferInfos from './offer-infos'
 import VersoWrapper from './VersoWrapper'
 import currentRecommendationSelector from '../../selectors/currentRecommendation'
-import StaticVerso from './StaticVerso'
+import VersoStaticCard from './VersoStaticCard'
 
 const Verso = ({
   areDetailsVisible,
@@ -30,8 +30,8 @@ const Verso = ({
       })}
     >
       <VersoWrapper className="with-padding-top">
-        {!isTuto && <VersoInfo />}
-        {isTuto && <StaticVerso mediationId={mediation.id} />}
+        {!isTuto && <VersoOfferInfos />}
+        {isTuto && <VersoStaticCard mediationId={mediation.id} />}
       </VersoWrapper>
       <Footer
         id="verso-footer"
