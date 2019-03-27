@@ -5,7 +5,7 @@ import routes from '../routes'
 
 import DiscoveryPage from '../../components/pages/discovery'
 import FavoritesPage from '../../components/pages/FavoritesPage'
-import MyBookingsPage from '../../components/pages/my-bookings'
+import MyBookingsContainer from '../../components/pages/my-bookings/MyBookingsContainer'
 import ProfilePage from '../../components/pages/profile'
 import Search from '../../components/pages/search'
 import { SUPPORT_EMAIL } from '../config'
@@ -86,7 +86,7 @@ describe('getMainMenuItems', () => {
         title: 'Recherche',
       },
       {
-        component: MyBookingsPage,
+        component: MyBookingsContainer,
         disabled: false,
         icon: 'calendar-w',
         path: '/reservations',

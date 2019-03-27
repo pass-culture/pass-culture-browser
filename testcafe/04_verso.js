@@ -17,7 +17,7 @@ const versoOfferVenue = Selector('#verso-offer-venue')
 const closeVersoButton = Selector('#deck-close-verso-button')
 const openVersoButton = Selector('#deck-open-verso-button')
 
-fixture(`04 Verso`).beforeEach(async t => {
+fixture.skip(`04 Verso`).beforeEach(async t => {
   // given
   const { user } = await fetchSandbox(
     'webapp_04_verso',
@@ -55,7 +55,7 @@ test('Le titre et le nom du lieu sont affichés', async t => {
     .eql('Cinéma de la fin (Offre en ligne)')
 })
 
-fixture(`04 Verso, quand l'user n'a plus d'argent`).beforeEach(async t => {
+fixture.skip(`04 Verso, quand l'user n'a plus d'argent`).beforeEach(async t => {
   // given
   const { user } = await fetchSandbox(
     'webapp_04_verso',
