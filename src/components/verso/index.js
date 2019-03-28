@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
 import Footer from '../layout/Footer'
-import VersoOfferInfos from './offer-infos'
+import VersoInfosContainer from './verso-infos/VersoInfosContainer'
 import VersoWrapper from './VersoWrapper'
 import currentRecommendationSelector from '../../selectors/currentRecommendation'
 import VersoStaticCard from './VersoStaticCard'
@@ -22,15 +22,13 @@ const Verso = ({
   const isTuto = typeof tutoIndex === 'number' && mediation
 
   const flipped = forceDetailsVisible || areDetailsVisible
-
+  const classname = classnames('verso', extraClassName, {
+    flipped,
+  })
   return (
-    <div
-      className={classnames('verso', extraClassName, {
-        flipped,
-      })}
-    >
+    <div className={classname}>
       <VersoWrapper className="with-padding-top">
-        {!isTuto && <VersoOfferInfos />}
+        {!isTuto && <VersoInfosContainer />}
         {isTuto && <VersoStaticCard mediationId={mediation.id} />}
       </VersoWrapper>
       <Footer

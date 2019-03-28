@@ -1,10 +1,10 @@
-// jest --env=jsdom ./src/components/verso/offer-infos/tests/index --watch
+// jest --env=jsdom ./src/components/verso/verso-infos/tests/VersoInfosWhere.spec --watch
 import React from 'react'
 import set from 'lodash.set'
-import { render } from 'enzyme'
-import { RawVersoOfferInfos } from '../index'
+import { shallow } from 'enzyme'
+import VersoInfosWhere from '../VersoInfosWhere'
 
-describe('src | components | VersoOfferInfos', () => {
+describe('src | components | VersoInfosWhere', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // given
@@ -17,16 +17,11 @@ describe('src | components | VersoOfferInfos', () => {
         postalCode: 34000,
       }
       const recommendation = {}
-      set(recommendation, 'offer.venue.managingOfferer', 'Fnac')
-      set(recommendation, 'offer.thingId', 'ABC')
-      set(recommendation, 'offer.distance', '100')
+      set(recommendation, 'distance', '100')
       set(recommendation, 'offer.venue', venue)
-      const props = {
-        isFinished: false,
-        recommendation,
-      }
+      const props = { recommendation }
       // when
-      const wrapper = render(<RawVersoOfferInfos {...props} />)
+      const wrapper = shallow(<VersoInfosWhere {...props} />)
       // then
       expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()

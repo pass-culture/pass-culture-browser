@@ -4,12 +4,24 @@ import PropTypes from 'prop-types'
 import { Icon } from 'pass-culture-shared'
 import { navigationLink } from '../../../utils/geolocation'
 
-const VesoInfosWhere = ({ recommendation }) => {
-  const venue = get(recommendation, 'offer.venue')
-  const distance = get(recommendation, 'distance')
+const getRecommendationDistance = recommendation => {
+  const defaultValue = '-'
+  if (!recommendation) return defaultValue
+  return get(recommendation, 'distance', defaultValue)
+}
+
+const getRecommendationVenue = recommendation => {
+  const defaultValue = {}
+  if (!recommendation) return defaultValue
+  return get(recommendation, 'offer.venue', defaultValue)
+}
+
+export const VesoInfosWhere = ({ recommendation }) => {
+  const venue = getRecommendationVenue(recommendation)
+  const distance = getRecommendationDistance(recommendation)
   const { address, city, latitude, longitude, name, postalCode } = venue || {}
   return (
-    <div>
+    <div id="verso-infos-section-where">
       <h3>Où ?</h3>
       <div className="flex-columns flex-between">
         <p className="address-info">
