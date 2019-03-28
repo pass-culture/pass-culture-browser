@@ -1,6 +1,5 @@
 // jest --env=jsdom ./src/components/verso/verso-infos/tests/VersoInfosWhere.spec --watch
 import React from 'react'
-import set from 'lodash.set'
 import { shallow } from 'enzyme'
 import VersoInfosWhere from '../VersoInfosWhere'
 
@@ -16,10 +15,8 @@ describe('src | components | VersoInfosWhere', () => {
         name: 'Bastille',
         postalCode: 34000,
       }
-      const recommendation = {}
-      set(recommendation, 'distance', '100')
-      set(recommendation, 'offer.venue', venue)
-      const props = { recommendation }
+      const distance = '100 Km'
+      const props = { distance, venue }
       // when
       const wrapper = shallow(<VersoInfosWhere {...props} />)
       // then

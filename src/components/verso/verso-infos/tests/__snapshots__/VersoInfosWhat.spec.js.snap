@@ -5,7 +5,6 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <VersoInfosWhat
     description="Lorem ipsum dolor sit amet"
-    recommendation={null}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -16,9 +15,97 @@ ShallowWrapper {
     "simulateEvent": [Function],
     "unmount": [Function],
   },
-  Symbol(enzyme.__node__): null,
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <h3>
+          Quoi ?
+        </h3>,
+        <pre
+          className="is-raw-description"
+        >
+          Lorem ipsum dolor sit amet
+        </pre>,
+      ],
+      "id": "verso-infos-section-what",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Quoi ?",
+        },
+        "ref": null,
+        "rendered": "Quoi ?",
+        "type": "h3",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Lorem ipsum dolor sit amet",
+          "className": "is-raw-description",
+        },
+        "ref": null,
+        "rendered": "Lorem ipsum dolor sit amet",
+        "type": "pre",
+      },
+    ],
+    "type": "div",
+  },
   Symbol(enzyme.__nodes__): Array [
-    null,
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <h3>
+            Quoi ?
+          </h3>,
+          <pre
+            className="is-raw-description"
+          >
+            Lorem ipsum dolor sit amet
+          </pre>,
+        ],
+        "id": "verso-infos-section-what",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Quoi ?",
+          },
+          "ref": null,
+          "rendered": "Quoi ?",
+          "type": "h3",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Lorem ipsum dolor sit amet",
+            "className": "is-raw-description",
+          },
+          "ref": null,
+          "rendered": "Lorem ipsum dolor sit amet",
+          "type": "pre",
+        },
+      ],
+      "type": "div",
+    },
   ],
   Symbol(enzyme.__options__): Object {
     "adapter": ReactSixteenAdapter {

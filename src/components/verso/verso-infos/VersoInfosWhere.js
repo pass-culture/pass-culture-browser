@@ -1,24 +1,10 @@
 import React from 'react'
-import get from 'lodash.get'
+// import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import { Icon } from 'pass-culture-shared'
 import { navigationLink } from '../../../utils/geolocation'
 
-const getRecommendationDistance = recommendation => {
-  const defaultValue = '-'
-  if (!recommendation) return defaultValue
-  return get(recommendation, 'distance', defaultValue)
-}
-
-const getRecommendationVenue = recommendation => {
-  const defaultValue = {}
-  if (!recommendation) return defaultValue
-  return get(recommendation, 'offer.venue', defaultValue)
-}
-
-export const VesoInfosWhere = ({ recommendation }) => {
-  const venue = getRecommendationVenue(recommendation)
-  const distance = getRecommendationDistance(recommendation)
+export const VesoInfosWhere = ({ distance, venue }) => {
   const { address, city, latitude, longitude, name, postalCode } = venue || {}
   return (
     <div id="verso-infos-section-where">
@@ -45,11 +31,13 @@ export const VesoInfosWhere = ({ recommendation }) => {
 }
 
 VesoInfosWhere.defaultProps = {
-  recommendation: null,
+  distance: null,
+  venue: null,
 }
 
 VesoInfosWhere.propTypes = {
-  recommendation: PropTypes.object,
+  distance: PropTypes.string,
+  venue: PropTypes.object,
 }
 
 export default VesoInfosWhere

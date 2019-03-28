@@ -8,6 +8,7 @@ describe('src | components | verso | verso-infos | VersoInfos', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // given
+      const distance = '100 Km'
       const description = 'Lorem ipsum dolor sit amet'
       const venue = {
         address: 'Rue Valois',
@@ -20,12 +21,12 @@ describe('src | components | verso | verso-infos | VersoInfos', () => {
       const recommendation = {}
       set(recommendation, 'offer.venue.managingOfferer', 'Fnac')
       set(recommendation, 'offer.thingId', 'ABC')
-      set(recommendation, 'offer.distance', '100')
-      set(recommendation, 'offer.venue', venue)
-      set(recommendation, 'offer.eventOrThing.description', description)
       const props = {
+        description,
+        distance,
         isFinished: false,
         recommendation,
+        venue,
       }
       // when
       const wrapper = render(<VersoInfos {...props} />)

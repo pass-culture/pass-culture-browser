@@ -4,19 +4,15 @@ exports[`src | components | VersoInfosWhere snapshot should match snapshot 1`] =
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <VesoInfosWhere
-    recommendation={
+    distance="100 Km"
+    venue={
       Object {
-        "distance": "100",
-        "offer": Object {
-          "venue": Object {
-            "address": "Rue Valois",
-            "city": "Aurillac",
-            "latitude": "42",
-            "longitude": 12,
-            "name": "Bastille",
-            "postalCode": 34000,
-          },
-        },
+        "address": "Rue Valois",
+        "city": "Aurillac",
+        "latitude": "42",
+        "longitude": 12,
+        "name": "Bastille",
+        "postalCode": 34000,
       }
     }
   />,
@@ -69,7 +65,7 @@ ShallowWrapper {
             className="distance"
             href="https://www.openstreetmap.org/#map=18/42/12"
           >
-            100
+            100 Km
             <Icon
               alt="Géolocalisation dans Open Street Map"
               svg="ico-geoloc-solid2"
@@ -126,7 +122,7 @@ ShallowWrapper {
               className="distance"
               href="https://www.openstreetmap.org/#map=18/42/12"
             >
-              100
+              100 Km
               <Icon
                 alt="Géolocalisation dans Open Street Map"
                 svg="ico-geoloc-solid2"
@@ -225,7 +221,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "100",
+                "100 Km",
                 <Icon
                   alt="Géolocalisation dans Open Street Map"
                   svg="ico-geoloc-solid2"
@@ -236,7 +232,7 @@ ShallowWrapper {
             },
             "ref": null,
             "rendered": Array [
-              "100",
+              "100 Km",
               Object {
                 "instance": null,
                 "key": undefined,
@@ -299,7 +295,7 @@ ShallowWrapper {
               className="distance"
               href="https://www.openstreetmap.org/#map=18/42/12"
             >
-              100
+              100 Km
               <Icon
                 alt="Géolocalisation dans Open Street Map"
                 svg="ico-geoloc-solid2"
@@ -356,7 +352,7 @@ ShallowWrapper {
                 className="distance"
                 href="https://www.openstreetmap.org/#map=18/42/12"
               >
-                100
+                100 Km
                 <Icon
                   alt="Géolocalisation dans Open Street Map"
                   svg="ico-geoloc-solid2"
@@ -455,7 +451,7 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "100",
+                  "100 Km",
                   <Icon
                     alt="Géolocalisation dans Open Street Map"
                     svg="ico-geoloc-solid2"
@@ -466,7 +462,7 @@ ShallowWrapper {
               },
               "ref": null,
               "rendered": Array [
-                "100",
+                "100 Km",
                 Object {
                   "instance": null,
                   "key": undefined,
