@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom'
 import Price from '../../../layout/Price'
 
 const BookThisButton = ({ linkDestination, priceValue }) => (
-  <Link
-    to={linkDestination}
-    id="verso-booking-button"
-    className="button-with-price flex-columns is-bold is-white-text fs18"
-  >
-    <Price className="px12 py8" free="Gratuit" value={priceValue} />
-    <hr className="dotted-left-2x-white no-margin" />
-    <span className="button-label px12 py8">J&apos;y vais!</span>
+  <Link to={linkDestination} id="verso-booking-button" className="flex-columns">
+    <Price
+      free="Gratuit"
+      value={priceValue}
+      className="pc-ticket-button-price"
+    />
+    <span className="pc-ticket-button-label">J&apos;y vais!</span>
   </Link>
 )
 

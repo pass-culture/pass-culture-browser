@@ -1,17 +1,28 @@
+/* eslint
+  react/jsx-one-expression-per-line: 0 */
 import get from 'lodash.get'
-import { Icon, Logger, capitalize } from 'pass-culture-shared'
+import { Icon, capitalize } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Fragment } from 'react'
 
+import {
+  getDurationFromMinutes,
+  getWhatTitleFromLabelAndIsVirtualVenue,
+} from '../utils'
 import { navigationLink } from '../../../../utils/geolocation'
+import VersoActionsBar from '../VersoActionsBar'
 
 class VersoInfoOffer extends React.PureComponent {
-  componentWillMount() {
-    Logger.fixme('VersoInfoOffer ---> componentWillMount')
-  }
-
-  componentWillUnmount() {
-    Logger.fixme('VersoInfoOffer ---> componentWillUnmount')
+  renderOfferDetails() {
+    const { recommendation } = this.props
+    const description = get(recommendation, 'offer.eventOrThing.description')
+    if (!description) return null
+    return (
+      <div>
+        <h3>Et en détails ?</h3>
+        <pre className="is-raw-description">{description}</pre>
+      </div>
+    )
   }
 
   renderOfferWhat() {
@@ -34,7 +45,7 @@ class VersoInfoOffer extends React.PureComponent {
     const hasMoreBookables = bookables.length > maxShownDates
 
     return (
-      <React.Fragment>
+      <Fragment>
         {sliced.map(obj => (
           <li key={obj.id}>
             {capitalize(obj.humanBeginningDate)}
@@ -44,7 +55,7 @@ class VersoInfoOffer extends React.PureComponent {
         {hasMoreBookables && (
           <li>{'Cliquez sur "j\'y vais" pour voir plus de dates.'}</li>
         )}
-      </React.Fragment>
+      </Fragment>
     )
   }
 
@@ -52,13 +63,12 @@ class VersoInfoOffer extends React.PureComponent {
     const { bookables } = this.props
     const limitDatetime = get(bookables, '[0].bookinglimitDatetime')
     return (
-      <React.Fragment>
+      <Fragment>
         <li>
           Dès maintenant
-          {limitDatetime && ` et jusqu&apos;au ${limitDatetime}`}
-          {' '}
+          {limitDatetime && ` et jusqu&apos;au ${limitDatetime}`}{' '}
         </li>
-      </React.Fragment>
+      </Fragment>
     )
   }
 
@@ -102,10 +112,7 @@ class VersoInfoOffer extends React.PureComponent {
           </p>
           {latitude && longitude && (
             <a className="distance" href={navigationLink(latitude, longitude)}>
-              <span>
-                {distance}
-                {''}
-              </span>
+              {distance}
               <Icon
                 svg="ico-geoloc-solid2"
                 alt="Géolocalisation dans Open Street Map"
@@ -118,8 +125,10 @@ class VersoInfoOffer extends React.PureComponent {
   }
 
   render() {
+    const { onlineOfferUrl } = this.props
     return (
       <div className="verso-info">
+        {onlineOfferUrl && <VersoActionsBar url={onlineOfferUrl} />}
         {this.renderOfferWhat()}
         {this.renderOfferWhen()}
         {this.renderOfferWhere()}
@@ -130,14 +139,16 @@ class VersoInfoOffer extends React.PureComponent {
 
 VersoInfoOffer.defaultProps = {
   bookables: null,
-  maxShownDates: 7,
+  maxDatesShowned: 7,
+  onlineOfferUrl: null,
   recommendation: null,
 }
 
 VersoInfoOffer.propTypes = {
   bookables: PropTypes.array,
   isFinished: PropTypes.bool.isRequired,
-  maxShownDates: PropTypes.number,
+  maxDatesShowned: PropTypes.number,
+  onlineOfferUrl: PropTypes.string,
   recommendation: PropTypes.object,
 }
 

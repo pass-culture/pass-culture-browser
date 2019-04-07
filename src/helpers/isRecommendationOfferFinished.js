@@ -7,7 +7,7 @@ export const isRecommendationOfferFinished = (
   if (!recommendation) return false
 
   const { offer } = recommendation
-  if (offerId != null && offerId !== 'tuto') {
+  if (offerId !== null && offerId !== 'tuto') {
     return offer.isFinished
   }
   return false

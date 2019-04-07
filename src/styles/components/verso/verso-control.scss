@@ -1,34 +1,18 @@
-ul.verso-control {
-  height: 62px;
-  min-height: 62px;
-  list-style: none;
+.verso {
+  .verso-control {
+    @extend .is-clipped;
 
-  li {
+    height: 62px;
+    min-height: 62px;
+    list-style: none;
+  }
+
+  .verso-control li {
     @extend .text-center;
     @extend .is-inline-block;
+  }
 
-    // .button.is-go {
-    //   .price {
-    //     font-weight: normal;
-    //     border-right: thin solid;
-    //     margin-right: 10px;
-    //     padding-right: 10px;
-    //     padding-top: 0.5em;
-    //     padding-bottom: 0.5em;
-    //     margin-top: -0.5em;
-    //     margin-bottom: -0.5em;
-    //   }
-    //
-    //   svg {
-    //     margin-right: 5px;
-    //   }
-    // }
-
-    .cancel-button {
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      border-left-style: dotted;
-    }
+  .verso-control .finishable {
+    // -> voir fichier finishable.scss
   }
 }

@@ -3,10 +3,10 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import VersoInfoOffer from './VersoInfoOffer'
 
-import { isRecommendationOfferFinished } from '../../../../helpers/isRecommendationOfferFinished'
+import VersoInfoOffer from './VersoInfoOffer'
 import { selectBookables } from '../../../../selectors/selectBookables'
+import { isRecommendationOfferFinished } from '../../../../helpers'
 import currentRecommendationSelector from '../../../../selectors/currentRecommendation'
 
 export const mapStateToProps = (state, ownProps) => {
@@ -17,6 +17,7 @@ export const mapStateToProps = (state, ownProps) => {
     offerId,
     mediationId
   )
+
   const bookables = selectBookables(state, recommendation, match)
   const isFinished = isRecommendationOfferFinished(recommendation, offerId)
 

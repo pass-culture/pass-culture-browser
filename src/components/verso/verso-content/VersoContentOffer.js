@@ -1,7 +1,7 @@
 /* eslint
   react/jsx-one-expression-per-line: 0 */
 import get from 'lodash.get'
-import { capitalize } from 'pass-culture-shared'
+import { Icon, capitalize } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
 
@@ -9,8 +9,8 @@ import {
   getDurationFromMinutes,
   getWhatTitleFromLabelAndIsVirtualVenue,
 } from './utils'
-import { Icon } from '../../layout/Icon'
 import { navigationLink } from '../../../utils/geolocation'
+import VersoActionsBar from './VersoActionsBar'
 
 class VersoContentOffer extends React.PureComponent {
   renderOfferDetails() {
@@ -129,6 +129,7 @@ class VersoContentOffer extends React.PureComponent {
     const venue = get(recommendation, 'offer.venue')
     const distance = get(recommendation, 'distance')
     const { address, city, latitude, longitude, name, postalCode } = venue || {}
+
     return (
       <div>
         <h3>Où ?</h3>
@@ -154,8 +155,10 @@ class VersoContentOffer extends React.PureComponent {
   }
 
   render() {
+    const { onlineOfferUrl } = this.props
     return (
       <div className="verso-info">
+        {onlineOfferUrl && <VersoActionsBar url={onlineOfferUrl} />}
         {this.renderOfferWhat()}
         {this.renderOfferDetails()}
         {this.renderOfferWhen()}
@@ -168,6 +171,7 @@ class VersoContentOffer extends React.PureComponent {
 VersoContentOffer.defaultProps = {
   bookables: null,
   maxDatesShowned: 7,
+  onlineOfferUrl: null,
   recommendation: null,
 }
 
@@ -175,6 +179,7 @@ VersoContentOffer.propTypes = {
   bookables: PropTypes.array,
   isFinished: PropTypes.bool.isRequired,
   maxDatesShowned: PropTypes.number,
+  onlineOfferUrl: PropTypes.string,
   recommendation: PropTypes.object,
 }
 
