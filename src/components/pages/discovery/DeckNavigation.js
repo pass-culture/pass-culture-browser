@@ -130,12 +130,8 @@ export class RawDeckNavigation extends React.PureComponent {
                         free="Gratuit"
                         value={priceRange}
                       />
-                      <div className="separator">
-                        {offer ? '\u00B7' : ' '}
-                      </div>
-                      <div>
-                        {distanceClue}
-                      </div>
+                      <div className="separator">{offer ? '\u00B7' : ' '}</div>
+                      <div>{distanceClue}</div>
                     </Finishable>
                   </div>
                 </div>
