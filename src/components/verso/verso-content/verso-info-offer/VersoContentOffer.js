@@ -8,21 +8,21 @@ import React, { Fragment } from 'react'
 import {
   getDurationFromMinutes,
   getWhatTitleFromLabelAndIsVirtualVenue,
-} from './utils'
-import { navigationLink } from '../../../utils/geolocation'
-import VersoActionsBar from './VersoActionsBar'
+} from '../utils'
+import { navigationLink } from '../../../../utils/geolocation'
+import VersoActionsBar from '../VersoActionsBar'
 
 class VersoContentOffer extends React.PureComponent {
-  renderOfferWho() {
-    const { recommendation } = this.props
-    const managingOfferer = get(recommendation, 'offer.venue.managingOfferer')
-    if (!managingOfferer) return null
-    return (
-      <div className="offerer">
-        Ce livre vous est offert par {managingOfferer}.
-      </div>
-    )
-  }
+  // renderOfferWho() {
+  //   const { recommendation } = this.props
+  //   const managingOfferer = get(recommendation, 'offer.venue.managingOfferer')
+  //   if (!managingOfferer) return null
+  //   return (
+  //     <div className="offerer">
+  //       Ce livre vous est offert par {managingOfferer}.
+  //     </div>
+  //   )
+  // }
 
   renderOfferWhat() {
     const { recommendation } = this.props

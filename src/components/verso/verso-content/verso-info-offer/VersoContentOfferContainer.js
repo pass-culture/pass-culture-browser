@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
-import VersoInfoOffer from './VersoInfoOffer'
+import VersoContentOffer from './VersoContentOffer'
 import { selectBookables } from '../../../../selectors/selectBookables'
 import { isRecommendationOfferFinished } from '../../../../helpers'
 import currentRecommendationSelector from '../../../../selectors/currentRecommendation'
@@ -31,4 +31,4 @@ export const mapStateToProps = (state, ownProps) => {
 export default compose(
   withRouter,
   connect(mapStateToProps)
-)(VersoInfoOffer)
+)(VersoContentOffer)

@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import VersoControl from './verso-controls/VersoControlContainer';
-import VersoContentOfferContainer from './verso-content/VersoContentOfferContainer';
+import VersoContentOffer from './verso-content/verso-info-offer/VersoContentOfferContainer';
 import VersoContentTuto from './verso-content/VersoContentTuto';
 import VersoHeader from './VersoHeader';
 import Footer from '../layout/Footer';
@@ -41,7 +41,7 @@ class Verso extends React.PureComponent {
           />
           {!isTuto && <VersoControl />}
           <div className="verso-content" style={contentInlineStyle}>
-            {!isTuto && <VersoContentOfferContainer />}
+            {!isTuto && <VersoContentOffer />}
             {isTuto && <VersoContentTuto mediationId={mediationId} />}
           </div>
         </div>

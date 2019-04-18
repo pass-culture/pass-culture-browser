@@ -3,12 +3,12 @@ import { shallow } from 'enzyme'
 import { Icon } from 'pass-culture-shared'
 import { navigationLink } from '../../../../../utils/geolocation'
 
-import VersoInfoOffer from '../VersoInfoOffer'
+import VersoContentOffer from '../VersoContentOffer'
 
 jest.mock('../../../../../utils/geolocation', () => ({
   navigationLink: jest.fn(),
 }))
-describe('src | components | verso | verso-content | verso-info-offer | VersoInfoOffer', () => {
+describe('src | components | verso | verso-content | verso-info-offer | VersoContentOffer', () => {
   let recommendation
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     expect(wrapper).toBeDefined()
@@ -63,7 +63,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     expect(wrapper.find('.is-raw-description').text()).toBe('fake description')
@@ -82,7 +82,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     const liElements = wrapper.find('.dates-info').find('li')
@@ -104,7 +104,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     const liElements = wrapper.find('.dates-info').find('li')
@@ -123,7 +123,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     const liElements = wrapper.find('.dates-info').find('li')
@@ -140,7 +140,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     }
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     const venueInfos = wrapper.find('.address-info').find('span')
@@ -161,7 +161,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoInf
     navigationLink.mockReturnValue('this is a fake url')
 
     // when
-    const wrapper = shallow(<VersoInfoOffer {...props} />)
+    const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
     const venueDistance = wrapper.find('.distance')
