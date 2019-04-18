@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import { requestData } from 'redux-saga-data'
 import { withRouter } from 'react-router-dom'
 
-import Price from '../../../layout/Price'
-import { openSharePopin, closeSharePopin } from '../../../../reducers/share'
+import Price from '../../layout/Price'
+import { openSharePopin, closeSharePopin } from '../../../reducers/share'
 
 export const getButton = (label, id, onClick) => (
   <button

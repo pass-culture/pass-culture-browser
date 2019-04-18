@@ -4,9 +4,9 @@ import get from 'lodash.get'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import { isRecommendationOfferFinished } from '../../../../helpers/isRecommendationOfferFinished'
-import { selectBookings } from '../../../../selectors/selectBookings'
-import currentRecommendation from '../../../../selectors/currentRecommendation'
+import { isRecommendationOfferFinished } from '../../../helpers'
+import { selectBookings } from '../../../selectors/selectBookings'
+import currentRecommendation from '../../../selectors/currentRecommendation'
 
 import VersoBookingButton from './VersoBookingButton'
 

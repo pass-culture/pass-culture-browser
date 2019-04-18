@@ -1,3 +1,4 @@
+// jest --env=jsdom ./src/components/verso/verso-buttons/tests/BookThisButtonContainer --watch
 import set from 'lodash.set'
 import {
   getLinkDestination,

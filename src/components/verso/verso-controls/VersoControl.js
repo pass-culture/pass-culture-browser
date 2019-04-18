@@ -7,8 +7,9 @@ import Finishable from '../../layout/Finishable'
 import { ShareButton } from '../../share/ShareButton'
 import VersoWallet from './wallet/VersoWalletContainer'
 import VersoButtonFavorite from './favorite/VersoButtonFavoriteContainer'
-import VersoBooking from './booking/VersoBooking'
-// import VersoBookingButtonContainer from '../verso-buttons/verso-booking-button/VersoBookingButtonContainer'
+import CancelButton from './CancelButton'
+import BookThisButton from './BookThisButtonContainer'
+// import VersoBookingButton from '../verso-buttons/verso-booking-button/VersoBookingButtonContainer'
 
 const renderClickBlockerIfFinished = () => (
   <button
@@ -18,7 +19,7 @@ const renderClickBlockerIfFinished = () => (
   />
 )
 
-const VersoControl = ({ isFinished }) => (
+const VersoControl = ({ booking, isFinished }) => (
   <div className="verso-control is-relative">
     <ul className="py8 px12 is-medium is-flex flex-0 flex-between items-center pc-theme-red">
       <li>
@@ -32,7 +33,8 @@ const VersoControl = ({ isFinished }) => (
       </li>
       <li className="is-relative">
         {isFinished && renderClickBlockerIfFinished()}
-        <VersoBooking />
+        {booking && <CancelButton booking={booking} />}
+        {!booking && <BookThisButton />}
       </li>
     </ul>
     <Finishable finished={isFinished} />
@@ -40,10 +42,12 @@ const VersoControl = ({ isFinished }) => (
 )
 
 VersoControl.defaultProps = {
+  booking: null,
   isFinished: false,
 }
 
 VersoControl.propTypes = {
+  booking: PropTypes.object,
   isFinished: PropTypes.bool,
 }
 

@@ -3,8 +3,8 @@ import { mount, shallow } from 'enzyme'
 import { Router } from 'react-router'
 import { Link } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
-import Finishable from '../../../../layout/Finishable'
-import BookThisButtonContainer from '../../book-this-button/BookThisButtonContainer'
+import Finishable from '../../../layout/Finishable'
+import BookThisButtonContainer from '../BookThisButtonContainer'
 
 import VersoBookingButton from '../VersoBookingButton'
 

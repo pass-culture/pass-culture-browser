@@ -31,6 +31,7 @@ const mapStateToProps = (state, { match }) => {
     isRecommendationOfferFinished(recommendation, offerId) ||
     get(booking, 'isUsed')
   return {
+    booking,
     isFinished,
   }
 }
