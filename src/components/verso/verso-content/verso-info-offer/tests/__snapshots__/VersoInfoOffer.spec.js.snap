@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | verso | verso-content | verso-info-offer | VersoInfoOffer should match snapshot 1`] = `
+exports[`src | components | verso | verso-content | verso-info-offer | VersoContentOffer should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <VersoInfoOffer
+  Symbol(enzyme.__unrendered__): <VersoContentOffer
     bookables={Array []}
     isFinished={false}
+    maxDatesShowned={7}
     maxShownDates={7}
+    onlineOfferUrl={null}
     recommendation={
       Object {
         "distance": 1,
@@ -47,9 +49,22 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
+        null,
         <div>
           <h3>
             Quoi ?
+          </h3>
+          <div>
+            <span
+              className="is-bold"
+            >
+              
+            </span>
+          </div>
+        </div>,
+        <div>
+          <h3>
+            Et en détails ?
           </h3>
           <pre
             className="is-raw-description"
@@ -106,10 +121,7 @@ ShallowWrapper {
             <a
               className="distance"
             >
-              <span>
-                1
-                
-              </span>
+              1
               <Icon
                 alt="Géolocalisation dans Open Street Map"
                 svg="ico-geoloc-solid2"
@@ -122,6 +134,7 @@ ShallowWrapper {
     },
     "ref": null,
     "rendered": Array [
+      null,
       Object {
         "instance": null,
         "key": undefined,
@@ -130,6 +143,82 @@ ShallowWrapper {
           "children": Array [
             <h3>
               Quoi ?
+            </h3>,
+            <div>
+              <span
+                className="is-bold"
+              >
+                
+              </span>
+            </div>,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Quoi ?",
+            },
+            "ref": null,
+            "rendered": "Quoi ?",
+            "type": "h3",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <span
+                  className="is-bold"
+                >
+                  
+                </span>,
+                undefined,
+              ],
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "",
+                  "className": "is-bold",
+                },
+                "ref": null,
+                "rendered": "",
+                "type": "span",
+              },
+              undefined,
+            ],
+            "type": "div",
+          },
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <h3>
+              Et en détails ?
             </h3>,
             <pre
               className="is-raw-description"
@@ -145,10 +234,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Quoi ?",
+              "children": "Et en détails ?",
             },
             "ref": null,
-            "rendered": "Quoi ?",
+            "rendered": "Et en détails ?",
             "type": "h3",
           },
           Object {
@@ -290,10 +379,7 @@ ShallowWrapper {
               <a
                 className="distance"
               >
-                <span>
-                  1
-                  
-                </span>
+                1
                 <Icon
                   alt="Géolocalisation dans Open Street Map"
                   svg="ico-geoloc-solid2"
@@ -348,10 +434,7 @@ ShallowWrapper {
                 <a
                   className="distance"
                 >
-                  <span>
-                    1
-                    
-                  </span>
+                  1
                   <Icon
                     alt="Géolocalisation dans Open Street Map"
                     svg="ico-geoloc-solid2"
@@ -450,10 +533,7 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
-                    <span>
-                      1
-                      
-                    </span>,
+                    1,
                     <Icon
                       alt="Géolocalisation dans Open Street Map"
                       svg="ico-geoloc-solid2"
@@ -464,23 +544,7 @@ ShallowWrapper {
                 },
                 "ref": null,
                 "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "host",
-                    "props": Object {
-                      "children": Array [
-                        1,
-                        "",
-                      ],
-                    },
-                    "ref": null,
-                    "rendered": Array [
-                      1,
-                      "",
-                    ],
-                    "type": "span",
-                  },
+                  1,
                   Object {
                     "instance": null,
                     "key": undefined,
@@ -512,9 +576,22 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
+          null,
           <div>
             <h3>
               Quoi ?
+            </h3>
+            <div>
+              <span
+                className="is-bold"
+              >
+                
+              </span>
+            </div>
+          </div>,
+          <div>
+            <h3>
+              Et en détails ?
             </h3>
             <pre
               className="is-raw-description"
@@ -571,10 +648,7 @@ ShallowWrapper {
               <a
                 className="distance"
               >
-                <span>
-                  1
-                  
-                </span>
+                1
                 <Icon
                   alt="Géolocalisation dans Open Street Map"
                   svg="ico-geoloc-solid2"
@@ -587,6 +661,7 @@ ShallowWrapper {
       },
       "ref": null,
       "rendered": Array [
+        null,
         Object {
           "instance": null,
           "key": undefined,
@@ -595,6 +670,82 @@ ShallowWrapper {
             "children": Array [
               <h3>
                 Quoi ?
+              </h3>,
+              <div>
+                <span
+                  className="is-bold"
+                >
+                  
+                </span>
+              </div>,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Quoi ?",
+              },
+              "ref": null,
+              "rendered": "Quoi ?",
+              "type": "h3",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <span
+                    className="is-bold"
+                  >
+                    
+                  </span>,
+                  undefined,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "",
+                    "className": "is-bold",
+                  },
+                  "ref": null,
+                  "rendered": "",
+                  "type": "span",
+                },
+                undefined,
+              ],
+              "type": "div",
+            },
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <h3>
+                Et en détails ?
               </h3>,
               <pre
                 className="is-raw-description"
@@ -610,10 +761,10 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Quoi ?",
+                "children": "Et en détails ?",
               },
               "ref": null,
-              "rendered": "Quoi ?",
+              "rendered": "Et en détails ?",
               "type": "h3",
             },
             Object {
@@ -755,10 +906,7 @@ ShallowWrapper {
                 <a
                   className="distance"
                 >
-                  <span>
-                    1
-                    
-                  </span>
+                  1
                   <Icon
                     alt="Géolocalisation dans Open Street Map"
                     svg="ico-geoloc-solid2"
@@ -813,10 +961,7 @@ ShallowWrapper {
                   <a
                     className="distance"
                   >
-                    <span>
-                      1
-                      
-                    </span>
+                    1
                     <Icon
                       alt="Géolocalisation dans Open Street Map"
                       svg="ico-geoloc-solid2"
@@ -915,10 +1060,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [
-                      <span>
-                        1
-                        
-                      </span>,
+                      1,
                       <Icon
                         alt="Géolocalisation dans Open Street Map"
                         svg="ico-geoloc-solid2"
@@ -929,23 +1071,7 @@ ShallowWrapper {
                   },
                   "ref": null,
                   "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
-                          1,
-                          "",
-                        ],
-                      },
-                      "ref": null,
-                      "rendered": Array [
-                        1,
-                        "",
-                      ],
-                      "type": "span",
-                    },
+                    1,
                     Object {
                       "instance": null,
                       "key": undefined,
