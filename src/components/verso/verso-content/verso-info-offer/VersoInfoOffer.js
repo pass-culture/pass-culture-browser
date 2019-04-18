@@ -13,6 +13,53 @@ import { navigationLink } from '../../../../utils/geolocation'
 import VersoActionsBar from '../VersoActionsBar'
 
 class VersoInfoOffer extends React.PureComponent {
+  // renderOfferWho() {
+  //   const { recommendation } = this.props
+  //   const managingOfferer = get(recommendation, 'offer.venue.managingOfferer')
+  //   if (!managingOfferer) return null
+  //   return (
+  //     <div className="offerer">
+  //       Ce livre vous est offert par {managingOfferer}.
+  //     </div>
+  //   )
+  // }
+
+  renderOfferWhat() {
+    const { recommendation } = this.props
+    const offer = get(recommendation, 'offer')
+
+    const venue = get(offer, 'venue')
+    const isVirtualVenue = get(venue, 'isVirtual')
+
+    const eventOrThing = get(offer, 'eventOrThing')
+    const durationMinutes = get(eventOrThing, 'durationMinutes')
+    const duration = getDurationFromMinutes(durationMinutes)
+
+    const extraData = get(eventOrThing, 'extraData')
+    const label = get(eventOrThing, 'offerType.label')
+    const title = getWhatTitleFromLabelAndIsVirtualVenue(label, isVirtualVenue)
+
+    const author = get(extraData, 'author')
+    const performer = get(extraData, 'performer')
+    const speaker = get(extraData, 'speaker')
+    const stageDirector = get(extraData, 'stageDirector')
+    const type = get(extraData, 'musicType') || get(extraData, 'showType')
+    return (
+      <div>
+        <h3>Quoi ?</h3>
+        <div>
+          <span className="is-bold">{title}</span>
+          {durationMinutes && <span> - Durée {duration}</span>}
+        </div>
+        {type && <div>Genre : {type}</div>}
+        {author && <div>Auteur : {author}</div>}
+        {performer && <div>Interprête : {performer}</div>}
+        {speaker && <div>Intervenant : {speaker}</div>}
+        {stageDirector && <div>Metteur en scène : {stageDirector}</div>}
+      </div>
+    )
+  }
+
   renderOfferDetails() {
     const { recommendation } = this.props
     const description = get(recommendation, 'offer.eventOrThing.description')
@@ -25,24 +72,10 @@ class VersoInfoOffer extends React.PureComponent {
     )
   }
 
-  renderOfferWhat() {
-    const { recommendation } = this.props
-    const description = get(recommendation, 'offer.eventOrThing.description')
-
-    if (!description) return null
-
-    return (
-      <div>
-        <h3>Quoi ?</h3>
-        <pre className="is-raw-description">{description}</pre>
-      </div>
-    )
-  }
-
   renderEventOfferDateInfos() {
-    const { bookables, maxShownDates } = this.props
-    const sliced = bookables.slice(0, maxShownDates)
-    const hasMoreBookables = bookables.length > maxShownDates
+    const { bookables, maxDatesShowned } = this.props
+    const sliced = bookables.slice(0, maxDatesShowned)
+    const hasMoreBookables = bookables.length > maxDatesShowned
 
     return (
       <Fragment>
@@ -75,7 +108,7 @@ class VersoInfoOffer extends React.PureComponent {
   renderOfferWhen() {
     const { isFinished } = this.props
     const { recommendation } = this.props
-    const renderDateInfos = (get(recommendation, 'offer.thingId')
+    const dateInfosRenderer = (get(recommendation, 'offer.thingId')
       ? this.renderThingOfferDateInfos
       : this.renderEventOfferDateInfos
     ).bind(this)
@@ -87,7 +120,7 @@ class VersoInfoOffer extends React.PureComponent {
           {isFinished ? (
             <li>L&apos;offre n&apos;est plus disponible.</li>
           ) : (
-            renderDateInfos()
+            dateInfosRenderer()
           )}
         </ul>
       </div>
@@ -130,6 +163,7 @@ class VersoInfoOffer extends React.PureComponent {
       <div className="verso-info">
         {onlineOfferUrl && <VersoActionsBar url={onlineOfferUrl} />}
         {this.renderOfferWhat()}
+        {this.renderOfferDetails()}
         {this.renderOfferWhen()}
         {this.renderOfferWhere()}
       </div>

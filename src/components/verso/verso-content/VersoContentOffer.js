@@ -13,18 +13,6 @@ import { navigationLink } from '../../../utils/geolocation'
 import VersoActionsBar from './VersoActionsBar'
 
 class VersoContentOffer extends React.PureComponent {
-  renderOfferDetails() {
-    const { recommendation } = this.props
-    const description = get(recommendation, 'offer.eventOrThing.description')
-    if (!description) return null
-    return (
-      <div>
-        <h3>Et en détails ?</h3>
-        <pre className="is-raw-description">{description}</pre>
-      </div>
-    )
-  }
-
   renderOfferWho() {
     const { recommendation } = this.props
     const managingOfferer = get(recommendation, 'offer.venue.managingOfferer')
@@ -33,37 +21,6 @@ class VersoContentOffer extends React.PureComponent {
       <div className="offerer">
         Ce livre vous est offert par {managingOfferer}.
       </div>
-    )
-  }
-
-  renderEventOfferDateInfos() {
-    const { bookables, maxDatesShowned } = this.props
-    const sliced = bookables.slice(0, maxDatesShowned)
-    const hasMoreBookables = bookables.length > maxDatesShowned
-    return (
-      <Fragment>
-        {sliced.map(obj => (
-          <li key={obj.id}>
-            {capitalize(obj.humanBeginningDate)}
-            {obj.userAsAlreadyReservedThisDate && ' (réservé)'}
-          </li>
-        ))}
-        {hasMoreBookables && (
-          <li>{'Cliquez sur "j\'y vais" pour voir plus de dates.'}</li>
-        )}
-      </Fragment>
-    )
-  }
-
-  renderThingOfferDateInfos() {
-    const { bookables } = this.props
-    const limitDatetime = get(bookables, '[0].bookinglimitDatetime')
-    return (
-      <Fragment>
-        <li>
-          Dès maintenant {limitDatetime && `et jusqu&apos;au ${limitDatetime}`}{' '}
-        </li>
-      </Fragment>
     )
   }
 
@@ -103,6 +60,51 @@ class VersoContentOffer extends React.PureComponent {
     )
   }
 
+  renderOfferDetails() {
+    const { recommendation } = this.props
+    const description = get(recommendation, 'offer.eventOrThing.description')
+    if (!description) return null
+    return (
+      <div>
+        <h3>Et en détails ?</h3>
+        <pre className="is-raw-description">{description}</pre>
+      </div>
+    )
+  }
+
+  renderEventOfferDateInfos() {
+    const { bookables, maxDatesShowned } = this.props
+    const sliced = bookables.slice(0, maxDatesShowned)
+    const hasMoreBookables = bookables.length > maxDatesShowned
+
+    return (
+      <Fragment>
+        {sliced.map(obj => (
+          <li key={obj.id}>
+            {capitalize(obj.humanBeginningDate)}
+            {obj.userAsAlreadyReservedThisDate && ' (réservé)'}
+          </li>
+        ))}
+        {hasMoreBookables && (
+          <li>{'Cliquez sur "j\'y vais" pour voir plus de dates.'}</li>
+        )}
+      </Fragment>
+    )
+  }
+
+  renderThingOfferDateInfos() {
+    const { bookables } = this.props
+    const limitDatetime = get(bookables, '[0].bookinglimitDatetime')
+    return (
+      <Fragment>
+        <li>
+          Dès maintenant
+          {limitDatetime && ` et jusqu&apos;au ${limitDatetime}`}{' '}
+        </li>
+      </Fragment>
+    )
+  }
+
   renderOfferWhen() {
     const { isFinished } = this.props
     const { recommendation } = this.props
@@ -110,12 +112,13 @@ class VersoContentOffer extends React.PureComponent {
       ? this.renderThingOfferDateInfos
       : this.renderEventOfferDateInfos
     ).bind(this)
+
     return (
       <div>
         <h3>Quand ?</h3>
         <ul className="dates-info">
           {isFinished ? (
-            <li>L&apos;offre n&apos;est plus disponible :(</li>
+            <li>L&apos;offre n&apos;est plus disponible.</li>
           ) : (
             dateInfosRenderer()
           )}
