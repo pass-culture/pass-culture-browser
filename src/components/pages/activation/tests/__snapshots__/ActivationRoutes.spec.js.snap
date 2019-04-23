@@ -22,6 +22,11 @@ ShallowWrapper {
         <Route
           component={[Function]}
           exact={true}
+          path="/activation/poc-typeform"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
           path="/activation/error"
         />
         <Route
@@ -50,6 +55,11 @@ ShallowWrapper {
           <Route
             component={[Function]}
             exact={true}
+            path="/activation/poc-typeform"
+          />,
+          <Route
+            component={[Function]}
+            exact={true}
             path="/activation/error"
           />,
           <Route
@@ -68,6 +78,19 @@ ShallowWrapper {
       },
       "ref": null,
       "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "component": [Function],
+            "exact": true,
+            "path": "/activation/poc-typeform",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         Object {
           "instance": null,
           "key": undefined,
@@ -132,6 +155,11 @@ ShallowWrapper {
           <Route
             component={[Function]}
             exact={true}
+            path="/activation/poc-typeform"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
             path="/activation/error"
           />
           <Route
@@ -160,6 +188,11 @@ ShallowWrapper {
             <Route
               component={[Function]}
               exact={true}
+              path="/activation/poc-typeform"
+            />,
+            <Route
+              component={[Function]}
+              exact={true}
               path="/activation/error"
             />,
             <Route
@@ -178,6 +211,19 @@ ShallowWrapper {
         },
         "ref": null,
         "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "component": [Function],
+              "exact": true,
+              "path": "/activation/poc-typeform",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           Object {
             "instance": null,
             "key": undefined,
