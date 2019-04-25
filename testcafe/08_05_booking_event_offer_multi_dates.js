@@ -174,7 +174,6 @@ test(`Je vérifie mes réservations, après reconnexion`, async t => {
     .expect(bookedDate)
     .eql(date)
     .click(bookedOffer)
-    .click(openVerso)
     .expect(checkReversedIcon.exists)
     .ok()
 })
