@@ -1,26 +1,42 @@
 import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 import { Route } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { assignData, requestData } from 'redux-saga-data'
 
 import DeckContainer from './deck/DeckContainer'
 import BookingContainer from '../../booking/BookingContainer'
-import { withRedirectToSigninWhenNotAuthenticated } from '../../hocs'
 import BackButton from '../../layout/BackButton'
 import { Loader } from '../../layout/Loader'
 import Footer from '../../layout/Footer'
-import selectCurrentRecommendation from '../../../selectors/currentRecommendation'
-import {
-  getQueryParams,
-  getRouterQueryByKey,
-  shouldShowVerso,
-} from '../../../helpers'
+import { getQueryParams, shouldShowVerso } from '../../../helpers'
 import { recommendationNormalizer } from '../../../utils/normalizers'
+import { saveLastRecommendationsRequestTimestamp } from '../../../reducers/logs'
 
-export class RawDiscoveryPage extends React.PureComponent {
+const showActivationPasswordSavedPopup = fromPassword => {
+  // TODO: a deplacer dans le container
+  if (!fromPassword) return
+  const delay = 1000
+  const autoClose = 3000
+  const message = 'Votre mot de passe a bien été enregistré.'
+  setTimeout(() => toast(message, { autoClose }), delay)
+}
+
+const showFirstRecommendation = (data, history) => {
+  const firstRecommendation = (data && data[0]) || {}
+  // NOTE -> si la premiere carte n'a pas d'offerid
+  // alors il s'agit d'une carte tuto
+  const firstOfferId =
+    (firstRecommendation && firstRecommendation.offerId) || 'tuto'
+  const firstMediationId =
+    (firstRecommendation && firstRecommendation.mediationId) || ''
+  // replace plutot qu'un push permet de recharger les données
+  // quand on fait back dans le navigateur et qu'on revient
+  // à l'URL /decouverte
+  history.replace(`/decouverte/${firstOfferId}/${firstMediationId}`)
+}
+
+class Discovery extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -32,18 +48,22 @@ export class RawDiscoveryPage extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.handleDataRequest()
-    const { fromPassword } = this.props
-    if (!fromPassword) return
-    const delay = 1000
-    const autoClose = 3000
-    const message = 'Votre mot de passe a bien été enregistré.'
-    setTimeout(() => toast(message, { autoClose }), delay)
-  }
+    const {
+      dispatch,
+      history,
+      fromPassword,
+      recommendations,
+      shouldLoadRecommendations,
+    } = this.props
+    showActivationPasswordSavedPopup(fromPassword)
 
-  componentWillUnmount() {
-    const { dispatch } = this.props
-    dispatch(assignData({ recommendations: [] }))
+    if (shouldLoadRecommendations) {
+      // NOTE: doit on reset les recommendations ?
+      this.handleDataRequest()
+      dispatch(saveLastRecommendationsRequestTimestamp())
+    } else {
+      showFirstRecommendation(recommendations, history)
+    }
   }
 
   handleRequestFail = () => {
@@ -68,7 +88,6 @@ export class RawDiscoveryPage extends React.PureComponent {
     const weAreNotViewingACard =
       pathnameWithoutTrailingSlash === '/decouverte' ||
       pathnameWithoutTrailingSlash === '/decouverte/tuto/fin'
-    const shouldReloadPage = newRecosNb > 0 && weAreNotViewingACard
 
     const atWorldsEnd = newRecosNb === 0
     const isEmpty = (!recommendations || !recommendations.length) && atWorldsEnd
@@ -80,20 +99,9 @@ export class RawDiscoveryPage extends React.PureComponent {
 
     dispatch(assignData({ readRecommendations: [] }))
 
+    const shouldReloadPage = newRecosNb > 0 && weAreNotViewingACard
     if (!shouldReloadPage) return
-
-    const firstRecommendation = data[0] || {}
-
-    // NOTE -> si la premiere carte n'a pas d'offerid
-    // alors il s'agit d'une carte tuto
-    const firstOfferId =
-      (firstRecommendation && firstRecommendation.offerId) || 'tuto'
-    const firstMediationId =
-      (firstRecommendation && firstRecommendation.mediationId) || ''
-    // replace pluto qu'un push permet de recharger les données
-    // quand on fait back dans le navigateur et qu'on revient
-    // à l'URL /decouverte
-    history.replace(`/decouverte/${firstOfferId}/${firstMediationId}`)
+    showFirstRecommendation(data, history)
   }
 
   handleDataRequest = () => {
@@ -166,43 +174,22 @@ export class RawDiscoveryPage extends React.PureComponent {
   }
 }
 
-RawDiscoveryPage.defaultProps = {
-  currentRecommendation: null,
+Discovery.defaultProps = {
+  lastRequestedAt: null,
   readRecommendations: null,
   recommendations: null,
 }
 
-RawDiscoveryPage.propTypes = {
-  currentRecommendation: PropTypes.object,
+Discovery.propTypes = {
   dispatch: PropTypes.func.isRequired,
   fromPassword: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
+  lastRequestedAt: PropTypes.number,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   readRecommendations: PropTypes.array,
   recommendations: PropTypes.array,
+  shouldLoadRecommendations: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { location, match } = ownProps
-  const { mediationId, offerId } = match.params
-  const from = getRouterQueryByKey(location, 'from')
-  const fromPassword = from === 'password'
-  return {
-    currentRecommendation: selectCurrentRecommendation(
-      state,
-      offerId,
-      mediationId
-    ),
-    fromPassword,
-    readRecommendations: state.data.readRecommendations,
-    recommendations: state.data.recommendations,
-  }
-}
-
-const DiscoveryPage = compose(
-  withRedirectToSigninWhenNotAuthenticated,
-  connect(mapStateToProps)
-)(RawDiscoveryPage)
-
-export default DiscoveryPage
+export default Discovery

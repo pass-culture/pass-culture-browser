@@ -44,6 +44,11 @@ export class RawMyBookingsPage extends Component {
     })
   }
 
+  // componentWillUnmount() {
+  //   const { dispatch } = this.props
+  //   dispatch(assignData({ recommendations: [] }))
+  // }
+
   handleRequestFail = () => {
     // ERREUR DE CHARGEMENT
     this.setState({ hasError: true, isLoading: true })

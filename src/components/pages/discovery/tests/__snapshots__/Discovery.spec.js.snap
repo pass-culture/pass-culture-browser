@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | pages | discovery | Index | DiscoveryPage snapshot should match snapshot 1`] = `
+exports[`src | components | pages | discovery | Discovery snapshot should match snapshot with required props only 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RawDiscoveryPage
-    backButton={true}
-    currentRecommendation={null}
+  Symbol(enzyme.__unrendered__): <Discovery
     dispatch={
       [MockFunction] {
         "calls": Array [
@@ -27,8 +25,17 @@ ShallowWrapper {
               "type": "REQUEST_DATA_PUT_/RECOMMENDATIONS?",
             },
           ],
+          Array [
+            Object {
+              "type": "SAVE_RECOMMENDATIONS_REQUEST_TIMESTAMP",
+            },
+          ],
         ],
         "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
           Object {
             "type": "return",
             "value": undefined,
@@ -36,19 +43,39 @@ ShallowWrapper {
         ],
       }
     }
-    history={Object {}}
-    location={
+    fromPassword={true}
+    history={
       Object {
-        "search": "",
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
       }
     }
+    lastRequestedAt={null}
+    location={Object {}}
     match={
       Object {
-        "params": Object {},
+        "params": Object {
+          "view": "verso",
+        },
       }
     }
     readRecommendations={null}
     recommendations={null}
+    shouldLoadRecommendations={true}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -69,6 +96,7 @@ ShallowWrapper {
           className="discovery-page no-padding page with-footer"
           role="main"
         >
+          <withRouter(BackButton) />
           <React.Fragment>
             <Route
               path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?/:view(booking)/:bookingId?/:view(cancelled)?/:menu(menu)?"
@@ -99,7 +127,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            false,
+            <withRouter(BackButton) />,
             <React.Fragment>
               <Route
                 path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?/:view(booking)/:bookingId?/:view(cancelled)?/:menu(menu)?"
@@ -120,7 +148,15 @@ ShallowWrapper {
         },
         "ref": null,
         "rendered": Array [
-          false,
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
           Object {
             "instance": null,
             "key": undefined,
@@ -208,6 +244,7 @@ ShallowWrapper {
             className="discovery-page no-padding page with-footer"
             role="main"
           >
+            <withRouter(BackButton) />
             <React.Fragment>
               <Route
                 path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?/:view(booking)/:bookingId?/:view(cancelled)?/:menu(menu)?"
@@ -238,7 +275,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              false,
+              <withRouter(BackButton) />,
               <React.Fragment>
                 <Route
                   path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?/:view(booking)/:bookingId?/:view(cancelled)?/:menu(menu)?"
@@ -259,7 +296,15 @@ ShallowWrapper {
           },
           "ref": null,
           "rendered": Array [
-            false,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
             Object {
               "instance": null,
               "key": undefined,
