@@ -21,8 +21,9 @@ import BookingSuccess from './BookingSuccess'
 import { priceIsDefined } from '../../helpers/getDisplayPrice'
 import { selectBookables } from '../../selectors/selectBookables'
 import { selectBookingById } from '../../selectors/selectBookings'
-import currentRecommendationSelector from '../../selectors/currentRecommendation'
 import { ROOT_PATH } from '../../utils/config'
+import { currentRecommendationSelector } from '../../selectors'
+import { showCardDetails } from '../../reducers/card'
 
 const BOOKING_FORM_ID = 'form-create-booking'
 
@@ -130,13 +131,17 @@ class Booking extends PureComponent {
 
   cancelBookingHandler = () => {
     const { match, history } = this.props
-    const baseurl = match.url.replace('/booking', '')
-    history.replace(baseurl)
+    const baseUrl = match.url.replace('/booking', '')
+    history.replace(baseUrl)
   }
 
-  getBackToBookings = () => {
-    const { history } = this.props
-    history.push('/reservations')
+  getBackToOffer = () => {
+    const { dispatch, history, match } = this.props
+    const offerId = get(match.params, 'offerId')
+    const url = `/decouverte/${offerId}`
+
+    dispatch(showCardDetails())
+    history.push(url)
   }
 
   renderFormControls = () => {
@@ -156,6 +161,7 @@ class Booking extends PureComponent {
             <span>Annuler</span>
           </button>
         )}
+
         {showSubmitButton && (
           <button
             type="submit"
@@ -166,6 +172,7 @@ class Booking extends PureComponent {
             <b>Valider</b>
           </button>
         )}
+
         {bookedPayload && (
           <button
             type="button"
@@ -176,12 +183,13 @@ class Booking extends PureComponent {
             <b>OK</b>
           </button>
         )}
+
         {isCancelled && (
           <button
             type="button"
             id="booking-cancel-ok-button"
             className="text-center my5"
-            onClick={this.getBackToBookings}
+            onClick={this.getBackToOffer}
           >
             <b>OK</b>
           </button>
@@ -208,10 +216,10 @@ class Booking extends PureComponent {
       isSubmitting,
       mounted,
     } = this.state
+
     const showForm =
       !isSubmitting && !bookedPayload && !isErrored && !isCancelled
     const defaultBookable = !isEvent && get(bookables, '[0]')
-    //
     const isReadOnly = isEvent && bookables.length === 1
     let initialDate = null
     if (isReadOnly) {
@@ -248,13 +256,16 @@ class Booking extends PureComponent {
               >
                 <div className="py36 px12 flex-rows">
                   {isSubmitting && <BookingLoader />}
+
                   {bookedPayload && (
                     <BookingSuccess isEvent={isEvent} data={bookedPayload} />
                   )}
+
                   {isCancelled && (
                     <BookingCancel isEvent={isEvent} data={booking} />
                   )}
                   {isErrored && <BookingError errors={errors} />}
+
                   {showForm && (
                     <BookingForm
                       className="flex-1 flex-rows flex-center items-center"
