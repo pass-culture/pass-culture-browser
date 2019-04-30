@@ -5,24 +5,20 @@ import get from 'lodash.get'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
-import { connect } from 'react-redux'
 import { Transition } from 'react-transition-group'
 import { bindActionCreators } from 'redux'
 import { requestData } from 'redux-saga-data'
 import { resolveCurrentUser } from 'with-login'
 
 import { externalSubmitForm } from '../forms/utils'
-import BookingCancel from './BookingCancel'
-import BookingForm from './BookingForm'
-import BookingError from './BookingError'
-import BookingLoader from './BookingLoader'
-import BookingHeader from './BookingHeader'
-import BookingSuccess from './BookingSuccess'
+import BookingCancel from './sub-items/BookingCancel'
+import BookingForm from './sub-items/BookingForm'
+import BookingError from './sub-items/BookingError'
+import BookingLoader from './sub-items/BookingLoader'
+import BookingHeader from './sub-items/BookingHeader'
+import BookingSuccess from './sub-items/BookingSuccess'
 import { priceIsDefined } from '../../helpers/getDisplayPrice'
-import { selectBookables } from '../../selectors/selectBookables'
-import { selectBookingById } from '../../selectors/selectBookings'
 import { ROOT_PATH } from '../../utils/config'
-import { currentRecommendationSelector } from '../../selectors'
 import { showCardDetails } from '../../reducers/card'
 
 const BOOKING_FORM_ID = 'form-create-booking'
@@ -264,6 +260,7 @@ class Booking extends PureComponent {
                   {isCancelled && (
                     <BookingCancel isEvent={isEvent} data={booking} />
                   )}
+
                   {isErrored && <BookingError errors={errors} />}
 
                   {showForm && (
@@ -313,24 +310,4 @@ Booking.propTypes = {
   recommendation: PropTypes.object,
 }
 
-const mapStateToProps = (state, { match }) => {
-  const { offerId, mediationId, view, bookingId } = match.params
-  const recommendation = currentRecommendationSelector(
-    state,
-    offerId,
-    mediationId
-  )
-  const isEvent = (get(recommendation, 'offer.eventId') && true) || false
-  const bookables = selectBookables(state, recommendation, match)
-  const booking = selectBookingById(state, bookingId)
-
-  return {
-    bookables,
-    booking,
-    isCancelled: view === 'cancelled',
-    isEvent,
-    recommendation,
-  }
-}
-
-export default connect(mapStateToProps)(Booking)
+export default Booking
