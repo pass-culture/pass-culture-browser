@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
 import { compose } from 'redux'
@@ -9,12 +9,11 @@ import get from 'lodash.get'
 import BookingContainer from '../../booking/BookingContainer'
 import RectoContainer from '../../recto/RectoContainer'
 import VersoContainer from '../../verso/VersoContainer'
-import { recommendationNormalizer } from '../../../utils/normalizers'
-import { selectCurrentSearchRecommendation } from '../../../selectors'
+import selectCurrentSearchRecommendation from '../../../selectors/currentRecommendation'
 
-class SearchDetails extends Component {
-  constructor() {
-    super()
+class SearchDetails extends PureComponent {
+  constructor(props) {
+    super(props)
     this.state = { forceDetailsVisible: false }
   }
 
@@ -52,8 +51,7 @@ class SearchDetails extends Component {
       requestData({
         apiPath,
         handleSuccess: this.handleRequestSuccess,
-        normalizer: recommendationNormalizer,
-        stateKeys: 'searchRecommendations',
+        stateKey: 'searchRecommendations',
       })
     )
   }
@@ -115,7 +113,6 @@ function mapStateToProps(state, ownProps) {
     offerId,
     mediationId
   )
-
   return { recommendation }
 }
 

@@ -19,6 +19,7 @@ do
     echo "\t\033[32mESLint Passed: $FILE\033[0m"
   else
     echo "\t\033[41mESLint Failed: $FILE\033[0m"
+    echo $FILE
     exit 1
   fi
 done

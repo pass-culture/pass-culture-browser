@@ -66,4 +66,5 @@ export const mapStateToProps = (state, ownProps) => {
 
   return props
 }
+
 export default connect(mapStateToProps)(MyBookingItem)
