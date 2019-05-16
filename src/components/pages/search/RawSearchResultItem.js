@@ -10,7 +10,7 @@ import { getRecommendationDateString } from './utils'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
 class RawSearchResultItem extends Component {
-  handleRequestSuccess = () => {
+  onSuccessLoadRcommendationDetails = () => {
     const { history, location, recommendation } = this.props
     const offerId = recommendation && recommendation.offerId
     const mediationId = recommendation && recommendation.mediationId
@@ -19,14 +19,13 @@ class RawSearchResultItem extends Component {
     history.push(linkURL)
   }
 
-  onClickRecommendation = () => {
+  markSearchRecommendationsAsClicked = () => {
     const { dispatch, recommendation } = this.props
 
     const config = {
       apiPath: `/recommendations/${recommendation.id}`,
       body: { isClicked: true },
-      handleSuccess: this.handleRequestSuccess,
-      key: 'recommendations',
+      handleSuccess: this.onSuccessLoadRcommendationDetails,
       method: 'PATCH',
       normalizer: recommendationNormalizer,
     }
@@ -41,8 +40,8 @@ class RawSearchResultItem extends Component {
       <li className="recommendation-list-item">
         <div
           className="to-details"
-          onClick={this.onClickRecommendation}
-          onKeyPress={this.onClickRecommendation}
+          onClick={this.markSearchRecommendationsAsClicked}
+          onKeyPress={this.markSearchRecommendationsAsClicked}
           role="button"
           tabIndex={0}
         >
