@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import { assignData, requestData } from 'redux-saga-data'
 
 import BackButton from '../../layout/BackButton'
-import { Icon } from '../../layout/Icon'
+import Icon from '../../layout/Icon'
 import Footer from './Footer'
 import Header from './Header'
 import NavByOfferTypeContainer from './searchByType/NavByOfferTypeContainer'

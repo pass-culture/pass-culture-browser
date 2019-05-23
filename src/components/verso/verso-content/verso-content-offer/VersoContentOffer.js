@@ -4,7 +4,7 @@ import get from 'lodash.get'
 import { capitalize } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Icon } from '../../../layout/Icon'
+import Icon from '../../../layout/Icon'
 
 import { getDurationFromMinutes } from './utils'
 import { navigationLink } from '../../../../utils/geolocation'
@@ -86,7 +86,9 @@ class VersoContentOffer extends React.PureComponent {
         {sliced.map(obj => (
           <li key={obj.id}>
             {capitalize(obj.humanBeginningDate)}
-            {(!obj.userHasCancelledThisDate && obj.userHasAlreadyBookedThisDate) && ' (réservé)'}
+            {!obj.userHasCancelledThisDate &&
+              obj.userHasAlreadyBookedThisDate &&
+              ' (réservé)'}
           </li>
         ))}
         {hasMoreBookables && (

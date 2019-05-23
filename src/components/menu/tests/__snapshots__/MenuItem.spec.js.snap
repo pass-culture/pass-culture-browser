@@ -198,6 +198,9 @@ ShallowWrapper {
         >
           <Icon
             alt=""
+            className={null}
+            name={null}
+            src={null}
             svg="ico-undefined"
           />
         </span>
@@ -222,6 +225,9 @@ ShallowWrapper {
           >
             <Icon
               alt=""
+              className={null}
+              name={null}
+              src={null}
               svg="ico-undefined"
             />
           </span>,
@@ -239,6 +245,9 @@ ShallowWrapper {
           "props": Object {
             "children": <Icon
               alt=""
+              className={null}
+              name={null}
+              src={null}
               svg="ico-undefined"
             />,
             "className": "flex-0 text-center menu-icon mr16 text-center",
@@ -251,6 +260,9 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "alt": "",
+              "className": null,
+              "name": null,
+              "src": null,
               "svg": "ico-undefined",
             },
             "ref": null,
@@ -290,6 +302,9 @@ ShallowWrapper {
           >
             <Icon
               alt=""
+              className={null}
+              name={null}
+              src={null}
               svg="ico-undefined"
             />
           </span>
@@ -314,6 +329,9 @@ ShallowWrapper {
             >
               <Icon
                 alt=""
+                className={null}
+                name={null}
+                src={null}
                 svg="ico-undefined"
               />
             </span>,
@@ -331,6 +349,9 @@ ShallowWrapper {
             "props": Object {
               "children": <Icon
                 alt=""
+                className={null}
+                name={null}
+                src={null}
                 svg="ico-undefined"
               />,
               "className": "flex-0 text-center menu-icon mr16 text-center",
@@ -343,6 +364,9 @@ ShallowWrapper {
               "nodeType": "function",
               "props": Object {
                 "alt": "",
+                "className": null,
+                "name": null,
+                "src": null,
                 "svg": "ico-undefined",
               },
               "ref": null,

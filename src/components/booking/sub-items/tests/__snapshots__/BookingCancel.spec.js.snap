@@ -39,6 +39,9 @@ ShallowWrapper {
             }
           >
             <Icon
+              className={null}
+              name={null}
+              src={null}
               svg="picto-validation"
             />
           </span>
@@ -84,6 +87,9 @@ ShallowWrapper {
               }
             >
               <Icon
+                className={null}
+                name={null}
+                src={null}
                 svg="picto-validation"
               />
             </span>,
@@ -102,6 +108,9 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": <Icon
+                className={null}
+                name={null}
+                src={null}
                 svg="picto-validation"
               />,
               "className": "is-block mt24 mb8",
@@ -116,6 +125,9 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
+                "className": null,
+                "name": null,
+                "src": null,
                 "svg": "picto-validation",
               },
               "ref": null,
@@ -215,6 +227,9 @@ ShallowWrapper {
               }
             >
               <Icon
+                className={null}
+                name={null}
+                src={null}
                 svg="picto-validation"
               />
             </span>
@@ -260,6 +275,9 @@ ShallowWrapper {
                 }
               >
                 <Icon
+                  className={null}
+                  name={null}
+                  src={null}
                   svg="picto-validation"
                 />
               </span>,
@@ -278,6 +296,9 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": <Icon
+                  className={null}
+                  name={null}
+                  src={null}
                   svg="picto-validation"
                 />,
                 "className": "is-block mt24 mb8",
@@ -292,6 +313,9 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "function",
                 "props": Object {
+                  "className": null,
+                  "name": null,
+                  "src": null,
                   "svg": "picto-validation",
                 },
                 "ref": null,
