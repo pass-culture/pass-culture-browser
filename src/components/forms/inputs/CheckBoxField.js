@@ -25,7 +25,7 @@ const CheckBoxField = ({ children, className, name, required }) => {
       type="checkbox"
       validate={validateFunc || undefined}
       render={({ input, meta }) => (
-        <p className={`${className}`}>
+        <p className={className}>
           <span className={className}>
             <input
               {...input}
