@@ -43,11 +43,8 @@ test("J'ai un compte valide, je suis redirigé·e vers la page /decouverte sans 
   await t.click(signInButton).wait(1000)
 
   // then
-  const location = await t.eval(() => window.location)
-  await t
-    .expect(identifierErrors.count)
-    .eql(0)
-    .expect(location.pathname)
+  await t.expect(identifierErrors.count).eql(0)
+
   await t.expect(getPageUrl()).contains('/decouverte')
 })
 
