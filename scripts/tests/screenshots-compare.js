@@ -2,7 +2,6 @@
   import/no-extraneous-dependencies: 0 */
 import path from 'path'
 import fse from 'fs-extra'
-import 'moment-duration-format'
 import parseArgs from 'minimist'
 import resemble from 'resemblejs'
 
