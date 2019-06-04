@@ -26,7 +26,7 @@ textarea.textarea {
     .display-name {
       color: $text;
       display: inline-block;
-      font-weight: $weight-semibold;
+      font-weight: $weight-semi-bold;
       padding-left: 0.25rem;
       padding-top: 0.5rem;
       text-transform: uppercase;
@@ -155,14 +155,14 @@ textarea.textarea {
           border: none;
           background-color: transparent;
           cursor: default;
-          color: $input-color;
+          color: inherit;
           padding-left: 0.125rem;
           opacity: 1;
         }
       }
 
       textarea.textarea {
-        border-radius: $control-radius;
+        border-radius: $radius-medium;
       }
 
       .control:not(.is-expanded):not(.control-checkbox) {
