@@ -74,8 +74,9 @@ describe('src | components | pages | search | SearchResultItem', () => {
           handleSuccess: expect.any(Function),
           method: 'PATCH',
           normalizer: recommendationNormalizer,
+          stateKey: 'searchRecommendations',
         },
-        type: `REQUEST_DATA_PATCH_/RECOMMENDATIONS/${props.recommendation.id}`,
+        type: 'REQUEST_DATA_PATCH_SEARCHRECOMMENDATIONS',
       })
     })
   })

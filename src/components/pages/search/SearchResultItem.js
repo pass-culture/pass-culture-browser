@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { requestData } from 'redux-saga-data'
 
@@ -7,7 +7,7 @@ import { getQueryURL } from '../../../helpers'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 import { getRecommendationDateString } from './utils'
 
-class SearchResultItem extends Component {
+class SearchResultItem extends PureComponent {
   onSuccessLoadRecommendationDetails = () => {
     const { history, location, recommendation } = this.props
     const offerId = recommendation && recommendation.offerId
@@ -26,6 +26,7 @@ class SearchResultItem extends Component {
       handleSuccess: this.onSuccessLoadRecommendationDetails,
       method: 'PATCH',
       normalizer: recommendationNormalizer,
+      stateKey: 'searchRecommendations',
     }
 
     dispatch(requestData(config))

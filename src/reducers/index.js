@@ -9,11 +9,13 @@ import splash from './splash'
 import card from './card'
 import { overlay } from './overlay'
 import token from './token'
+import { lastRecommendationsRequestTimestamp } from './logs'
 
 const rootReducer = combineReducers({
   card,
   data,
   geolocation,
+  lastRecommendationsRequestTimestamp,
   menu,
   modals,
   overlay,

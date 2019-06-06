@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
@@ -20,8 +21,7 @@ const mapStateToProps = state => {
   const recommendations = selectSearchRecommendations(state)
   const typeSublabels = selectTypeSublabels(state)
   const typeSublabelsAndDescription = selectTypes(state)
-  const { user } = state
-
+  const user = get(state, 'user')
   return {
     recommendations,
     typeSublabels,

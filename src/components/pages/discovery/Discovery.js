@@ -1,26 +1,41 @@
 import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 import { Route } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { assignData, requestData } from 'redux-saga-data'
 
 import DeckContainer from './deck/DeckContainer'
 import BookingContainer from '../../booking/BookingContainer'
-import { withRedirectToSigninOrTypeformAfterLogin } from '../../hocs'
 import BackButton from '../../layout/BackButton'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import Footer from '../../layout/Footer'
-import selectCurrentRecommendation from '../../../selectors/currentRecommendation'
-import {
-  getQueryParams,
-  getRouterQueryByKey,
-  shouldShowVerso,
-} from '../../../helpers'
+import { getQueryParams } from '../../../helpers'
 import { recommendationNormalizer } from '../../../utils/normalizers'
+import { saveLastRecommendationsRequestTimestamp } from '../../../reducers/logs'
 
-export class RawDiscoveryPage extends React.PureComponent {
+const showActivationPasswordSavedPopup = fromPassword => {
+  if (!fromPassword) return
+  const delay = 1000
+  const autoClose = 3000
+  const message = 'Votre mot de passe a bien été enregistré.'
+  setTimeout(() => toast(message, { autoClose }), delay)
+}
+
+const showFirstRecommendation = (data, history) => {
+  const firstRecommendation = (data && data[0]) || {}
+  // NOTE -> si la premiere carte n'a pas d'offerid
+  // alors il s'agit d'une carte tuto
+  const firstOfferId =
+    (firstRecommendation && firstRecommendation.offerId) || 'tuto'
+  const firstMediationId =
+    (firstRecommendation && firstRecommendation.mediationId) || ''
+  // replace plutot qu'un push permet de recharger les données
+  // quand on fait back dans le navigateur et qu'on revient
+  // à l'URL /decouverte
+  history.replace(`/decouverte/${firstOfferId}/${firstMediationId}`)
+}
+
+class Discovery extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -32,18 +47,21 @@ export class RawDiscoveryPage extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.handleDataRequest()
-    const { fromPassword } = this.props
-    if (!fromPassword) return
-    const delay = 1000
-    const autoClose = 3000
-    const message = 'Votre mot de passe a bien été enregistré.'
-    setTimeout(() => toast(message, { autoClose }), delay)
-  }
+    const {
+      dispatch,
+      history,
+      fromPassword,
+      recommendations,
+      shouldLoadRecommendations,
+    } = this.props
+    showActivationPasswordSavedPopup(fromPassword)
 
-  componentWillUnmount() {
-    const { dispatch } = this.props
-    dispatch(assignData({ recommendations: [] }))
+    if (shouldLoadRecommendations) {
+      this.handleDataRequest()
+      dispatch(saveLastRecommendationsRequestTimestamp())
+    } else {
+      showFirstRecommendation(recommendations, history)
+    }
   }
 
   handleRequestFail = () => {
@@ -68,7 +86,6 @@ export class RawDiscoveryPage extends React.PureComponent {
     const weAreNotViewingACard =
       pathnameWithoutTrailingSlash === '/decouverte' ||
       pathnameWithoutTrailingSlash === '/decouverte/tuto/fin'
-    const shouldReloadPage = newRecosNb > 0 && weAreNotViewingACard
 
     const atWorldsEnd = newRecosNb === 0
     const isEmpty = (!recommendations || !recommendations.length) && atWorldsEnd
@@ -80,24 +97,19 @@ export class RawDiscoveryPage extends React.PureComponent {
 
     dispatch(assignData({ readRecommendations: [] }))
 
+    const shouldReloadPage = newRecosNb > 0 && weAreNotViewingACard
     if (!shouldReloadPage) return
-
-    const firstRecommendation = data[0] || {}
-
-    // NOTE -> si la premiere carte n'a pas d'offerid
-    // alors il s'agit d'une carte tuto
-    const firstOfferId =
-      (firstRecommendation && firstRecommendation.offerId) || 'tuto'
-    const firstMediationId =
-      (firstRecommendation && firstRecommendation.mediationId) || ''
-    // replace pluto qu'un push permet de recharger les données
-    // quand on fait back dans le navigateur et qu'on revient
-    // à l'URL /decouverte
-    history.replace(`/decouverte/${firstOfferId}/${firstMediationId}`)
+    showFirstRecommendation(data, history)
   }
 
   handleDataRequest = () => {
-    const { dispatch, match, recommendations, readRecommendations } = this.props
+    const {
+      dispatch,
+      match,
+      recommendations,
+      readRecommendations,
+      shouldLoadRecommendations,
+    } = this.props
 
     const { atWorldsEnd, isLoading } = this.state
 
@@ -109,15 +121,13 @@ export class RawDiscoveryPage extends React.PureComponent {
 
     const queryString = getQueryParams(match, readRecommendations)
     const apiPath = `/recommendations?${queryString}`
-
+    const seenRecommendationIds =
+      (shouldLoadRecommendations && []) ||
+      (recommendations && recommendations.map(r => r.id))
     dispatch(
       requestData({
         apiPath,
-        body: {
-          readRecommendations,
-          seenRecommendationIds:
-            recommendations && recommendations.map(r => r.id),
-        },
+        body: { readRecommendations, seenRecommendationIds },
         handleFail: this.handleRequestFail,
         handleSuccess: this.handleRequestSuccess,
         method: 'PUT',
@@ -130,7 +140,7 @@ export class RawDiscoveryPage extends React.PureComponent {
     const { match } = this.props
     const { hasError, isEmpty, isLoading } = this.state
 
-    const withBackButton = shouldShowVerso(match)
+    const withBackButton = match.params.view === 'verso'
 
     return (
       <Fragment>
@@ -148,7 +158,7 @@ export class RawDiscoveryPage extends React.PureComponent {
               />
               <Route
                 key="route-discovery-deck"
-                path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+|verso)?/:view(verso|cancelled)?/:bookingId?/:menu(menu)?"
+                path="/decouverte/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?/:view(verso|cancelled)?/:bookingId?/:menu(menu)?"
                 render={route => (
                   <DeckContainer
                     {...route}
@@ -170,43 +180,22 @@ export class RawDiscoveryPage extends React.PureComponent {
   }
 }
 
-RawDiscoveryPage.defaultProps = {
-  currentRecommendation: null,
+Discovery.defaultProps = {
+  lastRequestedAt: null,
   readRecommendations: null,
   recommendations: null,
 }
 
-RawDiscoveryPage.propTypes = {
-  currentRecommendation: PropTypes.object,
+Discovery.propTypes = {
   dispatch: PropTypes.func.isRequired,
   fromPassword: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
+  lastRequestedAt: PropTypes.number,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   readRecommendations: PropTypes.array,
   recommendations: PropTypes.array,
+  shouldLoadRecommendations: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { location, match } = ownProps
-  const { mediationId, offerId } = match.params
-  const from = getRouterQueryByKey(location, 'from')
-  const fromPassword = from === 'password'
-  return {
-    currentRecommendation: selectCurrentRecommendation(
-      state,
-      offerId,
-      mediationId
-    ),
-    fromPassword,
-    readRecommendations: state.data.readRecommendations,
-    recommendations: state.data.recommendations,
-  }
-}
-
-const DiscoveryPage = compose(
-  withRedirectToSigninOrTypeformAfterLogin,
-  connect(mapStateToProps)
-)(RawDiscoveryPage)
-
-export default DiscoveryPage
+export default Discovery
