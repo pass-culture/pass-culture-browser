@@ -231,7 +231,10 @@ class Search extends PureComponent {
     }
 
     return (
-      <main role="main" className="search-page page with-footer with-header">
+      <main
+        role="main"
+        className="search-page page with-footer with-header is-absolute"
+      >
         <Header title={headerTitle} />
         {location.pathname.includes('/resultats') && (
           <BackButton onClick={this.onBackToSearchHome} />
@@ -257,7 +260,7 @@ class Search extends PureComponent {
             path="/recherche/(resultats)?/:option?/:subOption(menu)?"
             render={() => (
               <Fragment>
-                <div className="page-content is-relative">
+                <div className="page-content">
                   <form onSubmit={this.onSubmit}>
                     <div className="flex-columns items-start">
                       <div
