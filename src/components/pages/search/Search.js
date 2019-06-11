@@ -261,8 +261,8 @@ class Search extends PureComponent {
                   <form onSubmit={this.onSubmit}>
                     <div className="flex-columns items-start">
                       <div
+                        className="field flex-columns flex-1"
                         id="search-page-keywords-field"
-                        className="field has-addons flex-columns flex-1"
                       >
                         <p
                           className="control has-icons-right flex-1"
@@ -270,12 +270,12 @@ class Search extends PureComponent {
                         >
                           <input
                             // FIXME autoFocus Github Issue #867
-                            id="keywords"
+                            className="flex-columns flex-1 items-center input search-input"
                             defaultValue={keywordsValue}
-                            className="input search-input"
+                            id="keywords"
+                            onChange={this.onKeywordsChange}
                             placeholder="Un mot-clé"
                             type="text"
-                            onChange={this.onKeywordsChange}
                           />
                           {isOneCharInKeywords && (
                             <span className="icon is-small is-right">
