@@ -1,9 +1,9 @@
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v5'
 
 import * as config from '../../../../utils/config'
 import { mapStateToProps } from '../TypeFormContainer'
 
-jest.mock('uuid/v1')
+jest.mock('uuid/v5')
 
 describe('src | components |pages | typeform | TypeFormContainer', () => {
   it('should return empty object when current user is not defined', () => {
@@ -32,6 +32,7 @@ describe('src | components |pages | typeform | TypeFormContainer', () => {
       data: {
         users: [
           {
+            email: 'supa.cool@mail.com',
             needsToFillCulturalSurvey: true,
           },
         ],
