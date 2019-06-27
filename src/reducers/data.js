@@ -10,6 +10,7 @@ const dataPersistConfig = {
 
 const dataReducer = createDataReducer({
   bookings: [],
+  features: null,
   readRecommendations: [],
   recommendations: [],
   types: [],
