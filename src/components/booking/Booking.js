@@ -51,11 +51,15 @@ class Booking extends PureComponent {
   }
 
   componentDidMount() {
-    this.setState({ mounted: true })
+    this.handleSetMounted(true)
   }
 
   componentWillUnmount() {
-    this.setState({ mounted: false })
+    this.handleSetMounted(false)
+  }
+
+  handleSetMounted = mounted => {
+    this.setState({ mounted })
   }
 
   handleOnFormMutation = ({ invalid, values }) => {

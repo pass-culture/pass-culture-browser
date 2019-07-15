@@ -23,7 +23,7 @@ const toRectoDraggableBounds = {
 }
 
 export class RawDeckNavigation extends React.PureComponent {
-  onStop = event => {
+  handleStop = event => {
     const { flipHandler, height, verticalSlideRatio } = this.props
     const shiftedDistance = height - getPageY(event)
 
@@ -105,7 +105,7 @@ export class RawDeckNavigation extends React.PureComponent {
               <Draggable
                 axis="y"
                 bounds={toRectoDraggableBounds}
-                onStop={this.onStop}
+                onStop={this.handleStop}
               >
                 <div id="dragButton">
                   <button
@@ -163,7 +163,7 @@ RawDeckNavigation.propTypes = {
   handleGoPrevious: PropTypes.func,
   height: PropTypes.number.isRequired,
   isFinished: PropTypes.bool,
-  recommendation: PropTypes.object,
+  recommendation: PropTypes.shape(),
   transitionTimeout: PropTypes.number,
   verticalSlideRatio: PropTypes.number,
 }
