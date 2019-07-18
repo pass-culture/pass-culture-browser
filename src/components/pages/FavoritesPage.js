@@ -3,7 +3,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import { withRequiredLogin } from '../hocs'
 import PageHeader from '../layout/Header/PageHeader'
-import NavigationFooter from '../layout/NavigationFooter'
+import RelativeFooterContainer from '../layout/RelativeFooter/RelativeFooterContainer'
 import { ROOT_PATH } from '../../utils/config'
 
 const FavoritesPage = () => {
@@ -25,7 +25,7 @@ const FavoritesPage = () => {
           />
         </Scrollbars>
       </main>
-      <NavigationFooter
+      <RelativeFooterContainer
         className="dotted-top-red"
         theme="white"
       />

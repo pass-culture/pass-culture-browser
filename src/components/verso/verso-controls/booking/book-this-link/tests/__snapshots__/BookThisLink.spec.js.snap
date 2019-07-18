@@ -5,11 +5,28 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <BookThisLink
     isFinished={false}
-    linkDestination="/path/to/page/"
-    priceValue={
-      Array [
-        0,
-      ]
+    location={
+      Object {
+        "search": "",
+      }
+    }
+    match={
+      Object {
+        "params": Object {},
+        "url": "/decouverte",
+      }
+    }
+    recommendation={
+      Object {
+        "offer": Object {
+          "stocks": Array [
+            Object {
+              "id": "AE",
+              "price": 10,
+            },
+          ],
+        },
+      }
     }
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -31,11 +48,7 @@ ShallowWrapper {
           className="pc-ticket-button-price flex-columns items-center"
           format={[Function]}
           free="Gratuit"
-          value={
-            Array [
-              0,
-            ]
-          }
+          value={Array []}
         />,
         <span
           className="pc-ticket-button-label"
@@ -47,7 +60,7 @@ ShallowWrapper {
       "disabled": false,
       "id": "verso-booking-button",
       "replace": false,
-      "to": "/path/to/page/",
+      "to": "/decouverte/reservations",
     },
     "ref": null,
     "rendered": Array [
@@ -59,9 +72,7 @@ ShallowWrapper {
           "className": "pc-ticket-button-price flex-columns items-center",
           "format": [Function],
           "free": "Gratuit",
-          "value": Array [
-            0,
-          ],
+          "value": Array [],
         },
         "ref": null,
         "rendered": null,
@@ -93,11 +104,7 @@ ShallowWrapper {
             className="pc-ticket-button-price flex-columns items-center"
             format={[Function]}
             free="Gratuit"
-            value={
-              Array [
-                0,
-              ]
-            }
+            value={Array []}
           />,
           <span
             className="pc-ticket-button-label"
@@ -109,7 +116,7 @@ ShallowWrapper {
         "disabled": false,
         "id": "verso-booking-button",
         "replace": false,
-        "to": "/path/to/page/",
+        "to": "/decouverte/reservations",
       },
       "ref": null,
       "rendered": Array [
@@ -121,9 +128,7 @@ ShallowWrapper {
             "className": "pc-ticket-button-price flex-columns items-center",
             "format": [Function],
             "free": "Gratuit",
-            "value": Array [
-              0,
-            ],
+            "value": Array [],
           },
           "ref": null,
           "rendered": null,

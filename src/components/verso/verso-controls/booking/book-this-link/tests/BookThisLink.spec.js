@@ -4,14 +4,23 @@ import { MemoryRouter } from 'react-router-dom'
 
 import Price from '../../../../../layout/Price'
 import BookThisLink from '../BookThisLink'
-import VersoPriceFormatter from '../../verso-price-formatter/VersoPriceFormatter'
 
 describe('src | components | verso | verso-controls | booking | BookThisLink', () => {
   it('should match snapshot with required props', () => {
     // given
     const props = {
-      linkDestination: '/path/to/page/',
-      priceValue: [0],
+      location: {
+        search: '',
+      },
+      match: {
+        params: {},
+        url: '/decouverte',
+      },
+      recommendation: {
+        offer: {
+          stocks: [{ id: 'AE', price: 10 }],
+        },
+      },
     }
 
     // when
@@ -28,8 +37,18 @@ describe('src | components | verso | verso-controls | booking | BookThisLink', (
   it('should render Gratuit label when price value is 0', () => {
     // given
     const props = {
-      linkDestination: '/path/to/page',
-      priceValue: [0],
+      location: {
+        search: '',
+      },
+      match: {
+        params: {},
+        url: '/decouverte',
+      },
+      recommendation: {
+        offer: {
+          stocks: [{ id: 'AE', available: 10, price: 0 }],
+        },
+      },
     }
 
     // when
@@ -54,9 +73,24 @@ describe('src | components | verso | verso-controls | booking | BookThisLink', (
     // given
     const nbsp = '\u00a0'
     const arrow = '\u27A4'
+    const minPrice = 10
+    const maxPrice = 30
     const props = {
-      linkDestination: '/path/to/page',
-      priceValue: [0, 30, 10],
+      location: {
+        search: '',
+      },
+      match: {
+        params: {},
+        url: '/decouverte',
+      },
+      recommendation: {
+        offer: {
+          stocks: [
+            { id: 'AE', available: 10, price: minPrice },
+            { id: 'BF', available: 15, price: maxPrice },
+          ],
+        },
+      },
     }
 
     // when
@@ -74,6 +108,77 @@ describe('src | components | verso | verso-controls | booking | BookThisLink', (
     // then
     const price = wrapper.find('.price')
     expect(price).toHaveLength(1)
-    expect(price.text()).toStrictEqual(`0${nbsp}${arrow}${nbsp}30${nbsp}€`)
+    expect(price.text()).toStrictEqual(`${minPrice}${nbsp}${arrow}${nbsp}${maxPrice}${nbsp}€`)
+  })
+
+  describe('getLinkDestination', () => {
+    it('should add reservations to current url without query to open booking card', () => {
+      // given
+      const mediationId = 'CG'
+      const offerId = 'BF'
+      const pathname = '/decouverte'
+      const search = '?foo'
+      const props = {
+        location: {
+          pathname,
+          search,
+        },
+        match: {
+          params: {},
+          url: `/decouverte/${offerId}/${mediationId}`,
+        },
+        recommendation: {
+          mediationId,
+          offerId,
+          offer: {
+            stocks: [],
+          },
+        },
+      }
+      const expected = `${pathname}/${offerId}/${mediationId}/reservations${search}`
+
+      // when
+      const wrapper = shallow(<BookThisLink {...props} />)
+      const result = wrapper.instance().getLinkDestination()
+
+      // then
+      expect(result).toStrictEqual(expected)
+    })
+
+    it('should not add reservations to current url if bookings already in match params', () => {
+      // given
+      const mediationId = 'CG'
+      const offerId = 'BF'
+      const pathname = '/decouverte'
+      const search = '?foo'
+      const url = `http://${pathname}/${offerId}/${mediationId}/reservations${search}`
+      const props = {
+        location: {
+          pathname,
+          search,
+        },
+        match: {
+          params: {
+            bookings: 'reservations',
+          },
+          url,
+        },
+        recommendation: {
+          mediationId,
+          offerId,
+          offer: {
+            stocks: [],
+          },
+        },
+      }
+      const expected = url
+
+      // when
+      const wrapper = shallow(<BookThisLink {...props} />)
+      const result = wrapper.instance().getLinkDestination()
+
+      // then
+      expect(result).toStrictEqual(expected)
+    })
   })
 })

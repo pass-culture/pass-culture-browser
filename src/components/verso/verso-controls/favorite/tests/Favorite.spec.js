@@ -58,11 +58,7 @@ describe('src | components | verso | verso-controls | favorite | Favorite', () =
       button.simulate('click')
 
       // then
-      expect(props.handleFavorite).toHaveBeenCalledWith(
-        false,
-        { offer: { favorites: [] } },
-        expect.anything(Function)
-      )
+      expect(props.handleFavorite).toHaveBeenCalledWith(false, expect.anything(Function))
     })
   })
 })

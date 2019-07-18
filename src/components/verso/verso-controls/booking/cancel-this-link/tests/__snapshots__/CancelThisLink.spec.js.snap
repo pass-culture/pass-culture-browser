@@ -20,6 +20,16 @@ ShallowWrapper {
     }
     isCancelled={false}
     isFinished={false}
+    location={
+      Object {
+        "pathname": "",
+      }
+    }
+    match={
+      Object {
+        "params": Object {},
+      }
+    }
     priceValue={42}
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -44,7 +54,7 @@ ShallowWrapper {
             className=""
             format={null}
             free="Gratuit"
-            value={42}
+            value={null}
           />
           <i
             className="icon-ico-check fs24"
@@ -75,7 +85,7 @@ ShallowWrapper {
               className=""
               format={null}
               free="Gratuit"
-              value={42}
+              value={null}
             />,
             <i
               className="icon-ico-check fs24"
@@ -94,7 +104,7 @@ ShallowWrapper {
               "className": "",
               "format": null,
               "free": "Gratuit",
-              "value": 42,
+              "value": null,
             },
             "ref": null,
             "rendered": null,
@@ -144,7 +154,7 @@ ShallowWrapper {
               className=""
               format={null}
               free="Gratuit"
-              value={42}
+              value={null}
             />
             <i
               className="icon-ico-check fs24"
@@ -175,7 +185,7 @@ ShallowWrapper {
                 className=""
                 format={null}
                 free="Gratuit"
-                value={42}
+                value={null}
               />,
               <i
                 className="icon-ico-check fs24"
@@ -194,7 +204,7 @@ ShallowWrapper {
                 "className": "",
                 "format": null,
                 "free": "Gratuit",
-                "value": 42,
+                "value": null,
               },
               "ref": null,
               "rendered": null,

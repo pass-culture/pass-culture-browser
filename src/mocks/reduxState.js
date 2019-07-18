@@ -12628,12 +12628,6 @@ const state = {
     wallet_balance: 0,
     wallet_is_activated: false,
   },
-  card: {
-    draggable: true,
-    isActive: false,
-    areDetailsVisible: true,
-    unFlippable: false,
-  },
   _persist: {
     version: -1,
     rehydrated: true,

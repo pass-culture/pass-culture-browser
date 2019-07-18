@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { ROOT_PATH } from '../../../utils/config'
-import NavigationFooter from '../../layout/NavigationFooter'
+import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
 import PageHeader from '../../layout/Header/PageHeader'
 import MesInformations from './MesInformations'
 import MonAvatar from './MonAvatar'
@@ -37,7 +37,7 @@ const ProfileMainView = ({ config, currentUser }) => (
         />
       </div>
     </main>
-    <NavigationFooter
+    <RelativeFooterContainer
       className="dotted-top-red"
       theme="white"
     />

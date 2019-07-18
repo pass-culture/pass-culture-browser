@@ -4,21 +4,23 @@ import React, { Fragment, PureComponent } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { assignData, requestData } from 'redux-saga-data'
 
-import Footer from './Footer'
-import PageHeader from '../../layout/Header/PageHeader'
-import NavByOfferTypeContainer from './searchByType/NavByOfferTypeContainer'
+import NavByOfferTypeContainer from './NavByOfferType/NavByOfferTypeContainer'
 import NavResultsHeader from './NavResultsHeader'
-import SearchFilterContainer from './searchFilters/SearchFilterContainer'
-import SearchResultsContainer from './SearchResultsContainer'
-import SearchDetailsContainer from './SearchDetailsContainer'
+import RecommendationDetailsContainer from './RecommendationDetailsContainer'
+import ResultsContainer from './Results/ResultsContainer'
+import FilterControlsContainer from './FilterControls/FilterControlsContainer'
 import {
   getDescriptionFromCategory,
   INITIAL_FILTER_PARAMS,
   isInitialQueryWithoutFilters,
   translateBrowserUrlToApiUrl,
-} from './utils'
+} from './helpers'
+import PageHeader from '../../layout/Header/PageHeader'
 import Icon from '../../layout/Icon'
 import Spinner from '../../layout/Spinner'
+import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
+import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
+import { recommendationNormalizer } from '../../../utils/normalizers'
 
 class Search extends PureComponent {
   constructor(props) {
@@ -34,8 +36,6 @@ class Search extends PureComponent {
       keywordsKey: 0,
       keywordsValue: queryParams['mots-cles'],
     }
-
-    props.dispatch(assignData({ searchRecommendations: [] }))
   }
 
   componentDidMount() {
@@ -64,10 +64,23 @@ class Search extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.resetRecommendationsAndBookings()
+  }
+
+  resetRecommendationsAndBookings = () => {
+    const { dispatch } = this.props
+    dispatch(
+      assignData({
+        bookings: [],
+        recommendations: [],
+      })
+    )
+  }
+
   clearSearchResults = value => {
     if (value === '') return
-    const { dispatch } = this.props
-    dispatch(assignData({ searchRecommendations: [] }))
+    this.resetRecommendationsAndBookings()
   }
 
   handleCategoryMissing = () => {
@@ -114,21 +127,19 @@ class Search extends PureComponent {
           const hasMore = data.length > 0
           this.setState({ hasMore, isLoading: false })
         },
-        stateKey: 'searchRecommendations',
+        normalizer: recommendationNormalizer,
       })
     )
   }
 
   goBack = () => {
     const { location, match } = this.props
-    const {
-      params: { option, subOption },
-    } = match
-    const isOfferVersoPage = option === 'item' || subOption === 'item'
+    const { pathname, search } = location
+    const areDetailsVisible = getAreDetailsVisible(match)
     let url = '/recherche'
 
-    if (isOfferVersoPage) {
-      url = `${location.pathname.split('/item')[0]}${location.search}`
+    if (areDetailsVisible) {
+      url = `${pathname.split('/details')[0]}${search}`
     }
 
     return url
@@ -197,7 +208,7 @@ class Search extends PureComponent {
     )
   }
 
-  renderSearchDetailsContainer = route => <SearchDetailsContainer {...route} />
+  renderSearchDetails = route => <RecommendationDetailsContainer {...route} />
 
   renderNavByOfferTypeContainer = typeSublabels => () => (
     <NavByOfferTypeContainer
@@ -206,7 +217,7 @@ class Search extends PureComponent {
     />
   )
 
-  renderResults = () => {
+  renderSearchNavAndResults = () => {
     const {
       location,
       query,
@@ -230,7 +241,7 @@ class Search extends PureComponent {
           category={category}
           description={description}
         />
-        <SearchResultsContainer
+        <ResultsContainer
           cameFromOfferTypesPage
           hasMore={hasMore}
           items={recommendations}
@@ -241,14 +252,14 @@ class Search extends PureComponent {
     )
   }
 
-  renderSearchResultsContainer = () => {
+  renderResults = () => {
     const { query, recommendations, typeSublabels } = this.props
     const { hasMore } = this.state
     const queryParams = query.parse()
     const keywords = queryParams[`mots-cles`]
 
     return (
-      <SearchResultsContainer
+      <ResultsContainer
         cameFromOfferTypesPage={false}
         hasMore={hasMore}
         items={recommendations}
@@ -258,7 +269,7 @@ class Search extends PureComponent {
     )
   }
 
-  renderSearchResult = () => {
+  renderControlsAndResults = () => {
     const { location, query, typeSublabels } = this.props
     const queryParams = query.parse()
 
@@ -341,9 +352,8 @@ class Search extends PureComponent {
                 </button>
               </div>
             </div>
-            <SearchFilterContainer
+            <FilterControlsContainer
               isVisible={isFilterVisible}
-              key="SearchFilterContainer"
               onClickFilterButton={this.handleOnClickToggleFilterButton}
             />
           </form>
@@ -353,25 +363,29 @@ class Search extends PureComponent {
               path="/recherche/:menu(menu)?"
               render={this.renderNavByOfferTypeContainer(typeSublabels)}
             />
-            {isLoading ? (
-              <Spinner
-                key="loader"
-                label="Recherche en cours"
-              />
-            ) : (
-              <Route
-                path="/recherche/resultats/:categorie([A-Z][a-z]+)/:menu(menu)?"
-                render={this.renderResults}
-                sensitive
-              />
+            {isLoading && <Spinner
+              key="loader"
+              label="Recherche en cours"
+                          />}
+            {!isLoading && (
+              <Fragment>
+                <Route
+                  path="/recherche/resultats/:categorie([A-Z][a-z]+)/:menu(menu)?"
+                  render={this.renderSearchNavAndResults}
+                  sensitive
+                />
+                <Route
+                  path="/recherche/resultats/:menu(menu)?"
+                  render={this.renderResults}
+                />
+              </Fragment>
             )}
-            <Route
-              path="/recherche/resultats/:menu(menu)?"
-              render={this.renderSearchResultsContainer}
-            />
           </Switch>
         </div>
-        <Footer />
+        <RelativeFooterContainer
+          className="dotted-top-red"
+          theme="white"
+        />
       </Fragment>
     )
   }
@@ -396,12 +410,12 @@ class Search extends PureComponent {
         />
         <Switch location={location}>
           <Route
-            path="/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?"
-            render={this.renderSearchDetailsContainer}
+            path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
+            render={this.renderSearchDetails}
           />
           <Route
-            path="/recherche/(resultats)?/:option?/:subOption(menu)?"
-            render={this.renderSearchResult}
+            path="/recherche/(resultats)?/:option?/:menu(menu)?"
+            render={this.renderControlsAndResults}
           />
         </Switch>
       </main>
@@ -416,6 +430,7 @@ Search.propTypes = {
   match: PropTypes.shape().isRequired,
   query: PropTypes.shape().isRequired,
   recommendations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  resetRecommendationsAndBookings: PropTypes.func.isRequired,
   typeSublabels: PropTypes.arrayOf(PropTypes.string).isRequired,
   typeSublabelsAndDescription: PropTypes.arrayOf(
     PropTypes.shape({

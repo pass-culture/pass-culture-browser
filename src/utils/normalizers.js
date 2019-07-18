@@ -1,3 +1,11 @@
-export const recommendationNormalizer = { bookings: 'bookings' }
+export const bookingNormalizer = {
+  recommendation: 'recommendations',
+  user: {
+    isMergingDatum: true,
+    stateKey: 'users',
+  },
+}
 
-export const bookingNormalizer = { recommendation: 'recommendations' }
+export const recommendationNormalizer = {
+  bookings: 'bookings',
+}

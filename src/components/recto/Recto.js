@@ -2,11 +2,14 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import Thumb from '../layout/Thumb'
+import Thumb from './Thumb'
 import { IS_DEV } from '../../utils/config'
 
 const Recto = ({ areDetailsVisible, extraClassName, recommendation }) => {
-  const { dateRead, mediation, id, index, isClicked, offer, thumbUrl } = recommendation || {}
+  const { dateRead, id, index, isClicked, mediation, offer, thumbUrl } = recommendation || {}
+  const { id: offerId } = offer || {}
+  const { frontText } = mediation || {}
+  const withMediation = typeof mediation !== 'undefined'
 
   return (
     <div className={classnames('recto', extraClassName)}>
@@ -14,16 +17,14 @@ const Recto = ({ areDetailsVisible, extraClassName, recommendation }) => {
         <Thumb
           src={thumbUrl}
           translated={areDetailsVisible}
-          withMediation={mediation}
+          withMediation={withMediation}
         />
       )}
-      {mediation && mediation.frontText && (
-        <div className="mediation-front-text fs20">{mediation.frontText}</div>
-      )}
+      {frontText && <div className="mediation-front-text fs20">{frontText}</div>}
       {IS_DEV && (
         <div className="debug debug-recto">
           <div>
-            {id} {offer && offer.id} {index}
+            {id} {offerId} {index}
           </div>
           {dateRead && <div> {'déjà lue'} </div>}
           {isClicked && <div> {'déjà retournée'} </div>}

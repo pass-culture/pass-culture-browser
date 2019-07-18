@@ -5,7 +5,7 @@ import routes from '../routes'
 import DiscoveryContainer from '../../components/pages/discovery/DiscoveryContainer'
 import FavoritesPage from '../../components/pages/FavoritesPage'
 import MyBookingsContainer from '../../components/pages/my-bookings/MyBookingsContainer'
-import ProfilePage from '../../components/pages/profile'
+import ProfileContainer from '../../components/pages/profile/ProfileContainer'
 import SearchContainer from '../../components/pages/search/SearchContainer'
 
 describe('filterRoutes', () => {
@@ -116,7 +116,7 @@ describe('getMenuRoutes', () => {
         title: 'Mes préférés',
       },
       {
-        component: ProfilePage,
+        component: ProfileContainer,
         disabled: false,
         icon: 'user-w',
         path: '/profil',

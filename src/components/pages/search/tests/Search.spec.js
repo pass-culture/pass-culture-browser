@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Switch } from 'react-router-dom'
 
 import Search from '../Search'
@@ -8,7 +8,7 @@ import PageHeader from '../../../layout/Header/PageHeader'
 
 const getPageContentRoute = wrapper =>
   wrapper
-    .find({ path: '/recherche/(resultats)?/:option?/:subOption(menu)?' })
+    .find({ path: '/recherche/(resultats)?/:option?/:menu(menu)?' })
     .props()
     .render()
 
@@ -21,7 +21,7 @@ const getPageContentForm = wrapper =>
   getPageContentDiv(wrapper).props.children.find(child => child.type === 'form')
 
 const getPageContentFilter = wrapper =>
-  getPageContentForm(wrapper).props.children.find(child => child.key === 'SearchFilterContainer')
+  getPageContentForm(wrapper).props.children.find(child => child.type.WrappedComponent)
 
 const getPageContentSwitch = wrapper =>
   getPageContentDiv(wrapper).props.children.find(child => child.type === Switch)
@@ -29,10 +29,15 @@ const getPageContentSwitch = wrapper =>
 const getPageContentSpinner = wrapper =>
   getPageContentSwitch(wrapper).props.children.find(child => child.type === Spinner)
 
-const getSwitchedPageContent = path => wrapper =>
-  getPageContentSwitch(wrapper)
-    .props.children.find(child => child.props.path === path)
-    .props.render()
+const getSwitchedPageContent = path => wrapper => {
+  const switchChildren = getPageContentSwitch(wrapper).props.children
+  const pageContent =
+    switchChildren.find(child => child && child.props.path === path) ||
+    switchChildren
+      .find(child => child && child.type === Fragment)
+      .props.children.find(child => child.props.path === path)
+  return pageContent.props.render()
+}
 
 const getSearchResults = wrapper =>
   getSwitchedPageContent('/recherche/resultats/:menu(menu)?')(wrapper)
@@ -86,6 +91,7 @@ describe('src | components | pages | Search', () => {
       parse: () => ({ page: '1' }),
     },
     recommendations: [],
+    resetRecommendationsAndBookings: jest.fn(),
     search: {},
     typeSublabels: [],
     typeSublabelsAndDescription: [],
@@ -290,8 +296,8 @@ describe('src | components | pages | Search', () => {
 
           it('should back to /recherche/resultats/Applaudir', () => {
             // given
-            baseInitialProps.match.params.subOption = 'item'
-            baseInitialProps.location.pathname = '/recherche/resultats/Applaudir'
+            baseInitialProps.match.params.details = 'details'
+            baseInitialProps.location.pathname = '/recherche/resultats/Applaudir/details/AE/AE'
             const wrapper = shallow(<Search {...baseInitialProps} />)
 
             // when

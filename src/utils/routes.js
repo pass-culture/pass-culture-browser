@@ -2,23 +2,27 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { WEBAPP_CONTACT_EXTERNAL_PAGE } from './config'
-import ActivationRoutesContainer from '../components/pages/activation/ActivationRoutesContainer'
+import ActivationContainer from '../components/pages/activation/ActivationContainer'
 import BetaPage from '../components/pages/BetaPage'
 import MyBookingsContainer from '../components/pages/my-bookings/MyBookingsContainer'
 import DiscoveryContainer from '../components/pages/discovery/DiscoveryContainer'
 import FavoritesPage from '../components/pages/FavoritesPage'
 import ForgotPasswordPage from '../components/pages/ForgotPasswordPage'
-import ProfilePage from '../components/pages/profile'
+import ProfileContainer from '../components/pages/profile/ProfileContainer'
 import TypeFormPage from '../components/pages/typeform/TypeFormContainer'
 import SearchContainer from '../components/pages/search/SearchContainer'
 import SigninContainer from '../components/pages/signin/SigninContainer'
 import SignupContainer from '../components/pages/signup/SignupContainer'
 import { isFeatureDisabled } from './featureFlipping'
 
+function redirectToBeta() {
+  return <Redirect to="/beta" />
+}
+
 const routes = [
   {
     path: '/',
-    render: () => <Redirect to="/beta" />,
+    render: redirectToBeta,
   },
   {
     component: BetaPage,
@@ -26,7 +30,7 @@ const routes = [
     title: 'Bienvenue dans l’avant-première du pass Culture',
   },
   {
-    component: ActivationRoutesContainer,
+    component: ActivationContainer,
     path: '/activation/:token?',
     title: 'Activation',
   },
@@ -62,10 +66,8 @@ const routes = [
     component: DiscoveryContainer,
     disabled: false,
     icon: 'offres-w',
-    // exemple d'URL optimale qui peut être partagée
-    // par les sous composants
     path:
-      '/decouverte/:offerId?/:mediationId?/:view(booking|verso)?/:bookingId?/:action(cancelled)?',
+      '/decouverte/:offerId?/:mediationId?/:details(details)?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Les offres',
   },
   {
@@ -73,14 +75,15 @@ const routes = [
     disabled: false,
     icon: 'search-w',
     path:
-      '/recherche/(resultats)?/:option?/:subOption?/:offerId?/:mediationIdOrView?/:view(booking)?/:bookingId?',
+      '/recherche/(resultats)?/:option?/:subOption?/:offerId?/:mediationId?/:details(details)?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Recherche',
   },
   {
     component: MyBookingsContainer,
     disabled: false,
     icon: 'calendar-w',
-    path: '/reservations',
+    path:
+      '/reservations/:details(details)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes réservations',
   },
   {
@@ -91,7 +94,7 @@ const routes = [
     title: 'Mes préférés',
   },
   {
-    component: ProfilePage,
+    component: ProfileContainer,
     disabled: false,
     icon: 'user-w',
     path: '/profil/:view?/:status?',

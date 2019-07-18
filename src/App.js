@@ -4,14 +4,14 @@ import Helmet from 'react-helmet'
 import { compose } from 'redux'
 import { withRouter, matchPath, Route } from 'react-router-dom'
 
-import routes from './utils/routes'
 import MenuContainer from './components/menu/MenuContainer'
 import DebugContainer from './components/layout/Debug/DebugContainer'
 import Splash from './components/layout/Splash'
 import Overlay from './components/layout/Overlay'
 import Notifications from './components/layout/notifications'
 import ErrorCatcherContainer from './components/layout/ErrorCatcher/ErrorCatcherContainer'
-import { SharePopin } from './components/share/SharePopin'
+import SharePopinContainer from './components/share/SharePopinContainer'
+import routes from './utils/routes'
 import { getReactRoutes } from './utils/routes-utils'
 import { ROOT_PATH, IS_DEV, PROJECT_NAME } from './utils/config'
 
@@ -48,7 +48,7 @@ const App = ({ location, children, history }) => {
             path="*/menu"
           />
           <Splash />
-          <SharePopin />
+          <SharePopinContainer />
           <Notifications />
           <img
             alt="beta"

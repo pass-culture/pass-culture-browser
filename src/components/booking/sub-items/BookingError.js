@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { flattenErrors } from '../utils'
+import { flattenErrors } from '../helpers'
 import Icon from '../../layout/Icon'
 
 class BookingError extends Component {

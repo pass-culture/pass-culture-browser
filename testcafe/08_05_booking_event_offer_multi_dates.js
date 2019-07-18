@@ -6,11 +6,9 @@ import getPageUrl from './helpers/getPageUrl'
 import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
-let offerPage = null
-let offerPageVerso = null
-let offerBookingPage = null
+let discoveryCardUrl = null
+let discoveryBookingUrl = null
 let currentBookedToken = null
-let currentSelectedDay = null
 let currentSelectedTime = null
 let previousWalletValue = null
 const myProfileURL = `${ROOT_PATH}profil`
@@ -45,13 +43,12 @@ fixture("08_05_01 Réservation d'une offre type event à dates multiple").before
       'get_existing_webapp_user_can_book_multidates'
     )
   }
-  const { offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_event_offer')
-  offerPage = `${discoverURL}/${offer.id}`
-  offerPageVerso = new RegExp(`${offerPage}(/[A-Z0-9]*)?/verso`)
-  offerBookingPage = `${offerPage}/booking`
+  const { offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_not_used_event_offer')
+  discoveryCardUrl = `${discoverURL}/${offer.id}`
+  discoveryBookingUrl = `${discoveryCardUrl}/details/reservations`
   await t
     .useRole(userRole)
-    .navigateTo(offerPage)
+    .navigateTo(discoveryCardUrl)
     .click(openVerso)
 })
 
@@ -59,24 +56,13 @@ test("Le formulaire de réservation contient un selecteur de date et d'horaire",
   await t
     .click(bookOfferButton)
     .expect(getPageUrl())
-    .eql(offerBookingPage)
+    .eql(discoveryBookingUrl)
     .expect(dateSelectBox.exists)
     .ok()
     .expect(timeSelectBox.exists)
     .ok()
     .expect(pickerPopper.exists)
     .ok()
-})
-
-// FIXME -> gérer la requête dans la sandbox, quand on saute de mois
-test.skip('Le formulaire de réservation contient de multiple dates', async t => {
-  await t
-    .click(bookOfferButton)
-    .expect(dateSelectBox.exists)
-    .ok()
-    .click(dateSelectBox)
-    .expect(selectableDates.count)
-    .gt(1)
 })
 
 test('Je sélectionne la première date, le champ de date se met à jour, un horaire est sélectionné', async t => {
@@ -103,7 +89,6 @@ test("Parcours complet de réservation d'une offre event à date unique", async 
     .click(dateSelectBox)
     .click(selectableDates.nth(0))
 
-  currentSelectedDay = await dateSelectBox.value
   currentSelectedTime = await selectedTime.textContent
   currentSelectedTime = currentSelectedTime.slice(0, 5)
 
@@ -118,7 +103,7 @@ test("Parcours complet de réservation d'une offre event à date unique", async 
   await t
     .click(bookingSuccessButton)
     .expect(getPageUrl())
-    .eql(offerPage)
+    .eql(discoveryCardUrl)
     .expect(checkReversedIcon.exists)
     .ok()
     .click(openMenuFromVerso)
@@ -131,14 +116,14 @@ test("Parcours complet de réservation d'une offre event à date unique", async 
     .lt(previousWalletValue)
   previousWalletValue = await getMenuWalletValue()
 
-  const bookedOffer = Selector(`.mb-my-booking[data-token="${currentBookedToken}"]`)
+  const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
   await t
     .click(myBookingsMenuButton)
     .expect(bookedOffer.exists)
     .ok()
     .click(bookedOffer)
     .expect(getPageUrl())
-    .match(offerPageVerso)
+    .match(new RegExp(`${discoveryBookingUrl}/([A-Z0-9]+)`))
     .expect(checkReversedIcon.exists)
     .ok()
 })

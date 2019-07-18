@@ -6,9 +6,9 @@ import getPageUrl from './helpers/getPageUrl'
 import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
-let offerPage = null
-let offerPageVerso = null
-let offerBookingPage = null
+let discoveryCardUrl = null
+let discoveryDetailsUrl = null
+let discoveryBookingUrl = null
 let currentBookedToken = null
 let previousWalletValue = null
 const myProfileURL = `${ROOT_PATH}profil`
@@ -21,7 +21,7 @@ const closeMenu = Selector('#main-menu-fixed-container .close-link')
 const openMenu = Selector('#deck-footer .profile-button')
 const openMenuFromVerso = Selector('#verso-footer .profile-button')
 const bookingErrorReasons = Selector('#booking-error-reasons p')
-const openVerso = Selector('#deck-open-verso-button')
+const openDetails = Selector('#deck-open-verso-button')
 const timeSelectBox = Selector('#booking-form-time-picker-field')
 const dateSelectBox = Selector('#booking-form-date-picker-field')
 const sendBookingButton = Selector('#booking-validation-button')
@@ -41,20 +41,19 @@ fixture("08_03_01 Réservation d'une offre type thing").beforeEach(async t => {
     'webapp_08_booking',
     'get_non_free_thing_offer_with_active_mediation'
   )
-  offerPage = `${discoverURL}/${offer.id}/${mediationId}`
-  offerPageVerso = `${offerPage}/verso`
-  offerBookingPage = `${offerPage}/booking`
-
-  await t.useRole(userRole).navigateTo(offerPage)
+  discoveryCardUrl = `${discoverURL}/${offer.id}/${mediationId}`
+  discoveryDetailsUrl = `${discoveryCardUrl}/details`
+  discoveryBookingUrl = `${discoveryDetailsUrl}/reservations`
+  await t.useRole(userRole).navigateTo(discoveryCardUrl)
 })
 
 test("Le formulaire de réservation ne contient pas de sélecteur de date ou d'horaire", async t => {
   await t
-    .click(openVerso)
+    .click(openDetails)
     .wait(500)
     .click(bookOfferButton)
     .expect(getPageUrl())
-    .eql(offerBookingPage)
+    .eql(discoveryBookingUrl)
     .expect(dateSelectBox.exists)
     .notOk()
     .expect(timeSelectBox.exists)
@@ -69,7 +68,7 @@ test("Parcours complet de réservation d'une offre thing", async t => {
     .gt(0)
     .click(closeMenu)
     .wait(500)
-    .click(openVerso)
+    .click(openDetails)
     .wait(500)
     .expect(checkReversedIcon.exists)
     .notOk()
@@ -88,7 +87,7 @@ test("Parcours complet de réservation d'une offre thing", async t => {
   await t
     .click(bookingSuccessButton)
     .expect(getPageUrl())
-    .eql(offerPage)
+    .eql(discoveryDetailsUrl)
     .expect(checkReversedIcon.exists)
     .ok()
     .click(openMenuFromVerso)
@@ -101,14 +100,14 @@ test("Parcours complet de réservation d'une offre thing", async t => {
     .lt(previousWalletValue)
   previousWalletValue = await getMenuWalletValue()
 
-  const bookedOffer = Selector(`.mb-my-booking[data-token="${currentBookedToken}"]`)
+  const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
   await t
     .click(myBookingsMenuButton)
     .expect(bookedOffer.exists)
     .ok()
     .click(bookedOffer)
     .expect(getPageUrl())
-    .eql(offerPageVerso)
+    .match(new RegExp(`${discoveryBookingUrl}/([A-Z0-9]+)`))
     .expect(checkReversedIcon.exists)
     .ok()
 })
@@ -123,7 +122,7 @@ test('Je vérifie le montant de mon pass', async t => {
 
 test('Je ne peux plus réserver cette offre', async t => {
   await t
-    .click(openVerso)
+    .click(openDetails)
     .wait(500)
     .expect(bookOfferButton.exists)
     .notOk()

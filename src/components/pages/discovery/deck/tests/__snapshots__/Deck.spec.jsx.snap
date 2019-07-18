@@ -1,0 +1,487 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`src | components | pages | discovery | deck | Deck snapshot should match snapshot 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Deck
+    backButton={true}
+    currentRecommendation={Object {}}
+    dispatch={[MockFunction]}
+    draggable={true}
+    handleRequestPutRecommendations={[MockFunction]}
+    height={947}
+    history={
+      Object {
+        "push": [MockFunction],
+      }
+    }
+    horizontalSlideRatio={0.2}
+    isFlipDisabled={false}
+    location={
+      Object {
+        "pathname": "",
+        "search": "",
+      }
+    }
+    match={
+      Object {
+        "params": Object {},
+        "url": "",
+      }
+    }
+    nextLimit={50}
+    nextRecommendation={null}
+    noDataTimeout={20000}
+    previousLimit={40}
+    previousRecommendation={null}
+    readTimeout={2000}
+    recommendations={
+      Array [
+        Object {},
+      ]
+    }
+    verticalSlideRatio={0.1}
+    width={500}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        false,
+        <Draggable
+          allowAnyClick={false}
+          axis="exclude"
+          bounds={
+            Object {
+              "bottom": 0,
+              "left": NaN,
+              "right": NaN,
+              "top": -100,
+            }
+          }
+          cancel={null}
+          defaultClassName="react-draggable"
+          defaultClassNameDragged="react-draggable-dragged"
+          defaultClassNameDragging="react-draggable-dragging"
+          defaultPosition={
+            Object {
+              "x": 0,
+              "y": 0,
+            }
+          }
+          disabled={false}
+          enableUserSelectHack={false}
+          grid={null}
+          handle={null}
+          offsetParent={null}
+          onDrag={[Function]}
+          onMouseDown={[Function]}
+          onStart={[Function]}
+          onStop={[Function]}
+          position={
+            Object {
+              "x": NaN,
+              "y": 0,
+            }
+          }
+          speed={
+            Object {
+              "x": 5,
+            }
+          }
+          transform={null}
+        >
+          <div
+            className="is-overlay"
+          >
+            <div
+              className="inner is-relative"
+            >
+              <withSizes(withRouter(Connect(Card)))
+                position="current"
+              />
+            </div>
+          </div>
+        </Draggable>,
+        <DeckNavigation
+          flipHandler={[Function]}
+          handleGoNext={null}
+          handleGoPrevious={null}
+          height={947}
+          recommendation={Object {}}
+          transitionTimeout={250}
+          verticalSlideRatio={0.3}
+        />,
+      ],
+      "className": "is-clipped is-relative",
+      "data-nb-recos": 1,
+      "id": "deck",
+    },
+    "ref": null,
+    "rendered": Array [
+      false,
+      Object {
+        "instance": null,
+        "key": "0",
+        "nodeType": "class",
+        "props": Object {
+          "allowAnyClick": false,
+          "axis": "exclude",
+          "bounds": Object {
+            "bottom": 0,
+            "left": NaN,
+            "right": NaN,
+            "top": -100,
+          },
+          "cancel": null,
+          "children": <div
+            className="is-overlay"
+          >
+            <div
+              className="inner is-relative"
+            >
+              <withSizes(withRouter(Connect(Card)))
+                position="current"
+              />
+            </div>
+          </div>,
+          "defaultClassName": "react-draggable",
+          "defaultClassNameDragged": "react-draggable-dragged",
+          "defaultClassNameDragging": "react-draggable-dragging",
+          "defaultPosition": Object {
+            "x": 0,
+            "y": 0,
+          },
+          "disabled": false,
+          "enableUserSelectHack": false,
+          "grid": null,
+          "handle": null,
+          "offsetParent": null,
+          "onDrag": [Function],
+          "onMouseDown": [Function],
+          "onStart": [Function],
+          "onStop": [Function],
+          "position": Object {
+            "x": NaN,
+            "y": 0,
+          },
+          "speed": Object {
+            "x": 5,
+          },
+          "transform": null,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="inner is-relative"
+            >
+              <withSizes(withRouter(Connect(Card)))
+                position="current"
+              />
+            </div>,
+            "className": "is-overlay",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                null,
+                <withSizes(withRouter(Connect(Card)))
+                  position="current"
+                />,
+                null,
+              ],
+              "className": "inner is-relative",
+            },
+            "ref": null,
+            "rendered": Array [
+              null,
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "position": "current",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              null,
+            ],
+            "type": "div",
+          },
+          "type": "div",
+        },
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "flipHandler": [Function],
+          "handleGoNext": null,
+          "handleGoPrevious": null,
+          "height": 947,
+          "recommendation": Object {},
+          "transitionTimeout": 250,
+          "verticalSlideRatio": 0.3,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          false,
+          <Draggable
+            allowAnyClick={false}
+            axis="exclude"
+            bounds={
+              Object {
+                "bottom": 0,
+                "left": NaN,
+                "right": NaN,
+                "top": -100,
+              }
+            }
+            cancel={null}
+            defaultClassName="react-draggable"
+            defaultClassNameDragged="react-draggable-dragged"
+            defaultClassNameDragging="react-draggable-dragging"
+            defaultPosition={
+              Object {
+                "x": 0,
+                "y": 0,
+              }
+            }
+            disabled={false}
+            enableUserSelectHack={false}
+            grid={null}
+            handle={null}
+            offsetParent={null}
+            onDrag={[Function]}
+            onMouseDown={[Function]}
+            onStart={[Function]}
+            onStop={[Function]}
+            position={
+              Object {
+                "x": NaN,
+                "y": 0,
+              }
+            }
+            speed={
+              Object {
+                "x": 5,
+              }
+            }
+            transform={null}
+          >
+            <div
+              className="is-overlay"
+            >
+              <div
+                className="inner is-relative"
+              >
+                <withSizes(withRouter(Connect(Card)))
+                  position="current"
+                />
+              </div>
+            </div>
+          </Draggable>,
+          <DeckNavigation
+            flipHandler={[Function]}
+            handleGoNext={null}
+            handleGoPrevious={null}
+            height={947}
+            recommendation={Object {}}
+            transitionTimeout={250}
+            verticalSlideRatio={0.3}
+          />,
+        ],
+        "className": "is-clipped is-relative",
+        "data-nb-recos": 1,
+        "id": "deck",
+      },
+      "ref": null,
+      "rendered": Array [
+        false,
+        Object {
+          "instance": null,
+          "key": "0",
+          "nodeType": "class",
+          "props": Object {
+            "allowAnyClick": false,
+            "axis": "exclude",
+            "bounds": Object {
+              "bottom": 0,
+              "left": NaN,
+              "right": NaN,
+              "top": -100,
+            },
+            "cancel": null,
+            "children": <div
+              className="is-overlay"
+            >
+              <div
+                className="inner is-relative"
+              >
+                <withSizes(withRouter(Connect(Card)))
+                  position="current"
+                />
+              </div>
+            </div>,
+            "defaultClassName": "react-draggable",
+            "defaultClassNameDragged": "react-draggable-dragged",
+            "defaultClassNameDragging": "react-draggable-dragging",
+            "defaultPosition": Object {
+              "x": 0,
+              "y": 0,
+            },
+            "disabled": false,
+            "enableUserSelectHack": false,
+            "grid": null,
+            "handle": null,
+            "offsetParent": null,
+            "onDrag": [Function],
+            "onMouseDown": [Function],
+            "onStart": [Function],
+            "onStop": [Function],
+            "position": Object {
+              "x": NaN,
+              "y": 0,
+            },
+            "speed": Object {
+              "x": 5,
+            },
+            "transform": null,
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                className="inner is-relative"
+              >
+                <withSizes(withRouter(Connect(Card)))
+                  position="current"
+                />
+              </div>,
+              "className": "is-overlay",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  null,
+                  <withSizes(withRouter(Connect(Card)))
+                    position="current"
+                  />,
+                  null,
+                ],
+                "className": "inner is-relative",
+              },
+              "ref": null,
+              "rendered": Array [
+                null,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "position": "current",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                null,
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "flipHandler": [Function],
+            "handleGoNext": null,
+            "handleGoPrevious": null,
+            "height": 947,
+            "recommendation": Object {},
+            "transitionTimeout": 250,
+            "verticalSlideRatio": 0.3,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    Symbol(enzyme.__providerValues__): undefined,
+  },
+  Symbol(enzyme.__providerValues__): Map {},
+  Symbol(enzyme.__childContext__): null,
+}
+`;

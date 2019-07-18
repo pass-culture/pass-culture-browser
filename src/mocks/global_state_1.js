@@ -6430,12 +6430,6 @@ const state = {
     thumbCount: 1,
     wallet_balance: 490,
   },
-  card: {
-    draggable: true,
-    isActive: false,
-    areDetailsVisible: false,
-    unFlippable: false,
-  },
   _persist: {
     version: -1,
     rehydrated: true,

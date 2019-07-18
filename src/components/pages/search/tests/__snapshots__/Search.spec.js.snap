@@ -9,14 +9,6 @@ ShallowWrapper {
         "calls": Array [
           Array [
             Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
-          Array [
-            Object {
               "config": Object {
                 "apiPath": "/types",
                 "method": "GET",
@@ -26,27 +18,11 @@ ShallowWrapper {
           ],
           Array [
             Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
-          Array [
-            Object {
               "config": Object {
                 "apiPath": "/types",
                 "method": "GET",
               },
               "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
             },
           ],
           Array [
@@ -64,17 +40,11 @@ ShallowWrapper {
                 "apiPath": "/recommendations?categories=Jouer&keywords=Fake",
                 "handleSuccess": [Function],
                 "method": "GET",
-                "stateKey": "searchRecommendations",
+                "normalizer": Object {
+                  "bookings": "bookings",
+                },
               },
-              "type": "REQUEST_DATA_GET_SEARCHRECOMMENDATIONS",
-            },
-          ],
-          Array [
-            Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
+              "type": "REQUEST_DATA_GET_/RECOMMENDATIONS?CATEGORIES=JOUER&KEYWORDS=FAKE",
             },
           ],
           Array [
@@ -88,10 +58,11 @@ ShallowWrapper {
           ],
           Array [
             Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
+              "config": Object {
+                "apiPath": "/types",
+                "method": "GET",
               },
-              "type": "ASSIGN_DATA",
+              "type": "REQUEST_DATA_GET_/TYPES",
             },
           ],
           Array [
@@ -105,14 +76,6 @@ ShallowWrapper {
           ],
           Array [
             Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
-          Array [
-            Object {
               "config": Object {
                 "apiPath": "/types",
                 "method": "GET",
@@ -122,44 +85,11 @@ ShallowWrapper {
           ],
           Array [
             Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
-          Array [
-            Object {
               "config": Object {
                 "apiPath": "/types",
                 "method": "GET",
               },
               "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
-                "apiPath": "/types",
-                "method": "GET",
-              },
-              "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "patch": Object {
-                "searchRecommendations": Array [],
-              },
-              "type": "ASSIGN_DATA",
             },
           ],
           Array [
@@ -173,42 +103,6 @@ ShallowWrapper {
           ],
         ],
         "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
           Object {
             "type": "return",
             "value": undefined,
@@ -359,6 +253,7 @@ ShallowWrapper {
       }
     }
     recommendations={Array []}
+    resetRecommendationsAndBookings={[MockFunction]}
     search={Object {}}
     typeSublabels={Array []}
     typeSublabelsAndDescription={Array []}
@@ -401,11 +296,11 @@ ShallowWrapper {
           }
         >
           <Route
-            path="/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?"
+            path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
             render={[Function]}
           />
           <Route
-            path="/recherche/(resultats)?/:option?/:subOption(menu)?"
+            path="/recherche/(resultats)?/:option?/:menu(menu)?"
             render={[Function]}
           />
         </Switch>,
@@ -441,11 +336,11 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <Route
-              path="/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?"
+              path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
               render={[Function]}
             />,
             <Route
-              path="/recherche/(resultats)?/:option?/:subOption(menu)?"
+              path="/recherche/(resultats)?/:option?/:menu(menu)?"
               render={[Function]}
             />,
           ],
@@ -464,7 +359,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "path": "/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?",
+              "path": "/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?",
               "render": [Function],
             },
             "ref": null,
@@ -476,7 +371,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "path": "/recherche/(resultats)?/:option?/:subOption(menu)?",
+              "path": "/recherche/(resultats)?/:option?/:menu(menu)?",
               "render": [Function],
             },
             "ref": null,
@@ -519,11 +414,11 @@ ShallowWrapper {
             }
           >
             <Route
-              path="/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?"
+              path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
               render={[Function]}
             />
             <Route
-              path="/recherche/(resultats)?/:option?/:subOption(menu)?"
+              path="/recherche/(resultats)?/:option?/:menu(menu)?"
               render={[Function]}
             />
           </Switch>,
@@ -559,11 +454,11 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               <Route
-                path="/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?"
+                path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
                 render={[Function]}
               />,
               <Route
-                path="/recherche/(resultats)?/:option?/:subOption(menu)?"
+                path="/recherche/(resultats)?/:option?/:menu(menu)?"
                 render={[Function]}
               />,
             ],
@@ -582,7 +477,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "path": "/recherche/resultats/:option?/item/:offerId([A-Z0-9]+)/:mediationId([A-Z0-9]+)?",
+                "path": "/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?",
                 "render": [Function],
               },
               "ref": null,
@@ -594,7 +489,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "path": "/recherche/(resultats)?/:option?/:subOption(menu)?",
+                "path": "/recherche/(resultats)?/:option?/:menu(menu)?",
                 "render": [Function],
               },
               "ref": null,

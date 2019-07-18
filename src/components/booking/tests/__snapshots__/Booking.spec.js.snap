@@ -17,6 +17,7 @@ ShallowWrapper {
     history={
       Object {
         "push": [MockFunction],
+        "replace": [MockFunction],
       }
     }
     isCancelled={false}
@@ -24,8 +25,10 @@ ShallowWrapper {
     match={
       Object {
         "params": Object {
+          "bookings": "reservations",
           "offerId": "AAA",
         },
+        "url": "/foo/reservations/AE",
       }
     }
     recommendation={

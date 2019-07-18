@@ -6,12 +6,10 @@ import geolocation from './geolocation'
 import { menu } from './menu'
 import { share } from './share'
 import splash from './splash'
-import card from './card'
 import { overlay } from './overlay'
 import token from './token'
 
 const rootReducer = combineReducers({
-  card,
   data,
   geolocation,
   lastRecommendationsRequestTimestamp,

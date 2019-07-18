@@ -1,23 +1,22 @@
-import mapStateToProps from '../mapStateToProps'
+import { mapStateToProps } from '../VersoContentOfferContainer'
 
 describe('src | components | verso | verso-content | verso-info-offer | VersoContentOfferContainer', () => {
   describe('mapStateToProps', () => {
     it('should return an object containing bookables, current recommendation and information regarding the offer expiration', () => {
       // given
+      const recommendation = {
+        mediationId: 2,
+        offer: {
+          isFinished: false,
+          stocks: [{}],
+        },
+        offerId: 1,
+        uniqId: 3,
+      }
       const initialState = {
         data: {
           bookings: [],
-          recommendations: [
-            {
-              mediationId: 2,
-              offer: {
-                isFinished: false,
-                stocks: [{}],
-              },
-              offerId: 1,
-              uniqId: 3,
-            },
-          ],
+          recommendations: [recommendation],
         },
         geolocation: {
           latitude: 41.1,
@@ -29,6 +28,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoCon
           params: { mediationId: 2, offerId: 1 },
           url: 'this is a fake url',
         },
+        recommendation,
       }
 
       // when

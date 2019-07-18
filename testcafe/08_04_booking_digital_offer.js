@@ -6,8 +6,8 @@ import getPageUrl from './helpers/getPageUrl'
 import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
-let offerPage = null
-let offerBookingPage = null
+let discoveryCardUrl = null
+let discoveryBookingUrl = null
 let currentBookedToken = null
 let previousWalletValue = null
 const myProfileURL = `${ROOT_PATH}profil`
@@ -42,9 +42,9 @@ fixture("08_04_01 Réservation d'une offre type digitale").beforeEach(async t =>
   }
   const { offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_digital_offer')
 
-  offerPage = `${discoverURL}/${offer.id}`
-  offerBookingPage = `${offerPage}/booking`
-  await t.useRole(userRole).navigateTo(offerPage)
+  discoveryCardUrl = `${discoverURL}/${offer.id}`
+  discoveryBookingUrl = `${discoveryCardUrl}/details/reservations`
+  await t.useRole(userRole).navigateTo(discoveryCardUrl)
 })
 
 test("Il s'agit d'une offre en ligne qui n'est pas terminée", async t => {
@@ -62,7 +62,7 @@ test("Le formulaire de réservation ne contient pas de sélecteur de date ou d'h
     .wait(500)
     .click(bookOfferButton)
     .expect(getPageUrl())
-    .eql(offerBookingPage)
+    .eql(discoveryBookingUrl)
     .wait(500)
     .expect(dateSelectBox.exists)
     .notOk()
@@ -98,7 +98,7 @@ test("Parcours complet de réservation d'une offre digitale", async t => {
     .click(bookingSuccessButton)
     .wait(500)
     .expect(getPageUrl())
-    .eql(offerPage)
+    .eql(discoveryCardUrl)
     .expect(onlineBookedOfferButton.textContent)
     .eql(`Accéder`)
     .click(openMenuFromVerso)
@@ -112,7 +112,7 @@ test("Parcours complet de réservation d'une offre digitale", async t => {
     .lt(previousWalletValue)
   previousWalletValue = await getMenuWalletValue()
 
-  const bookedOffer = Selector(`.mb-my-booking[data-token="${currentBookedToken}"]`)
+  const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
   await t
     .click(myBookingsMenuButton)
     .expect(bookedOffer.exists)
@@ -123,7 +123,7 @@ test("Parcours complet de réservation d'une offre digitale", async t => {
 })
 
 test('Je vérifie mes réservations après reconnexion', async t => {
-  const bookedOffer = Selector(`.mb-my-booking[data-token="${currentBookedToken}"]`)
+  const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
   await t
     .navigateTo(myBookingsURL)
     .expect(bookedOffer.exists)

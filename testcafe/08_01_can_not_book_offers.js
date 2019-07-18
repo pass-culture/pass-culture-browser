@@ -28,8 +28,8 @@ test("Je n'ai plus d'argent", async t => {
     'webapp_08_booking',
     'get_non_free_thing_offer_with_active_mediation'
   )
-  const offerPage = `${discoverURL}/${offer.id}/${mediationId}`
-  await t.navigateTo(offerPage).click(openVerso)
+  const discoveryDetailsUrl = `${discoverURL}/${offer.id}/${mediationId}/details`
+  await t.navigateTo(discoveryDetailsUrl).click(openVerso)
   const versoWalletValue = await getVersoWalletValue()
   await t
     .expect(versoWalletValue)
@@ -45,5 +45,5 @@ test("Je n'ai plus d'argent", async t => {
     .expect(bookingErrorReasons.nth(1).exists)
     .ok()
     .expect(bookingErrorReasons.nth(1).textContent)
-    .eql('Le solde de votre pass n\'est pas suffisant pour effectuer cette réservation.')
+    .eql("Le solde de votre pass n'est pas suffisant pour effectuer cette réservation.")
 })

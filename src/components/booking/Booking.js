@@ -4,9 +4,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
 import { Transition } from 'react-transition-group'
-import { bindActionCreators } from 'redux'
 import { requestData } from 'redux-saga-data'
-import { resolveCurrentUser } from 'with-react-redux-login'
 
 import { externalSubmitForm } from '../forms/utils'
 import BookingCancel from './sub-items/BookingCancel'
@@ -15,9 +13,10 @@ import BookingError from './sub-items/BookingError'
 import BookingLoader from './sub-items/BookingLoader'
 import BookingHeader from './sub-items/BookingHeader'
 import BookingSuccess from './sub-items/BookingSuccess'
+import { getIsBooking, getIsConfirmingCancelling } from './helpers'
 import { priceIsDefined } from '../../helpers/getDisplayPrice'
 import { ROOT_PATH } from '../../utils/config'
-import { showCardDetails } from '../../reducers/card'
+import { bookingNormalizer } from '../../utils/normalizers'
 
 const BOOKING_FORM_ID = 'form-create-booking'
 
@@ -38,8 +37,6 @@ const transitionStyles = {
 class Booking extends PureComponent {
   constructor(props) {
     super(props)
-    const actions = { requestData }
-    this.actions = bindActionCreators(actions, props.dispatch)
     this.state = {
       bookedPayload: false,
       canSubmitForm: false,
@@ -51,11 +48,15 @@ class Booking extends PureComponent {
   }
 
   componentDidMount() {
-    this.setState({ mounted: true })
+    this.handleSetMounted(true)
   }
 
   componentWillUnmount() {
-    this.setState({ mounted: false })
+    this.handleSetMounted(false)
+  }
+
+  handleSetMounted = mounted => {
+    this.setState({ mounted })
   }
 
   handleOnFormMutation = ({ invalid, values }) => {
@@ -64,43 +65,31 @@ class Booking extends PureComponent {
   }
 
   handleOnFormSubmit = formValues => {
+    const { dispatch } = this.props
     const onSubmittingStateChanged = () => {
-      this.actions.requestData({
-        apiPath: '/bookings',
-        // NOTE -> pas de gestion de stock
-        // valeur des quantites a 1 par defaut pour les besoins API
-        body: { ...formValues, quantity: 1 },
-        handleFail: this.handleRequestFail,
-        // après la mise à jour du booking pour un user
-        // on cherche à recupérer la nouvelle valeur du wallet
-        // il faut alors une nouvelle requête pour l'update du store redux
-        handleSuccess: this.updateUserFromStore,
-        method: 'POST',
-        name: 'booking',
-      })
+      dispatch(
+        requestData({
+          apiPath: '/bookings',
+          // NOTE -> pas de gestion de stock
+          // valeur des quantites a 1 par defaut pour les besoins API
+          body: { ...formValues, quantity: 1 },
+          handleFail: this.handleRequestFail,
+          handleSuccess: this.handleRequestSuccess,
+          method: 'POST',
+          name: 'booking',
+          normalizer: bookingNormalizer,
+        })
+      )
     }
     // appel au service apres le changement du state
     this.setState({ isSubmitting: true }, onSubmittingStateChanged)
   }
 
-  updateUserFromStore = (state, action) => {
-    const bookedPayload = get(action, 'payload.datum')
-    this.actions.requestData({
-      apiPath: '/users/current',
-      body: {},
-      handleFail: this.handleRequestFail,
-      handleSuccess: this.handleRequestSuccess(bookedPayload),
-      method: 'PATCH',
-      // IMPORTANT: this resolve is important to keep
-      // track the currentUser with the
-      // selectCurrentUser selector
-      resolve: resolveCurrentUser,
-    })
-  }
-
-  handleRequestSuccess = bookedPayload => () => {
+  handleRequestSuccess = (state, action) => {
+    const { payload } = action
+    const { datum } = payload
     const nextState = {
-      bookedPayload,
+      bookedPayload: datum,
       isErrored: false,
       isSubmitting: false,
     }
@@ -121,33 +110,18 @@ class Booking extends PureComponent {
     this.setState(nextState)
   }
 
-  handleCancelBookingHandler = () => {
+  handleReturnToDetails = () => {
     const { match, history } = this.props
-    const baseUrl = match.url.replace('/booking', '')
-    history.replace(baseUrl)
-  }
-
-  handleGetBackToOffer = () => {
-    const { dispatch, history, match } = this.props
-    const offerId = get(match.params, 'offerId')
-    const url = `/decouverte/${offerId}`
-
-    dispatch(
-      requestData({
-        apiPath: '/users/current',
-        method: 'PATCH',
-        resolve: resolveCurrentUser,
-      })
-    )
-    dispatch(showCardDetails())
-
-    history.push(url)
+    const { url } = match
+    const detailsUrl = url.split('/reservations')[0]
+    history.replace(detailsUrl)
   }
 
   renderFormControls = () => {
-    const { bookedPayload, isSubmitting, canSubmitForm } = this.state
-    const { isCancelled } = this.props
-    const showCancelButton = !isSubmitting && !bookedPayload && !isCancelled
+    const { match } = this.props
+    const { bookedPayload, canSubmitForm, isSubmitting } = this.state
+    const isConfirmingCancelling = getIsConfirmingCancelling(match)
+    const showCancelButton = !isSubmitting && !bookedPayload && !isConfirmingCancelling
     const showSubmitButton = showCancelButton && canSubmitForm
     return (
       <Fragment>
@@ -155,7 +129,7 @@ class Booking extends PureComponent {
           <button
             className="text-center my5"
             id="booking-close-button"
-            onClick={this.handleCancelBookingHandler}
+            onClick={this.handleReturnToDetails}
             type="reset"
           >
             <span>{'Annuler'}</span>
@@ -177,18 +151,18 @@ class Booking extends PureComponent {
           <button
             className="text-center my5"
             id="booking-success-ok-button"
-            onClick={this.handleCancelBookingHandler}
+            onClick={this.handleReturnToDetails}
             type="button"
           >
             <b>{'OK'}</b>
           </button>
         )}
 
-        {isCancelled && (
+        {isConfirmingCancelling && (
           <button
             className="text-center my5"
             id="booking-cancellation-confirmation-button"
-            onClick={this.handleGetBackToOffer}
+            onClick={this.handleReturnToDetails}
             type="button"
           >
             <b>{'OK'}</b>
@@ -200,11 +174,13 @@ class Booking extends PureComponent {
 
   render() {
     const userConnected = false
-    const { bookables, booking, extraClassName, isCancelled, isEvent, recommendation } = this.props
-
+    const { bookables, booking, extraClassName, match, recommendation } = this.props
     const { bookedPayload, errors, isErrored, isSubmitting, mounted } = this.state
-
-    const showForm = !isSubmitting && !bookedPayload && !isErrored && !isCancelled
+    const { id: recommendationId, offer } = recommendation || {}
+    const { isEvent } = offer || {}
+    const isConfirmingCancelling = getIsConfirmingCancelling(match)
+    const isBooking = getIsBooking(match)
+    const showForm = !isSubmitting && !bookedPayload && !isErrored && !isConfirmingCancelling
     const defaultBookable = !isEvent && get(bookables, '[0]')
     const isReadOnly = isEvent && bookables.length === 1
     let initialDate = null
@@ -213,14 +189,19 @@ class Booking extends PureComponent {
       initialDate = moment(initialDate)
     }
 
+    if (!isBooking) {
+      return null
+    }
+
     const formInitialValues = {
       bookables,
       date: (initialDate && { date: initialDate }) || null,
       price:
         defaultBookable && priceIsDefined(defaultBookable.price) ? defaultBookable.price : null,
-      recommendationId: recommendation && recommendation.id,
+      recommendationId,
       stockId: (defaultBookable && defaultBookable.id) || null,
     }
+
     return (
       <Transition
         in={mounted}
@@ -235,10 +216,12 @@ class Booking extends PureComponent {
             <div className="main flex-rows flex-1 scroll-y">
               <BookingHeader recommendation={recommendation} />
               <div
-                className={`content flex-1 flex-center ${isCancelled ? '' : 'items-center'}`}
+                className={`content flex-1 flex-center ${
+                  isConfirmingCancelling ? '' : 'items-center'
+                }`}
                 style={{ backgroundImage }}
               >
-                <div className={`${isCancelled ? '' : 'py36 px12'} flex-rows`}>
+                <div className={`${isConfirmingCancelling ? '' : 'py36 px12'} flex-rows`}>
                   {isSubmitting && <BookingLoader />}
 
                   {bookedPayload && <BookingSuccess
@@ -246,10 +229,10 @@ class Booking extends PureComponent {
                     isEvent={isEvent}
                                     />}
 
-                  {isCancelled && <BookingCancel
+                  {isConfirmingCancelling && <BookingCancel
                     data={booking}
                     isEvent={isEvent}
-                                  />}
+                                             />}
 
                   {isErrored && <BookingError errors={errors} />}
 
@@ -282,8 +265,6 @@ Booking.defaultProps = {
   bookables: null,
   booking: null,
   extraClassName: null,
-  isCancelled: false,
-  isEvent: false,
   recommendation: null,
 }
 
@@ -293,9 +274,14 @@ Booking.propTypes = {
   dispatch: PropTypes.func.isRequired,
   extraClassName: PropTypes.string,
   history: PropTypes.shape().isRequired,
-  isCancelled: PropTypes.bool,
-  isEvent: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  match: PropTypes.shape().isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      bookings: PropTypes.string,
+      cancellation: PropTypes.string,
+      confirmation: PropTypes.string,
+    }),
+    url: PropTypes.string.isRequired,
+  }).isRequired,
   recommendation: PropTypes.shape(),
 }
 
