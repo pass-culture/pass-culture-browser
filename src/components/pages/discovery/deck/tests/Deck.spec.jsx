@@ -23,8 +23,7 @@ describe('src | components | pages | discovery | deck | Deck', () => {
       search: '',
     },
     match: {
-      params: {},
-      url: ''
+      params: {}
     },
     nextLimit: 50,
     previousLimit: 40,
@@ -84,7 +83,6 @@ describe('src | components | pages | discovery | deck | Deck', () => {
                 mediationId: 'HM',
                 offerId: 'KQ',
               },
-              url: ''
             },
             nextLimit: 50,
             previousLimit: 40,

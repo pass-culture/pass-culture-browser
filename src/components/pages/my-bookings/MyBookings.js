@@ -1,13 +1,12 @@
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
 
-import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import MyBookingsListsContainer from './MyBookingsLists/MyBookingsListsContainer'
 import MyBookingDetailsContainer from './MyBookingDetailsContainer'
-
+import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import PageHeader from '../../layout/Header/PageHeader'
+import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
 class MyBookings extends Component {
   constructor(props) {
@@ -31,12 +30,8 @@ class MyBookings extends Component {
   }
 
   goBack = () => {
-    const { location } = this.props
-    const { pathname, search } = location
-    const isDetails = pathname.includes('/details')
-    if (isDetails) {
-      return `${pathname.split('/details')[0]}${search}`
-    }
+    const { location, match } = this.props
+    return getRemovedDetailsUrl(location, match)
   }
 
   handleFail = () => {
@@ -61,7 +56,11 @@ class MyBookings extends Component {
   renderMyBookingDetails = route => <MyBookingDetailsContainer {...route} />
 
   render() {
-    const { location } = this.props
+    const {
+      match: {
+        params: { details },
+      },
+    } = this.props
     const { hasError, isEmpty, isLoading } = this.state
     if (isLoading) {
       return (<LoaderContainer
@@ -81,17 +80,8 @@ class MyBookings extends Component {
           backTo={this.goBack()}
           title="Mes réservations"
         />
-        <Switch location={location}>
-          <Route
-            exact
-            path="/reservations"
-            render={this.renderMyBookingsLists}
-          />
-          <Route
-            path="/reservations/details/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?/:confirmation(confirmation)?"
-            render={this.renderMyBookingDetails}
-          />
-        </Switch>
+        {!details && this.renderMyBookingsLists()}
+        {this.renderMyBookingDetails()}
       </main>
     )
   }
@@ -102,7 +92,11 @@ MyBookings.propTypes = {
     pathname: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
   }).isRequired,
-  match: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      details: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   requestGetBookings: PropTypes.func.isRequired,
   resetRecommendationsAndBookings: PropTypes.func.isRequired,
 }

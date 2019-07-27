@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import VersoControls from './verso-controls/VersoControls'
-import VersoHeader from './verso-content/VersoHeader'
+import VersoHeaderContainer from './verso-content/VersoHeaderContainer'
 import VersoContentOfferContainer from './verso-content/verso-content-offer/VersoContentOfferContainer'
 import VersoContentTuto from './verso-content/VersoContentTuto'
 import AbsoluteFooterContainer from '../layout/AbsoluteFooter/AbsoluteFooterContainer'
@@ -30,7 +30,7 @@ const Verso = ({ areDetailsVisible, booking, extraClassName, recommendation }) =
       })}
     >
       <div className="verso-wrapper is-black-text scroll-y flex-rows is-relative text-left">
-        <VersoHeader
+        <VersoHeaderContainer
           backgroundColor={backgroundColor}
           subtitle={offerVenueNameOrPublicName}
           title={offerName}

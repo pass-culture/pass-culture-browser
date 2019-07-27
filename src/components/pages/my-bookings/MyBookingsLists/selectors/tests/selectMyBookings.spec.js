@@ -13,12 +13,14 @@ describe('filterBookingsInMoreThanTwoDaysOrPast', () => {
     const results = filterBookingsInMoreThanTwoDaysOrPast(allBookings, now)
 
     // then
-    expect(results).toHaveLength(3)
+    expect(results).toHaveLength(6)
     expect(
-      results.every(booking => {
-        const date = booking.stock.beginningDatetime
-        return date > inExactTwoDays(now) || date < now
-      })
+      results
+        .filter(booking => booking.stock && booking.stock.beginningDatetime)
+        .every(booking => {
+          const date = booking.stock.beginningDatetime
+          return date > inExactTwoDays(now) || date < now
+        })
     ).toBe(true)
   })
 })

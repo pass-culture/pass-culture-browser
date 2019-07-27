@@ -1,4 +1,5 @@
 import { mapDispatchToProps } from '../MyBookingsContainer'
+import { bookingNormalizer } from '../../../../utils/normalizers'
 
 describe('src | components | pages | my-bookings | MyBookings', () => {
   describe('mapDispatchToProps()', () => {
@@ -18,7 +19,7 @@ describe('src | components | pages | my-bookings | MyBookings', () => {
           handleFail: expect.any(Function),
           handleSuccess: expect.any(Function),
           method: 'GET',
-          normalizer: { recommendation: 'recommendations' },
+          normalizer: bookingNormalizer,
         },
         type: 'REQUEST_DATA_GET_/BOOKINGS',
       })

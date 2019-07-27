@@ -19,7 +19,7 @@ import PageHeader from '../../layout/Header/PageHeader'
 import Icon from '../../layout/Icon'
 import Spinner from '../../layout/Spinner'
 import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
-import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
+import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
 class Search extends PureComponent {
@@ -134,15 +134,7 @@ class Search extends PureComponent {
 
   goBack = () => {
     const { location, match } = this.props
-    const { pathname, search } = location
-    const areDetailsVisible = getAreDetailsVisible(match)
-    let url = '/recherche'
-
-    if (areDetailsVisible) {
-      url = `${pathname.split('/details')[0]}${search}`
-    }
-
-    return url
+    return getRemovedDetailsUrl(location, match) || '/recherche'
   }
 
   reinitializeStates = () => {
@@ -427,7 +419,12 @@ Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
   location: PropTypes.shape().isRequired,
-  match: PropTypes.shape().isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      details: PropTypes.string,
+      option: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   query: PropTypes.shape().isRequired,
   recommendations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   resetRecommendationsAndBookings: PropTypes.func.isRequired,

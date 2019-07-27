@@ -15,9 +15,11 @@ describe('src | components | pages | my-bookings | selectors | selectSoonBooking
 
       // then
       expect(results).toHaveLength(4)
-      expect(results.every(booking => booking.stock.beginningDatetime <= inExactTwoDays(now))).toBe(
-        true
-      )
+      expect(
+        results
+          .filter(booking => booking.stock && booking.stock.beginningDatetime)
+          .every(booking => booking.stock.beginningDatetime <= inExactTwoDays(now))
+      ).toBe(true)
     })
   })
 })

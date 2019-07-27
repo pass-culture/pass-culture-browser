@@ -43,7 +43,7 @@ ShallowWrapper {
         <div
           className="verso-wrapper is-black-text scroll-y flex-rows is-relative text-left"
         >
-          <VersoHeader
+          <withRouter(withSizes(VersoHeader))
             backgroundColor="black"
             subtitle={null}
             title={null}
@@ -93,7 +93,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <VersoHeader
+            <withRouter(withSizes(VersoHeader))
               backgroundColor="black"
               subtitle={null}
               title={null}
@@ -225,7 +225,7 @@ ShallowWrapper {
           <div
             className="verso-wrapper is-black-text scroll-y flex-rows is-relative text-left"
           >
-            <VersoHeader
+            <withRouter(withSizes(VersoHeader))
               backgroundColor="black"
               subtitle={null}
               title={null}
@@ -275,7 +275,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <VersoHeader
+              <withRouter(withSizes(VersoHeader))
                 backgroundColor="black"
                 subtitle={null}
                 title={null}

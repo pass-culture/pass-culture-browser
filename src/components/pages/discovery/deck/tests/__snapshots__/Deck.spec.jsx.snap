@@ -26,7 +26,6 @@ ShallowWrapper {
     match={
       Object {
         "params": Object {},
-        "url": "",
       }
     }
     nextLimit={50}

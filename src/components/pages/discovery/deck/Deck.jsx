@@ -7,6 +7,7 @@ import DeckNavigation from './DeckNavigation'
 import CardContainer from './card/CardContainer'
 import CloseLink from '../../../layout/Header/CloseLink'
 import getAreDetailsVisible from '../../../../helpers/getAreDetailsVisible'
+import getRemovedDetailsUrl from '../../../../helpers/getRemovedDetailsUrl'
 
 class Deck extends Component {
   constructor(props) {
@@ -100,12 +101,11 @@ class Deck extends Component {
 
   onHandleCloseCardDetails = event => {
     event.preventDefault()
-    const { history, match } = this.props
-    const { url } = match
-    const areDetailsVisible = getAreDetailsVisible(match)
-    if (!areDetailsVisible) return
-    const urlWithoutDetails = url.replace('/details', '')
-    history.push(urlWithoutDetails)
+    const { history, location, match } = this.props
+    const removedDetailsUrl = getRemovedDetailsUrl(location, match)
+    if (removedDetailsUrl) {
+      history.push(removedDetailsUrl)
+    }
   }
 
   renderDraggableCards() {
@@ -218,8 +218,7 @@ Deck.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       details: PropTypes.string
-    }).isRequired,
-    url: PropTypes.string.isRequired
+    }).isRequired
   }).isRequired,
   nextLimit: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
   nextRecommendation: PropTypes.shape(),

@@ -20,7 +20,7 @@ const toRectoDraggableBounds = {
 }
 
 export class DeckNavigation extends React.PureComponent {
-  handleOnStop = event => {
+  handleStopDrag = event => {
     const { flipHandler, height, verticalSlideRatio } = this.props
     const shiftedDistance = height - getPageY(event)
 
@@ -102,7 +102,7 @@ export class DeckNavigation extends React.PureComponent {
               <Draggable
                 axis="y"
                 bounds={toRectoDraggableBounds}
-                onStop={this.handleOnStop}
+                onStop={this.handleStopDrag}
               >
                 <div id="dragButton">
                   <button

@@ -5,29 +5,60 @@ import { Route } from 'react-router-dom'
 import BookingContainer from '../../booking/BookingContainer'
 import Recto from '../../recto/Recto'
 import Verso from '../../verso/Verso'
+import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 
 class MyBookingDetails extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = { areDetailsVisible: false }
+    this.state = {
+      currentRecommendation: null,
+      forceDetailsVisible: false
+    }
   }
 
   componentDidMount() {
-    const { booking, requestGetBooking } = this.props
+    const { booking, recommendation, requestGetBooking } = this.props
 
     if (booking) {
-      // We need to wait to go out the mount lifecycle
-      // in order to force the dom to render
-      // twice
-      setTimeout(this.handleForceDetailsVisible)
+      this.handleSetCurrentRecommendation(recommendation)
+      this.handleSetForceDetailsVisible(true)
       return
     }
 
-    requestGetBooking(this.handleForceDetailsVisible)
+    requestGetBooking(this.handleSetForceDetailsVisible)
   }
 
-  handleForceDetailsVisible = () => {
-    this.setState({ areDetailsVisible: true })
+  componentDidUpdate (prevProps) {
+    const { match, recommendation } = this.props
+    const { forceDetailsVisible } = this.state
+
+    const shouldMountDetails = !forceDetailsVisible &&
+      recommendation &&
+      !prevProps.recommendation
+    if (shouldMountDetails) {
+      this.handleSetCurrentRecommendation(recommendation)
+      this.handleSetForceDetailsVisible(true)
+      return
+    }
+
+    const areDetailsVisible = getAreDetailsVisible(match)
+    const previousAreDetailsVisible = getAreDetailsVisible(prevProps.match)
+    const shouldUnmountDetails = !areDetailsVisible && previousAreDetailsVisible
+    if (shouldUnmountDetails) {
+      this.handleSetForceDetailsVisible(false)
+      setTimeout(() => this.handleSetCurrentRecommendation(null), 300)
+    }
+
+  }
+
+  handleSetForceDetailsVisible = forceDetailsVisible => {
+    // We need to wait to go out the mount lifecycle
+    // in order to force the dom to render twice
+    setTimeout(() => this.setState({ forceDetailsVisible }))
+  }
+
+  handleSetCurrentRecommendation = currentRecommendation => {
+    this.setState({ currentRecommendation })
   }
 
   renderBooking = route => {
@@ -43,29 +74,31 @@ class MyBookingDetails extends PureComponent {
   }
 
   render() {
-    const { booking, recommendation } = this.props
-    const { areDetailsVisible } = this.state
+    const { booking } = this.props
+    const { currentRecommendation, forceDetailsVisible } = this.state
+
     return (
       <Fragment>
-        {areDetailsVisible && (
+        {forceDetailsVisible && (
           <Route
             path="/reservations/:details(details)/:bookingId([A-Z0-9]+)/:cancellation(annulation)/:confirmation(confirmation)?"
             render={this.renderBooking}
           />
         )}
-        {recommendation && (
+        {currentRecommendation && (
           <Fragment>
             <Verso
-              areDetailsVisible={areDetailsVisible}
+              areDetailsVisible={forceDetailsVisible}
               booking={booking}
               extraClassName="with-header"
-              recommendation={recommendation}
+              recommendation={currentRecommendation}
             />
-            <Recto
-              areDetailsVisible={areDetailsVisible}
-              extraClassName="with-header"
-              recommendation={recommendation}
-            />
+            {forceDetailsVisible && (
+              <Recto
+                areDetailsVisible
+                extraClassName="with-header"
+                recommendation={currentRecommendation}
+              />)}
           </Fragment>
         )}
       </Fragment>
@@ -80,6 +113,11 @@ MyBookingDetails.defaultProps = {
 
 MyBookingDetails.propTypes = {
   booking: PropTypes.shape(),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      details: PropTypes.string
+    }).isRequired
+  }).isRequired,
   recommendation: PropTypes.shape(),
   requestGetBooking: PropTypes.func.isRequired
 }
