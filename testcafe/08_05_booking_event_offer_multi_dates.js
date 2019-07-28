@@ -7,13 +7,14 @@ import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
 let discoveryCardUrl = null
+let discoverDetailsUrl = null
 let discoveryBookingUrl = null
 let currentBookedToken = null
 let currentSelectedTime = null
 let previousWalletValue = null
-const myProfileURL = `${ROOT_PATH}profil`
-const discoverURL = `${ROOT_PATH}decouverte`
-const myBookingsURL = `${ROOT_PATH}reservations`
+const myProfileUrl = `${ROOT_PATH}profil`
+const discoverUrl = `${ROOT_PATH}decouverte`
+const myBookingsUrl = `${ROOT_PATH}reservations`
 
 const bookingToken = Selector('#booking-booked-token')
 const bookOfferButton = Selector('#verso-booking-button')
@@ -43,9 +44,10 @@ fixture("08_05_01 Réservation d'une offre type event à dates multiple").before
       'get_existing_webapp_user_can_book_multidates'
     )
   }
-  const { offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_not_used_event_offer')
-  discoveryCardUrl = `${discoverURL}/${offer.id}`
-  discoveryBookingUrl = `${discoveryCardUrl}/details/reservations`
+  const { mediationId, offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_event_offer')
+  discoveryCardUrl = `${discoverUrl}/${offer.id}/${mediationId || 'vide'}`
+  discoverDetailsUrl = `${discoveryCardUrl}/details`
+  discoveryBookingUrl = `${discoverDetailsUrl}/reservations`
   await t
     .useRole(userRole)
     .navigateTo(discoveryCardUrl)
@@ -103,7 +105,7 @@ test("Parcours complet de réservation d'une offre event à date unique", async 
   await t
     .click(bookingSuccessButton)
     .expect(getPageUrl())
-    .eql(discoveryCardUrl)
+    .eql(discoverDetailsUrl)
     .expect(checkReversedIcon.exists)
     .ok()
     .click(openMenuFromVerso)
@@ -123,7 +125,7 @@ test("Parcours complet de réservation d'une offre event à date unique", async 
     .ok()
     .click(bookedOffer)
     .expect(getPageUrl())
-    .match(new RegExp(`${discoveryBookingUrl}/([A-Z0-9]+)`))
+    .match(new RegExp(`${myBookingsUrl}/details/([A-Z0-9]+)`))
     .expect(checkReversedIcon.exists)
     .ok()
 })
@@ -133,10 +135,10 @@ test('Je vérifie mes réservations, après reconnexion', async t => {
   // de la sandbox (ie que le fetch sandbox devrait aussi retourner un
   // objet booking) car sinon on ne peut pas
   // runner ce test de maniere standalone
-  const bookedOffer = Selector(`.mb-my-booking[data-token="${currentBookedToken}"]`)
+  const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
 
   await t
-    .navigateTo(myBookingsURL)
+    .navigateTo(myBookingsUrl)
     .expect(bookedOffer.exists)
     .ok()
     .click(bookedOffer)
@@ -147,7 +149,7 @@ test('Je vérifie mes réservations, après reconnexion', async t => {
 test('Je vérifie le montant de mon pass, après reconnexion', async t => {
   const walletInfoSentence = `Il reste ${previousWalletValue} €`
   await t
-    .navigateTo(myProfileURL)
+    .navigateTo(myProfileUrl)
     .expect(profileWalletAllValue.textContent)
     .eql(walletInfoSentence)
 })
