@@ -1,0 +1,66 @@
+import moment from 'moment'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import withSizes from 'react-sizes'
+import { compose } from 'redux'
+import { mergeData, requestData } from 'redux-saga-data'
+
+import Card from './Card'
+import { getRecommendationSelectorByCardPosition } from '../../helpers'
+import selectFirstMatchingBookingByStocks from '../../../../../selectors/selectFirstMatchingBookingByStocks'
+import { recommendationNormalizer } from '../../../../../utils/normalizers'
+
+export const mapStateToProps = (state, ownProps) => {
+  const { match, position } = ownProps
+  const { params } = match
+  const { mediationId, offerId } = params
+  const recommendationSelector = getRecommendationSelectorByCardPosition(position)
+  const recommendation = recommendationSelector(state, offerId, mediationId)
+  const { offer } = recommendation || {}
+  const { stocks } = offer || {}
+  const firstMatchingBooking = selectFirstMatchingBookingByStocks(state, stocks)
+
+  return {
+    firstMatchingBooking,
+    recommendation,
+  }
+}
+
+export const mapDispatchToProps = dispatch => ({
+  handleClickRecommendation: recommendation => {
+    const config = {
+      apiPath: `recommendations/${recommendation.id}`,
+      body: { isClicked: true },
+      method: 'PATCH',
+      normalizer: recommendationNormalizer,
+    }
+
+    dispatch(requestData(config))
+  },
+
+  handleReadRecommendation: recommendation => {
+    const readRecommendation = {
+      dateRead: moment.utc().toISOString(),
+      id: recommendation.id,
+    }
+    dispatch(
+      mergeData({
+        readRecommendations: [readRecommendation],
+      })
+    )
+  },
+})
+
+const mapSizeToProps = ({ width, height }) => ({
+  height,
+  width: Math.min(width, 500), // body{max-width: 500px;}
+})
+
+export default compose(
+  withSizes(mapSizeToProps),
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(Card)
