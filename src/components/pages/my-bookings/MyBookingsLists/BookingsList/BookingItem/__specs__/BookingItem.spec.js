@@ -3,8 +3,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import BookingItem from '../BookingItem'
-import Icon from '../../../../../layout/Icon'
-import Ribbon from '../../../../../layout/Ribbon'
+import Icon from '../../../../../../layout/Icon'
+import Ribbon from '../../../../../../layout/Ribbon'
 
 describe('src | components | pages | my-bookings | BookingItem', () => {
   let props
