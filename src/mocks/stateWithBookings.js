@@ -1775,12 +1775,6 @@ const stateWithBookings = {
     wallet_balance: 270,
     wallet_is_activated: true,
   },
-  card: {
-    draggable: true,
-    isActive: false,
-    areDetailsVisible: false,
-    unFlippable: false,
-  },
   _persist: {
     version: -1,
     rehydrated: true,

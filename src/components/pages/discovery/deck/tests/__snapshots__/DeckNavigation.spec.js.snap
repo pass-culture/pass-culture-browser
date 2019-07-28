@@ -1,14 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | pages | discovery | RawDeckNavigation snapshot should match snapshot 1`] = `
+exports[`src | components | pages | discovery | DeckNavigation snapshot should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RawDeckNavigation
+  Symbol(enzyme.__unrendered__): <DeckNavigation
     flipHandler={null}
     handleGoNext={null}
     handleGoPrevious={null}
     height={500}
-    isFinished={false}
     recommendation={Object {}}
     transitionTimeout={250}
     verticalSlideRatio={0.3}
@@ -198,15 +197,14 @@ ShallowWrapper {
 }
 `;
 
-exports[`src | components | pages | discovery | RawDeckNavigation snapshot should match snapshot with flipHandler 1`] = `
+exports[`src | components | pages | discovery | DeckNavigation snapshot should match snapshot with flipHandler 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <RawDeckNavigation
+  Symbol(enzyme.__unrendered__): <DeckNavigation
     flipHandler={[MockFunction]}
     handleGoNext={null}
     handleGoPrevious={null}
     height={500}
-    isFinished={false}
     recommendation={Object {}}
     transitionTimeout={250}
     verticalSlideRatio={0.3}

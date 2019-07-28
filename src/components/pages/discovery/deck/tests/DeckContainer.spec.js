@@ -5,12 +5,6 @@ describe('src | components | pages | discovery | deck | DeckContainer', () => {
 
   beforeEach(() => {
     initialState = {
-      card: {
-        areDetailsVisible: false,
-        draggable: true,
-        isActive: false,
-        unFlippable: false,
-      },
       data: {
         bookings: [],
         recommendations: [
@@ -127,7 +121,7 @@ describe('src | components | pages | discovery | deck | DeckContainer', () => {
     })
 
     describe('nextLimit', () => {
-      it('should return 0 when number of recommendations minus 1 is inferior the number of remaining cards to trigger loading', () => {
+      it('should return 1 (because of the fake last reco) when number of recommendations minus 1 is inferior the number of remaining cards to trigger loading', () => {
         // given
         const props = {
           match: {
@@ -144,7 +138,7 @@ describe('src | components | pages | discovery | deck | DeckContainer', () => {
         const result = mapStateToProps(initialState, props)
 
         // then
-        expect(result.nextLimit).toBe(0)
+        expect(result.nextLimit).toBe(1)
       })
     })
   })

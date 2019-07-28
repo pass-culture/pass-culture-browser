@@ -4,22 +4,25 @@ exports[`src | components | pages | discovery | deck | Deck snapshot should matc
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Deck
-    areDetailsVisible={false}
     backButton={true}
     currentRecommendation={Object {}}
     dispatch={[MockFunction]}
     draggable={true}
-    handleDataRequest={[MockFunction]}
+    handleRequestPutRecommendations={[MockFunction]}
     height={947}
     history={
       Object {
-        "location": Object {
-          "search": "",
-        },
+        "push": [MockFunction],
       }
     }
     horizontalSlideRatio={0.2}
     isFlipDisabled={false}
+    location={
+      Object {
+        "pathname": "",
+        "search": "",
+      }
+    }
     match={
       Object {
         "params": Object {},
@@ -36,7 +39,6 @@ ShallowWrapper {
         Object {},
       ]
     }
-    unFlippable={false}
     verticalSlideRatio={0.1}
     width={500}
   />,
@@ -105,18 +107,20 @@ ShallowWrapper {
             <div
               className="inner is-relative"
             >
-              <withSizes(withRouter(Connect(RawCard)))
+              <withSizes(withRouter(Connect(Card)))
                 position="current"
               />
             </div>
           </div>
         </Draggable>,
-        <withRouter(Connect(RawDeckNavigation))
+        <DeckNavigation
           flipHandler={[Function]}
           handleGoNext={null}
           handleGoPrevious={null}
           height={947}
           recommendation={Object {}}
+          transitionTimeout={250}
+          verticalSlideRatio={0.3}
         />,
       ],
       "className": "is-clipped is-relative",
@@ -146,7 +150,7 @@ ShallowWrapper {
             <div
               className="inner is-relative"
             >
-              <withSizes(withRouter(Connect(RawCard)))
+              <withSizes(withRouter(Connect(Card)))
                 position="current"
               />
             </div>
@@ -185,7 +189,7 @@ ShallowWrapper {
             "children": <div
               className="inner is-relative"
             >
-              <withSizes(withRouter(Connect(RawCard)))
+              <withSizes(withRouter(Connect(Card)))
                 position="current"
               />
             </div>,
@@ -199,7 +203,7 @@ ShallowWrapper {
             "props": Object {
               "children": Array [
                 null,
-                <withSizes(withRouter(Connect(RawCard)))
+                <withSizes(withRouter(Connect(Card)))
                   position="current"
                 />,
                 null,
@@ -231,13 +235,15 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "function",
+        "nodeType": "class",
         "props": Object {
           "flipHandler": [Function],
           "handleGoNext": null,
           "handleGoPrevious": null,
           "height": 947,
           "recommendation": Object {},
+          "transitionTimeout": 250,
+          "verticalSlideRatio": 0.3,
         },
         "ref": null,
         "rendered": null,
@@ -303,18 +309,20 @@ ShallowWrapper {
               <div
                 className="inner is-relative"
               >
-                <withSizes(withRouter(Connect(RawCard)))
+                <withSizes(withRouter(Connect(Card)))
                   position="current"
                 />
               </div>
             </div>
           </Draggable>,
-          <withRouter(Connect(RawDeckNavigation))
+          <DeckNavigation
             flipHandler={[Function]}
             handleGoNext={null}
             handleGoPrevious={null}
             height={947}
             recommendation={Object {}}
+            transitionTimeout={250}
+            verticalSlideRatio={0.3}
           />,
         ],
         "className": "is-clipped is-relative",
@@ -344,7 +352,7 @@ ShallowWrapper {
               <div
                 className="inner is-relative"
               >
-                <withSizes(withRouter(Connect(RawCard)))
+                <withSizes(withRouter(Connect(Card)))
                   position="current"
                 />
               </div>
@@ -383,7 +391,7 @@ ShallowWrapper {
               "children": <div
                 className="inner is-relative"
               >
-                <withSizes(withRouter(Connect(RawCard)))
+                <withSizes(withRouter(Connect(Card)))
                   position="current"
                 />
               </div>,
@@ -397,7 +405,7 @@ ShallowWrapper {
               "props": Object {
                 "children": Array [
                   null,
-                  <withSizes(withRouter(Connect(RawCard)))
+                  <withSizes(withRouter(Connect(Card)))
                     position="current"
                   />,
                   null,
@@ -429,13 +437,15 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "function",
+          "nodeType": "class",
           "props": Object {
             "flipHandler": [Function],
             "handleGoNext": null,
             "handleGoPrevious": null,
             "height": 947,
             "recommendation": Object {},
+            "transitionTimeout": 250,
+            "verticalSlideRatio": 0.3,
           },
           "ref": null,
           "rendered": null,

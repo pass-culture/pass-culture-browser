@@ -1,11 +1,11 @@
 import moment from 'moment'
 
-import { mapDispatchToProps, mapStateToProps } from '../connect'
-import { configureStore } from '../../../../../utils/store'
+import { mapDispatchToProps, mapStateToProps } from '../CardContainer'
+import { configureStore } from '../../../../../../utils/store'
 
 navigator.geolocation = {}
 
-describe('src | components | pages | discovery | CardContainer', () => {
+describe('src | components | pages | discovery | card | connect', () => {
   describe('mapStateToProps', () => {
     it('default return', () => {
       // given
@@ -20,7 +20,7 @@ describe('src | components | pages | discovery | CardContainer', () => {
 
       // then
       const expected = {
-        areDetailsVisible: false,
+        firstMatchingBooking: undefined,
         recommendation: undefined,
       }
       expect(result).toStrictEqual(expected)
@@ -45,30 +45,6 @@ describe('src | components | pages | discovery | CardContainer', () => {
       expect(moment(readRecommendations[0].dateRead).isSame(moment.utc(), 'minutes')).toStrictEqual(
         true
       )
-    })
-
-    describe('loadRecommendation', () => {
-      describe('when recommendation is not loaded yet', () => {
-        it('should load a recommendation using an offer id', () => {
-          // given
-          const dispatch = jest.fn()
-          const ownProps = {
-            match: { params: { offerId: 'HAMA' } },
-          }
-
-          // when
-          mapDispatchToProps(dispatch, ownProps).loadRecommendation()
-
-          // then
-          expect(dispatch).toHaveBeenCalledWith({
-            config: {
-              apiPath: `recommendations/offers/HAMA`,
-              method: 'GET',
-            },
-            type: 'REQUEST_DATA_GET_RECOMMENDATIONS/OFFERS/HAMA',
-          })
-        })
-      })
     })
   })
 })

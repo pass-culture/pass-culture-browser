@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import withSizes from 'react-sizes'
-import { compose } from 'redux'
 
-import { mapDispatchToProps, mapStateToProps } from './connect'
-import RectoContainer from '../../../recto/RectoContainer'
-import VersoContainer from '../../../verso/VersoContainer'
-import { getHeaderColor } from '../../../../utils/colors'
+import Recto from '../../../../recto/Recto'
+import Verso from '../../../../verso/Verso'
+import getAreDetailsVisible from '../../../../../helpers/getAreDetailsVisible'
+import { getHeaderColor } from '../../../../../utils/colors'
 
-export class RawCard extends PureComponent {
+export class Card extends PureComponent {
   componentDidMount() {
     const { handleReadRecommendation, position, recommendation } = this.props
 
@@ -24,10 +20,12 @@ export class RawCard extends PureComponent {
     const {
       handleClickRecommendation,
       handleReadRecommendation,
-      areDetailsVisible,
+      match,
       recommendation,
       position,
     } = this.props
+    const areDetailsNowVisible = getAreDetailsVisible(match) &&
+      !getAreDetailsVisible(prevProps.match)
 
     const isCurrent = recommendation && position === 'current'
 
@@ -41,23 +39,23 @@ export class RawCard extends PureComponent {
 
     if (!isCurrent) return
 
-    const shouldRequest =
-      !prevProps.areDetailsVisible && areDetailsVisible && !recommendation.isClicked
+    const shouldRequest = areDetailsNowVisible && !recommendation.isClicked
     if (!shouldRequest) return
 
     handleClickRecommendation(recommendation)
   }
 
   render() {
-    const { position, recommendation, width, loadRecommendation } = this.props
-    const firstThumbDominantColor = recommendation && recommendation.firstThumbDominantColor
+    const {
+      firstMatchingBooking,
+      match,
+      position,
+      recommendation,
+      width
+    } = this.props
+    const { firstThumbDominantColor, index } = recommendation || {}
+    const areDetailsVisible = getAreDetailsVisible(match)
     const headerColor = getHeaderColor(firstThumbDominantColor)
-
-    if (!recommendation) {
-      loadRecommendation()
-    }
-
-    const { index } = recommendation || {}
     const isCurrent = position === 'current'
     const translateTo = index * width
     return (
@@ -68,41 +66,40 @@ export class RawCard extends PureComponent {
           transform: `translate(${translateTo}px, 0)`,
         }}
       >
-        {recommendation && isCurrent && <VersoContainer recommendation={recommendation} />}
-        {recommendation && <RectoContainer
-          position={position}
-          recommendation={recommendation}
-                           />}
+        {recommendation && isCurrent && (
+          <Verso
+            areDetailsVisible={areDetailsVisible}
+            booking={firstMatchingBooking}
+            recommendation={recommendation}
+          />)}
+        {recommendation && (
+          <Recto
+            areDetailsVisible={areDetailsVisible}
+            position={firstMatchingBooking}
+            recommendation={recommendation}
+          />)}
       </div>
     )
   }
 }
 
-RawCard.defaultProps = {
-  areDetailsVisible: false,
+Card.defaultProps = {
+  firstMatchingBooking: null,
   recommendation: null,
 }
 
-RawCard.propTypes = {
-  areDetailsVisible: PropTypes.bool,
+Card.propTypes = {
+  firstMatchingBooking: PropTypes.shape(),
   handleClickRecommendation: PropTypes.func.isRequired,
   handleReadRecommendation: PropTypes.func.isRequired,
-  loadRecommendation: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      detais: PropTypes.string
+    }).isRequired
+  }).isRequired,
   position: PropTypes.string.isRequired,
   recommendation: PropTypes.shape(),
   width: PropTypes.number.isRequired,
 }
 
-const mapSizeToProps = ({ width, height }) => ({
-  height,
-  width: Math.min(width, 500), // body{max-width: 500px;}
-})
-
-export default compose(
-  withSizes(mapSizeToProps),
-  withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(RawCard)
+export default Card

@@ -8372,12 +8372,6 @@ const state = {
     rehydrated: true,
     version: -1,
   },
-  card: {
-    areDetailsVisible: false,
-    draggable: true,
-    isActive: false,
-    unFlippable: false,
-  },
 }
 
 module.exports = state

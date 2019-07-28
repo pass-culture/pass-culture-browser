@@ -1,9 +1,9 @@
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 
-import { RawDeckNavigation } from '../DeckNavigation'
+import DeckNavigation from '../DeckNavigation'
 
-describe('src | components | pages | discovery | RawDeckNavigation', () => {
+describe('src | components | pages | discovery | DeckNavigation', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // given
@@ -13,7 +13,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
       }
 
       // when
-      const wrapper = shallow(<RawDeckNavigation {...props} />)
+      const wrapper = shallow(<DeckNavigation {...props} />)
 
       // then
       expect(wrapper).toBeDefined()
@@ -29,7 +29,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
       }
 
       // when
-      const wrapper = shallow(<RawDeckNavigation {...props} />)
+      const wrapper = shallow(<DeckNavigation {...props} />)
 
       // then
       expect(wrapper).toBeDefined()
@@ -52,7 +52,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
           },
         }
         // when
-        const wrapper = mount(<RawDeckNavigation {...props} />)
+        const wrapper = mount(<DeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
         // then
         expect(element).toBeDefined()
@@ -71,7 +71,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
           },
         }
         // when
-        const wrapper = mount(<RawDeckNavigation {...props} />)
+        const wrapper = mount(<DeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
         // then
         expect(element).toBeDefined()
@@ -94,7 +94,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
           },
         }
         // when
-        const wrapper = mount(<RawDeckNavigation {...props} />)
+        const wrapper = mount(<DeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
         // then
         expect(element).toBeDefined()
@@ -112,7 +112,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
           }
 
           // when
-          const wrapper = shallow(<RawDeckNavigation {...props} />)
+          const wrapper = shallow(<DeckNavigation {...props} />)
 
           // then
           expect(wrapper.props().style.background).toStrictEqual(
@@ -132,7 +132,7 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
           }
 
           // when
-          const wrapper = shallow(<RawDeckNavigation {...props} />)
+          const wrapper = shallow(<DeckNavigation {...props} />)
 
           // then
           expect(wrapper.props().style.background).toStrictEqual(

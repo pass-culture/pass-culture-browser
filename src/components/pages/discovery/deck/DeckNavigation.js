@@ -1,19 +1,16 @@
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
 import Draggable from 'react-draggable'
 
-import Icon from '../../layout/Icon'
-import Price from '../../layout/Price'
-import Finishable from '../../layout/Finishable'
-import { getHeaderColor } from '../../../utils/colors'
-import { getPriceRangeFromStocks } from '../../../helpers'
-import { isRecommendationOfferFinished } from '../../../helpers/isRecommendationOfferFinished'
-import { ROOT_PATH } from '../../../utils/config'
-import { getPageY } from '../../../utils/getPageY'
+import Icon from '../../../layout/Icon'
+import Price from '../../../layout/Price'
+import Finishable from '../../../layout/Finishable'
+import { getHeaderColor } from '../../../../utils/colors'
+import { getPriceRangeFromStocks } from '../../../../helpers'
+import { isRecommendationOfferFinished } from '../../../../helpers/isRecommendationOfferFinished'
+import { ROOT_PATH } from '../../../../utils/config'
+import { getPageY } from '../../../../utils/getPageY'
 
 const toRectoDraggableBounds = {
   bottom: 0,
@@ -22,8 +19,8 @@ const toRectoDraggableBounds = {
   top: 0,
 }
 
-export class RawDeckNavigation extends React.PureComponent {
-  handleOnStop = event => {
+export class DeckNavigation extends React.PureComponent {
+  handleStopDrag = event => {
     const { flipHandler, height, verticalSlideRatio } = this.props
     const shiftedDistance = height - getPageY(event)
 
@@ -76,7 +73,9 @@ export class RawDeckNavigation extends React.PureComponent {
   }
 
   render() {
-    const { isFinished, recommendation, flipHandler, transitionTimeout } = this.props
+    const { recommendation, flipHandler, transitionTimeout } = this.props
+    const { offerId } = recommendation || {}
+    const isFinished = isRecommendationOfferFinished(recommendation, offerId)
 
     const { distance, offer } = recommendation || {}
     let distanceClue = ' '
@@ -103,7 +102,7 @@ export class RawDeckNavigation extends React.PureComponent {
               <Draggable
                 axis="y"
                 bounds={toRectoDraggableBounds}
-                onStop={this.handleOnStop}
+                onStop={this.handleStopDrag}
               >
                 <div id="dragButton">
                   <button
@@ -144,40 +143,23 @@ export class RawDeckNavigation extends React.PureComponent {
   }
 }
 
-RawDeckNavigation.defaultProps = {
+DeckNavigation.defaultProps = {
   flipHandler: null,
   handleGoNext: null,
   handleGoPrevious: null,
-  isFinished: false,
   recommendation: null,
   transitionTimeout: 250,
   verticalSlideRatio: 0.3,
 }
 
-RawDeckNavigation.propTypes = {
+DeckNavigation.propTypes = {
   flipHandler: PropTypes.func,
   handleGoNext: PropTypes.func,
   handleGoPrevious: PropTypes.func,
   height: PropTypes.number.isRequired,
-  isFinished: PropTypes.bool,
   recommendation: PropTypes.shape(),
   transitionTimeout: PropTypes.number,
   verticalSlideRatio: PropTypes.number,
 }
-
-const mapStateToProps = (state, ownProps) => {
-  const { recommendation } = ownProps
-  const { offerId } = recommendation
-  const isFinished = isRecommendationOfferFinished(recommendation, offerId)
-
-  return {
-    isFinished,
-  }
-}
-
-const DeckNavigation = compose(
-  withRouter,
-  connect(mapStateToProps)
-)(RawDeckNavigation)
 
 export default DeckNavigation

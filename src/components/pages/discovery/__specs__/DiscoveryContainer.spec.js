@@ -16,6 +16,9 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
       match: {
         params: {},
       },
+      query: {
+        parse: () => ({}),
+      },
     }
   })
 
@@ -24,6 +27,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
       // given
       const handleRequestSuccess = jest.fn()
       const handleRequestFail = jest.fn()
+      const currentRecommendation = {}
       const recommendations = []
       const readRecommendations = null
       const shouldReloadRecommendations = false
@@ -32,6 +36,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
       mapDispatchToProps(dispatch, props).loadRecommendations(
         handleRequestSuccess,
         handleRequestFail,
+        currentRecommendation,
         recommendations,
         readRecommendations,
         shouldReloadRecommendations
@@ -89,13 +94,13 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
       })
     })
 
-    it('should reset recommendations with the right configuration', () => {
+    it('should reset recommendations and bookings with the right configuration', () => {
       // when
-      mapDispatchToProps(dispatch, props).resetRecommendations()
+      mapDispatchToProps(dispatch, props).resetRecommendationsAndBookings()
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
-        patch: { recommendations: [] },
+        patch: { bookings: [], recommendations: [] },
         type: 'ASSIGN_DATA',
       })
     })
