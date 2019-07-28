@@ -6,6 +6,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Verso
     areDetailsVisible={true}
     backgroundColor="#ACE539"
+    booking={null}
     contentInlineStyle={
       Object {
         "backgroundColor": "#ACE539",
@@ -14,11 +15,15 @@ ShallowWrapper {
     }
     extraClassName="extra-classname"
     forceDetailsVisible={false}
-    imageURL=""
-    isTuto={false}
     mediationId="AAA"
     offerName="Offer title"
     offerVenueNameOrPublicName="Offer subtitle"
+    recommendation={
+      Object {
+        "mediation": Object {},
+        "thumbUrl": "https://example.net/tuto/image.png",
+      }
+    }
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -38,25 +43,41 @@ ShallowWrapper {
         <div
           className="verso-wrapper is-black-text scroll-y flex-rows is-relative text-left"
         >
-          <VersoHeader
-            backgroundColor="#ACE539"
-            subtitle="Offer subtitle"
-            title="Offer title"
+          <withRouter(withSizes(VersoHeader))
+            backgroundColor="black"
+            subtitle={null}
+            title={null}
           />
-          <withRouter(Connect(VersoControl)) />
+          <VersoControls
+            booking={null}
+            recommendation={
+              Object {
+                "mediation": Object {},
+                "thumbUrl": "https://example.net/tuto/image.png",
+              }
+            }
+          />
           <div
             className="verso-content"
             style={
               Object {
-                "backgroundColor": "#ACE539",
-                "backgroundImage": "any/image",
+                "backgroundImage": "url('http://localhost/mosaic-k.png')",
               }
             }
           >
-            <withRouter(Connect(VersoContentOffer)) />
+            <Connect(VersoContentOffer)
+              booking={null}
+              recommendation={
+                Object {
+                  "mediation": Object {},
+                  "thumbUrl": "https://example.net/tuto/image.png",
+                }
+              }
+            />
           </div>
         </div>,
-        <withRouter(Connect(Footer))
+        <withRouter(AbsoluteFooter)
+          areDetailsVisible={true}
           borderTop={true}
           colored={true}
           id="verso-footer"
@@ -72,22 +93,37 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <VersoHeader
-              backgroundColor="#ACE539"
-              subtitle="Offer subtitle"
-              title="Offer title"
+            <withRouter(withSizes(VersoHeader))
+              backgroundColor="black"
+              subtitle={null}
+              title={null}
             />,
-            <withRouter(Connect(VersoControl)) />,
+            <VersoControls
+              booking={null}
+              recommendation={
+                Object {
+                  "mediation": Object {},
+                  "thumbUrl": "https://example.net/tuto/image.png",
+                }
+              }
+            />,
             <div
               className="verso-content"
               style={
                 Object {
-                  "backgroundColor": "#ACE539",
-                  "backgroundImage": "any/image",
+                  "backgroundImage": "url('http://localhost/mosaic-k.png')",
                 }
               }
             >
-              <withRouter(Connect(VersoContentOffer)) />
+              <Connect(VersoContentOffer)
+                booking={null}
+                recommendation={
+                  Object {
+                    "mediation": Object {},
+                    "thumbUrl": "https://example.net/tuto/image.png",
+                  }
+                }
+              />
             </div>,
           ],
           "className": "verso-wrapper is-black-text scroll-y flex-rows is-relative text-left",
@@ -99,9 +135,9 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "backgroundColor": "#ACE539",
-              "subtitle": "Offer subtitle",
-              "title": "Offer title",
+              "backgroundColor": "black",
+              "subtitle": null,
+              "title": null,
             },
             "ref": null,
             "rendered": null,
@@ -111,7 +147,13 @@ ShallowWrapper {
             "instance": null,
             "key": undefined,
             "nodeType": "function",
-            "props": Object {},
+            "props": Object {
+              "booking": null,
+              "recommendation": Object {
+                "mediation": Object {},
+                "thumbUrl": "https://example.net/tuto/image.png",
+              },
+            },
             "ref": null,
             "rendered": null,
             "type": [Function],
@@ -121,29 +163,36 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": Array [
-                <withRouter(Connect(VersoContentOffer)) />,
-                false,
-              ],
+              "children": <Connect(VersoContentOffer)
+                booking={null}
+                recommendation={
+                  Object {
+                    "mediation": Object {},
+                    "thumbUrl": "https://example.net/tuto/image.png",
+                  }
+                }
+              />,
               "className": "verso-content",
               "style": Object {
-                "backgroundColor": "#ACE539",
-                "backgroundImage": "any/image",
+                "backgroundImage": "url('http://localhost/mosaic-k.png')",
               },
             },
             "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {},
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "booking": null,
+                "recommendation": Object {
+                  "mediation": Object {},
+                  "thumbUrl": "https://example.net/tuto/image.png",
+                },
               },
-              false,
-            ],
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
             "type": "div",
           },
         ],
@@ -154,6 +203,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "function",
         "props": Object {
+          "areDetailsVisible": true,
           "borderTop": true,
           "colored": true,
           "id": "verso-footer",
@@ -175,25 +225,41 @@ ShallowWrapper {
           <div
             className="verso-wrapper is-black-text scroll-y flex-rows is-relative text-left"
           >
-            <VersoHeader
-              backgroundColor="#ACE539"
-              subtitle="Offer subtitle"
-              title="Offer title"
+            <withRouter(withSizes(VersoHeader))
+              backgroundColor="black"
+              subtitle={null}
+              title={null}
             />
-            <withRouter(Connect(VersoControl)) />
+            <VersoControls
+              booking={null}
+              recommendation={
+                Object {
+                  "mediation": Object {},
+                  "thumbUrl": "https://example.net/tuto/image.png",
+                }
+              }
+            />
             <div
               className="verso-content"
               style={
                 Object {
-                  "backgroundColor": "#ACE539",
-                  "backgroundImage": "any/image",
+                  "backgroundImage": "url('http://localhost/mosaic-k.png')",
                 }
               }
             >
-              <withRouter(Connect(VersoContentOffer)) />
+              <Connect(VersoContentOffer)
+                booking={null}
+                recommendation={
+                  Object {
+                    "mediation": Object {},
+                    "thumbUrl": "https://example.net/tuto/image.png",
+                  }
+                }
+              />
             </div>
           </div>,
-          <withRouter(Connect(Footer))
+          <withRouter(AbsoluteFooter)
+            areDetailsVisible={true}
             borderTop={true}
             colored={true}
             id="verso-footer"
@@ -209,22 +275,37 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <VersoHeader
-                backgroundColor="#ACE539"
-                subtitle="Offer subtitle"
-                title="Offer title"
+              <withRouter(withSizes(VersoHeader))
+                backgroundColor="black"
+                subtitle={null}
+                title={null}
               />,
-              <withRouter(Connect(VersoControl)) />,
+              <VersoControls
+                booking={null}
+                recommendation={
+                  Object {
+                    "mediation": Object {},
+                    "thumbUrl": "https://example.net/tuto/image.png",
+                  }
+                }
+              />,
               <div
                 className="verso-content"
                 style={
                   Object {
-                    "backgroundColor": "#ACE539",
-                    "backgroundImage": "any/image",
+                    "backgroundImage": "url('http://localhost/mosaic-k.png')",
                   }
                 }
               >
-                <withRouter(Connect(VersoContentOffer)) />
+                <Connect(VersoContentOffer)
+                  booking={null}
+                  recommendation={
+                    Object {
+                      "mediation": Object {},
+                      "thumbUrl": "https://example.net/tuto/image.png",
+                    }
+                  }
+                />
               </div>,
             ],
             "className": "verso-wrapper is-black-text scroll-y flex-rows is-relative text-left",
@@ -236,9 +317,9 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
-                "backgroundColor": "#ACE539",
-                "subtitle": "Offer subtitle",
-                "title": "Offer title",
+                "backgroundColor": "black",
+                "subtitle": null,
+                "title": null,
               },
               "ref": null,
               "rendered": null,
@@ -248,7 +329,13 @@ ShallowWrapper {
               "instance": null,
               "key": undefined,
               "nodeType": "function",
-              "props": Object {},
+              "props": Object {
+                "booking": null,
+                "recommendation": Object {
+                  "mediation": Object {},
+                  "thumbUrl": "https://example.net/tuto/image.png",
+                },
+              },
               "ref": null,
               "rendered": null,
               "type": [Function],
@@ -258,29 +345,36 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
-                  <withRouter(Connect(VersoContentOffer)) />,
-                  false,
-                ],
+                "children": <Connect(VersoContentOffer)
+                  booking={null}
+                  recommendation={
+                    Object {
+                      "mediation": Object {},
+                      "thumbUrl": "https://example.net/tuto/image.png",
+                    }
+                  }
+                />,
                 "className": "verso-content",
                 "style": Object {
-                  "backgroundColor": "#ACE539",
-                  "backgroundImage": "any/image",
+                  "backgroundImage": "url('http://localhost/mosaic-k.png')",
                 },
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "function",
-                  "props": Object {},
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "booking": null,
+                  "recommendation": Object {
+                    "mediation": Object {},
+                    "thumbUrl": "https://example.net/tuto/image.png",
+                  },
                 },
-                false,
-              ],
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
               "type": "div",
             },
           ],
@@ -291,6 +385,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
+            "areDetailsVisible": true,
             "borderTop": true,
             "colored": true,
             "id": "verso-footer",

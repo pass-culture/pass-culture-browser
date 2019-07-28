@@ -2,9 +2,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import Verso from '../Verso'
-import VersoControl from '../verso-controls/VersoControlContainer'
 import VersoContentOfferContainer from '../verso-content/verso-content-offer/VersoContentOfferContainer'
 import VersoContentTuto from '../verso-content/VersoContentTuto'
+import VersoControls from '../verso-controls/VersoControls'
 
 const backgroundColor = '#ACE539'
 const props = {
@@ -16,15 +16,16 @@ const props = {
   mediationId: 'AAA',
   offerName: 'Offer title',
   offerVenueNameOrPublicName: 'Offer subtitle',
+  recommendation: {
+    mediation: {},
+    thumbUrl: 'https://example.net/tuto/image.png',
+  },
 }
 
 describe('src | components | verso | Verso', () => {
   it('should match snapshot', () => {
-    // given
-    const cprops = { ...props, isTuto: false }
-
     // when
-    const wrapper = shallow(<Verso {...cprops} />)
+    const wrapper = shallow(<Verso {...props} />)
 
     // then
     expect(wrapper).toBeDefined()
@@ -32,14 +33,11 @@ describe('src | components | verso | Verso', () => {
   })
 
   it('should show offer view when is not tuto', () => {
-    // given
-    const cprops = { ...props, isTuto: false }
-
     // when
-    const wrapper = shallow(<Verso {...cprops} />)
+    const wrapper = shallow(<Verso {...props} />)
     const infos = wrapper.find(VersoContentOfferContainer)
     const tuto = wrapper.find(VersoContentTuto)
-    const controls = wrapper.find(VersoControl)
+    const controls = wrapper.find(VersoControls)
 
     // then
     expect(tuto).toHaveLength(0)
@@ -49,17 +47,13 @@ describe('src | components | verso | Verso', () => {
 
   it('should show tuto view when is tuto', () => {
     // given
-    const cprops = {
-      ...props,
-      imageURL: 'https://example.net/tuto/image.png',
-      isTuto: true,
-    }
+    props.recommendation.mediation.tutoIndex = 3
 
     // when
-    const wrapper = shallow(<Verso {...cprops} />)
+    const wrapper = shallow(<Verso {...props} />)
     const infos = wrapper.find(VersoContentOfferContainer)
     const tuto = wrapper.find(VersoContentTuto)
-    const controls = wrapper.find(VersoControl)
+    const controls = wrapper.find(VersoControls)
 
     // then
     expect(tuto).toHaveLength(1)

@@ -11,13 +11,14 @@ const showFailModal = () => {
 }
 
 const Favorite = ({ handleFavorite, isFeatureDisabled, recommendation }) => {
-  const isFavorite = recommendation.offer && recommendation.offer.favorites.length > 0
-
+  const { offer } = recommendation || {}
+  const { favorites } = offer || {}
+  const isFavorite = favorites && favorites.length > 0
   return (
     <button
       className="fav-button"
       disabled={isFeatureDisabled}
-      onClick={handleFavorite(isFavorite, recommendation, showFailModal)}
+      onClick={handleFavorite(isFavorite, showFailModal)}
       type="button"
     >
       <i

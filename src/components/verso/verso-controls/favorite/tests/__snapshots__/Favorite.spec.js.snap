@@ -9,11 +9,6 @@ ShallowWrapper {
         "calls": Array [
           Array [
             false,
-            Object {
-              "offer": Object {
-                "favorites": Array [],
-              },
-            },
             [Function],
           ],
         ],

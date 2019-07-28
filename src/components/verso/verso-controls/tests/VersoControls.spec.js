@@ -1,18 +1,27 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import VersoControl from '../VersoControl'
+import VersoControls from '../VersoControls'
 
 import Finishable from '../../../layout/Finishable'
 import CancelButton from '../booking/cancel-this-link/CancelThisLinkContainer'
 import BookThisButton from '../booking/book-this-link/BookThisLinkContainer'
 
-describe('src | components | verso | verso-controls | VersoControl', () => {
+describe('src | components | verso | verso-controls | VersoControls', () => {
   it('should render component with a bookable offer', () => {
     // given
-    const props = { booking: null, isFinished: false }
+    const props = {
+      booking: null,
+      recommendation: {
+        offerId: 'AE',
+        offer: {
+          id: 'AE',
+          isFinished: false,
+        },
+      },
+    }
 
     // when
-    const wrapper = shallow(<VersoControl {...props} />)
+    const wrapper = shallow(<VersoControls {...props} />)
     const finishable = wrapper.find(Finishable)
     const cancel = wrapper.find(CancelButton)
     const bookThis = wrapper.find(BookThisButton)
@@ -26,10 +35,19 @@ describe('src | components | verso | verso-controls | VersoControl', () => {
 
   it('should render component with a already booked/cancellable offer', () => {
     // given
-    const props = { booking: {}, isFinished: false }
+    const props = {
+      booking: {},
+      recommendation: {
+        offerId: 'AE',
+        offer: {
+          id: 'AE',
+          isFinished: false,
+        },
+      },
+    }
 
     // when
-    const wrapper = shallow(<VersoControl {...props} />)
+    const wrapper = shallow(<VersoControls {...props} />)
     const finishable = wrapper.find(Finishable)
     const cancel = wrapper.find(CancelButton)
     const bookthis = wrapper.find(BookThisButton)
@@ -43,10 +61,19 @@ describe('src | components | verso | verso-controls | VersoControl', () => {
 
   it('should render component with a already booked/cancellable offer (réécrire)', () => {
     // given
-    const props = { booking: {}, isFinished: true }
+    const props = {
+      booking: {},
+      recommendation: {
+        offerId: 'AE',
+        offer: {
+          id: 'AE',
+          isFinished: true,
+        },
+      },
+    }
 
     // when
-    const wrapper = shallow(<VersoControl {...props} />)
+    const wrapper = shallow(<VersoControls {...props} />)
     const finishable = wrapper.find(Finishable)
     const cancel = wrapper.find(CancelButton)
     const bookthis = wrapper.find(BookThisButton)

@@ -1,65 +1,55 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
 import { mergeData, requestData } from 'redux-saga-data'
 
 import selectIsFeatureDisabled from '../../../router/selectors/selectIsFeatureDisabled'
-import currentRecommendationSelector from '../../../../selectors/currentRecommendation/currentRecommendation'
 import Favorite from './Favorite'
 
-export const mergeDataWithStore = (dispatch, isFavorite, recommendation) => (state, action) => {
-  dispatch(
-    mergeData({
-      recommendations: [
-        {
-          ...recommendation,
-          offer: {
-            ...recommendation.offer,
-            favorites: isFavorite ? [] : [action.payload.datum],
-          },
-        },
-      ],
-    })
-  )
-}
-
-export const mapStateToProps = (state, ownProps) => {
-  const {
-    match: { params },
-  } = ownProps
-  const { mediationId, offerId } = params
+export const mapStateToProps = state => {
   const isFeatureDisabled = selectIsFeatureDisabled(state, 'FAVORITE_OFFER')
-
   return {
     isFeatureDisabled,
-    recommendation: currentRecommendationSelector(state, offerId, mediationId) || {},
   }
 }
 
-export const mapDispatchToProps = dispatch => ({
-  handleFavorite: (isFavorite, recommendation, showFailModal) => () => {
-    dispatch(
-      requestData({
-        apiPath: `/favorites${
-          isFavorite ? `/${recommendation.offerId}/${recommendation.mediationId}` : ''
-        }`,
-        body: {
-          mediationId: recommendation.mediationId,
-          offerId: recommendation.offerId,
-        },
-        handleFail: showFailModal,
-        handleSuccess: mergeDataWithStore(dispatch, isFavorite, recommendation),
-        method: isFavorite ? 'DELETE' : 'POST',
-        stateKey: 'favorites',
-      })
-    )
-  },
-})
+export const mergeFavoriteData = (dispatch, ownProps) => {
+  const { recommendation } = ownProps
+  return isFavorite => (state, action) => {
+    const { payload } = action
+    const favorite = payload.datum
+    const updatedRecommendation = {
+      ...recommendation,
+      offer: {
+        ...recommendation.offer,
+        favorites: isFavorite ? [] : [favorite],
+      },
+    }
 
-export default compose(
-  withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+    dispatch(mergeData({ recommendations: [updatedRecommendation] }))
+  }
+}
+
+export const mapDispatchToProps = (dispatch, ownProps) => {
+  const { recommendation } = ownProps
+  const { mediationId, offerId } = recommendation
+  return {
+    handleFavorite: (isFavorite, showFailModal) => () => {
+      dispatch(
+        requestData({
+          apiPath: `/offers/favorites${isFavorite ? `/${offerId}/${mediationId}` : ''}`,
+          body: {
+            mediationId,
+            offerId,
+          },
+          handleFail: showFailModal,
+          handleSuccess: mergeFavoriteData(dispatch, ownProps)(isFavorite),
+          method: isFavorite ? 'DELETE' : 'POST'
+        })
+      )
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(Favorite)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
 import { capitalize } from 'react-final-form-utils'
 
-import VersoActionsBar from '../VersoActionsBar'
+import VersoActionsBar from './VersoActionsBar'
 import { getDurationFromMinutes } from './utils'
 import Icon from '../../../layout/Icon'
 import { navigationLink } from '../../../../utils/geolocation'
@@ -187,10 +187,11 @@ class VersoContentOffer extends React.PureComponent {
   }
 
   render() {
-    const { onlineOfferUrl } = this.props
+    const { booking } = this.props
+    const { completedUrl } = booking || {}
     return (
       <div className="verso-info">
-        {onlineOfferUrl && <VersoActionsBar url={onlineOfferUrl} />}
+        {completedUrl && <VersoActionsBar url={completedUrl} />}
         {this.renderOfferWhat()}
         {this.renderOfferDetails()}
         {this.renderOfferWhen()}
@@ -202,11 +203,11 @@ class VersoContentOffer extends React.PureComponent {
 
 VersoContentOffer.defaultProps = {
   bookables: null,
+  booking: null,
   isFinished: false,
   maxShownDates: 7,
   musicSubType: null,
   musicType: null,
-  onlineOfferUrl: null,
   recommendation: null,
   showSubType: null,
   showType: null,
@@ -214,12 +215,12 @@ VersoContentOffer.defaultProps = {
 
 VersoContentOffer.propTypes = {
   bookables: PropTypes.arrayOf(PropTypes.shape()),
+  booking: PropTypes.shape(),
   handleRequestMusicAndShowTypes: PropTypes.func.isRequired,
   isFinished: PropTypes.bool,
   maxShownDates: PropTypes.number,
   musicSubType: PropTypes.shape(),
   musicType: PropTypes.shape(),
-  onlineOfferUrl: PropTypes.string,
   recommendation: PropTypes.shape(),
   showSubType: PropTypes.shape(),
   showType: PropTypes.shape(),

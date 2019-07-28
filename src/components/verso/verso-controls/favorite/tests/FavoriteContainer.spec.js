@@ -1,20 +1,38 @@
-import currentRecommendationSelector from '../../../../../selectors/currentRecommendation/currentRecommendation'
-import { mergeDataWithStore, mapStateToProps, mapDispatchToProps } from '../FavoriteContainer'
-
-jest.mock('../../../../../selectors/currentRecommendation/currentRecommendation')
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+  mergeFavoriteData,
+} from '../FavoriteContainer'
 
 describe('src | components | verso | verso-controls | favorite | FavoriteContainer', () => {
-  describe('mergeDataWithStore()', () => {
+  describe('mapStateToProps', () => {
+    it('should return the right props', () => {
+      // given
+      const ownProps = {}
+      const state = { data: { features: [] } }
+
+      // when
+      const props = mapStateToProps(state, ownProps)
+
+      // then
+      expect(props).toStrictEqual({
+        isFeatureDisabled: true,
+      })
+    })
+  })
+
+  describe('mergeFavoriteData()', () => {
     it('should merge data with the store when the offer is already in favorites', () => {
       // given
       const dispatch = jest.fn()
       const isFavorite = true
       const recommendation = {}
+      const ownProps = { recommendation }
       const state = { data: { features: [] } }
-      const action = {}
+      const action = { payload: { datum: {} } }
 
       // when
-      mergeDataWithStore(dispatch, isFavorite, recommendation)(state, action)
+      mergeFavoriteData(dispatch, ownProps)(isFavorite)(state, action)
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
@@ -36,7 +54,9 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
       // given
       const dispatch = jest.fn()
       const isFavorite = false
-      const recommendation = {}
+      const ownProps = {
+        recommendation: {},
+      }
       const state = { data: { features: [] } }
       const action = {
         payload: {
@@ -45,7 +65,7 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
       }
 
       // when
-      mergeDataWithStore(dispatch, isFavorite, recommendation)(state, action)
+      mergeFavoriteData(dispatch, ownProps)(isFavorite)(state, action)
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
@@ -64,60 +84,30 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
     })
   })
 
-  describe('mapStateToProps', () => {
-    it('should return the right props', () => {
-      // given
-      const ownProps = {
-        match: {
-          params: {
-            mediationId: 'AHJQ',
-            offerId: 'A93Q',
-          },
-        },
-      }
-      const state = { data: { features: [] } }
-      currentRecommendationSelector.mockReturnValue({
-        offer: {
-          favorites: [],
-        },
-      })
-
-      // when
-      const props = mapStateToProps(state, ownProps)
-
-      // then
-      expect(props).toStrictEqual({
-        isFeatureDisabled: true,
-        recommendation: {
-          offer: {
-            favorites: [],
-          },
-        },
-      })
-    })
-  })
-
-  describe('mapDispatchToProps', () => {
+  describe('mapDispatchToProps()', () => {
     it('should add to favorites', () => {
       // given
       const dispatch = jest.fn()
-      const isFavorite = false
+      const mediationId = 'FA'
+      const offerId = 'ME'
       const recommendation = {
-        mediationId: 'FA',
-        offerId: 'ME',
+        mediationId,
+        offerId,
       }
+      const ownProps = { recommendation }
+      const isFavorite = false
       const showFailModal = jest.fn()
 
       // when
-      mapDispatchToProps(dispatch).handleFavorite(isFavorite, recommendation, showFailModal)()
+      mapDispatchToProps(dispatch, ownProps).handleFavorite(isFavorite, showFailModal)()
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
         config: {
           apiPath: '/favorites',
           body: {
-            mediationId: recommendation.mediationId,
-            offerId: recommendation.offerId,
+            mediationId,
+            offerId,
           },
           handleFail: showFailModal,
           handleSuccess: expect.any(Function),
@@ -131,23 +121,26 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
     it('should delete favorite', () => {
       // given
       const dispatch = jest.fn()
-      const isFavorite = true
+      const mediationId = 'FA'
+      const offerId = 'ME'
       const recommendation = {
-        mediationId: 'FA',
-        offerId: 'ME',
+        mediationId,
+        offerId,
       }
+      const ownProps = { recommendation }
+      const isFavorite = true
       const showFailModal = jest.fn()
 
       // when
-      mapDispatchToProps(dispatch).handleFavorite(isFavorite, recommendation, showFailModal)()
+      mapDispatchToProps(dispatch, ownProps).handleFavorite(isFavorite, showFailModal)()
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
         config: {
-          apiPath: `/favorites/${recommendation.offerId}/${recommendation.mediationId}`,
+          apiPath: `/favorites/${offerId}/${mediationId}`,
           body: {
-            mediationId: recommendation.mediationId,
-            offerId: recommendation.offerId,
+            mediationId,
+            offerId,
           },
           handleFail: showFailModal,
           handleSuccess: expect.any(Function),
