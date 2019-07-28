@@ -20,7 +20,7 @@
   padding: 0 0.75rem;
 }
 
-.mb-header {
+.my-bookings-header {
   color: $white;
   font-size: 1.2rem;
   font-style: italic;
@@ -28,11 +28,12 @@
   text-transform: uppercase;
 }
 
-.mb-my-booking {
+.my-bookings-my-booking {
   background-color: $white;
   border-radius: $radius-small;
   margin-bottom: 0.75rem;
 }
+
 
 .my-bookings-link {
   display: flex;
@@ -58,10 +59,55 @@
   padding: 0.5rem 1rem;
 }
 
-.mb-token {
+
+.my-bookings-title {
+  @include multiLineEllipsis();
+
+  color: $black;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.my-bookings-date {
+  color: $grey-dark;
+  font-size: 0.8rem;
+}
+
+.my-bookings-token {
   @include dotted($primary, top);
 
   color: $primary;
   font-size: 2.9rem;
   padding: 0.5rem 0 0 1rem;
+}
+
+.my-bookings-arrow {
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: 15%;
+}
+
+.my-bookings-arrow-img {
+  margin: auto;
+}
+
+.my-bookings-link-offers {
+  border: 2px solid $white;
+  border-radius: 2px;
+  color: $white;
+  display: block;
+  font-weight: 500;
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem 1.5rem;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.my-bookings-text {
+  color: $white;
+  text-align: center;
 }
