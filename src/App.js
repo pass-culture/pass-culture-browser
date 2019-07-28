@@ -10,7 +10,7 @@ import Overlay from './components/layout/Overlay'
 import Notifications from './components/layout/notifications'
 import ErrorCatcherContainer from './components/layout/ErrorCatcher/ErrorCatcherContainer'
 import browserRoutes from './components/router/browserRoutes'
-import { SharePopin } from './components/share/SharePopin'
+import SharePopinContainer from './components/share/SharePopinContainer'
 import { ROOT_PATH, IS_DEV, PROJECT_NAME } from './utils/config'
 
 const getPageTitle = obj => `${obj && obj.title ? `${obj.title} - ` : ''}`
@@ -44,7 +44,7 @@ const App = ({ children, history, location }) => {
             path="*/menu"
           />
           <Splash />
-          <SharePopin />
+          <SharePopinContainer />
           <Notifications />
           <img
             alt="beta"

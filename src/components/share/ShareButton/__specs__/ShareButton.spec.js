@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import ShareButton from '../ShareButton/ShareButton'
+import ShareButton from '../ShareButton'
 
 const dispatchMock = jest.fn()
 
@@ -19,6 +19,7 @@ describe('src | components | share | ShareButton', () => {
     const wrapper = shallow(<ShareButton {...props} />)
 
     // then
+    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

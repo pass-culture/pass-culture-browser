@@ -1,19 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | share | SharePopinContent snapshot should match snapshot 1`] = `
+exports[`src | components | share | SharePopinContainer snapshot should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <SharePopinContent
-    dispatch={[MockFunction]}
-    options={
+  Symbol(enzyme.__unrendered__): <Provider
+    store={
       Object {
-        "text": "Fake Test",
-        "title": "Fake Title",
-        "url": "fake@url.com",
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
       }
     }
-    visible={true}
-  />,
+  >
+    <Connect(SharePopin)
+      dispatch={[MockFunction]}
+      options={true}
+      visible={true}
+    />
+  </Provider>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "checkPropTypes": [Function],
@@ -28,23 +35,12 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "class",
     "props": Object {
-      "appear": false,
-      "children": [Function],
-      "enter": true,
-      "exit": true,
-      "in": true,
-      "mountOnEnter": false,
-      "onEnter": [Function],
-      "onEntered": [Function],
-      "onEntering": [Function],
-      "onExit": [Function],
-      "onExited": [Function],
-      "onExiting": [Function],
-      "timeout": 500,
-      "unmountOnExit": false,
+      "dispatch": [MockFunction],
+      "options": true,
+      "visible": true,
     },
     "ref": null,
-    "rendered": [Function],
+    "rendered": null,
     "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
@@ -53,23 +49,12 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "class",
       "props": Object {
-        "appear": false,
-        "children": [Function],
-        "enter": true,
-        "exit": true,
-        "in": true,
-        "mountOnEnter": false,
-        "onEnter": [Function],
-        "onEntered": [Function],
-        "onEntering": [Function],
-        "onExit": [Function],
-        "onExited": [Function],
-        "onExiting": [Function],
-        "timeout": 500,
-        "unmountOnExit": false,
+        "dispatch": [MockFunction],
+        "options": true,
+        "visible": true,
       },
       "ref": null,
-      "rendered": [Function],
+      "rendered": null,
       "type": [Function],
     },
   ],
@@ -99,6 +84,16 @@ ShallowWrapper {
     Symbol(enzyme.__providerValues__): undefined,
   },
   Symbol(enzyme.__providerValues__): Map {},
-  Symbol(enzyme.__childContext__): null,
+  Symbol(enzyme.__childContext__): Object {
+    "store": Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    },
+    "storeSubscription": null,
+  },
 }
 `;
