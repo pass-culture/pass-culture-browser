@@ -27,7 +27,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { departementCode } = venue
   const detailsUrl = `${pathname}/details/${bookingId}${search}`
   const timeZone = getTimezone(departementCode)
-  const stringifyDate = stringify(beginningDatetime)(timeZone)
+  const stringifyDate = beginningDatetime && stringify(beginningDatetime)(timeZone)
 
   return {
     detailsUrl,

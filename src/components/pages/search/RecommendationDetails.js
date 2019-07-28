@@ -5,29 +5,61 @@ import { Route } from 'react-router-dom'
 import BookingContainer from '../../booking/BookingContainer'
 import Recto from '../../recto/Recto'
 import Verso from '../../verso/Verso'
+import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 
 class RecommendationDetails extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = { areDetailsVisible: false }
+    this.state = {
+      currentRecommendation: null,
+      forceDetailsVisible: false,
+    }
   }
 
   componentDidMount() {
     const { recommendation, requestGetRecommendation } = this.props
 
     if (recommendation) {
-      // We need to wait to go out the mount lifecycle
-      // in order to force the dom to render
-      // twice
-      setTimeout(this.handleSetAreDetailsVisible)
+      this.handleMountDetails()
       return
     }
 
     requestGetRecommendation(this.handleSetAreDetailsVisible)
   }
 
-  handleSetAreDetailsVisible = () => {
-    this.setState({ areDetailsVisible: true })
+  componentDidUpdate(prevProps) {
+    const { match, recommendation } = this.props
+    const { forceDetailsVisible } = this.state
+
+    const shouldMountDetails = !forceDetailsVisible && recommendation && !prevProps.recommendation
+    if (shouldMountDetails) {
+      this.handleMountDetails()
+      return
+    }
+
+    const areDetailsVisible = getAreDetailsVisible(match)
+    const previousAreDetailsVisible = getAreDetailsVisible(prevProps.match)
+    const shouldUnmountDetails = !areDetailsVisible && previousAreDetailsVisible
+    if (shouldUnmountDetails) {
+      this.handleUnmountDetails()
+    }
+  }
+
+  handleMountDetails = () => {
+    const { recommendation } = this.props
+    this.setState({ currentRecommendation: recommendation })
+    this.handleSetForceDetailsVisible(true)
+  }
+
+  handleSetForceDetailsVisible = forceDetailsVisible => {
+    // We need to wait to go out the mount lifecycle
+    // in order to force the dom to render twice
+    setTimeout(() => this.setState({ forceDetailsVisible }))
+  }
+
+  handleUnmountDetails = () => {
+    this.handleSetForceDetailsVisible(false)
+    setTimeout(() => this.setState({ currentRecommendation: null }), 300)
   }
 
   renderBooking = route => {
@@ -42,30 +74,30 @@ class RecommendationDetails extends PureComponent {
   }
 
   render() {
-    const { recommendation } = this.props
-    const { areDetailsVisible } = this.state
+    const { currentRecommendation, forceDetailsVisible } = this.state
 
     return (
       <Fragment>
-        {areDetailsVisible && (
+        {forceDetailsVisible && (
           <Route
             path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?"
             render={this.renderBooking}
           />
         )}
-        {recommendation && (
+        {currentRecommendation && (
           <Fragment>
             <Verso
-              areDetailsVisible={areDetailsVisible}
+              areDetailsVisible={forceDetailsVisible}
               extraClassName="with-header"
-              recommendation={recommendation}
+              recommendation={currentRecommendation}
             />
-            <Recto
-              areDetailsVisible={areDetailsVisible}
-              extraClassName="with-header"
-              position="current"
-              recommendation={recommendation}
-            />
+            {forceDetailsVisible && (
+              <Recto
+                areDetailsVisible
+                extraClassName="with-header"
+                recommendation={currentRecommendation}
+              />
+            )}
           </Fragment>
         )}
       </Fragment>
@@ -78,7 +110,11 @@ RecommendationDetails.defaultProps = {
 }
 
 RecommendationDetails.propTypes = {
-  match: PropTypes.shape().isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      details: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   recommendation: PropTypes.shape(),
   requestGetRecommendation: PropTypes.func.isRequired,
 }

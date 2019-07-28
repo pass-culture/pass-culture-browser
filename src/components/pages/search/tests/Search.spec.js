@@ -6,25 +6,20 @@ import Search from '../Search'
 import Spinner from '../../../layout/Spinner'
 import PageHeader from '../../../layout/Header/PageHeader'
 
-const getPageContentRoute = wrapper =>
-  wrapper
-    .find({ path: '/recherche/(resultats)?/:option?/:menu(menu)?' })
-    .props()
-    .render()
-
-const getPageContentDiv = wrapper =>
-  getPageContentRoute(wrapper).props.children.find(child =>
-    child.props.className.includes('page-content')
-  )
+const getPageContentDiv = wrapper => wrapper.find('.page-content')
 
 const getPageContentForm = wrapper =>
-  getPageContentDiv(wrapper).props.children.find(child => child.type === 'form')
+  getPageContentDiv(wrapper)
+    .props()
+    .children.find(child => child.type === 'form')
 
 const getPageContentFilter = wrapper =>
   getPageContentForm(wrapper).props.children.find(child => child.type.WrappedComponent)
 
 const getPageContentSwitch = wrapper =>
-  getPageContentDiv(wrapper).props.children.find(child => child.type === Switch)
+  getPageContentDiv(wrapper)
+    .props()
+    .children.find(child => child.type === Switch)
 
 const getPageContentSpinner = wrapper =>
   getPageContentSwitch(wrapper).props.children.find(child => child.type === Spinner)
@@ -45,7 +40,7 @@ const getSearchResults = wrapper =>
 const getSearchSpinner = wrapper => getPageContentSpinner(wrapper)
 
 const getSearchResultsFromCategory = wrapper =>
-  getSwitchedPageContent('/recherche/resultats/:categorie([A-Z][a-z]+)/:menu(menu)?')(wrapper).props
+  getSwitchedPageContent('/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?')(wrapper).props
     .children[1]
 
 const getKeywordsInput = wrapper =>
@@ -69,38 +64,39 @@ describe('src | components | pages | Search', () => {
   const queryChangeMock = jest.fn()
   const historyMock = { push: jest.fn() }
 
-  const baseInitialProps = {
-    dispatch: dispatchMock,
-    history: historyMock,
-    location: {
-      hash: '',
-      key: 'lxn6vp',
-      pathname: '/recherche',
-      search: '?orderBy=offer.id+desc',
-      state: undefined,
-    },
-    match: {
-      params: {
-        option: undefined,
-        subOption: undefined,
-        view: undefined,
-      },
-    },
-    query: {
-      change: queryChangeMock,
-      parse: () => ({ page: '1' }),
-    },
-    recommendations: [],
-    resetRecommendationsAndBookings: jest.fn(),
-    search: {},
-    typeSublabels: [],
-    typeSublabelsAndDescription: [],
-  }
-
   describe('snapshot', () => {
+    let props
+    beforeEach(() => {
+      props = {
+        dispatch: dispatchMock,
+        history: historyMock,
+        location: {
+          hash: '',
+          key: 'lxn6vp',
+          pathname: '/recherche',
+          search: '?orderBy=offer.id+desc',
+          state: undefined,
+        },
+        match: {
+          params: {
+            option: undefined,
+          },
+        },
+        query: {
+          change: queryChangeMock,
+          parse: () => ({ page: '1' }),
+        },
+        recommendations: [],
+        resetRecommendationsAndBookings: jest.fn(),
+        search: {},
+        typeSublabels: [],
+        typeSublabelsAndDescription: [],
+      }
+    })
+
     it('should match snapshot', () => {
       // when
-      const wrapper = shallow(<Search {...baseInitialProps} />)
+      const wrapper = shallow(<Search {...props} />)
 
       // then
       expect(wrapper).toBeDefined()
@@ -110,30 +106,71 @@ describe('src | components | pages | Search', () => {
 
   describe('switch Route', () => {
     describe('on the /recherche page', () => {
-      // given
-      const wrapper = shallow(<Search {...baseInitialProps} />)
+      let props
+      beforeEach(() => {
+        props = {
+          dispatch: dispatchMock,
+          history: historyMock,
+          location: {
+            hash: '',
+            key: 'lxn6vp',
+            pathname: '/recherche',
+            search: '?orderBy=offer.id+desc',
+            state: undefined,
+          },
+          match: {
+            params: {
+              option: undefined,
+            },
+          },
+          query: {
+            change: queryChangeMock,
+            parse: () => ({ page: '1' }),
+          },
+          recommendations: [],
+          resetRecommendationsAndBookings: jest.fn(),
+          search: {},
+          typeSublabels: [],
+          typeSublabelsAndDescription: [],
+        }
+      })
 
       it('should render the page title', () => {
+        // when
+        const wrapper = shallow(<Search {...props} />)
+
+        // then
         expect(wrapper.find(PageHeader).props().title).toBe('Recherche')
       })
 
       it('submitButton form is disabled', async () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
+
         // when
         const button = getPageContentForm(wrapper).props.children[0].props.children.find(
           child => child.props.id === 'search-page-keywords-field'
         ).props.children[1].props.children
+
         // then
         expect(button.props.disabled).toBe(true)
       })
 
       it('filter should be invisible', () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
+
         // when
         const searchFilterComponent = getPageContentFilter(wrapper)
+
         // then
         expect(searchFilterComponent.props.isVisible).toBe(false)
       })
 
       it('filter shoud be visible when state isFilterVisible is set to true ', () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
+
         // when
         const wrapperInstance = wrapper.instance()
         wrapperInstance.setState({ isFilterVisible: true })
@@ -144,6 +181,9 @@ describe('src | components | pages | Search', () => {
       })
 
       it('navByOfferType with path="/recherche"', () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
+
         // when
         const NavByOfferTypeComponent = getSwitchedPageContent('/recherche/:menu(menu)?')(wrapper)
 
@@ -154,18 +194,47 @@ describe('src | components | pages | Search', () => {
 
     describe('on /recherche/resultats page', () => {
       describe('on /recherche/resultats precisely', () => {
-        // given
-        const initialProps = Object.assign({}, baseInitialProps)
-        initialProps.location = Object.assign({}, baseInitialProps.location, {
-          pathname: '/recherche/resultats',
+        let props
+        beforeEach(() => {
+          props = {
+            dispatch: dispatchMock,
+            history: historyMock,
+            location: {
+              hash: '',
+              key: 'lxn6vp',
+              pathname: '/recherche/resultats',
+              search: '?orderBy=offer.id+desc',
+              state: undefined,
+            },
+            match: {
+              params: {
+                results: 'resultats',
+              },
+            },
+            query: {
+              change: queryChangeMock,
+              parse: () => ({ page: '1' }),
+            },
+            recommendations: [],
+            resetRecommendationsAndBookings: jest.fn(),
+            search: {},
+            typeSublabels: [],
+            typeSublabelsAndDescription: [],
+          }
         })
-        const wrapper = shallow(<Search {...initialProps} />)
 
         it('should render the page title', () => {
+          // given
+          const wrapper = shallow(<Search {...props} />)
+
+          // then
           expect(wrapper.find(PageHeader).props().title).toBe('Recherche : résultats')
         })
 
         it('searchResults with path="/recherche/resultats"', () => {
+          // given
+          const wrapper = shallow(<Search {...props} />)
+
           // when
           const SearchResults = getSearchResults(wrapper)
 
@@ -174,63 +243,78 @@ describe('src | components | pages | Search', () => {
         })
       })
 
-      describe('on /recherche/resultats/:categorie page', () => {
-        // given
-        const initialProps = Object.assign({}, baseInitialProps)
-        initialProps.location = Object.assign({}, baseInitialProps.location, {
-          pathname: '/recherche/resultats/Jouer',
-        })
-        initialProps.match = Object.assign({}, baseInitialProps.params, {
-          params: Object.assign({}, baseInitialProps.match.params, {
-            option: 'Jouer',
-          }),
-        })
-        initialProps.query = Object.assign({}, baseInitialProps.query, {
-          parse: () => ({
-            categories: 'Jouer',
-            'mots-cles': 'Fake',
-          }),
-        })
-        initialProps.typeSublabelsAndDescription = [
-          {
-            description:
-              'Résoudre l’énigme d’un jeu de piste dans votre ville ? Jouer en ligne entre amis ? Découvrir cet univers étrange avec une manette ?',
-            sublabel: 'Jouer',
-          },
-        ]
-        const wrapper = shallow(<Search {...initialProps} />)
-
-        describe('when search has finished loading', () => {
-          it('should mount navResultsHeader & SearchResults with path="/recherche/resultats/:categorie"', () => {
-            // given
-            wrapper.setState({ isLoading: false })
-            // when
-            const ResultsRoute = getSwitchedPageContent(
-              '/recherche/resultats/:categorie([A-Z][a-z]+)/:menu(menu)?'
-            )(wrapper)
-            const NavResultsHeader = ResultsRoute.props.children[0]
-            const SearchResults = getSearchResultsFromCategory(wrapper)
-
-            // then
-            expect(NavResultsHeader.props.category).toBe('Jouer')
-            expect(NavResultsHeader.props.description).toBe(
-              'Résoudre l’énigme d’un jeu de piste dans votre ville ? Jouer en ligne entre amis ? Découvrir cet univers étrange avec une manette ?'
-            )
-            expect(SearchResults.props.keywords).toBe('Fake')
-            expect(SearchResults.props.cameFromOfferTypesPage).toBe(true)
-          })
+      describe('on /recherche/resultats/:category page', () => {
+        let props
+        beforeEach(() => {
+          props = {
+            dispatch: dispatchMock,
+            history: historyMock,
+            location: {
+              hash: '',
+              key: 'lxn6vp',
+              pathname: '/recherche/resultats/Jouer',
+              search: '?orderBy=offer.id+desc',
+              state: undefined,
+            },
+            match: {
+              params: {
+                category: 'Jouer',
+                results: 'resultats',
+              },
+            },
+            query: {
+              change: queryChangeMock,
+              parse: () => ({
+                categories: 'Jouer',
+                'mots-cles': 'Fake',
+              }),
+            },
+            recommendations: [],
+            resetRecommendationsAndBookings: jest.fn(),
+            search: {},
+            typeSublabels: [],
+            typeSublabelsAndDescription: [
+              {
+                description:
+                  'Résoudre l’énigme d’un jeu de piste dans votre ville ? Jouer en ligne entre amis ? Découvrir cet univers étrange avec une manette ?',
+                sublabel: 'Jouer',
+              },
+            ],
+          }
         })
 
-        describe('when search is loading', () => {
-          it('should mount loading spinner', () => {
-            // given
-            wrapper.setState({ isLoading: true })
-            // when
-            const Spinner = getSearchSpinner(wrapper)
-            // then
-            expect(Spinner.key).toBe('loader')
-            expect(Spinner.props.label).toBe('Recherche en cours')
-          })
+        it('when search has finished loading should mount navResultsHeader & SearchResults with path="/recherche/resultats/:category"', () => {
+          // given
+          const wrapper = shallow(<Search {...props} />)
+          wrapper.setState({ isLoading: false })
+
+          // when
+          const ResultsRoute = getSwitchedPageContent(
+            '/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?'
+          )(wrapper)
+          const NavResultsHeader = ResultsRoute.props.children[0]
+          const SearchResults = getSearchResultsFromCategory(wrapper)
+
+          // then
+          expect(NavResultsHeader.props.category).toBe('Jouer')
+          expect(NavResultsHeader.props.description).toBe(
+            'Résoudre l’énigme d’un jeu de piste dans votre ville ? Jouer en ligne entre amis ? Découvrir cet univers étrange avec une manette ?'
+          )
+          expect(SearchResults.props.keywords).toBe('Fake')
+          expect(SearchResults.props.cameFromOfferTypesPage).toBe(true)
+        })
+
+        it('should mount loading spinner when search is loading', () => {
+          // given
+          const wrapper = shallow(<Search {...props} />)
+          wrapper.setState({ isLoading: true })
+
+          // when
+          const Spinner = getSearchSpinner(wrapper)
+
+          // then
+          expect(Spinner.key).toBe('loader')
+          expect(Spinner.props.label).toBe('Recherche en cours')
         })
       })
     })
@@ -238,15 +322,41 @@ describe('src | components | pages | Search', () => {
 
   describe('functions', () => {
     describe('constructor', () => {
+      let props
+      beforeEach(() => {
+        props = {
+          dispatch: dispatchMock,
+          history: historyMock,
+          location: {
+            hash: '',
+            key: 'lxn6vp',
+            pathname: '/recherche',
+            search: '?orderBy=offer.id+desc',
+            state: undefined,
+          },
+          match: {
+            params: {
+              option: undefined,
+            },
+          },
+          query: {
+            change: queryChangeMock,
+            parse: () => ({ page: '1' }),
+          },
+          recommendations: [],
+          resetRecommendationsAndBookings: jest.fn(),
+          search: {},
+          typeSublabels: [],
+          typeSublabelsAndDescription: [],
+        }
+      })
+
       it('should initialize state correctly', () => {
         // given
-        const initialProps = Object.assign({}, baseInitialProps)
-        initialProps.query = Object.assign({}, baseInitialProps.query, {
-          parse: () => ({ 'mots-cles': 'Fake' }),
-        })
+        props.query.parse = () => ({ 'mots-cles': 'Fake' })
 
         // when
-        const wrapper = shallow(<Search {...initialProps} />)
+        const wrapper = shallow(<Search {...props} />)
         const expected = {
           isLoading: false,
           hasMore: false,
@@ -262,9 +372,38 @@ describe('src | components | pages | Search', () => {
 
     describe('handleDataRequest', () => {
       describe('on resultats page', () => {
+        let props
+        beforeEach(() => {
+          props = {
+            dispatch: dispatchMock,
+            history: historyMock,
+            location: {
+              hash: '',
+              key: 'lxn6vp',
+              pathname: '/recherche',
+              search: '?orderBy=offer.id+desc',
+              state: undefined,
+            },
+            match: {
+              params: {
+                option: undefined,
+              },
+            },
+            query: {
+              change: queryChangeMock,
+              parse: () => ({ page: '1' }),
+            },
+            recommendations: [],
+            resetRecommendationsAndBookings: jest.fn(),
+            search: {},
+            typeSublabels: [],
+            typeSublabelsAndDescription: [],
+          }
+        })
+
         it('should dispatch requestDataTypes when component is rendered', () => {
           // when
-          const wrapper = shallow(<Search {...baseInitialProps} />)
+          const wrapper = shallow(<Search {...props} />)
           wrapper.instance().componentDidMount()
           const expectedRequestedGetTypes = {
             config: {
@@ -283,9 +422,38 @@ describe('src | components | pages | Search', () => {
     describe('back link', () => {
       describe('on results page', () => {
         describe('goBack()', () => {
+          let props
+          beforeEach(() => {
+            props = {
+              dispatch: dispatchMock,
+              history: historyMock,
+              location: {
+                hash: '',
+                key: 'lxn6vp',
+                pathname: '/recherche',
+                search: '?orderBy=offer.id+desc',
+                state: undefined,
+              },
+              match: {
+                params: {
+                  option: undefined,
+                },
+              },
+              query: {
+                change: queryChangeMock,
+                parse: () => ({ page: '1' }),
+              },
+              recommendations: [],
+              resetRecommendationsAndBookings: jest.fn(),
+              search: {},
+              typeSublabels: [],
+              typeSublabelsAndDescription: [],
+            }
+          })
+
           it('should back to /recherche', () => {
             // given
-            const wrapper = shallow(<Search {...baseInitialProps} />)
+            const wrapper = shallow(<Search {...props} />)
 
             // when
             const url = wrapper.instance().goBack()
@@ -296,9 +464,9 @@ describe('src | components | pages | Search', () => {
 
           it('should back to /recherche/resultats/Applaudir', () => {
             // given
-            baseInitialProps.match.params.details = 'details'
-            baseInitialProps.location.pathname = '/recherche/resultats/Applaudir/details/AE/AE'
-            const wrapper = shallow(<Search {...baseInitialProps} />)
+            props.match.params.details = 'details'
+            props.location.pathname = '/recherche/resultats/Applaudir/details/AE/AE'
+            const wrapper = shallow(<Search {...props} />)
 
             // when
             const url = wrapper.instance().goBack()
@@ -309,9 +477,38 @@ describe('src | components | pages | Search', () => {
         })
 
         describe('reinitializeStates()', () => {
+          let props
+          beforeEach(() => {
+            props = {
+              dispatch: dispatchMock,
+              history: historyMock,
+              location: {
+                hash: '',
+                key: 'lxn6vp',
+                pathname: '/recherche',
+                search: '?orderBy=offer.id+desc',
+                state: undefined,
+              },
+              match: {
+                params: {
+                  option: undefined,
+                },
+              },
+              query: {
+                change: queryChangeMock,
+                parse: () => ({ page: '1' }),
+              },
+              recommendations: [],
+              resetRecommendationsAndBookings: jest.fn(),
+              search: {},
+              typeSublabels: [],
+              typeSublabelsAndDescription: [],
+            }
+          })
+
           it('should reinitialize states when click the back link', () => {
             // given
-            const wrapper = shallow(<Search {...baseInitialProps} />)
+            const wrapper = shallow(<Search {...props} />)
 
             // when
             wrapper.instance().reinitializeStates()
@@ -329,9 +526,38 @@ describe('src | components | pages | Search', () => {
       })
 
       describe('not on results page', () => {
+        let props
+        beforeEach(() => {
+          props = {
+            dispatch: dispatchMock,
+            history: historyMock,
+            location: {
+              hash: '',
+              key: 'lxn6vp',
+              pathname: '/recherche',
+              search: '?orderBy=offer.id+desc',
+              state: undefined,
+            },
+            match: {
+              params: {
+                option: undefined,
+              },
+            },
+            query: {
+              change: queryChangeMock,
+              parse: () => ({ page: '1' }),
+            },
+            recommendations: [],
+            resetRecommendationsAndBookings: jest.fn(),
+            search: {},
+            typeSublabels: [],
+            typeSublabelsAndDescription: [],
+          }
+        })
+
         it('should not display back button', () => {
           // when
-          const wrapper = shallow(<Search {...baseInitialProps} />)
+          const wrapper = shallow(<Search {...props} />)
 
           // then
           expect(wrapper.contains('.back-link')).toBe(false)
@@ -341,7 +567,32 @@ describe('src | components | pages | Search', () => {
 
     describe('handleOnSubmit', () => {
       // when
-      const wrapper = shallow(<Search {...baseInitialProps} />)
+      const props = {
+        dispatch: dispatchMock,
+        history: historyMock,
+        location: {
+          hash: '',
+          key: 'lxn6vp',
+          pathname: '/recherche',
+          search: '?orderBy=offer.id+desc',
+          state: undefined,
+        },
+        match: {
+          params: {
+            option: undefined,
+          },
+        },
+        query: {
+          change: queryChangeMock,
+          parse: () => ({ page: '1' }),
+        },
+        recommendations: [],
+        resetRecommendationsAndBookings: jest.fn(),
+        search: {},
+        typeSublabels: [],
+        typeSublabelsAndDescription: [],
+      }
+      const wrapper = shallow(<Search {...props} />)
       const event = Object.assign(jest.fn(), {
         preventDefault: () => {},
         target: {
@@ -423,55 +674,112 @@ describe('src | components | pages | Search', () => {
     })
 
     describe('onKeywoFilterByDates.spec.jsrdsEraseClick', () => {
-      describe('when no char has been typed', () => {
-        it('button should not appear', () => {
-          // when
-          const wrapper = shallow(<Search {...baseInitialProps} />)
-          const button = wrapper.find('form').find('#refresh-keywords-button')
-
-          // then
-          expect(button).not.toHaveProperty('onClick')
-        })
+      let props
+      beforeEach(() => {
+        props = {
+          dispatch: dispatchMock,
+          history: historyMock,
+          location: {
+            hash: '',
+            key: 'lxn6vp',
+            pathname: '/recherche',
+            search: '?orderBy=offer.id+desc',
+            state: undefined,
+          },
+          match: {
+            params: {
+              option: undefined,
+            },
+          },
+          query: {
+            change: queryChangeMock,
+            parse: () => ({ page: '1' }),
+          },
+          recommendations: [],
+          resetRecommendationsAndBookings: jest.fn(),
+          search: {},
+          typeSublabels: [],
+          typeSublabelsAndDescription: [],
+        }
       })
 
-      describe('when one char has been typed', () => {
-        const wrapper = shallow(<Search {...baseInitialProps} />)
+      it('button should not appear when no char has been typed', () => {
+        // when
+        const wrapper = shallow(<Search {...props} />)
+        const button = wrapper.find('form').find('#refresh-keywords-button')
+
+        // then
+        expect(button).not.toHaveProperty('onClick')
+      })
+
+      it('should update state when one char has been typed', () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
         const wrapperInstance = wrapper.instance()
         wrapperInstance.setState({ keywordsValue: 'A' })
 
-        it('should update state', () => {
-          // when
-          const button = getRefreshKeywordsButton(wrapper)
-          button.props.onClick()
+        // when
+        const button = getRefreshKeywordsButton(wrapper)
+        button.props.onClick()
 
-          const expected = {
-            isLoading: false,
-            hasMore: false,
-            isFilterVisible: false,
-            keywordsKey: 1,
-            keywordsValue: '',
-          }
+        const expected = {
+          isLoading: false,
+          hasMore: false,
+          isFilterVisible: false,
+          keywordsKey: 1,
+          keywordsValue: '',
+        }
 
-          // then
-          expect(wrapper.state()).toStrictEqual(expected)
-        })
+        // then
+        expect(wrapper.state()).toStrictEqual(expected)
+      })
 
-        it('should change navigation', () => {
-          // when
-          wrapperInstance.setState({ keywordsValue: 'A' })
-          const button = getRefreshKeywordsButton(wrapper)
-          button.props.onClick()
+      it('should change navigation', () => {
+        // given
+        const wrapper = shallow(<Search {...props} />)
+        const wrapperInstance = wrapper.instance()
+        wrapperInstance.setState({ keywordsValue: 'A' })
 
-          // then
-          expect(wrapperInstance.state.keywordsValue).toBe('')
-          queryChangeMock.mockClear()
-        })
+        // when
+        wrapperInstance.setState({ keywordsValue: 'A' })
+        const button = getRefreshKeywordsButton(wrapper)
+        button.props.onClick()
+
+        // then
+        expect(wrapperInstance.state.keywordsValue).toBe('')
+        queryChangeMock.mockClear()
       })
     })
 
     describe('onKeywordsChange', () => {
       // when
-      const wrapper = shallow(<Search {...baseInitialProps} />)
+      // when
+      const props = {
+        dispatch: dispatchMock,
+        history: historyMock,
+        location: {
+          hash: '',
+          key: 'lxn6vp',
+          pathname: '/recherche',
+          search: '?orderBy=offer.id+desc',
+          state: undefined,
+        },
+        match: {
+          params: {
+            option: undefined,
+          },
+        },
+        query: {
+          change: queryChangeMock,
+          parse: () => ({ page: '1' }),
+        },
+        recommendations: [],
+        resetRecommendationsAndBookings: jest.fn(),
+        search: {},
+        typeSublabels: [],
+        typeSublabelsAndDescription: [],
+      }
+      const wrapper = shallow(<Search {...props} />)
       const event = {
         target: {
           value: 'Any',
@@ -502,7 +810,33 @@ describe('src | components | pages | Search', () => {
     describe('onClickOpenCloseFilterDiv', () => {
       describe('when user does not click on the icon button', () => {
         // when
-        const wrapper = shallow(<Search {...baseInitialProps} />)
+        // when
+        const props = {
+          dispatch: dispatchMock,
+          history: historyMock,
+          location: {
+            hash: '',
+            key: 'lxn6vp',
+            pathname: '/recherche',
+            search: '?orderBy=offer.id+desc',
+            state: undefined,
+          },
+          match: {
+            params: {
+              option: undefined,
+            },
+          },
+          query: {
+            change: queryChangeMock,
+            parse: () => ({ page: '1' }),
+          },
+          recommendations: [],
+          resetRecommendationsAndBookings: jest.fn(),
+          search: {},
+          typeSublabels: [],
+          typeSublabelsAndDescription: [],
+        }
+        const wrapper = shallow(<Search {...props} />)
 
         const filterToggleIcon = getFilterToggle(wrapper).props.children
 
@@ -527,7 +861,33 @@ describe('src | components | pages | Search', () => {
 
       describe('when user click on the icon button', () => {
         // when
-        const wrapper = shallow(<Search {...baseInitialProps} />)
+        // when
+        const props = {
+          dispatch: dispatchMock,
+          history: historyMock,
+          location: {
+            hash: '',
+            key: 'lxn6vp',
+            pathname: '/recherche',
+            search: '?orderBy=offer.id+desc',
+            state: undefined,
+          },
+          match: {
+            params: {
+              option: undefined,
+            },
+          },
+          query: {
+            change: queryChangeMock,
+            parse: () => ({ page: '1' }),
+          },
+          recommendations: [],
+          resetRecommendationsAndBookings: jest.fn(),
+          search: {},
+          typeSublabels: [],
+          typeSublabelsAndDescription: [],
+        }
+        const wrapper = shallow(<Search {...props} />)
         const filterToggle = getFilterToggle(wrapper)
         filterToggle.props.onClick(true)
         const filterToggleIcon = getFilterToggle(wrapper).props.children
@@ -553,22 +913,45 @@ describe('src | components | pages | Search', () => {
       describe('when there is some filters in search', () => {
         it('should show ico-filter-active icon', () => {
           // given
-          const initialProps = Object.assign({}, baseInitialProps)
-          initialProps.query.parse = () => ({
-            categories: '%C3%89couter,Pratiquer',
-            date: '2018-09-25T09:38:20.576Z',
-            days: null,
-            distance: null,
-            jours: '0-1,1-5,5-100000',
-            latitude: null,
-            longitude: null,
-            [`mots-cles`]: null,
-            page: '2',
-            types: null,
-          })
+          const props = {
+            dispatch: dispatchMock,
+            history: historyMock,
+            location: {
+              hash: '',
+              key: 'lxn6vp',
+              pathname: '/recherche',
+              search: '?orderBy=offer.id+desc',
+              state: undefined,
+            },
+            match: {
+              params: {
+                option: undefined,
+              },
+            },
+            query: {
+              change: queryChangeMock,
+              parse: () => ({
+                categories: '%C3%89couter,Pratiquer',
+                date: '2018-09-25T09:38:20.576Z',
+                days: null,
+                distance: null,
+                jours: '0-1,1-5,5-100000',
+                latitude: null,
+                longitude: null,
+                [`mots-cles`]: null,
+                page: '2',
+                types: null,
+              }),
+            },
+            recommendations: [],
+            resetRecommendationsAndBookings: jest.fn(),
+            search: {},
+            typeSublabels: [],
+            typeSublabelsAndDescription: [],
+          }
 
           // when
-          const wrapper = shallow(<Search {...initialProps} />)
+          const wrapper = shallow(<Search {...props} />)
           const filterToggleIcon = getFilterToggle(wrapper).props.children
 
           // then

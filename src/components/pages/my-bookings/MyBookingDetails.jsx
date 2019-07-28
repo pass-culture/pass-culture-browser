@@ -20,8 +20,7 @@ class MyBookingDetails extends PureComponent {
     const { booking, recommendation, requestGetBooking } = this.props
 
     if (booking) {
-      this.handleSetCurrentRecommendation(recommendation)
-      this.handleSetForceDetailsVisible(true)
+      this.handleMountDetails()
       return
     }
 
@@ -36,8 +35,7 @@ class MyBookingDetails extends PureComponent {
       recommendation &&
       !prevProps.recommendation
     if (shouldMountDetails) {
-      this.handleSetCurrentRecommendation(recommendation)
-      this.handleSetForceDetailsVisible(true)
+      this.handleMountDetails()
       return
     }
 
@@ -45,10 +43,15 @@ class MyBookingDetails extends PureComponent {
     const previousAreDetailsVisible = getAreDetailsVisible(prevProps.match)
     const shouldUnmountDetails = !areDetailsVisible && previousAreDetailsVisible
     if (shouldUnmountDetails) {
-      this.handleSetForceDetailsVisible(false)
-      setTimeout(() => this.handleSetCurrentRecommendation(null), 300)
+      this.handleUnmountDetails()
     }
 
+  }
+
+  handleMountDetails = () => {
+    const { recommendation } = this.props
+    this.setState({ currentRecommendation: recommendation })
+    this.handleSetForceDetailsVisible(true)
   }
 
   handleSetForceDetailsVisible = forceDetailsVisible => {
@@ -57,8 +60,9 @@ class MyBookingDetails extends PureComponent {
     setTimeout(() => this.setState({ forceDetailsVisible }))
   }
 
-  handleSetCurrentRecommendation = currentRecommendation => {
-    this.setState({ currentRecommendation })
+  handleUnmountDetails = () => {
+    this.handleSetForceDetailsVisible(false)
+    setTimeout(() => this.setState({ currentRecommendation: null }), 300)
   }
 
   renderBooking = route => {

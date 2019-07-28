@@ -75,7 +75,7 @@ const routes = [
     disabled: false,
     icon: 'search-w',
     path:
-      '/recherche/(resultats)?/:option?/:subOption?/:offerId?/:mediationId?/:details(details)?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
+      '/recherche/:results(resultats)?/:category?/:details(details)?/:offerId?/:mediationId?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Recherche',
   },
   {

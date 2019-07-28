@@ -15,9 +15,9 @@ describe('src | components | pages | search | RecommendationDetails', () => {
       dispatch: jest.fn(),
       match: {
         params: {
+          category: 'Applaudir',
           mediationId: 'DU',
           offerId: 'EA',
-          option: 'Applaudir',
         },
       },
       recommendation: {
@@ -42,17 +42,18 @@ describe('src | components | pages | search | RecommendationDetails', () => {
       const wrapper = shallow(<RecommendationDetails {...props} />)
 
       // when
-      wrapper.instance().handleSetAreDetailsVisible()
+      wrapper.instance().handleMountDetails()
 
       // then
-      expect(wrapper.state(['areDetailsVisible'])).toBe(true)
+      setTimeout(() =>
+        expect(wrapper.state(['forceDetailsVisible'])).toBe(true))
     })
   })
 
   describe('render()', () => {
     it('should have one Booking when I want details', () => {
       // given
-      const state = { areDetailsVisible: true }
+      const state = { forceDetailsVisible: true }
       const routeProps = {
         path: '/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
       }
@@ -89,8 +90,10 @@ describe('src | components | pages | search | RecommendationDetails', () => {
       const versoWrapper = wrapper.find(Verso)
 
       // then
-      expect(rectoWrapper).toHaveLength(1)
-      expect(versoWrapper).toHaveLength(1)
+      setTimeout(() => {
+        expect(rectoWrapper).toHaveLength(1)
+        expect(versoWrapper).toHaveLength(1)
+      })
     })
   })
 })

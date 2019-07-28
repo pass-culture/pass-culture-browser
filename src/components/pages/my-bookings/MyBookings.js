@@ -6,6 +6,7 @@ import MyBookingsListsContainer from './MyBookingsLists/MyBookingsListsContainer
 import MyBookingDetailsContainer from './MyBookingDetailsContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import PageHeader from '../../layout/Header/PageHeader'
+import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
 class MyBookings extends Component {
@@ -48,19 +49,8 @@ class MyBookings extends Component {
     })
   }
 
-  renderMyBookingsLists = route => (<MyBookingsListsContainer
-    {...route}
-    {...this.state}
-                                    />)
-
-  renderMyBookingDetails = route => <MyBookingDetailsContainer {...route} />
-
   render() {
-    const {
-      match: {
-        params: { details },
-      },
-    } = this.props
+    const { match } = this.props
     const { hasError, isEmpty, isLoading } = this.state
     if (isLoading) {
       return (<LoaderContainer
@@ -69,6 +59,7 @@ class MyBookings extends Component {
               />)
     }
 
+    const areDetailsVisible = getAreDetailsVisible(match)
     return (
       <main
         className={classnames('my-bookings-page page with-footer with-header', {
@@ -80,8 +71,8 @@ class MyBookings extends Component {
           backTo={this.goBack()}
           title="Mes réservations"
         />
-        {!details && this.renderMyBookingsLists()}
-        {this.renderMyBookingDetails()}
+        {!areDetailsVisible && <MyBookingsListsContainer />}
+        <MyBookingDetailsContainer />
       </main>
     )
   }

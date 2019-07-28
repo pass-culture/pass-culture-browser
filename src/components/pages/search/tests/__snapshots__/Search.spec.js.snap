@@ -37,55 +37,6 @@ ShallowWrapper {
           Array [
             Object {
               "config": Object {
-                "apiPath": "/recommendations?categories=Jouer&keywords=Fake",
-                "handleSuccess": [Function],
-                "method": "GET",
-                "normalizer": Object {
-                  "bookings": "bookings",
-                },
-              },
-              "type": "REQUEST_DATA_GET_/RECOMMENDATIONS?CATEGORIES=JOUER&KEYWORDS=FAKE",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
-                "apiPath": "/types",
-                "method": "GET",
-              },
-              "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
-                "apiPath": "/types",
-                "method": "GET",
-              },
-              "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
-                "apiPath": "/types",
-                "method": "GET",
-              },
-              "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
-                "apiPath": "/types",
-                "method": "GET",
-              },
-              "type": "REQUEST_DATA_GET_/TYPES",
-            },
-          ],
-          Array [
-            Object {
-              "config": Object {
                 "apiPath": "/types",
                 "method": "GET",
               },
@@ -103,26 +54,6 @@ ShallowWrapper {
           ],
         ],
         "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
           Object {
             "type": "return",
             "value": undefined,
@@ -164,8 +95,6 @@ ShallowWrapper {
       Object {
         "params": Object {
           "option": undefined,
-          "subOption": undefined,
-          "view": undefined,
         },
       }
     }
@@ -198,35 +127,8 @@ ShallowWrapper {
                 "page": null,
               },
             ],
-            Array [
-              Object {
-                "page": null,
-              },
-            ],
-            Array [
-              Object {
-                "page": null,
-              },
-            ],
-            Array [
-              Object {
-                "page": null,
-              },
-            ],
           ],
           "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
             Object {
               "type": "return",
               "value": undefined,
@@ -284,26 +186,108 @@ ShallowWrapper {
           title="Recherche"
           useSubmit={false}
         />,
-        <Switch
-          location={
-            Object {
-              "hash": "",
-              "key": "lxn6vp",
-              "pathname": "/recherche",
-              "search": "?orderBy=offer.id+desc",
-              "state": undefined,
-            }
-          }
-        >
-          <Route
-            path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
-            render={[Function]}
+        <React.Fragment>
+          <div
+            className="page-content"
+          >
+            <form
+              onSubmit={[Function]}
+            >
+              <div
+                className="flex-columns items-start"
+              >
+                <div
+                  className="field has-addons flex-columns flex-1"
+                  id="search-page-keywords-field"
+                >
+                  <p
+                    className="control has-icons-right flex-1"
+                  >
+                    <label
+                      className="is-hidden"
+                      htmlFor="keywords"
+                    >
+                      Veuillez entrer un mot-clé
+                    </label>
+                    <input
+                      className="input search-input"
+                      id="keywords"
+                      onChange={[Function]}
+                      placeholder="Un mot-clé"
+                      type="text"
+                    />
+                  </p>
+                  <div
+                    className="control flex-0"
+                  >
+                    <button
+                      className="button is-rounded is-medium"
+                      disabled={true}
+                      id="keywords-search-button"
+                      type="submit"
+                    >
+                      Chercher
+                    </button>
+                  </div>
+                </div>
+                <div
+                  className="flex-0 text-center flex-rows flex-center pb12 "
+                  id="search-filter-menu-toggle-button"
+                >
+                  <button
+                    className="no-border no-background no-outline"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      alt={null}
+                      className={null}
+                      src={null}
+                      svg="ico-filter"
+                    />
+                  </button>
+                </div>
+              </div>
+              <withRouter(_withQueryRouter)
+                isVisible={false}
+                onClickFilterButton={[Function]}
+              />
+            </form>
+            <Switch
+              location={
+                Object {
+                  "hash": "",
+                  "key": "lxn6vp",
+                  "pathname": "/recherche",
+                  "search": "?orderBy=offer.id+desc",
+                  "state": undefined,
+                }
+              }
+            >
+              <Route
+                exact={true}
+                path="/recherche/:menu(menu)?"
+                render={[Function]}
+              />
+              <React.Fragment>
+                <Route
+                  path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                  render={[Function]}
+                  sensitive={true}
+                />
+                <Route
+                  path="/recherche/resultats/:menu(menu)?"
+                  render={[Function]}
+                />
+              </React.Fragment>
+            </Switch>
+          </div>
+          <withRouter(withRouter(NavigationFooter))
+            className="dotted-top-red"
+            theme="white"
           />
-          <Route
-            path="/recherche/(resultats)?/:option?/:menu(menu)?"
-            render={[Function]}
-          />
-        </Switch>,
+        </React.Fragment>,
+        <withRouter(Connect(RecommendationDetails)) />,
       ],
       "className": "search-page page with-footer with-header",
       "role": "main",
@@ -332,53 +316,677 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "class",
+        "nodeType": "function",
         "props": Object {
           "children": Array [
-            <Route
-              path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
-              render={[Function]}
-            />,
-            <Route
-              path="/recherche/(resultats)?/:option?/:menu(menu)?"
-              render={[Function]}
+            <div
+              className="page-content"
+            >
+              <form
+                onSubmit={[Function]}
+              >
+                <div
+                  className="flex-columns items-start"
+                >
+                  <div
+                    className="field has-addons flex-columns flex-1"
+                    id="search-page-keywords-field"
+                  >
+                    <p
+                      className="control has-icons-right flex-1"
+                    >
+                      <label
+                        className="is-hidden"
+                        htmlFor="keywords"
+                      >
+                        Veuillez entrer un mot-clé
+                      </label>
+                      <input
+                        className="input search-input"
+                        id="keywords"
+                        onChange={[Function]}
+                        placeholder="Un mot-clé"
+                        type="text"
+                      />
+                    </p>
+                    <div
+                      className="control flex-0"
+                    >
+                      <button
+                        className="button is-rounded is-medium"
+                        disabled={true}
+                        id="keywords-search-button"
+                        type="submit"
+                      >
+                        Chercher
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    className="flex-0 text-center flex-rows flex-center pb12 "
+                    id="search-filter-menu-toggle-button"
+                  >
+                    <button
+                      className="no-border no-background no-outline"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <Icon
+                        alt={null}
+                        className={null}
+                        src={null}
+                        svg="ico-filter"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <withRouter(_withQueryRouter)
+                  isVisible={false}
+                  onClickFilterButton={[Function]}
+                />
+              </form>
+              <Switch
+                location={
+                  Object {
+                    "hash": "",
+                    "key": "lxn6vp",
+                    "pathname": "/recherche",
+                    "search": "?orderBy=offer.id+desc",
+                    "state": undefined,
+                  }
+                }
+              >
+                <Route
+                  exact={true}
+                  path="/recherche/:menu(menu)?"
+                  render={[Function]}
+                />
+                <React.Fragment>
+                  <Route
+                    path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                    render={[Function]}
+                    sensitive={true}
+                  />
+                  <Route
+                    path="/recherche/resultats/:menu(menu)?"
+                    render={[Function]}
+                  />
+                </React.Fragment>
+              </Switch>
+            </div>,
+            <withRouter(withRouter(NavigationFooter))
+              className="dotted-top-red"
+              theme="white"
             />,
           ],
-          "location": Object {
-            "hash": "",
-            "key": "lxn6vp",
-            "pathname": "/recherche",
-            "search": "?orderBy=offer.id+desc",
-            "state": undefined,
-          },
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "class",
+            "nodeType": "host",
             "props": Object {
-              "path": "/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?",
-              "render": [Function],
+              "children": Array [
+                <form
+                  onSubmit={[Function]}
+                >
+                  <div
+                    className="flex-columns items-start"
+                  >
+                    <div
+                      className="field has-addons flex-columns flex-1"
+                      id="search-page-keywords-field"
+                    >
+                      <p
+                        className="control has-icons-right flex-1"
+                      >
+                        <label
+                          className="is-hidden"
+                          htmlFor="keywords"
+                        >
+                          Veuillez entrer un mot-clé
+                        </label>
+                        <input
+                          className="input search-input"
+                          id="keywords"
+                          onChange={[Function]}
+                          placeholder="Un mot-clé"
+                          type="text"
+                        />
+                      </p>
+                      <div
+                        className="control flex-0"
+                      >
+                        <button
+                          className="button is-rounded is-medium"
+                          disabled={true}
+                          id="keywords-search-button"
+                          type="submit"
+                        >
+                          Chercher
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      className="flex-0 text-center flex-rows flex-center pb12 "
+                      id="search-filter-menu-toggle-button"
+                    >
+                      <button
+                        className="no-border no-background no-outline"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          alt={null}
+                          className={null}
+                          src={null}
+                          svg="ico-filter"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  <withRouter(_withQueryRouter)
+                    isVisible={false}
+                    onClickFilterButton={[Function]}
+                  />
+                </form>,
+                <Switch
+                  location={
+                    Object {
+                      "hash": "",
+                      "key": "lxn6vp",
+                      "pathname": "/recherche",
+                      "search": "?orderBy=offer.id+desc",
+                      "state": undefined,
+                    }
+                  }
+                >
+                  <Route
+                    exact={true}
+                    path="/recherche/:menu(menu)?"
+                    render={[Function]}
+                  />
+                  <React.Fragment>
+                    <Route
+                      path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                      render={[Function]}
+                      sensitive={true}
+                    />
+                    <Route
+                      path="/recherche/resultats/:menu(menu)?"
+                      render={[Function]}
+                    />
+                  </React.Fragment>
+                </Switch>,
+              ],
+              "className": "page-content",
             },
             "ref": null,
-            "rendered": null,
-            "type": [Function],
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      className="flex-columns items-start"
+                    >
+                      <div
+                        className="field has-addons flex-columns flex-1"
+                        id="search-page-keywords-field"
+                      >
+                        <p
+                          className="control has-icons-right flex-1"
+                        >
+                          <label
+                            className="is-hidden"
+                            htmlFor="keywords"
+                          >
+                            Veuillez entrer un mot-clé
+                          </label>
+                          <input
+                            className="input search-input"
+                            id="keywords"
+                            onChange={[Function]}
+                            placeholder="Un mot-clé"
+                            type="text"
+                          />
+                        </p>
+                        <div
+                          className="control flex-0"
+                        >
+                          <button
+                            className="button is-rounded is-medium"
+                            disabled={true}
+                            id="keywords-search-button"
+                            type="submit"
+                          >
+                            Chercher
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        className="flex-0 text-center flex-rows flex-center pb12 "
+                        id="search-filter-menu-toggle-button"
+                      >
+                        <button
+                          className="no-border no-background no-outline"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            alt={null}
+                            className={null}
+                            src={null}
+                            svg="ico-filter"
+                          />
+                        </button>
+                      </div>
+                    </div>,
+                    <withRouter(_withQueryRouter)
+                      isVisible={false}
+                      onClickFilterButton={[Function]}
+                    />,
+                  ],
+                  "onSubmit": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <div
+                          className="field has-addons flex-columns flex-1"
+                          id="search-page-keywords-field"
+                        >
+                          <p
+                            className="control has-icons-right flex-1"
+                          >
+                            <label
+                              className="is-hidden"
+                              htmlFor="keywords"
+                            >
+                              Veuillez entrer un mot-clé
+                            </label>
+                            <input
+                              className="input search-input"
+                              id="keywords"
+                              onChange={[Function]}
+                              placeholder="Un mot-clé"
+                              type="text"
+                            />
+                          </p>
+                          <div
+                            className="control flex-0"
+                          >
+                            <button
+                              className="button is-rounded is-medium"
+                              disabled={true}
+                              id="keywords-search-button"
+                              type="submit"
+                            >
+                              Chercher
+                            </button>
+                          </div>
+                        </div>,
+                        <div
+                          className="flex-0 text-center flex-rows flex-center pb12 "
+                          id="search-filter-menu-toggle-button"
+                        >
+                          <button
+                            className="no-border no-background no-outline"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <Icon
+                              alt={null}
+                              className={null}
+                              src={null}
+                              svg="ico-filter"
+                            />
+                          </button>
+                        </div>,
+                      ],
+                      "className": "flex-columns items-start",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": Array [
+                            <p
+                              className="control has-icons-right flex-1"
+                            >
+                              <label
+                                className="is-hidden"
+                                htmlFor="keywords"
+                              >
+                                Veuillez entrer un mot-clé
+                              </label>
+                              <input
+                                className="input search-input"
+                                id="keywords"
+                                onChange={[Function]}
+                                placeholder="Un mot-clé"
+                                type="text"
+                              />
+                            </p>,
+                            <div
+                              className="control flex-0"
+                            >
+                              <button
+                                className="button is-rounded is-medium"
+                                disabled={true}
+                                id="keywords-search-button"
+                                type="submit"
+                              >
+                                Chercher
+                              </button>
+                            </div>,
+                          ],
+                          "className": "field has-addons flex-columns flex-1",
+                          "id": "search-page-keywords-field",
+                        },
+                        "ref": null,
+                        "rendered": Array [
+                          Object {
+                            "instance": null,
+                            "key": "0",
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": Array [
+                                <label
+                                  className="is-hidden"
+                                  htmlFor="keywords"
+                                >
+                                  Veuillez entrer un mot-clé
+                                </label>,
+                                <input
+                                  className="input search-input"
+                                  id="keywords"
+                                  onChange={[Function]}
+                                  placeholder="Un mot-clé"
+                                  type="text"
+                                />,
+                                undefined,
+                              ],
+                              "className": "control has-icons-right flex-1",
+                            },
+                            "ref": null,
+                            "rendered": Array [
+                              Object {
+                                "instance": null,
+                                "key": undefined,
+                                "nodeType": "host",
+                                "props": Object {
+                                  "children": "Veuillez entrer un mot-clé",
+                                  "className": "is-hidden",
+                                  "htmlFor": "keywords",
+                                },
+                                "ref": null,
+                                "rendered": "Veuillez entrer un mot-clé",
+                                "type": "label",
+                              },
+                              Object {
+                                "instance": null,
+                                "key": undefined,
+                                "nodeType": "host",
+                                "props": Object {
+                                  "className": "input search-input",
+                                  "defaultValue": undefined,
+                                  "id": "keywords",
+                                  "onChange": [Function],
+                                  "placeholder": "Un mot-clé",
+                                  "type": "text",
+                                },
+                                "ref": null,
+                                "rendered": null,
+                                "type": "input",
+                              },
+                              undefined,
+                            ],
+                            "type": "p",
+                          },
+                          Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": <button
+                                className="button is-rounded is-medium"
+                                disabled={true}
+                                id="keywords-search-button"
+                                type="submit"
+                              >
+                                Chercher
+                              </button>,
+                              "className": "control flex-0",
+                            },
+                            "ref": null,
+                            "rendered": Object {
+                              "instance": null,
+                              "key": undefined,
+                              "nodeType": "host",
+                              "props": Object {
+                                "children": "Chercher",
+                                "className": "button is-rounded is-medium",
+                                "disabled": true,
+                                "id": "keywords-search-button",
+                                "type": "submit",
+                              },
+                              "ref": null,
+                              "rendered": "Chercher",
+                              "type": "button",
+                            },
+                            "type": "div",
+                          },
+                        ],
+                        "type": "div",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": <button
+                            className="no-border no-background no-outline"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <Icon
+                              alt={null}
+                              className={null}
+                              src={null}
+                              svg="ico-filter"
+                            />
+                          </button>,
+                          "className": "flex-0 text-center flex-rows flex-center pb12 ",
+                          "id": "search-filter-menu-toggle-button",
+                        },
+                        "ref": null,
+                        "rendered": Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": <Icon
+                              alt={null}
+                              className={null}
+                              src={null}
+                              svg="ico-filter"
+                            />,
+                            "className": "no-border no-background no-outline",
+                            "onClick": [Function],
+                            "type": "button",
+                          },
+                          "ref": null,
+                          "rendered": Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "function",
+                            "props": Object {
+                              "alt": null,
+                              "className": null,
+                              "src": null,
+                              "svg": "ico-filter",
+                            },
+                            "ref": null,
+                            "rendered": null,
+                            "type": [Function],
+                          },
+                          "type": "button",
+                        },
+                        "type": "div",
+                      },
+                    ],
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "isVisible": false,
+                      "onClickFilterButton": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "form",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": Array [
+                    <Route
+                      exact={true}
+                      path="/recherche/:menu(menu)?"
+                      render={[Function]}
+                    />,
+                    false,
+                    <React.Fragment>
+                      <Route
+                        path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                        render={[Function]}
+                        sensitive={true}
+                      />
+                      <Route
+                        path="/recherche/resultats/:menu(menu)?"
+                        render={[Function]}
+                      />
+                    </React.Fragment>,
+                  ],
+                  "location": Object {
+                    "hash": "",
+                    "key": "lxn6vp",
+                    "pathname": "/recherche",
+                    "search": "?orderBy=offer.id+desc",
+                    "state": undefined,
+                  },
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "exact": true,
+                      "path": "/recherche/:menu(menu)?",
+                      "render": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  false,
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "children": Array [
+                        <Route
+                          path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                          render={[Function]}
+                          sensitive={true}
+                        />,
+                        <Route
+                          path="/recherche/resultats/:menu(menu)?"
+                          render={[Function]}
+                        />,
+                      ],
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "class",
+                        "props": Object {
+                          "path": "/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?",
+                          "render": [Function],
+                          "sensitive": true,
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "class",
+                        "props": Object {
+                          "path": "/recherche/resultats/:menu(menu)?",
+                          "render": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": Symbol(react.fragment),
+                  },
+                ],
+                "type": [Function],
+              },
+            ],
+            "type": "div",
           },
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "class",
+            "nodeType": "function",
             "props": Object {
-              "path": "/recherche/(resultats)?/:option?/:menu(menu)?",
-              "render": [Function],
+              "className": "dotted-top-red",
+              "theme": "white",
             },
             "ref": null,
             "rendered": null,
             "type": [Function],
           },
         ],
+        "type": Symbol(react.fragment),
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
         "type": [Function],
       },
     ],
@@ -402,26 +1010,108 @@ ShallowWrapper {
             title="Recherche"
             useSubmit={false}
           />,
-          <Switch
-            location={
-              Object {
-                "hash": "",
-                "key": "lxn6vp",
-                "pathname": "/recherche",
-                "search": "?orderBy=offer.id+desc",
-                "state": undefined,
-              }
-            }
-          >
-            <Route
-              path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
-              render={[Function]}
+          <React.Fragment>
+            <div
+              className="page-content"
+            >
+              <form
+                onSubmit={[Function]}
+              >
+                <div
+                  className="flex-columns items-start"
+                >
+                  <div
+                    className="field has-addons flex-columns flex-1"
+                    id="search-page-keywords-field"
+                  >
+                    <p
+                      className="control has-icons-right flex-1"
+                    >
+                      <label
+                        className="is-hidden"
+                        htmlFor="keywords"
+                      >
+                        Veuillez entrer un mot-clé
+                      </label>
+                      <input
+                        className="input search-input"
+                        id="keywords"
+                        onChange={[Function]}
+                        placeholder="Un mot-clé"
+                        type="text"
+                      />
+                    </p>
+                    <div
+                      className="control flex-0"
+                    >
+                      <button
+                        className="button is-rounded is-medium"
+                        disabled={true}
+                        id="keywords-search-button"
+                        type="submit"
+                      >
+                        Chercher
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    className="flex-0 text-center flex-rows flex-center pb12 "
+                    id="search-filter-menu-toggle-button"
+                  >
+                    <button
+                      className="no-border no-background no-outline"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <Icon
+                        alt={null}
+                        className={null}
+                        src={null}
+                        svg="ico-filter"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <withRouter(_withQueryRouter)
+                  isVisible={false}
+                  onClickFilterButton={[Function]}
+                />
+              </form>
+              <Switch
+                location={
+                  Object {
+                    "hash": "",
+                    "key": "lxn6vp",
+                    "pathname": "/recherche",
+                    "search": "?orderBy=offer.id+desc",
+                    "state": undefined,
+                  }
+                }
+              >
+                <Route
+                  exact={true}
+                  path="/recherche/:menu(menu)?"
+                  render={[Function]}
+                />
+                <React.Fragment>
+                  <Route
+                    path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                    render={[Function]}
+                    sensitive={true}
+                  />
+                  <Route
+                    path="/recherche/resultats/:menu(menu)?"
+                    render={[Function]}
+                  />
+                </React.Fragment>
+              </Switch>
+            </div>
+            <withRouter(withRouter(NavigationFooter))
+              className="dotted-top-red"
+              theme="white"
             />
-            <Route
-              path="/recherche/(resultats)?/:option?/:menu(menu)?"
-              render={[Function]}
-            />
-          </Switch>,
+          </React.Fragment>,
+          <withRouter(Connect(RecommendationDetails)) />,
         ],
         "className": "search-page page with-footer with-header",
         "role": "main",
@@ -450,53 +1140,677 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "class",
+          "nodeType": "function",
           "props": Object {
             "children": Array [
-              <Route
-                path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?"
-                render={[Function]}
-              />,
-              <Route
-                path="/recherche/(resultats)?/:option?/:menu(menu)?"
-                render={[Function]}
+              <div
+                className="page-content"
+              >
+                <form
+                  onSubmit={[Function]}
+                >
+                  <div
+                    className="flex-columns items-start"
+                  >
+                    <div
+                      className="field has-addons flex-columns flex-1"
+                      id="search-page-keywords-field"
+                    >
+                      <p
+                        className="control has-icons-right flex-1"
+                      >
+                        <label
+                          className="is-hidden"
+                          htmlFor="keywords"
+                        >
+                          Veuillez entrer un mot-clé
+                        </label>
+                        <input
+                          className="input search-input"
+                          id="keywords"
+                          onChange={[Function]}
+                          placeholder="Un mot-clé"
+                          type="text"
+                        />
+                      </p>
+                      <div
+                        className="control flex-0"
+                      >
+                        <button
+                          className="button is-rounded is-medium"
+                          disabled={true}
+                          id="keywords-search-button"
+                          type="submit"
+                        >
+                          Chercher
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      className="flex-0 text-center flex-rows flex-center pb12 "
+                      id="search-filter-menu-toggle-button"
+                    >
+                      <button
+                        className="no-border no-background no-outline"
+                        onClick={[Function]}
+                        type="button"
+                      >
+                        <Icon
+                          alt={null}
+                          className={null}
+                          src={null}
+                          svg="ico-filter"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  <withRouter(_withQueryRouter)
+                    isVisible={false}
+                    onClickFilterButton={[Function]}
+                  />
+                </form>
+                <Switch
+                  location={
+                    Object {
+                      "hash": "",
+                      "key": "lxn6vp",
+                      "pathname": "/recherche",
+                      "search": "?orderBy=offer.id+desc",
+                      "state": undefined,
+                    }
+                  }
+                >
+                  <Route
+                    exact={true}
+                    path="/recherche/:menu(menu)?"
+                    render={[Function]}
+                  />
+                  <React.Fragment>
+                    <Route
+                      path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                      render={[Function]}
+                      sensitive={true}
+                    />
+                    <Route
+                      path="/recherche/resultats/:menu(menu)?"
+                      render={[Function]}
+                    />
+                  </React.Fragment>
+                </Switch>
+              </div>,
+              <withRouter(withRouter(NavigationFooter))
+                className="dotted-top-red"
+                theme="white"
               />,
             ],
-            "location": Object {
-              "hash": "",
-              "key": "lxn6vp",
-              "pathname": "/recherche",
-              "search": "?orderBy=offer.id+desc",
-              "state": undefined,
-            },
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "host",
               "props": Object {
-                "path": "/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)?/:bookingId([A-Z0-9]+)/:cancellation(annulation)?/:confirmation(confirmation)?",
-                "render": [Function],
+                "children": Array [
+                  <form
+                    onSubmit={[Function]}
+                  >
+                    <div
+                      className="flex-columns items-start"
+                    >
+                      <div
+                        className="field has-addons flex-columns flex-1"
+                        id="search-page-keywords-field"
+                      >
+                        <p
+                          className="control has-icons-right flex-1"
+                        >
+                          <label
+                            className="is-hidden"
+                            htmlFor="keywords"
+                          >
+                            Veuillez entrer un mot-clé
+                          </label>
+                          <input
+                            className="input search-input"
+                            id="keywords"
+                            onChange={[Function]}
+                            placeholder="Un mot-clé"
+                            type="text"
+                          />
+                        </p>
+                        <div
+                          className="control flex-0"
+                        >
+                          <button
+                            className="button is-rounded is-medium"
+                            disabled={true}
+                            id="keywords-search-button"
+                            type="submit"
+                          >
+                            Chercher
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        className="flex-0 text-center flex-rows flex-center pb12 "
+                        id="search-filter-menu-toggle-button"
+                      >
+                        <button
+                          className="no-border no-background no-outline"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            alt={null}
+                            className={null}
+                            src={null}
+                            svg="ico-filter"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                    <withRouter(_withQueryRouter)
+                      isVisible={false}
+                      onClickFilterButton={[Function]}
+                    />
+                  </form>,
+                  <Switch
+                    location={
+                      Object {
+                        "hash": "",
+                        "key": "lxn6vp",
+                        "pathname": "/recherche",
+                        "search": "?orderBy=offer.id+desc",
+                        "state": undefined,
+                      }
+                    }
+                  >
+                    <Route
+                      exact={true}
+                      path="/recherche/:menu(menu)?"
+                      render={[Function]}
+                    />
+                    <React.Fragment>
+                      <Route
+                        path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                        render={[Function]}
+                        sensitive={true}
+                      />
+                      <Route
+                        path="/recherche/resultats/:menu(menu)?"
+                        render={[Function]}
+                      />
+                    </React.Fragment>
+                  </Switch>,
+                ],
+                "className": "page-content",
               },
               "ref": null,
-              "rendered": null,
-              "type": [Function],
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <div
+                        className="flex-columns items-start"
+                      >
+                        <div
+                          className="field has-addons flex-columns flex-1"
+                          id="search-page-keywords-field"
+                        >
+                          <p
+                            className="control has-icons-right flex-1"
+                          >
+                            <label
+                              className="is-hidden"
+                              htmlFor="keywords"
+                            >
+                              Veuillez entrer un mot-clé
+                            </label>
+                            <input
+                              className="input search-input"
+                              id="keywords"
+                              onChange={[Function]}
+                              placeholder="Un mot-clé"
+                              type="text"
+                            />
+                          </p>
+                          <div
+                            className="control flex-0"
+                          >
+                            <button
+                              className="button is-rounded is-medium"
+                              disabled={true}
+                              id="keywords-search-button"
+                              type="submit"
+                            >
+                              Chercher
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          className="flex-0 text-center flex-rows flex-center pb12 "
+                          id="search-filter-menu-toggle-button"
+                        >
+                          <button
+                            className="no-border no-background no-outline"
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <Icon
+                              alt={null}
+                              className={null}
+                              src={null}
+                              svg="ico-filter"
+                            />
+                          </button>
+                        </div>
+                      </div>,
+                      <withRouter(_withQueryRouter)
+                        isVisible={false}
+                        onClickFilterButton={[Function]}
+                      />,
+                    ],
+                    "onSubmit": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          <div
+                            className="field has-addons flex-columns flex-1"
+                            id="search-page-keywords-field"
+                          >
+                            <p
+                              className="control has-icons-right flex-1"
+                            >
+                              <label
+                                className="is-hidden"
+                                htmlFor="keywords"
+                              >
+                                Veuillez entrer un mot-clé
+                              </label>
+                              <input
+                                className="input search-input"
+                                id="keywords"
+                                onChange={[Function]}
+                                placeholder="Un mot-clé"
+                                type="text"
+                              />
+                            </p>
+                            <div
+                              className="control flex-0"
+                            >
+                              <button
+                                className="button is-rounded is-medium"
+                                disabled={true}
+                                id="keywords-search-button"
+                                type="submit"
+                              >
+                                Chercher
+                              </button>
+                            </div>
+                          </div>,
+                          <div
+                            className="flex-0 text-center flex-rows flex-center pb12 "
+                            id="search-filter-menu-toggle-button"
+                          >
+                            <button
+                              className="no-border no-background no-outline"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <Icon
+                                alt={null}
+                                className={null}
+                                src={null}
+                                svg="ico-filter"
+                              />
+                            </button>
+                          </div>,
+                        ],
+                        "className": "flex-columns items-start",
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": Array [
+                              <p
+                                className="control has-icons-right flex-1"
+                              >
+                                <label
+                                  className="is-hidden"
+                                  htmlFor="keywords"
+                                >
+                                  Veuillez entrer un mot-clé
+                                </label>
+                                <input
+                                  className="input search-input"
+                                  id="keywords"
+                                  onChange={[Function]}
+                                  placeholder="Un mot-clé"
+                                  type="text"
+                                />
+                              </p>,
+                              <div
+                                className="control flex-0"
+                              >
+                                <button
+                                  className="button is-rounded is-medium"
+                                  disabled={true}
+                                  id="keywords-search-button"
+                                  type="submit"
+                                >
+                                  Chercher
+                                </button>
+                              </div>,
+                            ],
+                            "className": "field has-addons flex-columns flex-1",
+                            "id": "search-page-keywords-field",
+                          },
+                          "ref": null,
+                          "rendered": Array [
+                            Object {
+                              "instance": null,
+                              "key": "0",
+                              "nodeType": "host",
+                              "props": Object {
+                                "children": Array [
+                                  <label
+                                    className="is-hidden"
+                                    htmlFor="keywords"
+                                  >
+                                    Veuillez entrer un mot-clé
+                                  </label>,
+                                  <input
+                                    className="input search-input"
+                                    id="keywords"
+                                    onChange={[Function]}
+                                    placeholder="Un mot-clé"
+                                    type="text"
+                                  />,
+                                  undefined,
+                                ],
+                                "className": "control has-icons-right flex-1",
+                              },
+                              "ref": null,
+                              "rendered": Array [
+                                Object {
+                                  "instance": null,
+                                  "key": undefined,
+                                  "nodeType": "host",
+                                  "props": Object {
+                                    "children": "Veuillez entrer un mot-clé",
+                                    "className": "is-hidden",
+                                    "htmlFor": "keywords",
+                                  },
+                                  "ref": null,
+                                  "rendered": "Veuillez entrer un mot-clé",
+                                  "type": "label",
+                                },
+                                Object {
+                                  "instance": null,
+                                  "key": undefined,
+                                  "nodeType": "host",
+                                  "props": Object {
+                                    "className": "input search-input",
+                                    "defaultValue": undefined,
+                                    "id": "keywords",
+                                    "onChange": [Function],
+                                    "placeholder": "Un mot-clé",
+                                    "type": "text",
+                                  },
+                                  "ref": null,
+                                  "rendered": null,
+                                  "type": "input",
+                                },
+                                undefined,
+                              ],
+                              "type": "p",
+                            },
+                            Object {
+                              "instance": null,
+                              "key": undefined,
+                              "nodeType": "host",
+                              "props": Object {
+                                "children": <button
+                                  className="button is-rounded is-medium"
+                                  disabled={true}
+                                  id="keywords-search-button"
+                                  type="submit"
+                                >
+                                  Chercher
+                                </button>,
+                                "className": "control flex-0",
+                              },
+                              "ref": null,
+                              "rendered": Object {
+                                "instance": null,
+                                "key": undefined,
+                                "nodeType": "host",
+                                "props": Object {
+                                  "children": "Chercher",
+                                  "className": "button is-rounded is-medium",
+                                  "disabled": true,
+                                  "id": "keywords-search-button",
+                                  "type": "submit",
+                                },
+                                "ref": null,
+                                "rendered": "Chercher",
+                                "type": "button",
+                              },
+                              "type": "div",
+                            },
+                          ],
+                          "type": "div",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": <button
+                              className="no-border no-background no-outline"
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <Icon
+                                alt={null}
+                                className={null}
+                                src={null}
+                                svg="ico-filter"
+                              />
+                            </button>,
+                            "className": "flex-0 text-center flex-rows flex-center pb12 ",
+                            "id": "search-filter-menu-toggle-button",
+                          },
+                          "ref": null,
+                          "rendered": Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": <Icon
+                                alt={null}
+                                className={null}
+                                src={null}
+                                svg="ico-filter"
+                              />,
+                              "className": "no-border no-background no-outline",
+                              "onClick": [Function],
+                              "type": "button",
+                            },
+                            "ref": null,
+                            "rendered": Object {
+                              "instance": null,
+                              "key": undefined,
+                              "nodeType": "function",
+                              "props": Object {
+                                "alt": null,
+                                "className": null,
+                                "src": null,
+                                "svg": "ico-filter",
+                              },
+                              "ref": null,
+                              "rendered": null,
+                              "type": [Function],
+                            },
+                            "type": "button",
+                          },
+                          "type": "div",
+                        },
+                      ],
+                      "type": "div",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "isVisible": false,
+                        "onClickFilterButton": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "form",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      <Route
+                        exact={true}
+                        path="/recherche/:menu(menu)?"
+                        render={[Function]}
+                      />,
+                      false,
+                      <React.Fragment>
+                        <Route
+                          path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                          render={[Function]}
+                          sensitive={true}
+                        />
+                        <Route
+                          path="/recherche/resultats/:menu(menu)?"
+                          render={[Function]}
+                        />
+                      </React.Fragment>,
+                    ],
+                    "location": Object {
+                      "hash": "",
+                      "key": "lxn6vp",
+                      "pathname": "/recherche",
+                      "search": "?orderBy=offer.id+desc",
+                      "state": undefined,
+                    },
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "exact": true,
+                        "path": "/recherche/:menu(menu)?",
+                        "render": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    false,
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "function",
+                      "props": Object {
+                        "children": Array [
+                          <Route
+                            path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
+                            render={[Function]}
+                            sensitive={true}
+                          />,
+                          <Route
+                            path="/recherche/resultats/:menu(menu)?"
+                            render={[Function]}
+                          />,
+                        ],
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "class",
+                          "props": Object {
+                            "path": "/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?",
+                            "render": [Function],
+                            "sensitive": true,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "class",
+                          "props": Object {
+                            "path": "/recherche/resultats/:menu(menu)?",
+                            "render": [Function],
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                      ],
+                      "type": Symbol(react.fragment),
+                    },
+                  ],
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "function",
               "props": Object {
-                "path": "/recherche/(resultats)?/:option?/:menu(menu)?",
-                "render": [Function],
+                "className": "dotted-top-red",
+                "theme": "white",
               },
               "ref": null,
               "rendered": null,
               "type": [Function],
             },
           ],
+          "type": Symbol(react.fragment),
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
           "type": [Function],
         },
       ],

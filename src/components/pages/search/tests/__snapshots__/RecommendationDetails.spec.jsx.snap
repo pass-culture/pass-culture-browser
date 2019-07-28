@@ -8,9 +8,9 @@ ShallowWrapper {
     match={
       Object {
         "params": Object {
+          "category": "Applaudir",
           "mediationId": "DU",
           "offerId": "EA",
-          "option": "Applaudir",
         },
       }
     }
@@ -48,16 +48,6 @@ ShallowWrapper {
               }
             }
           />
-          <Recto
-            areDetailsVisible={false}
-            extraClassName="with-header"
-            position="current"
-            recommendation={
-              Object {
-                "id": "EA",
-              }
-            }
-          />
         </React.Fragment>,
       ],
     },
@@ -80,16 +70,7 @@ ShallowWrapper {
                 }
               }
             />,
-            <Recto
-              areDetailsVisible={false}
-              extraClassName="with-header"
-              position="current"
-              recommendation={
-                Object {
-                  "id": "EA",
-                }
-              }
-            />,
+            false,
           ],
         },
         "ref": null,
@@ -110,22 +91,7 @@ ShallowWrapper {
             "rendered": null,
             "type": [Function],
           },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "areDetailsVisible": false,
-              "extraClassName": "with-header",
-              "position": "current",
-              "recommendation": Object {
-                "id": "EA",
-              },
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+          false,
         ],
         "type": Symbol(react.fragment),
       },
@@ -145,16 +111,6 @@ ShallowWrapper {
               areDetailsVisible={false}
               booking={null}
               extraClassName="with-header"
-              recommendation={
-                Object {
-                  "id": "EA",
-                }
-              }
-            />
-            <Recto
-              areDetailsVisible={false}
-              extraClassName="with-header"
-              position="current"
               recommendation={
                 Object {
                   "id": "EA",
@@ -183,16 +139,7 @@ ShallowWrapper {
                   }
                 }
               />,
-              <Recto
-                areDetailsVisible={false}
-                extraClassName="with-header"
-                position="current"
-                recommendation={
-                  Object {
-                    "id": "EA",
-                  }
-                }
-              />,
+              false,
             ],
           },
           "ref": null,
@@ -213,22 +160,7 @@ ShallowWrapper {
               "rendered": null,
               "type": [Function],
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "areDetailsVisible": false,
-                "extraClassName": "with-header",
-                "position": "current",
-                "recommendation": Object {
-                  "id": "EA",
-                },
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
+            false,
           ],
           "type": Symbol(react.fragment),
         },
