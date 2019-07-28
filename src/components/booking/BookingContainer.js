@@ -1,25 +1,20 @@
-import get from 'lodash.get'
 import { connect } from 'react-redux'
-import { selectBookables } from '../../selectors/selectBookables'
-import { selectBookingById } from '../../selectors/selectBookings'
-import { currentRecommendationSelector } from '../../selectors'
+
 import Booking from './Booking'
+import selectBookables from '../../selectors/selectBookables'
+import selectBookingById from '../../selectors/selectBookingById'
 
-export const mapStateToProps = (state, { match }) => {
-  const { offerId, mediationId, view, bookingId } = match.params
-  const recommendation = currentRecommendationSelector(state, offerId, mediationId)
+export const mapStateToProps = (state, ownProps) => {
+  const { match, recommendation } = ownProps
+  const { params } = match
+  const { bookingId } = params
 
-  const isEvent = get(recommendation, 'offer.isEvent')
-  const bookables = selectBookables(state, recommendation, match)
+  const bookables = selectBookables(state, recommendation)
   const booking = selectBookingById(state, bookingId)
-  const isCancelled = view === 'cancelled'
 
   return {
     bookables,
     booking,
-    isCancelled,
-    isEvent,
-    recommendation,
   }
 }
 

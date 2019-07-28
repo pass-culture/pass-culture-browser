@@ -119,50 +119,22 @@ describe('src | components | booking', () => {
 
   describe('mapStateToProps', () => {
     describe('isEvent', () => {
-      it('should be true when offer is an event', () => {
+      it('should return the matching booking given the recommendation', () => {
         // given
-        state.data.recommendations[0].offer.isEvent = true
+        const ownProps = {
+          match,
+          recommendation: state.data.recommendations[0],
+        }
 
         // when
-        const result = mapStateToProps(state, { match })
+        const result = mapStateToProps(state, ownProps)
 
         // then
-        expect(result).toHaveProperty('isEvent', true)
-      })
-
-      it('should be false when offer is not an event', () => {
-        // given
-        state.data.recommendations[0].offer.isEvent = false
-
-        // when
-        const result = mapStateToProps(state, { match })
-
-        // then
-        expect(result).toHaveProperty('isEvent', false)
-      })
-    })
-
-    describe('isCancelled', () => {
-      it('should be true when view is cancelled', () => {
-        // given
-        match.params.view = 'cancelled'
-
-        // when
-        const result = mapStateToProps(state, { match })
-
-        // then
-        expect(result).toHaveProperty('isCancelled', true)
-      })
-
-      it('should be false when view is not cancelled', () => {
-        // given
-        match.params.view = ''
-
-        // when
-        const result = mapStateToProps(state, { match })
-
-        // then
-        expect(result).toHaveProperty('isCancelled', false)
+        const expected = {
+          bookables: [],
+          booking: state.data.bookings[0],
+        }
+        expect(result).toStrictEqual(expected)
       })
     })
   })
