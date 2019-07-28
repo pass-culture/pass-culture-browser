@@ -15,5 +15,9 @@
     // NOTE: permet de passer le verso au dessus du header
     // - dans la recherche
     margin-top: $header-height;
+
+    .verso-info {
+      padding-bottom: $header-height;
+    }
   }
 }

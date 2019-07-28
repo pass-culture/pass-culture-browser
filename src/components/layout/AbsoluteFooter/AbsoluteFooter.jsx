@@ -1,12 +1,11 @@
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import ProfilePicture from './ProfilePicture'
+import { Link } from 'react-router-dom'
 
-const Footer = ({ borderTop, colored, areDetailsVisible, id, location, onTop }) => {
+import ProfilePicture from '../ProfilePicture'
+
+const AbsoluteFooter = ({ areDetailsVisible, borderTop, colored, id, location, onTop }) => {
   const maybeColored = {}
   if (colored) {
     maybeColored.colored = 'colored'
@@ -15,7 +14,7 @@ const Footer = ({ borderTop, colored, areDetailsVisible, id, location, onTop }) 
   if (!colored) {
     style.display = areDetailsVisible ? 'none' : 'block'
   }
-  const className = classnames('footer', {
+  const className = classnames('absolute-footer', {
     bordered: borderTop,
     colored,
     'on-top': onTop,
@@ -45,13 +44,13 @@ const Footer = ({ borderTop, colored, areDetailsVisible, id, location, onTop }) 
   )
 }
 
-Footer.defaultProps = {
+AbsoluteFooter.defaultProps = {
   colored: false,
   id: null,
   onTop: false,
 }
 
-Footer.propTypes = {
+AbsoluteFooter.propTypes = {
   areDetailsVisible: PropTypes.bool.isRequired,
   borderTop: PropTypes.bool.isRequired,
   colored: PropTypes.bool,
@@ -60,11 +59,4 @@ Footer.propTypes = {
   onTop: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
-  areDetailsVisible: state.card.areDetailsVisible,
-})
-
-export default compose(
-  withRouter,
-  connect(mapStateToProps)
-)(Footer)
+export default AbsoluteFooter
