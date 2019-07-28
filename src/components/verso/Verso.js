@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import VersoControls from './verso-controls/VersoControls'
-import VersoHeaderContainer from './verso-content/VersoHeaderContainer'
 import VersoContentOfferContainer from './verso-content/verso-content-offer/VersoContentOfferContainer'
 import VersoContentTuto from './verso-content/VersoContentTuto'
+import VersoHeaderContainer from './verso-content/VersoHeaderContainer'
 import AbsoluteFooterContainer from '../layout/AbsoluteFooter/AbsoluteFooterContainer'
 import {
   checkIsTuto,

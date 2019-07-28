@@ -7,12 +7,13 @@ import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
 let discoveryCardUrl = null
+let discoveryDetailsUrl = null
 let discoveryBookingUrl = null
 let currentBookedToken = null
 let previousWalletValue = null
-const myProfileURL = `${ROOT_PATH}profil`
-const discoverURL = `${ROOT_PATH}decouverte`
-const myBookingsURL = `${ROOT_PATH}reservations`
+const myProfileUrl = `${ROOT_PATH}profil`
+const discoverUrl = `${ROOT_PATH}decouverte`
+const myBookingsUrl = `${ROOT_PATH}reservations`
 
 const dragButton = Selector('#dragButton')
 const onlineOfferLabel = Selector('#dragButton .clue div')
@@ -40,10 +41,14 @@ fixture("08_04_01 Réservation d'une offre type digitale").beforeEach(async t =>
       'get_existing_webapp_user_can_book_digital_offer'
     )
   }
-  const { offer } = await fetchSandbox('webapp_08_booking', 'get_non_free_digital_offer')
+  const { mediationId, offer } = await fetchSandbox(
+    'webapp_08_booking',
+    'get_non_free_digital_offer'
+  )
 
-  discoveryCardUrl = `${discoverURL}/${offer.id}`
-  discoveryBookingUrl = `${discoveryCardUrl}/details/reservations`
+  discoveryCardUrl = `${discoverUrl}/${offer.id}/${mediationId || 'vide'}`
+  discoveryDetailsUrl = `${discoveryCardUrl}/details`
+  discoveryBookingUrl = `${discoveryDetailsUrl}/reservations`
   await t.useRole(userRole).navigateTo(discoveryCardUrl)
 })
 
@@ -98,7 +103,7 @@ test("Parcours complet de réservation d'une offre digitale", async t => {
     .click(bookingSuccessButton)
     .wait(500)
     .expect(getPageUrl())
-    .eql(discoveryCardUrl)
+    .eql(discoveryDetailsUrl)
     .expect(onlineBookedOfferButton.textContent)
     .eql(`Accéder`)
     .click(openMenuFromVerso)
@@ -125,7 +130,7 @@ test("Parcours complet de réservation d'une offre digitale", async t => {
 test('Je vérifie mes réservations après reconnexion', async t => {
   const bookedOffer = Selector(`.my-bookings-my-booking[data-token="${currentBookedToken}"]`)
   await t
-    .navigateTo(myBookingsURL)
+    .navigateTo(myBookingsUrl)
     .expect(bookedOffer.exists)
     .ok()
     .click(bookedOffer)
@@ -133,13 +138,13 @@ test('Je vérifie mes réservations après reconnexion', async t => {
     .eql(`Accéder`)
     .click(onlineBookedOfferButton)
     .expect(getPageUrl())
-    .notEql(myBookingsURL)
+    .notEql(myBookingsUrl)
 })
 
 test('Je vérifie le montant de mon pass', async t => {
   const walletInfoSentence = `Il reste ${previousWalletValue} €`
   await t
-    .navigateTo(myProfileURL)
+    .navigateTo(myProfileUrl)
     .expect(profileWalletAllValue.textContent)
     .eql(walletInfoSentence)
 })

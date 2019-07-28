@@ -5,7 +5,7 @@ import { getVersoWalletValue } from './helpers/getVersoWallet'
 import { ROOT_PATH } from '../src/utils/config'
 import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandbox'
 
-const discoverURL = `${ROOT_PATH}decouverte`
+const discoverUrl = `${ROOT_PATH}decouverte`
 
 const bookOfferButton = Selector('#verso-booking-button')
 const alreadyBookedOfferButton = Selector('#verso-already-booked-button')
@@ -28,8 +28,8 @@ test("Je n'ai plus d'argent", async t => {
     'webapp_08_booking',
     'get_non_free_thing_offer_with_active_mediation'
   )
-  const discoveryDetailsUrl = `${discoverURL}/${offer.id}/${mediationId}/details`
-  await t.navigateTo(discoveryDetailsUrl).click(openVerso)
+  const discoveryCardUrl = `${discoverUrl}/${offer.id}/${mediationId}`
+  await t.navigateTo(discoveryCardUrl).click(openVerso)
   const versoWalletValue = await getVersoWalletValue()
   await t
     .expect(versoWalletValue)

@@ -10,15 +10,6 @@ import selectShowSubTypeByCodeAndSubCode from './selectors/selectShowSubTypeByCo
 import { isRecommendationOfferFinished } from '../../../../helpers'
 import selectBookables from '../../../../selectors/selectBookables'
 
-const getOnlineUrl = (recommendation, state) => {
-  const stocks = get(recommendation, 'offer.stocks')
-  const stockIds = (stocks || []).map(o => o.id)
-  const bookings = state.data.bookings
-  const booking = bookings.find(b => stockIds.includes(b.stockId))
-  const onlineOfferUrl = get(booking, 'completedUrl')
-  return onlineOfferUrl
-}
-
 export const mapStateToProps = (state, ownProps) => {
   const { recommendation } = ownProps
   const { offerId } = recommendation
@@ -40,15 +31,12 @@ export const mapStateToProps = (state, ownProps) => {
     get(extraData, 'showSubType')
   )
 
-  const onlineOfferUrl = getOnlineUrl(recommendation, state)
-
   return {
     bookables,
     isFinished,
     musicSubType,
     musicType,
     musicTypes: get(state, 'data.musicTypes'),
-    onlineOfferUrl,
     showSubType,
     showType,
     showTypes: get(state, 'data.showTypes'),

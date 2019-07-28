@@ -11,8 +11,9 @@ let discoveryDetailsUrl = null
 let discoveryBookingUrl = null
 let currentBookedToken = null
 let previousWalletValue = null
-const myProfileURL = `${ROOT_PATH}profil`
-const discoverURL = `${ROOT_PATH}decouverte`
+const myProfileUrl = `${ROOT_PATH}profil`
+const discoverUrl = `${ROOT_PATH}decouverte`
+const myBookingsUrl = `${ROOT_PATH}reservations`
 const bookingToken = Selector('#booking-booked-token')
 const bookOfferButton = Selector('#verso-booking-button')
 const checkReversedIcon = Selector('#verso-cancel-booking-button-reserved')
@@ -41,7 +42,7 @@ fixture("08_03_01 Réservation d'une offre type thing").beforeEach(async t => {
     'webapp_08_booking',
     'get_non_free_thing_offer_with_active_mediation'
   )
-  discoveryCardUrl = `${discoverURL}/${offer.id}/${mediationId}`
+  discoveryCardUrl = `${discoverUrl}/${offer.id}/${mediationId}`
   discoveryDetailsUrl = `${discoveryCardUrl}/details`
   discoveryBookingUrl = `${discoveryDetailsUrl}/reservations`
   await t.useRole(userRole).navigateTo(discoveryCardUrl)
@@ -107,7 +108,7 @@ test("Parcours complet de réservation d'une offre thing", async t => {
     .ok()
     .click(bookedOffer)
     .expect(getPageUrl())
-    .match(new RegExp(`${discoveryBookingUrl}/([A-Z0-9]+)`))
+    .match(new RegExp(`${myBookingsUrl}/details/([A-Z0-9]+)`))
     .expect(checkReversedIcon.exists)
     .ok()
 })
@@ -115,7 +116,7 @@ test("Parcours complet de réservation d'une offre thing", async t => {
 test('Je vérifie le montant de mon pass', async t => {
   const walletInfoSentence = `Il reste ${previousWalletValue} €`
   await t
-    .navigateTo(myProfileURL)
+    .navigateTo(myProfileUrl)
     .expect(profileWalletAllValue.textContent)
     .eql(walletInfoSentence)
 })

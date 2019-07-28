@@ -9,7 +9,8 @@ import createUserRoleFromUserSandbox from './helpers/createUserRoleFromUserSandb
 let discoveryCardUrl = null
 let discoveryBookingUrl = null
 let previousWalletValue = null
-const discoverURL = `${ROOT_PATH}decouverte`
+const discoverUrl = `${ROOT_PATH}decouverte`
+const myBookingsUrl = `${ROOT_PATH}reservations`
 
 const alreadyBookedOfferButton = Selector('#verso-already-booked-button')
 const bookOfferButton = Selector('#verso-booking-button')
@@ -38,7 +39,7 @@ fixture("08_02_01 L'user peut réserver n'importe quelle offre").beforeEach(asyn
     'webapp_08_booking',
     'get_non_free_thing_offer_with_active_mediation'
   )
-  discoveryCardUrl = `${discoverURL}/${offer.id}/${mediationId}`
+  discoveryCardUrl = `${discoverUrl}/${offer.id}/${mediationId}`
   discoveryBookingUrl = `${discoveryCardUrl}/details/reservations`
   await t.useRole(userRole).navigateTo(discoveryCardUrl)
 })
@@ -73,8 +74,8 @@ test("Je vois l'offre dans 'mes réservations' et je peux cliquer dessus pour re
     .click(openMenu)
     .click(menuReservations)
     .expect(getPageUrl())
-    .eql(`${ROOT_PATH}reservations`)
+    .eql(myBookingsUrl)
     .click(myBooking)
     .expect(getPageUrl())
-    .match(new RegExp(`${discoveryBookingUrl}/([A-Z0-9]+)`))
+    .match(new RegExp(`${myBookingsUrl}/details/([A-Z0-9]+)`))
 })
