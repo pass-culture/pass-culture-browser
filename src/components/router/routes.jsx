@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 
-import ActivationRoutesContainer from '../pages/activation/ActivationRoutesContainer'
+import ActivationContainer from '../pages/activation/ActivationContainer'
 import BetaPage from '../pages/BetaPage'
 import MyBookingsContainer from '../pages/my-bookings/MyBookingsContainer'
 import DiscoveryContainer from '../pages/discovery/DiscoveryContainer'
@@ -29,7 +29,7 @@ const routes = [
     title: 'Bienvenue dans l’avant-première du pass Culture',
   },
   {
-    component: ActivationRoutesContainer,
+    component: ActivationContainer,
     path: '/activation/:token?',
     title: 'Activation',
   },
@@ -64,22 +64,22 @@ const routes = [
   {
     component: DiscoveryContainer,
     icon: 'offres-w',
-    // exemple d'URL optimale qui peut être partagée
-    // par les sous composants
-    path: '/decouverte/:offerId?/:mediationId?/:view(booking|verso)?/:bookingId?/:action(cancelled)?',
+    path:
+      '/decouverte/:offerId?/:mediationId?/:details(details)?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Les offres',
   },
   {
     component: SearchContainer,
     icon: 'search-w',
     path:
-      '/recherche/(resultats)?/:option?/:subOption?/:offerId?/:mediationIdOrView?/:view(booking)?/:bookingId?',
+      '/recherche/:results(resultats)?/:category?/:details(details)?/:offerId?/:mediationId?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Recherche',
   },
   {
     component: MyBookingsContainer,
     icon: 'calendar-w',
-    path: '/reservations',
+    path:
+      '/reservations/:details(details)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes réservations',
   },
   {
@@ -90,7 +90,7 @@ const routes = [
     title: 'Mes favoris',
   },
   {
-    component: ProfilePage,
+    component: ProfileContainer,
     icon: 'user-w',
     path: '/profil/:view?/:status?',
     title: 'Mon compte',
