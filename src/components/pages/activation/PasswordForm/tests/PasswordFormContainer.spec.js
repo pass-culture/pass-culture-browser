@@ -1,5 +1,6 @@
 import { requestData } from 'redux-saga-data'
-import { mapDispatchToProps, mapStateToProps } from '../ActivationPageContainer'
+
+import { mapDispatchToProps, mapStateToProps } from '../PasswordFormContainer'
 import { validateToken, setTokenStatus } from '../../../../../reducers/token'
 
 jest.mock('redux-saga-data', () => ({
@@ -11,7 +12,7 @@ jest.mock('../../../../../reducers/token', () => ({
   validateToken: jest.fn(),
 }))
 
-describe('src | components | pages | activation | password | ActivationPageContainer', () => {
+describe('src | components | pages | activation | Password | PasswordFormContainer', () => {
   describe('mapDispatchToProps', () => {
     let dispatch
 
@@ -22,9 +23,9 @@ describe('src | components | pages | activation | password | ActivationPageConta
     it('should return three functions', () => {
       // given
       const expectedResult = {
-        checkTokenIsValid: expect.anything(),
-        loginUserAfterPasswordSaveSuccess: expect.anything(),
-        sendActivationPasswordForm: expect.anything(),
+        checkTokenIsValid: expect.anything(Function),
+        loginUserAfterPasswordSaveSuccess: expect.anything(Function),
+        sendPassword: expect.anything(Function),
       }
 
       // when
@@ -107,7 +108,7 @@ describe('src | components | pages | activation | password | ActivationPageConta
       })
     })
 
-    describe('sendActivationPasswordForm', () => {
+    describe('sendPassword', () => {
       it('should dispatch a requestData action', () => {
         // given
         const actions = mapDispatchToProps(dispatch)
@@ -132,7 +133,7 @@ describe('src | components | pages | activation | password | ActivationPageConta
         requestData.mockReturnValue(expectedAction)
 
         // when
-        actions.sendActivationPasswordForm(values, () => failFunction, () => successFunction)
+        actions.sendPassword(values, () => failFunction, () => successFunction)
 
         // then
         expect(requestData).toHaveBeenCalledWith(config)
@@ -158,13 +159,15 @@ describe('src | components | pages | activation | password | ActivationPageConta
             token: 'fake token',
           },
         }
-        const params = {
+        const query = { parse: () => ({}) }
+        const ownProps = {
           location,
           match,
+          query,
         }
 
         // when
-        const result = mapStateToProps(state, params)
+        const result = mapStateToProps(state, ownProps)
 
         // then
         expect(result).toHaveProperty('isValidUrl', false)
@@ -175,10 +178,14 @@ describe('src | components | pages | activation | password | ActivationPageConta
         const location = {
           search: '?email=fake@example.net',
         }
-        const match = {}
+        const match = {
+          params: {},
+        }
+        const query = { parse: () => ({}) }
         const params = {
           location,
           match,
+          query,
         }
 
         // when
@@ -191,10 +198,14 @@ describe('src | components | pages | activation | password | ActivationPageConta
       it('should return false when neither token nor email are given', () => {
         // given
         const location = {}
-        const match = {}
+        const match = {
+          params: {},
+        }
+        const query = { parse: () => ({}) }
         const params = {
           location,
           match,
+          query,
         }
 
         // when
@@ -214,13 +225,19 @@ describe('src | components | pages | activation | password | ActivationPageConta
             token: 'fake token',
           },
         }
-        const params = {
+        const query = {
+          parse: () => ({
+            email: 'fake@example.net',
+          }),
+        }
+        const ownProps = {
           location,
           match,
+          query,
         }
 
         // when
-        const result = mapStateToProps(state, params)
+        const result = mapStateToProps(state, ownProps)
 
         // then
         expect(result).toHaveProperty('isValidUrl', true)
@@ -231,12 +248,18 @@ describe('src | components | pages | activation | password | ActivationPageConta
       it('should map email from query params', () => {
         // given
         const location = { search: '?email=prenom@example.net' }
+        const ownProps = {
+          location,
+          match: { params: {} },
+          query: {
+            parse: () => ({
+              email: 'prenom@example.net',
+            }),
+          },
+        }
 
         // when
-        const { initialValues } = mapStateToProps(state, {
-          location,
-          match: {},
-        })
+        const { initialValues } = mapStateToProps(state, ownProps)
 
         // then
         expect(initialValues).toHaveProperty('email', 'prenom@example.net')
@@ -246,9 +269,15 @@ describe('src | components | pages | activation | password | ActivationPageConta
         // given
         const location = { search: '?email=prenom@example.net' }
         const match = { params: { token: 'my-precious-token' } }
+        const query = { parse: () => ({}) }
+        const ownProps = {
+          location,
+          match,
+          query,
+        }
 
         // when
-        const { initialValues } = mapStateToProps(state, { location, match })
+        const { initialValues } = mapStateToProps(state, ownProps)
 
         // then
         expect(initialValues).toHaveProperty('token', 'my-precious-token')
@@ -259,9 +288,14 @@ describe('src | components | pages | activation | password | ActivationPageConta
       it('should mark if token has been checked', () => {
         // given
         state = { token: { hasBeenChecked: false } }
+        const ownProps = {
+          location: {},
+          match: { params: {} },
+          query: { parse: () => ({}) },
+        }
 
         // when
-        const props = mapStateToProps(state, { location: {}, match: {} })
+        const props = mapStateToProps(state, ownProps)
 
         // then
         expect(props).toHaveProperty('hasTokenBeenChecked', false)
@@ -272,9 +306,14 @@ describe('src | components | pages | activation | password | ActivationPageConta
       it('should mark the token status', () => {
         // given
         state = { token: { isValid: true } }
+        const ownProps = {
+          location: {},
+          match: { params: {} },
+          query: { parse: () => ({}) },
+        }
 
         // when
-        const props = mapStateToProps(state, { location: {}, match: {} })
+        const props = mapStateToProps(state, ownProps)
 
         // then
         expect(props).toHaveProperty('isValidToken', true)

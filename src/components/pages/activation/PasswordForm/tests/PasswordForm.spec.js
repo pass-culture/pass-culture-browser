@@ -3,10 +3,10 @@ import { shallow } from 'enzyme'
 import { Form } from 'react-final-form'
 import { Redirect } from 'react-router'
 
+import PasswordForm from '../PasswordForm'
 import { FormFooter } from '../../../../forms/FormFooter'
-import RawActivationPassword from '../RawActivationPassword'
 
-describe('src | components | pages | activation | password | RawActivationPassword', () => {
+describe('src | components | pages | activation | password | Password', () => {
   let props
   let activationData
 
@@ -22,7 +22,8 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       isValidToken: true,
       isValidUrl: true,
       loginUserAfterPasswordSaveSuccess: jest.fn(),
-      sendActivationPasswordForm: jest.fn(),
+      query: { parse: jest.fn() },
+      sendPassword: jest.fn(),
     }
 
     activationData = {
@@ -36,7 +37,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
   it('should match snapshot', () => {
     // when
-    const wrapper = shallow(<RawActivationPassword {...props} />)
+    const wrapper = shallow(<PasswordForm {...props} />)
 
     // then
     expect(wrapper).toBeDefined()
@@ -45,7 +46,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
   it('should mount component with isLoading as false', () => {
     // when
-    const wrapper = shallow(<RawActivationPassword {...props} />)
+    const wrapper = shallow(<PasswordForm {...props} />)
 
     // then
     expect(wrapper.state().isLoading).toBe(false)
@@ -58,7 +59,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       props.initialValues.token = 'my-token-to-check'
 
       // when
-      shallow(<RawActivationPassword {...props} />)
+      shallow(<PasswordForm {...props} />)
 
       // then
       expect(props.checkTokenIsValid).toHaveBeenCalledWith('my-token-to-check')
@@ -70,7 +71,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       props.isValidToken = false
 
       // when
-      const wrapper = shallow(<RawActivationPassword {...props} />)
+      const wrapper = shallow(<PasswordForm {...props} />)
 
       // then
       const redirectComponent = wrapper.find(Redirect)
@@ -85,7 +86,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       props.initialValues.token = 'my-token-to-check'
 
       // when
-      shallow(<RawActivationPassword {...props} />)
+      shallow(<PasswordForm {...props} />)
 
       // then
       expect(props.checkTokenIsValid).not.toHaveBeenCalled()
@@ -98,7 +99,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
         props.isValidToken = false
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
 
         // then
         const redirectComponent = wrapper.find(Redirect)
@@ -111,7 +112,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
   describe('when the isValidUrl is false', () => {
     it('should redirect to activation error page', () => {
       // when
-      const wrapper = shallow(<RawActivationPassword
+      const wrapper = shallow(<PasswordForm
         {...props}
         isValidUrl={false}
                               />)
@@ -133,7 +134,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
     it('should prevent submit when information are loading', () => {
       // when
-      const wrapper = shallow(<RawActivationPassword {...props} />)
+      const wrapper = shallow(<PasswordForm {...props} />)
       const form = wrapper.find(Form).dive()
       const formFooter = form.find(FormFooter).dive()
 
@@ -143,12 +144,12 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
     it('should send password details to api', () => {
       // when
-      const wrapper = shallow(<RawActivationPassword {...props} />)
+      const wrapper = shallow(<PasswordForm {...props} />)
       wrapper.find(Form).prop('onSubmit')(activationData)
 
       // then
       expect(wrapper.state('isLoading')).toBe(true)
-      expect(props.sendActivationPasswordForm).toHaveBeenCalledWith(
+      expect(props.sendPassword).toHaveBeenCalledWith(
         activationData,
         expect.anything(),
         expect.anything()
@@ -159,7 +160,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       it('should mark component as not loading', async () => {
         // given
         const formResolver = jest.fn()
-        props.sendActivationPasswordForm = (_, fail) =>
+        props.sendPassword = (_, fail) =>
           Promise.reject(new Error('Activation failed on API')).catch(() => {
             fail(formResolver)(
               {},
@@ -170,7 +171,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
           })
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then
@@ -180,7 +181,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       it('should report first error found to form when multiple errors are received', async () => {
         // given
         const formResolver = jest.fn()
-        props.sendActivationPasswordForm = (values, fail) =>
+        props.sendPassword = (values, fail) =>
           Promise.reject(new Error('Activation failed on API')).catch(() => {
             fail(formResolver)(
               {},
@@ -191,7 +192,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
           })
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then
@@ -201,7 +202,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
       it('should report error found to form when single error is received', async () => {
         // given
         const formResolver = jest.fn()
-        props.sendActivationPasswordForm = (values, fail) =>
+        props.sendPassword = (values, fail) =>
           Promise.reject(new Error('Activation failed on API')).catch(() => {
             fail(formResolver)(
               {},
@@ -212,7 +213,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
           })
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then
@@ -225,7 +226,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
       beforeEach(() => {
         formResolver = jest.fn()
-        props.sendActivationPasswordForm = (_, fail, success) =>
+        props.sendPassword = (_, fail, success) =>
           Promise.resolve().then(() => {
             success(formResolver, activationData)()
           })
@@ -233,7 +234,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
 
       it('should mark component as loading', async () => {
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then
@@ -247,7 +248,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
           .mockImplementation((_, fail) => fail())
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then
@@ -265,7 +266,7 @@ describe('src | components | pages | activation | password | RawActivationPasswo
         props.loginUserAfterPasswordSaveSuccess = (_, fail, success) => success(formResolver)
 
         // when
-        const wrapper = shallow(<RawActivationPassword {...props} />)
+        const wrapper = shallow(<PasswordForm {...props} />)
         await wrapper.find(Form).prop('onSubmit')(activationData)
 
         // then

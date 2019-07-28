@@ -1,12 +1,13 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router'
 import { Form } from 'react-final-form'
+
 import canSubmitForm from './canSubmitForm'
 import FormInputs from './FormInputs'
 import { FormFooter } from '../../../forms'
 
-class RawActivationPassword extends React.PureComponent {
+class PasswordForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = { isLoading: false }
@@ -54,8 +55,8 @@ class RawActivationPassword extends React.PureComponent {
 
   handleOnFormSubmit = formValues => {
     this.setState({ isLoading: true })
-    const { sendActivationPasswordForm } = this.props
-    const promise = sendActivationPasswordForm(
+    const { sendPassword } = this.props
+    const promise = sendPassword(
       { ...formValues },
       this.handleActivationPasswordRequestFail,
       this.savePasswordRequestSuccess
@@ -123,7 +124,7 @@ class RawActivationPassword extends React.PureComponent {
   }
 }
 
-RawActivationPassword.propTypes = {
+PasswordForm.propTypes = {
   checkTokenIsValid: PropTypes.func.isRequired,
   hasTokenBeenChecked: PropTypes.bool.isRequired,
   history: PropTypes.shape().isRequired,
@@ -131,7 +132,7 @@ RawActivationPassword.propTypes = {
   isValidToken: PropTypes.bool.isRequired,
   isValidUrl: PropTypes.bool.isRequired,
   loginUserAfterPasswordSaveSuccess: PropTypes.func.isRequired,
-  sendActivationPasswordForm: PropTypes.func.isRequired,
+  sendPassword: PropTypes.func.isRequired,
 }
 
-export default RawActivationPassword
+export default PasswordForm

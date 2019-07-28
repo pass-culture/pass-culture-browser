@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
-import { getRouterParamByKey, getRouterQueryByKey } from '../../../../helpers'
 
-import RawActivationPassword from './RawActivationPassword'
+import PasswordForm from './PasswordForm'
+import withFrenchQueryRouter from '../../../hocs/withFrenchQueryRouter'
 import { setTokenStatus, validateToken } from '../../../../reducers/token'
 
-import doesTokenHaveBeenChecked from '../../../../selectors/token/doesTokenHaveBeenChecked'
-import isValidToken from '../../../../selectors/token/isValidToken'
+import doesTokenHaveBeenChecked from './helpers/doesTokenHaveBeenChecked'
+import isValidToken from './helpers/isValidToken'
 
 export const mapDispatchToProps = dispatch => ({
   checkTokenIsValid: token =>
@@ -26,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(requestData(config))
   },
 
-  sendActivationPasswordForm: (values, fail, success) =>
+  sendPassword: (values, fail, success) =>
     // NOTE: on retourne une promise au formulaire
     // pour pouvoir gérer les erreurs de l'API
     // directement dans les champs du formulaire
@@ -43,9 +44,12 @@ export const mapDispatchToProps = dispatch => ({
     }),
 })
 
-export const mapStateToProps = (state, { location, match }) => {
-  const token = getRouterParamByKey(match, 'token')
-  const email = getRouterQueryByKey(location, 'email')
+export const mapStateToProps = (state, ownProps) => {
+  const { match, query } = ownProps
+  const { params } = match
+  const { token } = params
+  const queryParams = query.parse()
+  const { email } = queryParams
   const initialValues = { email, token }
   const isValidUrl = Boolean(token && email)
 
@@ -57,7 +61,10 @@ export const mapStateToProps = (state, { location, match }) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RawActivationPassword)
+export default compose(
+  withFrenchQueryRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(PasswordForm)

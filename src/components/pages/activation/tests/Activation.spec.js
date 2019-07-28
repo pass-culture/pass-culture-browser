@@ -1,16 +1,17 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Redirect, Route } from 'react-router'
-import ActivationPageContainer from '../password/ActivationPageContainer'
-import ActivationError from '../error/ActivationError'
-import InvalidLink from '../invalid-link/InvalidLink'
 
-import ActivationRoutes from '../ActivationRoutes'
+import PasswordFormContainer from '../PasswordForm/PasswordFormContainer'
+import Error from '../Error'
+import InvalidLink from '../InvalidLink'
 
-describe('src | components | pages | activation | ActivationRoutes', () => {
+import Activation from '../Activation'
+
+describe('src | components | pages | activation | Activation', () => {
   it('should match snapshot', () => {
     // when
-    const wrapper = shallow(<ActivationRoutes />)
+    const wrapper = shallow(<Activation />)
 
     // then
     expect(wrapper).toBeDefined()
@@ -19,28 +20,28 @@ describe('src | components | pages | activation | ActivationRoutes', () => {
 
   it('should render route for activating password when token is given', () => {
     // when
-    const wrapper = shallow(<ActivationRoutes />)
+    const wrapper = shallow(<Activation />)
 
     // then
     const routes = wrapper.find(Route)
     expect(routes.at(2).prop('path')).toBe('/activation/:token')
-    expect(routes.at(2).prop('component')).toStrictEqual(ActivationPageContainer)
+    expect(routes.at(2).prop('component')).toStrictEqual(PasswordFormContainer)
   })
 
   it('should render error component when route is exactly /activation/error', () => {
     // given
-    const wrapper = shallow(<ActivationRoutes />)
+    const wrapper = shallow(<Activation />)
 
     // then
     const routes = wrapper.find(Route)
     expect(routes.at(0).prop('path')).toBe('/activation/error')
-    expect(routes.at(0).prop('component')).toStrictEqual(ActivationError)
+    expect(routes.at(0).prop('component')).toStrictEqual(Error)
     expect(routes.at(0).prop('exact')).toBeDefined()
   })
 
   it('should redirect to error page when current URLs does not match any mapped URLs', () => {
     // given
-    const wrapper = shallow(<ActivationRoutes />)
+    const wrapper = shallow(<Activation />)
 
     // then
     const redirect = wrapper.find(Redirect)
@@ -49,7 +50,7 @@ describe('src | components | pages | activation | ActivationRoutes', () => {
 
   it('should render InvalidLink component when route is exactly /activation/lien-invalide', () => {
     // given
-    const wrapper = shallow(<ActivationRoutes />)
+    const wrapper = shallow(<Activation />)
 
     // then
     const routes = wrapper.find(Route)

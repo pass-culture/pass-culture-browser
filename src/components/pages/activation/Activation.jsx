@@ -1,18 +1,18 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import ActivationError from './error/ActivationError'
-import InvalidLink from './invalid-link/InvalidLink'
-import ActivationPageContainer from './password/ActivationPageContainer'
+import Error from './Error'
+import InvalidLink from './InvalidLink'
+import PasswordFormContainer from './PasswordForm/PasswordFormContainer'
 
-const ActivationRoutes = () => (
+const Activation = () => (
   <div
     className="is-full-layout is-relative pc-gradient is-white-text flex-rows"
     id="activation-page"
   >
     <Switch>
       <Route
-        component={ActivationError}
+        component={Error}
         exact
         path="/activation/error"
       />
@@ -22,7 +22,7 @@ const ActivationRoutes = () => (
         path="/activation/lien-invalide"
       />
       <Route
-        component={ActivationPageContainer}
+        component={PasswordFormContainer}
         path="/activation/:token"
       />
       <Redirect to="/activation/error" />
@@ -30,4 +30,4 @@ const ActivationRoutes = () => (
   </div>
 )
 
-export default ActivationRoutes
+export default Activation

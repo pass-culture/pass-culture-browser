@@ -2,14 +2,14 @@ import { shallow } from 'enzyme'
 import React from 'react'
 import configureStore from 'redux-mock-store'
 
-import ActivationRoutesContainer from '../ActivationRoutesContainer'
+import ActivationContainer from '../ActivationContainer'
 import { withNotRequiredLogin } from '../../../hocs'
 
 jest.mock('../../../hocs/with-login', () => ({
   withNotRequiredLogin: jest.fn(() => ''),
 }))
 
-describe('src | components | pages | activation | ActivationRoutesContainer', () => {
+describe('src | components | pages | activation | ActivationContainer', () => {
   it('should redirect to discovery page when user is already logged in', () => {
     // given
     const middlewares = []
@@ -18,7 +18,7 @@ describe('src | components | pages | activation | ActivationRoutesContainer', ()
     const store = mockStore(initialState)
 
     // when
-    shallow(<ActivationRoutesContainer />, { context: { store } })
+    shallow(<ActivationContainer />, { context: { store } })
 
     // then
     expect(withNotRequiredLogin).toHaveBeenCalledWith(expect.any(Function))

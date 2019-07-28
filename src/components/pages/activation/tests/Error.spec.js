@@ -1,14 +1,14 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import ActivationError from '../ActivationError'
-import MailToLink from '../../../../layout/MailToLink'
-import { SUPPORT_EMAIL, SUPPORT_EMAIL_SUBJECT } from '../../../../../utils/config'
+import Error from '../Error'
+import MailToLink from '../../../layout/MailToLink'
+import { SUPPORT_EMAIL, SUPPORT_EMAIL_SUBJECT } from '../../../../utils/config'
 
-describe('src | components | pages | activation | ActivationError', () => {
+describe('src | components | pages | activation | Error', () => {
   it('should match snapshot', () => {
     // when
-    const wrapper = shallow(<ActivationError />)
+    const wrapper = shallow(<Error />)
 
     // then
     expect(wrapper).toBeDefined()
@@ -17,7 +17,7 @@ describe('src | components | pages | activation | ActivationError', () => {
 
   it('should pass props to MailToLink component', () => {
     // when
-    const wrapper = shallow(<ActivationError />)
+    const wrapper = shallow(<Error />)
     const mailToLink = wrapper.find(MailToLink)
 
     // then
