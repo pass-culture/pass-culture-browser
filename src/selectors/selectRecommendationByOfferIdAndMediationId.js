@@ -1,9 +1,11 @@
 import createCachedSelector from 're-reselect'
 
-import { mapArgsToSelectorCachedKeys } from '../helpers'
+function mapArgsToCacheKey(state, offerId, mediationId) {
+  return `${offerId || ''}${mediationId || ''}`
+}
 
-export const selectCurrentSearchRecommendation = createCachedSelector(
-  state => state.data.searchRecommendations,
+export const selectRecommendationByOfferIdAndMediationId = createCachedSelector(
+  state => state.data.recommendations,
   (state, offerId) => offerId,
   (state, offerId, mediationId) => mediationId,
   (recommendations, offerId, mediationId) => {
@@ -15,8 +17,6 @@ export const selectCurrentSearchRecommendation = createCachedSelector(
     })
     return currentRecommendation || null
   }
-)((state, offerId, mediationId) =>
-  mapArgsToSelectorCachedKeys('search', 'current', 'recommendation', offerId, mediationId)
-)
+)(mapArgsToCacheKey)
 
-export default selectCurrentSearchRecommendation
+export default selectRecommendationByOfferIdAndMediationId

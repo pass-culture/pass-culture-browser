@@ -1,11 +1,11 @@
-import { selectCurrentSearchRecommendation } from '../searchSelectors'
+import selectRecommendationByOfferIdAndMediationId from '../selectRecommendationByOfferIdAndMediationId'
 
 describe('src | selectors | searchSelectors', () => {
   it('return null when mediationId and offerId are not defined', () => {
     // given
     const state = {
       data: {
-        searchRecommendations: [
+        recommendations: [
           { mediationId: '1234', offerId: 'AAAA' },
           { mediationId: '5678', offerId: 'BBBB' },
         ],
@@ -15,7 +15,11 @@ describe('src | selectors | searchSelectors', () => {
     // when
     const offerId = undefined
     const mediationId = undefined
-    const result = selectCurrentSearchRecommendation(state, offerId, mediationId)
+    const result = selectRecommendationByOfferIdAndMediationId(
+      state,
+      offerId,
+      mediationId
+    )
 
     // then
     expect(result).toStrictEqual(null)
@@ -25,7 +29,7 @@ describe('src | selectors | searchSelectors', () => {
     // given
     const state = {
       data: {
-        searchRecommendations: [
+        recommendations: [
           { mediationId: '1234', offerId: 'AAAA' },
           { mediationId: '5678', offerId: 'BBBB' },
         ],
@@ -35,7 +39,11 @@ describe('src | selectors | searchSelectors', () => {
     // when
     const offerId = 'ZZZZ'
     const mediationId = '0000'
-    const result = selectCurrentSearchRecommendation(state, offerId, mediationId)
+    const result = selectRecommendationByOfferIdAndMediationId(
+      state,
+      offerId,
+      mediationId
+    )
 
     // then
     expect(result).toStrictEqual(null)
@@ -45,14 +53,18 @@ describe('src | selectors | searchSelectors', () => {
     // given
     const state = {
       data: {
-        searchRecommendations: [],
+        recommendations: [],
       },
     }
 
     // when
     const offerId = 'AAAA'
     const mediationId = '1234'
-    const result = selectCurrentSearchRecommendation(state, offerId, mediationId)
+    const result = selectRecommendationByOfferIdAndMediationId(
+      state,
+      offerId,
+      mediationId
+    )
 
     // then
     expect(result).toStrictEqual(null)
@@ -62,7 +74,7 @@ describe('src | selectors | searchSelectors', () => {
     // given
     const state = {
       data: {
-        searchRecommendations: [
+        recommendations: [
           { mediationId: '1234', offerId: 'AAAA' },
           { mediationId: '5678', offerId: 'BBBB' },
         ],
@@ -72,7 +84,11 @@ describe('src | selectors | searchSelectors', () => {
     // when
     const offerId = 'AAAA'
     const mediationId = '5678'
-    const result = selectCurrentSearchRecommendation(state, offerId, mediationId)
+    const result = selectRecommendationByOfferIdAndMediationId(
+      state,
+      offerId,
+      mediationId
+    )
 
     // then
     expect(result.mediationId).toStrictEqual('1234')
@@ -82,7 +98,7 @@ describe('src | selectors | searchSelectors', () => {
     // given
     const state = {
       data: {
-        searchRecommendations: [
+        recommendations: [
           { mediationId: '1234', offerId: 'AAAA' },
           { mediationId: '5678', offerId: 'BBBB' },
         ],
@@ -92,7 +108,11 @@ describe('src | selectors | searchSelectors', () => {
     // when
     const offerId = 'AAAA'
     const mediationId = '5678'
-    const result = selectCurrentSearchRecommendation(state, offerId, mediationId)
+    const result = selectRecommendationByOfferIdAndMediationId(
+      state,
+      offerId,
+      mediationId
+    )
 
     // then
     expect(result.mediationId).toStrictEqual('1234')

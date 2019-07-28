@@ -1,12 +1,13 @@
-const URL_SPLITTER = '/'
-const QUERY_SPLITTER = '&'
-export const DEFAULT_VIEW_IDENTIFIERS = ['booking', 'verso', 'tuto']
+export const DEFAULT_VIEW_IDENTIFIERS = ['fin', 'tuto', 'vide']
 
-export const getQueryParams = (match, currentRecommendation) => {
+export const getOfferIdAndMediationIdApiPathQueryString = (match, currentRecommendation) => {
   const isValid = match && typeof match === 'object' && !Array.isArray(match)
   if (!isValid) return ''
 
-  const { offerId: pOfferId, mediationId: pMediationId } = match.params || match || {}
+  const {
+    mediationId: pMediationId,
+    offerId: pOfferId
+  } = match.params || match || {}
 
   // offerId
   const offerId =
@@ -26,6 +27,7 @@ export const getQueryParams = (match, currentRecommendation) => {
     currentRecommendation &&
     currentRecommendation.mediationId === mediationId &&
     currentRecommendation.offerId === offerId
+
   if (isSameRecoAsMatchParams) return ''
 
   const params = [
@@ -35,19 +37,8 @@ export const getQueryParams = (match, currentRecommendation) => {
     // https://github.com/betagouv/pass-culture-api/commit/719f19a
     (mediationId && `mediationId=${mediationId}`) || null,
   ]
-  const query = params.filter(s => s).join(QUERY_SPLITTER)
+  const query = params.filter(s => s).join('&')
   return query
 }
 
-export const getQueryURL = match => {
-  const params = getQueryParams(match)
-  if (!params) return ''
-  const queryurl = params
-    .split(QUERY_SPLITTER)
-    .map(str => str.split('='))
-    .map(arr => arr[1])
-    .join(URL_SPLITTER)
-  return queryurl
-}
-
-export default getQueryParams
+export default getOfferIdAndMediationIdApiPathQueryString
