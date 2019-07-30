@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 
 import DeckContainer from './deck/DeckContainer'
 
-import BookingContainer from '../../booking/BookingContainer'
+import BookingContainer from '../../layout/booking/BookingContainer'
 import AbsoluteFooterContainer from '../../layout/AbsoluteFooter/AbsoluteFooterContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'

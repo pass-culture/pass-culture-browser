@@ -3,9 +3,9 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 import RecommendationDetails from '../RecommendationDetails'
-import BookingContainer from '../../../booking/BookingContainer'
-import Recto from '../../../recto/Recto'
-import Verso from '../../../verso/Verso'
+import BookingContainer from '../../../layout/booking/BookingContainer'
+import Recto from '../../../layout/recto/Recto'
+import Verso from '../../../layout/verso/Verso'
 
 describe('src | components | pages | search | RecommendationDetails', () => {
   let props

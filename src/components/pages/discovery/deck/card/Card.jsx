@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
-import Recto from '../../../../recto/Recto'
-import Verso from '../../../../verso/Verso'
+import Recto from '../../../../layout/recto/Recto'
+import Verso from '../../../../layout/verso/Verso'
 import getAreDetailsVisible from '../../../../../helpers/getAreDetailsVisible'
 import { getHeaderColor } from '../../../../../utils/colors'
 
