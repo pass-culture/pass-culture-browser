@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Switch } from 'react-router-dom'
 
 import Search from '../Search'
@@ -29,7 +29,7 @@ const getSwitchedPageContent = path => wrapper => {
   const pageContent =
     switchChildren.find(child => child && child.props.path === path) ||
     switchChildren
-      .find(child => child && child.type === Fragment)
+      .find(child => child && child.type === Switch)
       .props.children.find(child => child.props.path === path)
   return pageContent.props.render()
 }

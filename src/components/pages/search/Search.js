@@ -366,7 +366,7 @@ class Search extends PureComponent {
               label="Recherche en cours"
                           />}
             {!isLoading && (
-              <Fragment>
+              <Switch>
                 <Route
                   path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                   render={this.renderSearchNavAndResults}
@@ -376,7 +376,7 @@ class Search extends PureComponent {
                   path="/recherche/resultats/:menu(menu)?"
                   render={this.renderResults}
                 />
-              </Fragment>
+              </Switch>
             )}
           </Switch>
         </div>

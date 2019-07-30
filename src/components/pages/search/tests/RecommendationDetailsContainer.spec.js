@@ -7,10 +7,27 @@ describe('src | components | pages | search | RecommendationDetailsContainer', (
       // given
       const mediationId = 'AE'
       const offerId = 'BF'
+      const recommendationId = 'CG'
+      const stockId = 'DH'
+      const stock = {
+        id: stockId,
+      }
+
       const recommendation = {
+        id: recommendationId,
         mediationId,
+        offer: {
+          stocks: [stock],
+        },
         offerId,
       }
+
+      const firstMatchingBooking = {
+        id: 'AE',
+        recommendationId,
+        stockId,
+      }
+
       const ownProps = {
         match: {
           params: {
@@ -21,6 +38,7 @@ describe('src | components | pages | search | RecommendationDetailsContainer', (
       }
       const state = {
         data: {
+          bookings: [firstMatchingBooking],
           recommendations: [recommendation],
         },
       }
@@ -30,6 +48,8 @@ describe('src | components | pages | search | RecommendationDetailsContainer', (
 
       // then
       const expected = {
+        firstMatchingBooking,
+        needsToRequestGetRecommendation: true,
         recommendation,
       }
       expect(result).toStrictEqual(expected)

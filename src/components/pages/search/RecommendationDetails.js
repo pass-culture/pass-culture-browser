@@ -17,13 +17,15 @@ class RecommendationDetails extends PureComponent {
   }
 
   componentDidMount() {
-    const { recommendation, requestGetRecommendation } = this.props
-
+    const { needsToRequestGetRecommendation, recommendation, requestGetRecommendation } = this.props
     if (recommendation) {
       this.handleMountDetails()
       return
     }
 
+    if (!needsToRequestGetRecommendation) {
+      return
+    }
     requestGetRecommendation(this.handleSetAreDetailsVisible)
   }
 
@@ -63,19 +65,22 @@ class RecommendationDetails extends PureComponent {
   }
 
   renderBooking = route => {
-    const { recommendation } = this.props
+    const { currentRecommendation } = this.this.state
+    if (!currentRecommendation) {
+      return null
+    }
     return (
       <BookingContainer
         extraClassName="with-header"
         {...route}
-        recommendation={recommendation}
+        recommendation={currentRecommendation}
       />
     )
   }
 
   render() {
+    const { firstMatchingBooking } = this.props
     const { currentRecommendation, forceDetailsVisible } = this.state
-
     return (
       <Fragment>
         {forceDetailsVisible && (
@@ -88,6 +93,7 @@ class RecommendationDetails extends PureComponent {
           <Fragment>
             <Verso
               areDetailsVisible={forceDetailsVisible}
+              booking={firstMatchingBooking}
               extraClassName="with-header"
               recommendation={currentRecommendation}
             />
@@ -106,15 +112,18 @@ class RecommendationDetails extends PureComponent {
 }
 
 RecommendationDetails.defaultProps = {
+  firstMatchingBooking: null,
   recommendation: null,
 }
 
 RecommendationDetails.propTypes = {
+  firstMatchingBooking: PropTypes.shape(),
   match: PropTypes.shape({
     params: PropTypes.shape({
       details: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  needsToRequestGetRecommendation: PropTypes.bool.isRequired,
   recommendation: PropTypes.shape(),
   requestGetRecommendation: PropTypes.func.isRequired,
 }

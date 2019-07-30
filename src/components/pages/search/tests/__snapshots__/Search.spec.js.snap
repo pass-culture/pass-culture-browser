@@ -269,7 +269,7 @@ ShallowWrapper {
                 path="/recherche/:menu(menu)?"
                 render={[Function]}
               />
-              <React.Fragment>
+              <Switch>
                 <Route
                   path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                   render={[Function]}
@@ -279,7 +279,7 @@ ShallowWrapper {
                   path="/recherche/resultats/:menu(menu)?"
                   render={[Function]}
                 />
-              </React.Fragment>
+              </Switch>
             </Switch>
           </div>
           <withRouter(withRouter(NavigationFooter))
@@ -401,7 +401,7 @@ ShallowWrapper {
                   path="/recherche/:menu(menu)?"
                   render={[Function]}
                 />
-                <React.Fragment>
+                <Switch>
                   <Route
                     path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                     render={[Function]}
@@ -411,7 +411,7 @@ ShallowWrapper {
                     path="/recherche/resultats/:menu(menu)?"
                     render={[Function]}
                   />
-                </React.Fragment>
+                </Switch>
               </Switch>
             </div>,
             <withRouter(withRouter(NavigationFooter))
@@ -507,7 +507,7 @@ ShallowWrapper {
                     path="/recherche/:menu(menu)?"
                     render={[Function]}
                   />
-                  <React.Fragment>
+                  <Switch>
                     <Route
                       path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                       render={[Function]}
@@ -517,7 +517,7 @@ ShallowWrapper {
                       path="/recherche/resultats/:menu(menu)?"
                       render={[Function]}
                     />
-                  </React.Fragment>
+                  </Switch>
                 </Switch>,
               ],
               "className": "page-content",
@@ -876,7 +876,7 @@ ShallowWrapper {
                       render={[Function]}
                     />,
                     false,
-                    <React.Fragment>
+                    <Switch>
                       <Route
                         path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                         render={[Function]}
@@ -886,7 +886,7 @@ ShallowWrapper {
                         path="/recherche/resultats/:menu(menu)?"
                         render={[Function]}
                       />
-                    </React.Fragment>,
+                    </Switch>,
                   ],
                   "location": Object {
                     "hash": "",
@@ -915,7 +915,7 @@ ShallowWrapper {
                   Object {
                     "instance": null,
                     "key": undefined,
-                    "nodeType": "function",
+                    "nodeType": "class",
                     "props": Object {
                       "children": Array [
                         <Route
@@ -957,7 +957,7 @@ ShallowWrapper {
                         "type": [Function],
                       },
                     ],
-                    "type": Symbol(react.fragment),
+                    "type": [Function],
                   },
                 ],
                 "type": [Function],
@@ -1093,7 +1093,7 @@ ShallowWrapper {
                   path="/recherche/:menu(menu)?"
                   render={[Function]}
                 />
-                <React.Fragment>
+                <Switch>
                   <Route
                     path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                     render={[Function]}
@@ -1103,7 +1103,7 @@ ShallowWrapper {
                     path="/recherche/resultats/:menu(menu)?"
                     render={[Function]}
                   />
-                </React.Fragment>
+                </Switch>
               </Switch>
             </div>
             <withRouter(withRouter(NavigationFooter))
@@ -1225,7 +1225,7 @@ ShallowWrapper {
                     path="/recherche/:menu(menu)?"
                     render={[Function]}
                   />
-                  <React.Fragment>
+                  <Switch>
                     <Route
                       path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                       render={[Function]}
@@ -1235,7 +1235,7 @@ ShallowWrapper {
                       path="/recherche/resultats/:menu(menu)?"
                       render={[Function]}
                     />
-                  </React.Fragment>
+                  </Switch>
                 </Switch>
               </div>,
               <withRouter(withRouter(NavigationFooter))
@@ -1331,7 +1331,7 @@ ShallowWrapper {
                       path="/recherche/:menu(menu)?"
                       render={[Function]}
                     />
-                    <React.Fragment>
+                    <Switch>
                       <Route
                         path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                         render={[Function]}
@@ -1341,7 +1341,7 @@ ShallowWrapper {
                         path="/recherche/resultats/:menu(menu)?"
                         render={[Function]}
                       />
-                    </React.Fragment>
+                    </Switch>
                   </Switch>,
                 ],
                 "className": "page-content",
@@ -1700,7 +1700,7 @@ ShallowWrapper {
                         render={[Function]}
                       />,
                       false,
-                      <React.Fragment>
+                      <Switch>
                         <Route
                           path="/recherche/resultats/:category([A-Z][a-z]+)/:menu(menu)?"
                           render={[Function]}
@@ -1710,7 +1710,7 @@ ShallowWrapper {
                           path="/recherche/resultats/:menu(menu)?"
                           render={[Function]}
                         />
-                      </React.Fragment>,
+                      </Switch>,
                     ],
                     "location": Object {
                       "hash": "",
@@ -1739,7 +1739,7 @@ ShallowWrapper {
                     Object {
                       "instance": null,
                       "key": undefined,
-                      "nodeType": "function",
+                      "nodeType": "class",
                       "props": Object {
                         "children": Array [
                           <Route
@@ -1781,7 +1781,7 @@ ShallowWrapper {
                           "type": [Function],
                         },
                       ],
-                      "type": Symbol(react.fragment),
+                      "type": [Function],
                     },
                   ],
                   "type": [Function],

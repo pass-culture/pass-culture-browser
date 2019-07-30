@@ -4,14 +4,23 @@ import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
 import RecommendationDetails from './RecommendationDetails'
+
+import selectFirstMatchingBookingByStocks from '../../../selectors/selectFirstMatchingBookingByStocks'
 import selectRecommendationByOfferIdAndMediationId from '../../../selectors/selectRecommendationByOfferIdAndMediationId'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
   const { mediationId, offerId } = ownProps.match.params
   const recommendation = selectRecommendationByOfferIdAndMediationId(state, offerId, mediationId)
-
-  return { recommendation }
+  const { offer } = recommendation || {}
+  const { stocks } = offer || {}
+  const firstMatchingBooking = selectFirstMatchingBookingByStocks(state, stocks)
+  const needsToRequestGetRecommendation = typeof offerId !== 'undefined'
+  return {
+    firstMatchingBooking,
+    needsToRequestGetRecommendation,
+    recommendation,
+  }
 }
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
