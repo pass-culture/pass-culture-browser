@@ -57,10 +57,10 @@ describe('src | utils | date | date', () => {
     describe('when the beginning date is tomorrow', () => {
       it('should return "Demain"', () => {
         // given
-        const today = new Date()
-        const offerDate = new Date(today)
-        const currentDate = today.getDate()
-        offerDate.setDate(currentDate + 1)
+        const todayDate = new Date()
+        const offerDate = new Date(todayDate)
+        const currentDateDay = todayDate.getDate()
+        offerDate.setDate(currentDateDay + 1)
 
         // when
         const expected = humanizeRelativeDate(offerDate)

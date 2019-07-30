@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { mergeData, requestData } from 'redux-saga-data'
 
-import selectIsFeatureDisabled from '../../../router/selectors/selectIsFeatureDisabled'
+import selectIsFeatureDisabled from '../../../../router/selectors/selectIsFeatureDisabled'
 import Favorite from './Favorite'
 
 export const mapStateToProps = state => {
@@ -35,14 +35,14 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     handleFavorite: (isFavorite, showFailModal) => () => {
       dispatch(
         requestData({
-          apiPath: `/offers/favorites${isFavorite ? `/${offerId}/${mediationId}` : ''}`,
+          apiPath: `/favorites${isFavorite ? `/${offerId}/${mediationId}` : ''}`,
           body: {
             mediationId,
             offerId,
           },
           handleFail: showFailModal,
           handleSuccess: mergeFavoriteData(dispatch, ownProps)(isFavorite),
-          method: isFavorite ? 'DELETE' : 'POST'
+          method: isFavorite ? 'DELETE' : 'POST',
         })
       )
     },

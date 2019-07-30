@@ -66,13 +66,15 @@ class MyBookingDetails extends PureComponent {
   }
 
   renderBooking = route => {
-    const { booking, recommendation } = this.props
+    const { currentRecommendation } = this.state
+    if (!currentRecommendation) {
+      return null
+    }
     return (
       <BookingContainer
-        booking={booking}
         extraClassName="with-header"
         {...route}
-        recommendation={recommendation}
+        recommendation={currentRecommendation}
       />
     )
   }

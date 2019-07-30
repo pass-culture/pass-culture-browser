@@ -3,7 +3,7 @@ import React from 'react'
 
 import BookingsList from '../BookingsList/BookingsList'
 import MyBookingsLists from '../MyBookingsLists'
-import NoBookings from '../NoBookings'
+import NoItems from '../../../../layout/NoItems/NoItems'
 import RelativeFooterContainer from '../../../../layout/RelativeFooter/RelativeFooterContainer'
 
 describe('src | components | pages | my-bookings | MyBookingsLists', () => {
@@ -47,8 +47,8 @@ describe('src | components | pages | my-bookings | MyBookingsLists', () => {
       const wrapper = shallow(<MyBookingsLists {...props} />)
 
       // then
-      const noBookings = wrapper.find(NoBookings)
-      expect(noBookings).toHaveLength(1)
+      const noItems = wrapper.find(NoItems)
+      expect(noItems).toHaveLength(1)
     })
   })
 })

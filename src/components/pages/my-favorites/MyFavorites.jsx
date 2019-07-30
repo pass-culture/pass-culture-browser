@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import MyFavoriteContainer from './MyFavorite/MyFavoriteContainer'
-import NavigationFooter from '../../layout/NavigationFooter'
-import NoItems from '../../layout/NoItems/NoItems'
 import PageHeader from '../../layout/Header/PageHeader'
+import LoaderContainer from '../../layout/Loader/LoaderContainer'
+import NoItems from '../../layout/NoItems/NoItems'
+import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
 
 class MyFavorites extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class MyFavorites extends Component {
             </section>
           )}
         </main>
-        <NavigationFooter
+        <RelativeFooterContainer
           className="dotted-top-red"
           theme="purple"
         />

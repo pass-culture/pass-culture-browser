@@ -1,22 +1,24 @@
-const rawDate = (date, delta = 0) => new Date(date).setDate(date.getDate() + delta)
+import moment from 'moment'
 
 export const humanizeRelativeDate = offerDate => {
   if (offerDate === null) return null
 
-  const today = new Date()
-  const dateObject = new Date(offerDate)
+  const todayDate = new Date()
+  const offerDateObject = new Date(offerDate)
 
-  if (!(dateObject instanceof Date && !isNaN(dateObject))) throw new Error('Date invalide')
+  if (!(offerDateObject instanceof Date && !isNaN(offerDateObject)))
+    throw new Error('Date invalide')
 
-  const rawOfferDate = rawDate(dateObject)
-  const rawToday = rawDate(today)
-  const rawTomorrow = rawDate(today, 1)
+  const offerMoment = moment(offerDateObject)
+  const todayMoment = moment(todayDate)
+  const tomorrowMoment = moment(todayMoment)
+  tomorrowMoment.add(1, 'day')
 
-  if (rawOfferDate === rawToday) {
+  if (offerMoment.isSame(todayMoment, 'day')) {
     return 'Aujourd’hui'
   }
 
-  if (rawOfferDate === rawTomorrow) {
+  if (offerMoment.isSame(tomorrowMoment, 'day')) {
     return 'Demain'
   }
 

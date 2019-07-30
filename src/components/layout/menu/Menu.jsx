@@ -2,15 +2,11 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { Transition } from 'react-transition-group'
 
-import CloseLink from '../Header/CloseLink'
 import Header from './Header'
-import NavLink from './NavLink'
-import SimpleLink from './SimpleLink'
+import menuItems from './menuItems'
+import MenuItemContainer from './MenuItemContainer'
 import SignoutButtonContainer from './SignoutButtonContainer'
-import routes from '../../../utils/routes'
-import { getMenuRoutes } from '../../../utils/routes-utils'
-
-const menuRoutes = getMenuRoutes(routes)
+import CloseLink from '../Header/CloseLink'
 
 class Menu extends PureComponent {
   componentDidMount() {
@@ -23,7 +19,8 @@ class Menu extends PureComponent {
     toggleOverlay()
   }
 
-  urlWithoutMenuElement = history => () => history.location.pathname.replace('/menu', '')
+  urlWithoutMenuElement = history => () =>
+    history.location.pathname.replace('/menu', '')
 
   render() {
     const { currentUser, history, readRecommendations } = this.props
@@ -53,19 +50,12 @@ class Menu extends PureComponent {
                   className="flex-rows pb0"
                   id="main-menu-navigation"
                 >
-                  {menuRoutes.map(route =>
-                    route.href ? (
-                      <SimpleLink
-                        item={route}
-                        key={route.href}
-                      />
-                    ) : (
-                      <NavLink
-                        item={route}
-                        key={route.path}
-                      />
-                    )
-                  )}
+                  {menuItems.map(menuItem => (
+                    <MenuItemContainer
+                      item={menuItem}
+                      key={menuItem.href || menuItem.path}
+                    />
+                  ))}
                   <SignoutButtonContainer
                     history={history}
                     readRecommendations={readRecommendations}
@@ -80,8 +70,12 @@ class Menu extends PureComponent {
   }
 }
 
+Menu.defaultProps = {
+  currentUser: null,
+}
+
 Menu.propTypes = {
-  currentUser: PropTypes.shape().isRequired,
+  currentUser: PropTypes.shape(),
   history: PropTypes.shape().isRequired,
   readRecommendations: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
   toggleOverlay: PropTypes.func.isRequired,

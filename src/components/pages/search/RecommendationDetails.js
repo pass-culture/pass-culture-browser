@@ -65,7 +65,7 @@ class RecommendationDetails extends PureComponent {
   }
 
   renderBooking = route => {
-    const { currentRecommendation } = this.this.state
+    const { currentRecommendation } = this.state
     if (!currentRecommendation) {
       return null
     }

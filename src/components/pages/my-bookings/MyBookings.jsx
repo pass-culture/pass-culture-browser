@@ -1,4 +1,3 @@
-import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -6,7 +5,6 @@ import MyBookingsListsContainer from './MyBookingsLists/MyBookingsListsContainer
 import MyBookingDetailsContainer from './MyBookingDetails/MyBookingDetailsContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import PageHeader from '../../layout/Header/PageHeader'
-import NoItems from '../../layout/NoItems/NoItems'
 import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
@@ -16,6 +14,7 @@ class MyBookings extends Component {
 
     this.state = {
       hasError: false,
+      isEmpty: false,
       isLoading: true,
     }
   }
@@ -42,8 +41,12 @@ class MyBookings extends Component {
     })
   }
 
-  handleSuccess = () => {
+  handleSuccess = (state, action) => {
+    const { payload } = action
+    const { data } = payload
+    const isEmpty = data.length === 0
     this.setState({
+      isEmpty,
       isLoading: false,
     })
   }
@@ -61,18 +64,14 @@ class MyBookings extends Component {
     const areDetailsVisible = getAreDetailsVisible(match)
     return (
       <main
-        className={classnames(
-          'my-bookings-page page teaser-main with-footer with-header', {
-          'teaser-no-teasers no-bookings': isEmpty,
-        })}
+        className={'my-bookings-page page with-footer with-header'}
         role="main"
       >
-        {isEmpty && <NoItems sentence="Dès que vous aurez réservé une offre," />}
         <PageHeader
           backTo={this.goBack()}
           title="Mes réservations"
         />
-        {!areDetailsVisible && <MyBookingsListsContainer />}
+        {!areDetailsVisible && <MyBookingsListsContainer isEmpty={isEmpty} />}
         <MyBookingDetailsContainer />
       </main>
     )

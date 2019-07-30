@@ -4,7 +4,7 @@ import { requestData } from 'redux-saga-data'
 
 import { withRequiredLogin } from '../../hocs'
 import MyFavorites from './MyFavorites'
-import { selectFavorites } from '../../../selectors'
+import selectFavorites from './selectors/selectFavorites'
 
 export const mapStateToProps = state => ({
   myFavorites: selectFavorites(state),

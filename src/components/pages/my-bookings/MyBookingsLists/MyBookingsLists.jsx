@@ -1,23 +1,24 @@
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
 
 import BookingsList from './BookingsList/BookingsList'
-import NoBookings from './NoBookings'
+import NoItems from '../../../layout/NoItems/NoItems'
 import RelativeFooterContainer from '../../../layout/RelativeFooter/RelativeFooterContainer'
 
 const MyBookingsLists = ({ isEmpty, myBookings, soonBookings }) => (
   <Fragment>
-    <div className="page-content">
-      {isEmpty && <NoBookings />}
+    <div className={classnames("teaser-main page-content", { "teaser-no-teasers": isEmpty })}>
+      {isEmpty && <NoItems sentence="Dès que vous aurez réservé une offre," />}
 
-      {soonBookings.length > 0 && (
+      {!isEmpty && soonBookings.length > 0 && (
         <section className="my-bookings-section">
           <header className="my-bookings-header">{'C’est bientôt !'}</header>
           <BookingsList bookings={soonBookings} />
         </section>
       )}
 
-      {myBookings.length > 0 && (
+      {!isEmpty && myBookings.length > 0 && (
         <section className="my-bookings-section">
           <header className="my-bookings-header">{'Réservations'}</header>
           <BookingsList bookings={myBookings} />

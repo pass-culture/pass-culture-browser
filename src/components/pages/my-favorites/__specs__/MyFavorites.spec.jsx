@@ -4,9 +4,9 @@ import React from 'react'
 import LoaderContainer from '../../../layout/Loader/LoaderContainer'
 import MyFavoriteContainer from '../MyFavorite/MyFavoriteContainer'
 import MyFavorites from '../MyFavorites'
-import NavigationFooter from '../../../layout/NavigationFooter'
 import NoItems from '../../../layout/NoItems/NoItems'
 import PageHeader from '../../../layout/Header/PageHeader'
+import RelativeFooterContainer from '../../../layout/RelativeFooter/RelativeFooterContainer'
 
 describe('src | components | pages | my-favorites | MyFavorites', () => {
   let props
@@ -89,10 +89,10 @@ describe('src | components | pages | my-favorites | MyFavorites', () => {
       // then
       const pageHeader = wrapper.find(PageHeader)
       const ul = wrapper.find('ul')
-      const navigationFooter = wrapper.find(NavigationFooter)
+      const footer = wrapper.find(RelativeFooterContainer)
       expect(pageHeader).toHaveLength(1)
       expect(ul).toHaveLength(1)
-      expect(navigationFooter).toHaveLength(1)
+      expect(footer).toHaveLength(1)
     })
 
     describe('when there is something wrong with API', () => {

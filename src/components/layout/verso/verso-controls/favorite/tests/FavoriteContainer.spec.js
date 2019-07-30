@@ -1,8 +1,4 @@
-import {
-  mapDispatchToProps,
-  mapStateToProps,
-  mergeFavoriteData,
-} from '../FavoriteContainer'
+import { mapDispatchToProps, mapStateToProps, mergeFavoriteData } from '../FavoriteContainer'
 
 describe('src | components | verso | verso-controls | favorite | FavoriteContainer', () => {
   describe('mapStateToProps', () => {
@@ -112,9 +108,8 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
           handleFail: showFailModal,
           handleSuccess: expect.any(Function),
           method: 'POST',
-          stateKey: 'favorites',
         },
-        type: 'REQUEST_DATA_POST_FAVORITES',
+        type: 'REQUEST_DATA_POST_/FAVORITES',
       })
     })
 
@@ -145,9 +140,8 @@ describe('src | components | verso | verso-controls | favorite | FavoriteContain
           handleFail: showFailModal,
           handleSuccess: expect.any(Function),
           method: 'DELETE',
-          stateKey: 'favorites',
         },
-        type: 'REQUEST_DATA_DELETE_FAVORITES',
+        type: `REQUEST_DATA_DELETE_/FAVORITES/${offerId.toUpperCase()}/${mediationId.toUpperCase()}`,
       })
     })
   })

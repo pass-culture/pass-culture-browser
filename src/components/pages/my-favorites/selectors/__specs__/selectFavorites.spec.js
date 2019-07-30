@@ -1,6 +1,6 @@
-import { selectFavorites } from '../favoritesSelectors'
+import selectFavorites from '../selectFavorites'
 
-describe('src | selectors | favoritesSelectors', () => {
+describe('src | selectors | selectFavorites', () => {
   it('should return favorites data from state', () => {
     // given
     const state = {

@@ -4,7 +4,25 @@ exports[`src | components | pages | my-bookings | MyBookings should match the sn
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MyBookings
-    getMyBookings={
+    location={
+      Object {
+        "pathname": "/reservations",
+        "search": "",
+      }
+    }
+    match={
+      Object {
+        "params": Object {},
+      }
+    }
+    myBookings={
+      Array [
+        Object {
+          "id": 1,
+        },
+      ]
+    }
+    requestGetBookings={
       [MockFunction] {
         "calls": Array [
           Array [
@@ -20,13 +38,7 @@ ShallowWrapper {
         ],
       }
     }
-    myBookings={
-      Array [
-        Object {
-          "id": 1,
-        },
-      ]
-    }
+    resetRecommendationsAndBookings={[MockFunction]}
     soonBookings={
       Array [
         Object {
