@@ -79,7 +79,7 @@ const routes = [
     component: MyBookingsContainer,
     icon: 'calendar-w',
     path:
-      '/reservations/:details(details)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
+      '/reservations/:details(details)?/:bookingId?/:bookings(reservations)?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes réservations',
   },
   {
