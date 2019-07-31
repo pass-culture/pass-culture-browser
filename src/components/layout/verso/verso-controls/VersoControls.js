@@ -11,8 +11,9 @@ import { isRecommendationOfferFinished } from '../../../../helpers'
 
 const VersoControls = ({ booking, recommendation }) => {
   const { offerId } = recommendation
-  const { isUsed } = booking || {}
+  const { isCancelled, isUsed } = booking || {}
   const isFinished = isRecommendationOfferFinished(recommendation, offerId) || (isUsed || false)
+  const showCancelView = booking && !isCancelled
   return (
     <div className="verso-control is-relative">
       <ul className="py8 px12 is-medium is-flex flex-0 flex-between items-center pc-theme-red">
@@ -29,7 +30,7 @@ const VersoControls = ({ booking, recommendation }) => {
           <ShareButtonContainer recommendation={recommendation} />
         </li>
         <li className="is-relative">
-          {booking ? (
+          {showCancelView ? (
             <CancelThisLinkContainer
               booking={booking}
               isFinished={isFinished}

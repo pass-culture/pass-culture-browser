@@ -82,12 +82,11 @@ class MyBookingDetails extends PureComponent {
   render() {
     const { booking } = this.props
     const { currentRecommendation, forceDetailsVisible } = this.state
-
     return (
       <Fragment>
         {forceDetailsVisible && (
           <Route
-            path="/reservations/:details(details)/:bookingId([A-Z0-9]+)/:cancellation(annulation)/:confirmation(confirmation)?"
+            path="/reservations/:details(details)/:bookingId([A-Z0-9]+)/:bookings(reservations)/:cancellation(annulation)?/:confirmation(confirmation)?"
             render={this.renderBooking}
           />
         )}

@@ -8,7 +8,7 @@ import RelativeFooterContainer from '../../../layout/RelativeFooter/RelativeFoot
 
 const MyBookingsLists = ({ isEmpty, myBookings, soonBookings }) => (
   <Fragment>
-    <div className={classnames("teaser-main page-content", { "teaser-no-teasers": isEmpty })}>
+    <div className={classnames("page-content", { "teaser-no-teasers": isEmpty })}>
       {isEmpty && <NoItems sentence="Dès que vous aurez réservé une offre," />}
 
       {!isEmpty && soonBookings.length > 0 && (

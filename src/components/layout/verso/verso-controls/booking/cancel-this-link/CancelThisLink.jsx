@@ -36,8 +36,11 @@ class CancelThisLink extends PureComponent {
       return
     }
     let bookingUrl = pathname
+    if (!params.bookings) {
+      bookingUrl = `${bookingUrl}/reservations`
+    }
     if (params.bookingId !== bookingId) {
-      bookingUrl = `${bookingUrl}/reservations/${bookingId}`
+      bookingUrl = `${bookingUrl}/${bookingId}`
     }
     bookingUrl = `${bookingUrl}/annulation${search}`
     history.push(bookingUrl)
@@ -47,7 +50,6 @@ class CancelThisLink extends PureComponent {
     const { booking, isFinished } = this.props
     const { isCancelled, stock } = booking || {}
     const { price } = stock || {}
-
     return (
       <button
         className="flex-columns no-border no-background"
@@ -90,6 +92,7 @@ CancelThisLink.propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
+      bookings: PropTypes.string,
       bookingId: PropTypes.string,
       cancellation: PropTypes.string
     }).isRequired
