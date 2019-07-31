@@ -218,17 +218,19 @@ class Search extends PureComponent {
   renderSearchNavAndResults = () => {
     const {
       location,
+      match,
       query,
       recommendations,
       typeSublabels,
       typeSublabelsAndDescription,
     } = this.props
+    const { params } = match
     const { hasMore } = this.state
 
     const queryParams = query.parse()
     const keywords = queryParams[`mots-cles`]
     let description
-    const category = decodeURIComponent(queryParams.categories)
+    const category = decodeURIComponent(queryParams.categories || params.category)
     if (location.pathname.includes('/resultats/')) {
       description = getDescriptionFromCategory(category, typeSublabelsAndDescription)
     }
