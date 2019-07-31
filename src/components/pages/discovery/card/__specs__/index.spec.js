@@ -4,24 +4,21 @@ import { shallow } from 'enzyme'
 import { RawCard } from '../index'
 
 describe('src | components | pages | discovery | RawCard', () => {
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // given
-      const props = {
-        handleClickRecommendation: jest.fn(),
-        handleReadRecommendation: jest.fn(),
-        loadRecommendation: jest.fn(),
-        position: 'position',
-        width: 500,
-      }
+  it('should match the snapshot', () => {
+    // given
+    const props = {
+      handleClickRecommendation: jest.fn(),
+      handleReadRecommendation: jest.fn(),
+      loadRecommendation: jest.fn(),
+      position: 'position',
+      width: 500,
+    }
 
-      // when
-      const wrapper = shallow(<RawCard {...props} />)
+    // when
+    const wrapper = shallow(<RawCard {...props} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('render', () => {

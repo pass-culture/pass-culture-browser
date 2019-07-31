@@ -9,26 +9,23 @@ const middlewares = []
 const mockStore = configureStore(middlewares)
 
 describe('src | components | pages | NavigationFooter', () => {
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // given
-      const initialState = {}
-      const store = mockStore(initialState)
-      const props = {
-        dispatch: jest.fn(),
-        theme: 'fakeTheme',
-      }
+  it('should match the snapshot', () => {
+    // given
+    const initialState = {}
+    const store = mockStore(initialState)
+    const props = {
+      dispatch: jest.fn(),
+      theme: 'fakeTheme',
+    }
 
-      // when
-      const wrapper = shallow(
-        <Provider store={store}>
-          <NavigationFooter {...props} />
-        </Provider>
-      )
+    // when
+    const wrapper = shallow(
+      <Provider store={store}>
+        <NavigationFooter {...props} />
+      </Provider>
+    )
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 })

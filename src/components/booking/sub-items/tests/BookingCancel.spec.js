@@ -17,12 +17,11 @@ describe('src | components | booking | sub-items | BookingCancel', () => {
     }
   })
 
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // when
     const wrapper = shallow(<BookingCancel {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

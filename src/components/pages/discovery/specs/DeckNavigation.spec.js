@@ -5,7 +5,7 @@ import { RawDeckNavigation } from '../DeckNavigation'
 
 describe('src | components | pages | discovery | RawDeckNavigation', () => {
   describe('snapshot', () => {
-    it('should match snapshot', () => {
+    it('should match the snapshot', () => {
       // given
       const props = {
         height: 500,
@@ -16,11 +16,10 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
       const wrapper = shallow(<RawDeckNavigation {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
 
-    it('should match snapshot with flipHandler', () => {
+    it('should match the snapshot with flipHandler', () => {
       // given
       const props = {
         flipHandler: jest.fn(),
@@ -32,7 +31,6 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
       const wrapper = shallow(<RawDeckNavigation {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
   })
@@ -51,13 +49,15 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
             },
           },
         }
+
         // when
         const wrapper = mount(<RawDeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
+
         // then
-        expect(element).toBeDefined()
         expect(element.text()).toStrictEqual('Gratuit')
       })
+
       it(`should equal '0 -> 12 €' when offer price range is [0, 12]`, () => {
         // given
         const props = {
@@ -70,13 +70,15 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
             },
           },
         }
+
         // when
         const wrapper = mount(<RawDeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
+
         // then
-        expect(element).toBeDefined()
         expect(element.text()).toStrictEqual('0 → 12 €')
       })
+
       it(`should equal '12 -> 56 €' when offer price range is [12, 56]`, () => {
         // given
         const props = {
@@ -93,11 +95,12 @@ describe('src | components | pages | discovery | RawDeckNavigation', () => {
             },
           },
         }
+
         // when
         const wrapper = mount(<RawDeckNavigation {...props} />)
         const element = wrapper.find('span#deck-navigation-offer-price')
+
         // then
-        expect(element).toBeDefined()
         expect(element.text()).toStrictEqual('12 → 56 €')
       })
     })

@@ -169,7 +169,6 @@ describe('src | components | forms | FormFooter', () => {
       const wrapper = shallow(<FormFooter {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
 
@@ -196,7 +195,6 @@ describe('src | components | forms | FormFooter', () => {
       const wrapper = shallow(<FormFooter {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
 
@@ -224,7 +222,6 @@ describe('src | components | forms | FormFooter', () => {
       const wrapper = shallow(<FormFooter {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
 
@@ -246,7 +243,6 @@ describe('src | components | forms | FormFooter', () => {
       const wrapper = shallow(<FormFooter {...props} />)
 
       // then
-      expect(wrapper).toBeDefined()
       expect(wrapper).toMatchSnapshot()
     })
   })

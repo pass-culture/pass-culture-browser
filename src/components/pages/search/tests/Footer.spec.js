@@ -9,7 +9,6 @@ describe('src | components | pages | search | Footer', () => {
     const wrapper = shallow(<Footer />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 })

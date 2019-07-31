@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import VersoWallet from '../VersoWallet'
 
 describe('src | components | verso | verso-controls | wallet | VersoWallet', () => {
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // given
     const props = { value: 10 }
 
@@ -11,7 +11,6 @@ describe('src | components | verso | verso-controls | wallet | VersoWallet', () 
     const wrapper = shallow(<VersoWallet {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

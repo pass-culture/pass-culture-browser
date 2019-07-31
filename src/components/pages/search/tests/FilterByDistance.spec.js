@@ -40,7 +40,6 @@ describe('src | components | pages | search | FilterByDistance', () => {
     const wrapper = shallow(<FilterByDistance {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

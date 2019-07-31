@@ -6,12 +6,11 @@ import MailToLink from '../../../../layout/MailToLink'
 import { SUPPORT_EMAIL, SUPPORT_EMAIL_SUBJECT } from '../../../../../utils/config'
 
 describe('src | components | pages | activation | ActivationError', () => {
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // when
     const wrapper = shallow(<ActivationError />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

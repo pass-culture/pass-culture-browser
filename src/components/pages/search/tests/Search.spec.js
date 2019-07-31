@@ -91,15 +91,12 @@ describe('src | components | pages | Search', () => {
     typeSublabelsAndDescription: [],
   }
 
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // when
-      const wrapper = shallow(<Search {...baseInitialProps} />)
+  it('should match the snapshot', () => {
+    // when
+    const wrapper = shallow(<Search {...baseInitialProps} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('switch Route', () => {

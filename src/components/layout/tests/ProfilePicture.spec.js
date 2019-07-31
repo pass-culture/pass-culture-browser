@@ -6,18 +6,15 @@ import ProfilePicture from '../ProfilePicture'
 import { ROOT_PATH } from '../../../utils/config'
 
 describe('src | components | pages | ProfilePicture', () => {
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // given
-      const props = {}
+  it('should match the snapshot', () => {
+    // given
+    const props = {}
 
-      // when
-      const wrapper = shallow(<ProfilePicture {...props} />)
+    // when
+    const wrapper = shallow(<ProfilePicture {...props} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('render', () => {

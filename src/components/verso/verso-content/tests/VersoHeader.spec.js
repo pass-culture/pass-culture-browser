@@ -11,12 +11,11 @@ const props = {
 }
 
 describe('src | components | verso | VersoHeader', () => {
-  it('should match snapshot with all props', () => {
+  it('should match the snapshot with all props', () => {
     // when
     const wrapper = shallow(<VersoHeader {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

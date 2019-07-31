@@ -29,15 +29,12 @@ describe('src | components | pages | discovery | deck | Deck', () => {
     width: 500,
   }
 
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // when
-      const wrapper = shallow(<Deck {...initialProps} />)
+  it('should match the snapshot', () => {
+    // when
+    const wrapper = shallow(<Deck {...initialProps} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('react functions', () => {

@@ -8,12 +8,11 @@ import InvalidLink from '../invalid-link/InvalidLink'
 import ActivationRoutes from '../ActivationRoutes'
 
 describe('src | components | pages | activation | ActivationRoutes', () => {
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // when
     const wrapper = shallow(<ActivationRoutes />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

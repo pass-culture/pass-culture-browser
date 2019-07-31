@@ -10,28 +10,25 @@ const children = (
 )
 
 describe('src | components | share | MailToLink', () => {
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // given
-      const props = {
-        children,
-        email: 'email@fake.com',
-        header: {},
-      }
+  it('should match the snapshot', () => {
+    // given
+    const props = {
+      children,
+      email: 'email@fake.com',
+      header: {},
+    }
 
-      // when
-      const wrapper = shallow(<MailToLink {...props} />)
+    // when
+    const wrapper = shallow(<MailToLink {...props} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
+
   describe('functions', () => {
     describe('onClickShare', () => {
       describe('when obfuscate is false', () => {
         it('should render Link', () => {
-          // given
           // given
           const props = {
             children,
@@ -42,10 +39,11 @@ describe('src | components | share | MailToLink', () => {
           // when
           const wrapper = shallow(<MailToLink {...props} />)
 
-          // // then
+          // then
           expect(wrapper.find('a').props().href).toStrictEqual('mailto:email@fake.com?')
         })
       })
+
       describe('when obfuscate is true', () => {
         // given
         const props = {
@@ -57,13 +55,15 @@ describe('src | components | share | MailToLink', () => {
           },
           obfuscate: true,
         }
-        it('should render Obfuscated Link ', () => {
+
+        it('should render Obfuscated Link', () => {
           // when
           const wrapper = shallow(<MailToLink {...props} />)
 
           // then
           expect(wrapper.find('a').props().href).toStrictEqual('mailto:obfuscated')
         })
+
         it.skip('should change window location on click', () => {
           // FIXME
           // Need to mock window.location.href

@@ -19,7 +19,7 @@ const props = {
 }
 
 describe('src | components | verso | Verso', () => {
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // given
     const cprops = { ...props, isTuto: false }
 
@@ -27,7 +27,6 @@ describe('src | components | verso | Verso', () => {
     const wrapper = shallow(<Verso {...cprops} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

@@ -4,10 +4,9 @@ import { MemoryRouter } from 'react-router-dom'
 
 import Price from '../../../../../layout/Price'
 import BookThisLink from '../BookThisLink'
-import VersoPriceFormatter from '../../verso-price-formatter/VersoPriceFormatter'
 
 describe('src | components | verso | verso-controls | booking | BookThisLink', () => {
-  it('should match snapshot with required props', () => {
+  it('should match the snapshot with required props', () => {
     // given
     const props = {
       linkDestination: '/path/to/page/',
@@ -19,7 +18,6 @@ describe('src | components | verso | verso-controls | booking | BookThisLink', (
 
     // then
     const buttonLabel = wrapper.find('.pc-ticket-button-label')
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
     expect(buttonLabel).toHaveLength(1)
     expect(buttonLabel.text()).toBe('J’y vais !')

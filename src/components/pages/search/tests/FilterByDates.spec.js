@@ -41,7 +41,6 @@ describe('src | components | pages | search | FilterByDates', () => {
     const wrapper = shallow(<FilterByDates {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 

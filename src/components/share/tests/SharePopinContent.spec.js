@@ -7,26 +7,23 @@ import CopyToClipboardButton from '../CopyToClipboardButton'
 const dispatchMock = jest.fn()
 
 describe('src | components | share | SharePopinContent', () => {
-  describe('snapshot', () => {
-    it('should match snapshot', () => {
-      // given
-      const props = {
-        dispatch: dispatchMock,
-        options: {
-          text: 'Fake Test',
-          title: 'Fake Title',
-          url: 'fake@url.com',
-        },
-        visible: true,
-      }
+  it('should match the snapshot', () => {
+    // given
+    const props = {
+      dispatch: dispatchMock,
+      options: {
+        text: 'Fake Test',
+        title: 'Fake Title',
+        url: 'fake@url.com',
+      },
+      visible: true,
+    }
 
-      // when
-      const wrapper = shallow(<SharePopinContent {...props} />)
+    // when
+    const wrapper = shallow(<SharePopinContent {...props} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('functions', () => {

@@ -42,7 +42,7 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoCon
     }
   })
 
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // given
     recommendation.offer.isThing = false
     recommendation.offer.isEvent = true
@@ -59,7 +59,6 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoCon
     const wrapper = shallow(<VersoContentOffer {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 
@@ -220,7 +219,6 @@ describe('src | components | verso | verso-content | verso-info-offer | VersoCon
     const iconComponent = wrapper.find('.distance').find(Icon)
     expect(venueDistance.prop('href')).toBe('this is a fake url')
     expect(venueDistance.find('span').text()).toBe(`1${nbsp}`)
-    expect(iconComponent).toBeDefined()
     expect(iconComponent.prop('svg')).toBe('ico-geoloc-solid2')
     expect(iconComponent.prop('alt')).toBe('Géolocalisation dans Open Street Map')
   })

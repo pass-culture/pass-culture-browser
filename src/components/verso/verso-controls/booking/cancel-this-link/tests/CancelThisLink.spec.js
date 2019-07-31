@@ -30,15 +30,12 @@ describe('src | components | verso | verso-controls | booking | CancelThisLink',
     }
   })
 
-  describe('snapshot with required props', () => {
-    it('should match snapshot', () => {
-      // when
-      const wrapper = shallow(<CancelThisLink {...props} />)
+  it('should match the snapshot', () => {
+    // when
+    const wrapper = shallow(<CancelThisLink {...props} />)
 
-      // then
-      expect(wrapper).toBeDefined()
-      expect(wrapper).toMatchSnapshot()
-    })
+    // then
+    expect(wrapper).toMatchSnapshot()
   })
 
   describe('render', () => {

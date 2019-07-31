@@ -34,12 +34,11 @@ describe('src | components | pages | activation | password | RawActivationPasswo
     }
   })
 
-  it('should match snapshot', () => {
+  it('should match the snapshot', () => {
     // when
     const wrapper = shallow(<RawActivationPassword {...props} />)
 
     // then
-    expect(wrapper).toBeDefined()
     expect(wrapper).toMatchSnapshot()
   })
 
