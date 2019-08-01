@@ -6,6 +6,13 @@ export const bookingNormalizer = {
   },
 }
 
+export const favoriteNormalizer = {
+  matchingRecommendations: {
+    normalizer: recommendationNormalizer,
+    stateKey: 'recommendations',
+  },
+}
+
 export const recommendationNormalizer = {
   bookings: 'bookings',
 }
