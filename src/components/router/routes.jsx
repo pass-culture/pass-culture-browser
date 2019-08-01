@@ -86,7 +86,7 @@ const routes = [
     component: MyFavoritesContainer,
     featureName: 'FAVORITE_OFFER',
     icon: 'like-w',
-    path: '/favoris',
+    path: '/favoris/:details(details)?/:favoriteId?/:bookings(reservations)?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes favoris',
   },
   {
