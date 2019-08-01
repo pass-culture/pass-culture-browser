@@ -1,9 +1,12 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { compose } from 'redux'
 
 import MyFavorite from './MyFavorite'
-import { humanizeRelativeDate } from '../../../../utils/date/date'
+
+import selectRecommendationByOfferIdAndMediationId from '../../../../selectors/selectRecommendationByOfferIdAndMediationId'
 import { humanizeRelativeDistance } from '../../../../utils/geolocation'
-import { versoUrl } from '../../../../utils/url/url'
+import { humanizeRelativeDate } from '../../../../utils/date/date'
 
 export const hasBookings = offer => offer.stocks.some(stock => stock.bookings.length > 0)
 
@@ -22,7 +25,6 @@ export const isBooked = offer => {
       }
     }
   })
-
   return flag
 }
 
@@ -30,8 +32,8 @@ export const reservationStatus = (
   isFinished,
   isFullyBooked,
   hasBookings,
-  isBooked,
-  humanizeRelativeDate = ''
+  humanizeRelativeDistance,
+  isBooked
 ) => {
   if (isFinished) {
     return {
@@ -74,34 +76,41 @@ export const reservationStatus = (
 
 export const mapStateToProps = (state, ownProps) => {
   const { favorite } = ownProps
-  const { mediation, offer } = favorite
-  const { latitude, longitude } = state.geolocation
-  const offerBeginningDate = offer.dateRange[0] || null
-  const {
-    product: {
-      offerType: { appLabel = '' },
-    },
-  } = offer
+  const { mediationId, offerId } = favorite
+  const { latitude: currentLatitude, longitude: currentLongitude } = state.geolocation
+  const firstMatchingRecommendation = selectRecommendationByOfferIdAndMediationId(
+    state,
+    offerId,
+    mediationId
+  )
+  const hasBookings = hasBookings(offer)
+  const isBooked = isBooked(offer)
+  const { offer } = firstMatchingRecommendation || {}
+  const { venue } = offer || {}
+  const { latitude: venueLatitude, longitude: venueLongitude } = venue || {}
+  const { dateRange = [], isFinished, isFullyBooked } = offer || {}
+  const offerBeginningDate = dateRange[0] || null
 
+  const status = reservationStatus(
+    isFinished,
+    isFullyBooked,
+    hasBookings,
+    isBooked,
+    offerBeginningDate ? humanizeRelativeDate(offerBeginningDate) : null
+  )
   return {
+    firstMatchingRecommendation,
     humanizeRelativeDistance: humanizeRelativeDistance(
-      offer.venue.latitude,
-      offer.venue.longitude,
-      latitude,
-      longitude
+      venueLatitude,
+      venueLongitude,
+      currentLatitude,
+      currentLongitude
     ),
-    name: offer.name,
-    offerTypeLabel: appLabel,
-    status: reservationStatus(
-      offer.isFinished,
-      offer.isFullyBooked,
-      hasBookings(offer),
-      isBooked(offer),
-      offerBeginningDate ? humanizeRelativeDate(offerBeginningDate) : null
-    ),
-    thumbUrl: mediation.thumbUrl,
-    versoUrl: versoUrl(favorite.offerId, favorite.mediationId),
+    status,
   }
 }
 
-export default connect(mapStateToProps)(MyFavorite)
+export default compose(
+  withRouter,
+  connect(mapStateToProps)
+)(MyFavorite)
