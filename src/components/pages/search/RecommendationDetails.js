@@ -85,7 +85,7 @@ class RecommendationDetails extends PureComponent {
       <Fragment>
         {forceDetailsVisible && (
           <Route
-            path="/recherche/resultats/:option?/details/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?"
+            path="/recherche/resultats/:category?/:details(details)/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?"
             render={this.renderBooking}
           />
         )}
