@@ -86,10 +86,7 @@ class MyFavoriteDetails extends PureComponent {
   render() {
     const { firstMatchingBooking } = this.props
     const { currentRecommendation, forceDetailsVisible } = this.state
-
-
-    console.log('currentRecommendation', currentRecommendation, forceDetailsVisible)
-
+    
     return (
       <Fragment>
         {forceDetailsVisible && (
