@@ -177,7 +177,7 @@ class Search extends PureComponent {
         'mots-cles': value === '' ? null : value,
         page: null,
       },
-      { pathname: '/recherche/resultats' }
+      { pathname: '/recherche/resultats/tout' }
     )
   }
 
@@ -402,6 +402,7 @@ class Search extends PureComponent {
     }
 
     const areDetailsVisible = getAreDetailsVisible(match)
+
     return (
       <main
         className="search-page page with-footer with-header"
@@ -412,7 +413,7 @@ class Search extends PureComponent {
           backTo={this.hasBackLink() && this.goBack()}
           title={headerTitle}
         />
-        {!areDetailsVisible && this.renderControlsAndResults()}
+        {areDetailsVisible && this.renderControlsAndResults()}
         <RecommendationDetailsContainer />
       </main>
     )
