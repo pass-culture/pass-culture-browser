@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
 import BookingItem from './BookingItem'
-import selectRecommendationById from '../../../selectors/selectRecommendationById'
+import selectRecommendationById from '../../../../../../selectors/selectRecommendationById'
 
 export const mapStateToProps = (state, ownProps) => {
   const { booking } = ownProps

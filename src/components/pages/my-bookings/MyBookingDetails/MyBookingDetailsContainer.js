@@ -4,19 +4,21 @@ import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
 import MyBookingDetails from './MyBookingDetails'
-import selectRecommendationById from '../selectors/selectRecommendationById'
 import selectBookingById from '../../../../selectors/selectBookingById'
+import selectRecommendationById from '../../../../selectors/selectRecommendationById'
 import { bookingNormalizer } from '../../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
   const { params } = match
   const { bookingId } = params
+  const needsToRequestGetBooking = typeof bookingId !== 'undefined'
   const booking = selectBookingById(state, bookingId)
   const { recommendationId } = booking || {}
   const recommendation = selectRecommendationById(state, recommendationId)
   return {
     booking,
+    needsToRequestGetBooking,
     recommendation,
   }
 }

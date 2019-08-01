@@ -17,10 +17,14 @@ class MyBookingDetails extends PureComponent {
   }
 
   componentDidMount() {
-    const { booking, requestGetBooking } = this.props
+    const { booking, needsToRequestGetBooking, requestGetBooking } = this.props
 
     if (booking) {
       this.handleMountDetails()
+      return
+    }
+
+    if (!needsToRequestGetBooking) {
       return
     }
 
@@ -123,6 +127,7 @@ MyBookingDetails.propTypes = {
       details: PropTypes.string
     }).isRequired
   }).isRequired,
+  needsToRequestGetBooking: PropTypes.bool.isRequired,
   recommendation: PropTypes.shape(),
   requestGetBooking: PropTypes.func.isRequired
 }

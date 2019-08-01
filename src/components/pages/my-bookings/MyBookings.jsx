@@ -5,7 +5,6 @@ import MyBookingsListsContainer from './MyBookingsLists/MyBookingsListsContainer
 import MyBookingDetailsContainer from './MyBookingDetails/MyBookingDetailsContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import PageHeader from '../../layout/Header/PageHeader'
-import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
 class MyBookings extends Component {
@@ -62,7 +61,7 @@ class MyBookings extends Component {
 
     return (
       <main
-        className={'my-bookings-page page with-footer with-header'}
+        className='my-bookings-page page with-footer with-header'
         role="main"
       >
         <PageHeader
