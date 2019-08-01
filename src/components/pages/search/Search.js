@@ -174,7 +174,7 @@ class Search extends PureComponent {
     query.change(
       {
         'mots-cles': value === '' ? null : value,
-        page: null,
+        page: 1,
       },
       { pathname: '/recherche/resultats/tout' }
     )
