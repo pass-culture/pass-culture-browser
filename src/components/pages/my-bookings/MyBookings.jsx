@@ -52,7 +52,6 @@ class MyBookings extends Component {
   }
 
   render() {
-    const { match } = this.props
     const { hasError, isEmpty, isLoading } = this.state
     if (isLoading) {
       return (<LoaderContainer
@@ -61,7 +60,6 @@ class MyBookings extends Component {
               />)
     }
 
-    const areDetailsVisible = getAreDetailsVisible(match)
     return (
       <main
         className={'my-bookings-page page with-footer with-header'}
@@ -71,7 +69,7 @@ class MyBookings extends Component {
           backTo={this.goBack()}
           title="Mes réservations"
         />
-        {!areDetailsVisible && <MyBookingsListsContainer isEmpty={isEmpty} />}
+        <MyBookingsListsContainer isEmpty={isEmpty} />
         <MyBookingDetailsContainer />
       </main>
     )
