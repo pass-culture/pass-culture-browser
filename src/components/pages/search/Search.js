@@ -19,7 +19,6 @@ import PageHeader from '../../layout/Header/PageHeader'
 import Icon from '../../layout/Icon'
 import Spinner from '../../layout/Spinner'
 import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
-import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
@@ -401,8 +400,6 @@ class Search extends PureComponent {
       headerTitle = `${headerTitle} : résultats`
     }
 
-    const areDetailsVisible = getAreDetailsVisible(match)
-
     return (
       <main
         className="search-page page with-footer with-header"
@@ -413,7 +410,7 @@ class Search extends PureComponent {
           backTo={this.hasBackLink() && this.goBack()}
           title={headerTitle}
         />
-        {areDetailsVisible && this.renderControlsAndResults()}
+        {this.renderControlsAndResults()}
         <RecommendationDetailsContainer />
       </main>
     )
