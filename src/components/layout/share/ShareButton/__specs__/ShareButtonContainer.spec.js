@@ -45,64 +45,84 @@ describe('src | components | share | ShareButtonContainer', () => {
 
   describe('mapStateToProps', () => {
     describe('when mapping offerName', () => {
-      it('should get offerName from current recommendation', () => {
+      it('should get offerName from current offer', () => {
         // given
+        const offerId = 'B4'
+        const offer = {
+          id: offerId,
+          name: 'Marx et Compagnie',
+        }
         const recommendation = {
           id: 'PA',
           mediationId: 'CA',
-          offerId: 'B4',
-          offer: {
-            name: 'offerName',
-          },
+          offerId,
         }
         const ownProps = {
           match: {
             params: {
               mediationId: 'CA',
-              offerId: 'B4',
+              offerId,
             },
-          },
-          recommendation,
+          }
         }
-        const state = {}
+        const state = {
+          data: {
+            bookings: [],
+            favorites: [],
+            mediations: [],
+            offers: [offer],
+            recommendations: [recommendation]
+          }
+        }
 
         // when
         selectCurrentUser.mockReturnValue({ id: 'myId' })
         const result = mapStateToProps(state, ownProps)
 
         // then
-        expect(result.offerName).toBe('offerName')
+        expect(result.offerName).toBe(offer.name)
       })
     })
 
     describe('when mapping text', () => {
-      it('should build text from recommendation offerName', () => {
+      it('should build text from offerName', () => {
         // given
+        const offerId = 'B4'
+        const offer = {
+          id: offerId,
+          name: 'Marx et Compagnie',
+        }
         const recommendation = {
           id: 'PA',
           mediationId: 'CA',
-          offerId: 'B4',
-          offer: {
-            name: 'offerName',
-          },
+          offerId,
         }
         const ownProps = {
           match: {
             params: {
               mediationId: 'CA',
-              offerId: 'B4',
+              offerId,
             },
-          },
-          recommendation,
+          }
         }
-        const state = {}
+        const state = {
+          data: {
+            bookings: [],
+            favorites: [],
+            mediations: [],
+            offers: [offer],
+            recommendations: [recommendation]
+          }
+        }
 
         // when
         selectCurrentUser.mockReturnValue({ id: 'myId' })
         const result = mapStateToProps(state, ownProps)
 
         // then
-        expect(result.text).toBe('Retrouvez offerName sur le pass Culture')
+        expect(result.text).toBe(
+          "Retrouvez Marx et Compagnie sur le pass Culture"
+        )
       })
     })
 
@@ -110,24 +130,33 @@ describe('src | components | share | ShareButtonContainer', () => {
       describe('when user is logged in', () => {
         it('should getShareURL with location and user', () => {
           // given
+          const offerId = 'B4'
+          const offer = {
+            id: offerId,
+            name: 'Marx et Compagnie',
+          }
           const recommendation = {
             id: 'PA',
             mediationId: 'CA',
-            offerId: 'B4',
-            offer: {
-              name: 'offerName',
-            },
+            offerId,
           }
           const ownProps = {
             match: {
               params: {
                 mediationId: 'CA',
-                offerId: 'B4',
+                offerId,
               },
-            },
-            recommendation,
+            }
           }
-          const state = {}
+          const state = {
+            data: {
+              bookings: [],
+              favorites: [],
+              mediations: [],
+              offers: [offer],
+              recommendations: [recommendation]
+            }
+          }
 
           // when
           selectCurrentUser.mockReturnValue({ id: 'myId' })
@@ -142,13 +171,15 @@ describe('src | components | share | ShareButtonContainer', () => {
     describe('when mapping share data', () => {
       it('should explode all attributes from share', () => {
         // given
+        const offerId = 'B4'
+        const offer = {
+          id: offerId,
+          name: 'Marx et Compagnie',
+        }
         const recommendation = {
           id: 'PA',
           mediationId: 'CA',
-          offerId: 'B4',
-          offer: {
-            name: 'offerName',
-          },
+          offerId,
         }
         const ownProps = {
           match: {
@@ -156,12 +187,17 @@ describe('src | components | share | ShareButtonContainer', () => {
               mediationId: 'CA',
               offerId: 'B4',
             },
-          },
-          recommendation,
+          }
         }
 
         const state = {
-          data: {},
+          data: {
+            bookings: [],
+            favorites: [],
+            mediations: [],
+            offers: [offer],
+            recommendations: [recommendation]
+          },
           share: {
             options: false,
             visible: true,

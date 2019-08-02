@@ -3,8 +3,9 @@ import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
 import MyFavorites from './MyFavorites'
-import selectFavorites from './selectors/selectFavorites'
 import { withRequiredLogin } from '../../hocs'
+import { resetPageData } from '../../../reducers/data'
+import selectFavorites from '../../../selectors/selectFavorites'
 import { favoriteNormalizer } from '../../../utils/normalizers'
 
 export const mapStateToProps = state => ({
@@ -22,6 +23,7 @@ export const mapDispatchToProps = dispatch => ({
       })
     )
   },
+  resetPageData: () => dispatch(resetPageData())
 })
 
 export default compose(

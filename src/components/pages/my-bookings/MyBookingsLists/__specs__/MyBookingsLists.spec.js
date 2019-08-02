@@ -12,7 +12,7 @@ describe('src | components | pages | my-bookings | MyBookingsLists', () => {
   beforeEach(() => {
     props = {
       isEmpty: false,
-      myBookings: [
+      otherBookings: [
         {
           id: 1,
         },
@@ -40,7 +40,7 @@ describe('src | components | pages | my-bookings | MyBookingsLists', () => {
     it('should not render my bookings when there are no bookings', () => {
       // given
       props.isEmpty = true
-      props.myBookings = []
+      props.otherBookings = []
       props.soonBookings = []
 
       // when

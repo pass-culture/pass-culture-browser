@@ -3,10 +3,10 @@ import createCachedSelector from 're-reselect'
 
 import mapArgsToCacheKey from './mapArgsToCacheKey'
 import selectCurrentRecommendation from './selectCurrentRecommendation'
-import selectRecommendations from './selectRecommendations'
+import selectUniqAndIndexifiedRecommendations from './selectUniqAndIndexifiedRecommendations'
 
 const selectPreviousRecommendation = createCachedSelector(
-  selectRecommendations,
+  selectUniqAndIndexifiedRecommendations,
   selectCurrentRecommendation,
   (recommendations, currentRecommendation) => {
     const previousRecommendation =

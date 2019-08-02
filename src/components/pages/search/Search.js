@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { stringify } from 'query-string'
 import React, { Fragment, PureComponent } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { assignData, requestData } from 'redux-saga-data'
+import { requestData } from 'redux-saga-data'
 
 import NavByOfferTypeContainer from './NavByOfferType/NavByOfferTypeContainer'
 import NavResultsHeader from './NavResultsHeader'
-import RecommendationDetailsContainer from './RecommendationDetailsContainer'
+import RecommendationDetailsContainer from './RecommendationDetails/RecommendationDetailsContainer'
 import ResultsContainer from './Results/ResultsContainer'
 import FilterControlsContainer from './FilterControls/FilterControlsContainer'
 import {
@@ -15,11 +15,10 @@ import {
   isInitialQueryWithoutFilters,
   translateBrowserUrlToApiUrl,
 } from './helpers'
-import PageHeader from '../../layout/Header/PageHeader'
+import HeaderContainer from '../../layout/Header/HeaderContainer'
 import Icon from '../../layout/Icon'
 import Spinner from '../../layout/Spinner'
 import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
-import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
 class Search extends PureComponent {
@@ -64,23 +63,38 @@ class Search extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    this.resetRecommendationsAndBookings()
-  }
-
-  resetRecommendationsAndBookings = () => {
-    const { dispatch } = this.props
-    dispatch(
-      assignData({
-        bookings: [],
-        recommendations: [],
-      })
-    )
+  componentWillUnmount () {
+    const { resetPageData } = this.props
+    resetPageData()
   }
 
   clearSearchResults = value => {
+    const { resetPageData } = this.props
     if (value === '') return
-    this.resetRecommendationsAndBookings()
+    resetPageData()
+  }
+
+  getBackToUrl = () => {
+    const { match } = this.props
+    const { params } = match
+    const { details, results } = params
+    if (details) {
+      return null
+    }
+    if (results) {
+      return '/recherche'
+    }
+  }
+
+  getHeaderTitle = () => {
+    const { match } = this.props
+    const { params } = match
+    const { results } = params
+    let headerTitle = 'Recherche'
+    if (results) {
+      headerTitle = `${headerTitle} : résultats`
+    }
+    return headerTitle
   }
 
   handleCategoryMissing = () => {
@@ -100,11 +114,6 @@ class Search extends PureComponent {
     if (description) {
       query.change({ categories: category })
     }
-  }
-
-  isFirstPageRequest = queryParams => {
-    const { page = '' } = queryParams
-    return page === ''
   }
 
   handleRecommendationsRequest = () => {
@@ -132,11 +141,6 @@ class Search extends PureComponent {
     )
   }
 
-  goBack = () => {
-    const { location, match } = this.props
-    return getRemovedDetailsUrl(location, match) || '/recherche'
-  }
-
   reinitializeStates = () => {
     const { keywordsKey } = this.state
 
@@ -151,15 +155,6 @@ class Search extends PureComponent {
       keywordsKey: keywordsKey + 1,
       keywordsValue: '',
     })
-  }
-
-  hasBackLink = () => {
-    const {
-      match: {
-        params: { results },
-      },
-    } = this.props
-    return results ? true : null
   }
 
   handleOnSubmit = event => {
@@ -206,6 +201,12 @@ class Search extends PureComponent {
       () => history.push('/recherche/resultats')
     )
   }
+
+  isFirstPageRequest = queryParams => {
+    const { page = '' } = queryParams
+    return page === ''
+  }
+
 
   renderNavByOfferTypeContainer = typeSublabels => () => (
     <NavByOfferTypeContainer
@@ -390,28 +391,21 @@ class Search extends PureComponent {
   }
 
   render() {
-    const { match } = this.props
-    const {
-      params: { results },
-    } = match
-
-    let headerTitle = 'Recherche'
-    if (results) {
-      headerTitle = `${headerTitle} : résultats`
-    }
-
     return (
       <main
         className="search-page page with-footer with-header"
         role="main"
       >
-        <PageHeader
+        <HeaderContainer
           backActionOnClick={this.reinitializeStates}
-          backTo={this.hasBackLink() && this.goBack()}
-          title={headerTitle}
+          backTo={this.getBackToUrl()}
+          shouldBackFromDetails
+          title={this.getHeaderTitle()}
         />
         {this.renderControlsAndResults()}
-        <RecommendationDetailsContainer />
+        <RecommendationDetailsContainer
+          bookingPath="/recherche/resultats/:category?/:details(details|transition)/:offerId([A-Z0-9]+)/:mediationId(vide|[A-Z0-9]+)?/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?"
+        />
       </main>
     )
   }
@@ -420,7 +414,10 @@ class Search extends PureComponent {
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
-  location: PropTypes.shape().isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       category: PropTypes.string,
@@ -430,6 +427,7 @@ Search.propTypes = {
   }).isRequired,
   query: PropTypes.shape().isRequired,
   recommendations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  resetPageData: PropTypes.func.isRequired,
   typeSublabels: PropTypes.arrayOf(PropTypes.string).isRequired,
   typeSublabelsAndDescription: PropTypes.arrayOf(
     PropTypes.shape({

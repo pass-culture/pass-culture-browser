@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 import { allBookingsDataset, inExactTwoDays } from './data/selectBookings'
-import { filterBookingsInMoreThanTwoDaysOrPast } from '../selectMyBookings'
+import { filterBookingsInMoreThanTwoDaysOrPast } from '../selectOtherBookings'
 
 describe('filterBookingsInMoreThanTwoDaysOrPast', () => {
   it('returns all bookings excepts >= today hh:mm:s', () => {

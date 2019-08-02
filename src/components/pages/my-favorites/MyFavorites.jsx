@@ -4,19 +4,19 @@ import React, { Component } from 'react'
 
 import MyFavoriteDetailsContainer from './MyFavoriteDetails/MyFavoriteDetailsContainer'
 import MyFavoriteContainer from './MyFavorite/MyFavoriteContainer'
-import PageHeader from '../../layout/Header/PageHeader'
+import HeaderContainer from '../../layout/Header/HeaderContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import NoItems from '../../layout/NoItems/NoItems'
 import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
-import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
 class MyFavorites extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      hasError: false,
+      isEmpty: false,
       isLoading: true,
+      hasError: false
     }
   }
 
@@ -25,9 +25,21 @@ class MyFavorites extends Component {
     requestGetMyFavorites(this.handleFail, this.handleSuccess)
   }
 
-  goBack = () => {
-    const { location, match } = this.props
-    return getRemovedDetailsUrl(location, match)
+  componentDidUpdate = prevProps => {
+    const { myFavorites } = this.props
+    const { isEmpty } = this.state
+    if (myFavorites && myFavorites !== prevProps.myFavorites) {
+      if (myFavorites.length === 0) {
+        this.handleSetIsEmpty(true)
+      } else if (!isEmpty) {
+        this.handleSetIsEmpty(false)
+      }
+    }
+  }
+
+  componentWillUnmount () {
+    const { resetPageData } = this.props
+    resetPageData()
   }
 
   handleFail = () => {
@@ -43,16 +55,25 @@ class MyFavorites extends Component {
     })
   }
 
+  handleSetIsEmpty = isEmpty => {
+    this.setState({ isEmpty })
+  }
+
   renderFavoritesList = () => {
     const { myFavorites } = this.props
-    const isEmpty = myFavorites.length === 0
+    const { isEmpty } = this.state
 
     return (
       <div className={classnames('page-content', {
           'teaser-no-teasers': isEmpty
         })}
       >
-        {isEmpty && <NoItems sentence="Dès que vous aurez ajouté une offre en favori," />}
+        {isEmpty && (
+          <NoItems
+            sentence="Dès que vous aurez ajouté une offre en favori,"
+            withWhiteBackground
+          />
+        )}
 
         {!isEmpty && (
           <section>
@@ -85,12 +106,14 @@ class MyFavorites extends Component {
         className="teaser-list page with-header with-footer"
         role="main"
       >
-        <PageHeader
-          backTo={this.goBack()}
+        <HeaderContainer
+          shouldBackFromDetails
           title="Mes favoris"
         />
         {this.renderFavoritesList()}
-        <MyFavoriteDetailsContainer />
+        <MyFavoriteDetailsContainer
+          bookingPath="/favoris/:details(details)/:favoriteId([A-Z0-9]+)/:bookings(reservations)/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?"
+        />
         <RelativeFooterContainer
           className="dotted-top-red"
           theme="purple"
@@ -105,17 +128,9 @@ MyFavorites.defaultProps = {
 }
 
 MyFavorites.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      details: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
   myFavorites: PropTypes.arrayOf(PropTypes.shape()),
   requestGetMyFavorites: PropTypes.func.isRequired,
+  resetPageData: PropTypes.func.isRequired
 }
 
 export default MyFavorites

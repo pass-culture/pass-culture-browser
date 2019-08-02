@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Draggable from 'react-draggable'
 
-import DeckNavigation from './DeckNavigation'
-import CardContainer from './card/CardContainer'
+import CardContainer from './Card/CardContainer'
+import NavigationContainer from './Navigation/NavigationContainer'
 import CloseLink from '../../../layout/Header/CloseLink'
 import getAreDetailsVisible from '../../../../helpers/getAreDetailsVisible'
 import getRemovedDetailsUrl from '../../../../helpers/getRemovedDetailsUrl'
@@ -42,7 +42,6 @@ class Deck extends Component {
       horizontalSlideRatio,
       verticalSlideRatio,
       width,
-
     } = this.props
 
     const index = get(currentRecommendation, 'index', 0)
@@ -130,7 +129,6 @@ class Deck extends Component {
       right: position.x + width,
       top: -100,
     }
-
     return (
       <Draggable
         axis={areDetailsVisible ? 'none' : 'exclude'}
@@ -164,7 +162,6 @@ class Deck extends Component {
     } = this.props
     const areDetailsVisible = getAreDetailsVisible(match)
     const showNavigation = !areDetailsVisible || isFlipDisabled
-
     return (
       <div
         className="is-clipped is-relative"
@@ -179,12 +176,11 @@ class Deck extends Component {
         )}
         {this.renderDraggableCards()}
         {showNavigation && currentRecommendation && (
-          <DeckNavigation
+          <NavigationContainer
             flipHandler={(!isFlipDisabled && this.handleShowCardDetails) || null}
             handleGoNext={(nextRecommendation && this.handleGoNext) || null}
             handleGoPrevious={(previousRecommendation && this.handleGoPrevious) || null}
             height={height}
-            recommendation={currentRecommendation}
           />
         )}
       </div>

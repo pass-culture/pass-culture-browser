@@ -5,14 +5,15 @@ import { selectCurrentUser } from 'with-react-redux-login'
 
 import ShareButton from './ShareButton'
 import { getShareURL } from '../../../../helpers'
-import { getShare } from '../../../../selectors/shareSelectors'
+import selectMediationByMatch from '../../../../selectors/selectMediationByMatch'
+import selectOfferByMatch from '../../../../selectors/selectOfferByMatch'
 
 export const mapStateToProps = (state, ownProps) => {
-  const {
-    recommendation
-  } = ownProps
-  const { mediationId, offer, offerId } = recommendation
-  const { name: offerName } = offer
+  const { match } = ownProps
+  const mediation = selectMediationByMatch(state, match)
+  const { id: mediationId } = mediation || {}
+  const offer = selectOfferByMatch(state, match)
+  const { id: offerId, name: offerName } = offer || {}
   const text = offerName && `Retrouvez ${offerName} sur le pass Culture`
   const user = selectCurrentUser(state)
   const url = getShareURL(user, offerId, mediationId)
@@ -21,7 +22,7 @@ export const mapStateToProps = (state, ownProps) => {
     offerName,
     text,
     url,
-    ...getShare(state),
+    ...state.share,
   }
 }
 

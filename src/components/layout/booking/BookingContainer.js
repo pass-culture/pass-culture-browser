@@ -1,21 +1,29 @@
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
 import Booking from './Booking'
 import selectBookables from '../../../selectors/selectBookables'
-import selectBookingById from '../../../selectors/selectBookingById'
+import selectBookingByMatch from '../../../selectors/selectBookingByMatch'
+import selectOfferByMatch from '../../../selectors/selectOfferByMatch'
+import selectRecommendationByMatch from '../../../selectors/selectRecommendationByMatch'
 
 export const mapStateToProps = (state, ownProps) => {
-  const { match, recommendation } = ownProps
-  const { params } = match
-  const { bookingId } = params
+  const { match } = ownProps
 
-  const bookables = selectBookables(state, recommendation)
-  const booking = selectBookingById(state, bookingId)
+  const offer = selectOfferByMatch(state, match)
+  const bookables = selectBookables(state, offer)
+  const booking = selectBookingByMatch(state, match)
+  const recommendation = selectRecommendationByMatch(state, match)
 
   return {
     bookables,
     booking,
+    recommendation
   }
 }
 
-export default connect(mapStateToProps)(Booking)
+export default compose(
+  withRouter,
+  connect(mapStateToProps)
+)(Booking)

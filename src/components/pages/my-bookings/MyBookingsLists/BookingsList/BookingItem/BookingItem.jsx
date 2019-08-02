@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom'
 
 import Icon from '../../../../../layout/Icon'
 import Ribbon from '../../../../../layout/Ribbon'
-import { isRecommendationOfferFinished } from '../../../../../../helpers'
-import { humanizeRelativeDate } from '../../../../../../utils/date/date'
 import { getTimezone } from '../../../../../../utils/timezone'
 
 export const stringify = date => timeZone =>
@@ -17,66 +15,35 @@ export const stringify = date => timeZone =>
       .format('dddd DD/MM/YYYY à H:mm')
   )
 
-const ribbonLabelAndType = (
-  isCancelled,
-  isFinished,
-  humanizeRelativeDate = '',
-  isUsed
-) => {
-  if (isUsed) {
-    return {
-      label: 'Terminé',
-      type: 'finished',
-    }
+const getDetailsUrl = (bookingId, location, match) => {
+  const { pathname, search } = location
+  const { params } = match
+  const { details } = params
+  if (details === 'details') {
+    return `${pathname}${search}`
   }
-  if (!isCancelled && humanizeRelativeDate === 'Aujourd’hui') {
-    return {
-      label: 'Aujourd’hui',
-      type: 'today',
-    }
-  } else if (!isCancelled && humanizeRelativeDate === 'Demain') {
-    return {
-      label: 'Demain',
-      type: 'tomorrow',
-    }
-  } else if (!isCancelled && isFinished) {
-    return {
-      label: 'Terminé',
-      type: 'finished',
-    }
-  } else if (isCancelled) {
-    return {
-      label: 'Annulé',
-      type: 'cancelled',
-    }
-  }
-
-  return null
+  return `${pathname}/details/${bookingId}${search}`
 }
 
 const BookingItem = ({
   booking,
   location,
-  recommendation
+  match,
+  offer,
+  ribbon
 }) => {
-  const { pathname, search } = location
-  const { id: bookingId, isCancelled, isUsed, stock, token } = booking
+  const {
+    id: bookingId,
+    stock,
+    token,
+    thumbUrl
+  } = booking
   const { beginningDatetime } = stock
-  const { offer, offerId, thumbUrl } = recommendation
-  const humanizeRelativeBeginningDate = beginningDatetime &&
-    humanizeRelativeDate(beginningDatetime)
-  const isFinished = isRecommendationOfferFinished(recommendation, offerId)
-  const ribbon = ribbonLabelAndType(
-    isCancelled,
-    isFinished,
-    humanizeRelativeBeginningDate,
-    isUsed
-  )
   const { label, type } = ribbon || {}
   const { product, venue } = offer
   const { name: productName } = product
   const { departementCode } = venue
-  const detailsUrl = `${pathname}/details/${bookingId}${search}`
+  const detailsUrl = getDetailsUrl(bookingId, location, match)
   const timeZone = getTimezone(departementCode)
   const stringifyDate = beginningDatetime && stringify(beginningDatetime)(timeZone)
   return (
@@ -119,35 +86,39 @@ const BookingItem = ({
 }
 
 BookingItem.defaultProps = {
-  recommendation: null
+  ribbon: null
 }
 
 BookingItem.propTypes = {
   booking: PropTypes.shape({
     id: PropTypes.string,
-    isCancelled: PropTypes.bool.isRequired,
-    isUsed: PropTypes.bool.isRequired,
     stock: PropTypes.shape({
       beginningDatetime: PropTypes.string
     }),
-    token: PropTypes.string.isRequired
+    thumbUrl: PropTypes.string,
+    token: PropTypes.string.isRequired,
   }).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired
   }).isRequired,
-  recommendation: PropTypes.shape({
-    offer: PropTypes.shape({
-      product: PropTypes.shape({
-        name: PropTypes.string,
-      }),
-      venue: PropTypes.shape({
-        departementCode: PropTypes.string
-      })
-    }),
-    offerId: PropTypes.string,
-    thumbUrl: PropTypes.string
-  })
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      details: PropTypes.string
+    }).isRequired
+  }).isRequired,
+  offer: PropTypes.shape({
+    product: PropTypes.shape({
+      name: PropTypes.string,
+    }).isRequired,
+    venue: PropTypes.shape({
+      departementCode: PropTypes.string
+    }).isRequired
+  }).isRequired,
+  ribbon: PropTypes.shape({
+    label: PropTypes.string,
+    type: PropTypes.string
+  }),
 }
 
 export default BookingItem

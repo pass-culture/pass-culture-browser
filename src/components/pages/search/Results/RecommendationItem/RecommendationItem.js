@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import { getRecommendationDateString } from '../../helpers'
 import { ICONS_URL } from '../../../../../utils/config'
 
 const DEFAULT_THUMB_URL = `${ICONS_URL}/magnify.svg`
 
-const RecommendationItem = ({ handleMarkSearchRecommendationsAsClicked, recommendation }) => {
-  const { offer, thumbUrl } = recommendation
+const RecommendationItem = ({
+  handleMarkSearchRecommendationsAsClicked,
+  offer,
+  recommendation
+}) => {
+  const { thumbUrl } = recommendation
   const { name: offerName, product } = offer || {}
   return (
     <li className="recommendation-list-item">
@@ -27,23 +31,19 @@ const RecommendationItem = ({ handleMarkSearchRecommendationsAsClicked, recommen
             />
           </div>
           <div className="m18 flex-1">
-            {recommendation.offer && (
-              <Fragment>
-                <h5
-                  className="fs18 is-bold"
-                  title={offerName}
-                >
-                  {offerName}
-                </h5>
-                <div className="fs13">{product.offerType.appLabel}</div>
-                <div
-                  className="fs13"
-                  id="recommendation-date"
-                >
-                  {offer && getRecommendationDateString(offer)}
-                </div>
-              </Fragment>
-            )}
+            <h5
+              className="fs18 is-bold"
+              title={offerName}
+            >
+              {offerName}
+            </h5>
+            <div className="fs13">{product.offerType.appLabel}</div>
+            <div
+              className="fs13"
+              id="recommendation-date"
+            >
+              {offer && getRecommendationDateString(offer)}
+            </div>
           </div>
           <div className="flex-center items-center is-primary-text">
             <span
@@ -60,6 +60,7 @@ const RecommendationItem = ({ handleMarkSearchRecommendationsAsClicked, recommen
 
 RecommendationItem.propTypes = {
   handleMarkSearchRecommendationsAsClicked: PropTypes.func.isRequired,
+  offer: PropTypes.shape().isRequired,
   recommendation: PropTypes.shape().isRequired,
 }
 

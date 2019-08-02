@@ -1,20 +1,18 @@
 import createCachedSelector from 're-reselect'
 
 import mapArgsToCacheKey from './mapArgsToCacheKey'
-import selectRecommendations from './selectRecommendations'
+import selectUniqAndIndexifiedRecommendations from './selectUniqAndIndexifiedRecommendations'
 
 const selectCurrentRecommendation = createCachedSelector(
-  selectRecommendations,
+  selectUniqAndIndexifiedRecommendations,
   (state, offerId) => offerId,
   (state, offerId, mediationId) => mediationId,
-  (allRecommendations, offerId, mediationId) => {
-    const currentRecommendation = allRecommendations.find(recommendation => {
+  (recommendations, offerId, mediationId) =>
+    recommendations.find(recommendation => {
       const matchOffer = recommendation.offerId === offerId
       const matchMediation = recommendation.mediationId === mediationId
       return offerId === 'tuto' ? matchMediation : matchOffer
     })
-    return currentRecommendation
-  }
 )(mapArgsToCacheKey)
 
 export default selectCurrentRecommendation

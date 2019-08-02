@@ -6,7 +6,7 @@ import Deck from '../Deck'
 const dispatchMock = jest.fn()
 const handleRequestPutRecommendationsMock = jest.fn()
 
-describe('src | components | pages | discovery | deck | Deck', () => {
+describe('src | components | pages | discovery | Deck | Deck', () => {
   const initialProps = {
     backButton: true,
     currentRecommendation: {},

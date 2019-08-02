@@ -72,21 +72,21 @@ const routes = [
     component: SearchContainer,
     icon: 'search-w',
     path:
-      '/recherche/:results(resultats)?/:category?/:details(details)?/:offerId?/:mediationId?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
+      '/recherche/:results(resultats)?/:category?/:details(details|transition)?/:offerId?/:mediationId?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Recherche',
   },
   {
     component: MyBookingsContainer,
     icon: 'calendar-w',
     path:
-      '/reservations/:details(details)?/:bookingId?/:bookings(reservations)?/:cancellation(annulation)?/:confirmation(confirmation)?',
+      '/reservations/:details(details|transition)?/:bookingId?/:bookings(reservations)?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes réservations',
   },
   {
     component: MyFavoritesContainer,
     featureName: 'FAVORITE_OFFER',
     icon: 'like-w',
-    path: '/favoris/:details(details)?/:favoriteId?/:bookings(reservations)?/:cancellation(annulation)?/:confirmation(confirmation)?',
+    path: '/favoris/:details(details|transition)?/:favoriteId?/:bookings(reservations)?/:bookingId?/:cancellation(annulation)?/:confirmation(confirmation)?',
     title: 'Mes favoris',
   },
   {

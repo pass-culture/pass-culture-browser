@@ -82,15 +82,15 @@ export const sortByDate = () => items =>
     return 0
   })
 
-function mapArgsToCacheKey(state, recommendation) {
-  return (recommendation && recommendation.id) || ''
+function mapArgsToCacheKey(state, offer) {
+  const key = (offer && offer.id) || ' '
+  return key
 }
 
 const selectBookables = createCachedSelector(
   state => state.data.bookings,
-  (state, recommendation) => recommendation,
-  (bookings, recommendation) => {
-    const { offer } = recommendation || {}
+  (state, offer) => offer,
+  (bookings, offer) => {
     let { stocks, venue } = offer || {}
     const { departementCode } = venue || {}
     const tz = getTimezone(departementCode)

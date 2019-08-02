@@ -4,7 +4,7 @@ import React from 'react'
 import MyBookings from '../MyBookings'
 import MyBookingsListsContainer from '../MyBookingsLists/MyBookingsListsContainer'
 import LoaderContainer from '../../../layout/Loader/LoaderContainer'
-import PageHeader from '../../../layout/Header/PageHeader'
+import HeaderContainer from '../../../layout/Header/HeaderContainer'
 
 describe('src | components | pages | my-bookings | MyBookings', () => {
   let props
@@ -24,7 +24,7 @@ describe('src | components | pages | my-bookings | MyBookings', () => {
         },
       ],
       requestGetBookings: jest.fn(),
-      resetRecommendationsAndBookings: jest.fn(),
+      resetPageData: jest.fn(),
       soonBookings: [
         {
           id: 2,
@@ -75,9 +75,9 @@ describe('src | components | pages | my-bookings | MyBookings', () => {
       wrapper.setState({ isLoading: false })
 
       // then
-      const pageHeader = wrapper.find(PageHeader)
+      const Header = wrapper.find(HeaderContainer)
       const pageContent = wrapper.find(MyBookingsListsContainer)
-      expect(pageHeader).toHaveLength(1)
+      expect(Header).toHaveLength(1)
       expect(pageContent).toHaveLength(1)
     })
 

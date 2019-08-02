@@ -4,13 +4,13 @@ import { compose } from 'redux'
 
 import MyFavorite from './MyFavorite'
 
-import selectRecommendationByOfferIdAndMediationId from '../../../../selectors/selectRecommendationByOfferIdAndMediationId'
-import { humanizeRelativeDistance } from '../../../../utils/geolocation'
-import { humanizeRelativeDate } from '../../../../utils/date/date'
+import { getHumanizeRelativeDistance } from '../../../../utils/geolocation'
+import selectOfferById from '../../../../selectors/selectOfferById'
+import getHumanizeRelativeDate from '../../../../utils/date/getHumanizeRelativeDate'
 
-export const hasBookings = offer => offer.stocks.some(stock => stock.bookings.length > 0)
+export const getHasBookings = offer => offer.stocks.some(stock => stock.bookings.length > 0)
 
-export const isBooked = offer => {
+export const getIsBooked = offer => {
   let flag = false
 
   offer.stocks.forEach(stock => {
@@ -25,6 +25,7 @@ export const isBooked = offer => {
       }
     }
   })
+
   return flag
 }
 
@@ -32,8 +33,8 @@ export const reservationStatus = (
   isFinished,
   isFullyBooked,
   hasBookings,
-  humanizeRelativeDistance,
-  isBooked
+  isBooked,
+  humanizeRelativeDate
 ) => {
   if (isFinished) {
     return {
@@ -76,37 +77,34 @@ export const reservationStatus = (
 
 export const mapStateToProps = (state, ownProps) => {
   const { favorite } = ownProps
-  const { mediationId, offerId } = favorite
-  const { latitude: currentLatitude, longitude: currentLongitude } = state.geolocation
-  const firstMatchingRecommendation = selectRecommendationByOfferIdAndMediationId(
-    state,
-    offerId,
-    mediationId
-  )
-  const hasBookings = hasBookings(offer)
-  const isBooked = isBooked(offer)
-  const { offer } = firstMatchingRecommendation || {}
-  const { venue } = offer || {}
-  const { latitude: venueLatitude, longitude: venueLongitude } = venue || {}
+  const { offerId } = favorite
+  const offer = selectOfferById(state, offerId)
+  const { venue } = offer
+  const isBooked = getIsBooked(offer)
+  const hasBookings = getHasBookings(offer)
   const { dateRange = [], isFinished, isFullyBooked } = offer || {}
   const offerBeginningDate = dateRange[0] || null
+  const humanizeRelativeDate = offerBeginningDate
+    ? getHumanizeRelativeDate(offerBeginningDate)
+    : null
 
   const status = reservationStatus(
     isFinished,
     isFullyBooked,
     hasBookings,
     isBooked,
-    offerBeginningDate ? humanizeRelativeDate(offerBeginningDate) : null
+    humanizeRelativeDate
+  )
+  const humanizeRelativeDistance = getHumanizeRelativeDistance(
+    state.geolocation.latitude,
+    state.geolocation.longitude,
+    venue.latitude,
+    venue.longitude
   )
   return {
-    firstMatchingRecommendation,
-    humanizeRelativeDistance: humanizeRelativeDistance(
-      venueLatitude,
-      venueLongitude,
-      currentLatitude,
-      currentLongitude
-    ),
-    status,
+    humanizeRelativeDistance,
+    offer,
+    status
   }
 }
 

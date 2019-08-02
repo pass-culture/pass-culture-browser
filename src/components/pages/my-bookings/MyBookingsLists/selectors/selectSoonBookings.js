@@ -2,7 +2,7 @@ import get from 'lodash.get'
 import moment from 'moment'
 import { createSelector } from 'reselect'
 
-import selectValidBookings from './selectValidBookings'
+import selectValidBookings from '../../selectors/selectValidBookings'
 
 export const filterBookingsInLessThanTwoDays = (bookings, now = null) => {
   const nowMoment = now || moment()

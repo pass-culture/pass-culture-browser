@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { Route } from 'react-router-dom'
 
-import DeckContainer from './deck/DeckContainer'
-
-import BookingContainer from '../../layout/booking/BookingContainer'
+import DeckContainer from './Deck/DeckContainer'
+import BookingContainer from '../../layout/Booking/BookingContainer'
 import AbsoluteFooterContainer from '../../layout/AbsoluteFooter/AbsoluteFooterContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import getAreDetailsVisible from '../../../helpers/getAreDetailsVisible'
 
-class Discovery extends React.PureComponent {
+class Discovery extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -46,8 +45,8 @@ class Discovery extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    const { resetRecommendationsAndBookings } = this.props
-    resetRecommendationsAndBookings()
+    const { resetPageData } = this.props
+    resetPageData()
   }
 
   handleRequestFail = () => {
@@ -180,8 +179,8 @@ Discovery.propTypes = {
   readRecommendations: PropTypes.arrayOf(PropTypes.shape()),
   recommendations: PropTypes.arrayOf(PropTypes.shape()),
   redirectToFirstRecommendationIfNeeded: PropTypes.func.isRequired,
+  resetPageData: PropTypes.func.isRequired,
   resetReadRecommendations: PropTypes.func.isRequired,
-  resetRecommendationsAndBookings: PropTypes.func.isRequired,
   saveLoadRecommendationsTimestamp: PropTypes.func.isRequired,
   shouldReloadRecommendations: PropTypes.bool.isRequired,
   showPasswordChangedPopin: PropTypes.func.isRequired,

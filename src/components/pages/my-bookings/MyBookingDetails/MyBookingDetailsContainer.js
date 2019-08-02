@@ -3,29 +3,26 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
-import MyBookingDetails from './MyBookingDetails'
+import DetailsContainer from '../../../layout/Details/DetailsContainer'
 import selectBookingById from '../../../../selectors/selectBookingById'
-import selectRecommendationById from '../../../../selectors/selectRecommendationById'
 import { bookingNormalizer } from '../../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
   const { params } = match
   const { bookingId } = params
-  const needsToRequestGetBooking = typeof bookingId !== 'undefined'
+  const needsToRequestGetData = typeof bookingId !== 'undefined'
   const booking = selectBookingById(state, bookingId)
-  const { recommendationId } = booking || {}
-  const recommendation = selectRecommendationById(state, recommendationId)
+  const hasReceivedData = typeof booking !== "undefined"
   return {
-    booking,
-    needsToRequestGetBooking,
-    recommendation,
+    hasReceivedData,
+    needsToRequestGetData
   }
 }
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    requestGetBooking: handleSuccess => {
+    requestGetData: handleSuccess => {
       const { match } = ownProps
       const { params } = match
       const { bookingId } = params
@@ -47,4 +44,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(MyBookingDetails)
+)(DetailsContainer)

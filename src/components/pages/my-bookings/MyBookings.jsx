@@ -3,9 +3,8 @@ import React, { Component } from 'react'
 
 import MyBookingsListsContainer from './MyBookingsLists/MyBookingsListsContainer'
 import MyBookingDetailsContainer from './MyBookingDetails/MyBookingDetailsContainer'
+import HeaderContainer from '../../layout/Header/HeaderContainer'
 import LoaderContainer from '../../layout/Loader/LoaderContainer'
-import PageHeader from '../../layout/Header/PageHeader'
-import getRemovedDetailsUrl from '../../../helpers/getRemovedDetailsUrl'
 
 class MyBookings extends Component {
   constructor(props) {
@@ -23,14 +22,21 @@ class MyBookings extends Component {
     requestGetBookings(this.handleFail, this.handleSuccess)
   }
 
-  componentWillUnmount() {
-    const { resetRecommendationsAndBookings } = this.props
-    resetRecommendationsAndBookings()
+  componentDidUpdate = prevProps => {
+    const { validBookings } = this.props
+    const { isEmpty } = this.state
+    if (validBookings && validBookings !== prevProps.validBookings) {
+      if (validBookings.length === 0) {
+        this.handleSetIsEmpty(true)
+      } else if (!isEmpty) {
+        this.handleSetIsEmpty(false)
+      }
+    }
   }
 
-  goBack = () => {
-    const { location, match } = this.props
-    return getRemovedDetailsUrl(location, match)
+  componentWillUnmount() {
+    const { resetPageData } = this.props
+    resetPageData()
   }
 
   handleFail = () => {
@@ -40,14 +46,14 @@ class MyBookings extends Component {
     })
   }
 
-  handleSuccess = (state, action) => {
-    const { payload } = action
-    const { data } = payload
-    const isEmpty = data.length === 0
+  handleSuccess = () => {
     this.setState({
-      isEmpty,
       isLoading: false,
     })
+  }
+
+  handleSetIsEmpty = isEmpty => {
+    this.setState({ isEmpty })
   }
 
   render() {
@@ -64,12 +70,14 @@ class MyBookings extends Component {
         className='my-bookings-page page with-footer with-header'
         role="main"
       >
-        <PageHeader
-          backTo={this.goBack()}
+        <HeaderContainer
+          shouldBackFromDetails
           title="Mes réservations"
         />
         <MyBookingsListsContainer isEmpty={isEmpty} />
-        <MyBookingDetailsContainer />
+        <MyBookingDetailsContainer
+          bookingPath="/reservations/:details(details|transition)/:bookingId([A-Z0-9]+)/:bookings(reservations)/:cancellation(annulation)?/:confirmation(confirmation)?"
+        />
       </main>
     )
   }
@@ -86,7 +94,8 @@ MyBookings.propTypes = {
     }).isRequired,
   }).isRequired,
   requestGetBookings: PropTypes.func.isRequired,
-  resetRecommendationsAndBookings: PropTypes.func.isRequired,
+  resetPageData: PropTypes.func.isRequired,
+  validBookings: PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 
 export default MyBookings

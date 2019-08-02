@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme'
 import BookingCancel from '../sub-items/BookingCancel'
 import Booking from '../Booking'
 
-describe('src | components | booking', () => {
+describe('src | components | layout |Booking', () => {
   let props
   let dispatch
   let push
@@ -35,13 +35,14 @@ describe('src | components | booking', () => {
         },
         url: '/foo/reservations/AE',
       },
-      recommendation: {
-        offer: {
-          name: 'super offer',
-          venue: {
-            name: 'super venue',
-          },
+      offer: {
+        name: 'super offer',
+        venue: {
+          name: 'super venue',
         },
+      },
+      recommendation: {
+        id: "AE"
       },
     }
   })

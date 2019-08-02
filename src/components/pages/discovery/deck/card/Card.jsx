@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
-import Recto from '../../../../layout/recto/Recto'
-import Verso from '../../../../layout/verso/Verso'
+import RectoContainer from '../../../../layout/Recto/RectoContainer'
+import VersoContainer from '../../../../layout/Verso/VersoContainer'
 import getAreDetailsVisible from '../../../../../helpers/getAreDetailsVisible'
 import { getHeaderColor } from '../../../../../utils/colors'
 
@@ -47,7 +47,6 @@ export class Card extends PureComponent {
 
   render() {
     const {
-      firstMatchingBooking,
       match,
       position,
       recommendation,
@@ -67,15 +66,12 @@ export class Card extends PureComponent {
         }}
       >
         {recommendation && isCurrent && (
-          <Verso
+          <VersoContainer
             areDetailsVisible={areDetailsVisible}
-            booking={firstMatchingBooking}
-            recommendation={recommendation}
           />)}
         {recommendation && (
-          <Recto
+          <RectoContainer
             areDetailsVisible={areDetailsVisible}
-            position={firstMatchingBooking}
             recommendation={recommendation}
           />)}
       </div>
@@ -84,12 +80,10 @@ export class Card extends PureComponent {
 }
 
 Card.defaultProps = {
-  firstMatchingBooking: null,
   recommendation: null,
 }
 
 Card.propTypes = {
-  firstMatchingBooking: PropTypes.shape(),
   handleClickRecommendation: PropTypes.func.isRequired,
   handleReadRecommendation: PropTypes.func.isRequired,
   match: PropTypes.shape({

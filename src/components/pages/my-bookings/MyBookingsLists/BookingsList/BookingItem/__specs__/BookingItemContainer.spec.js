@@ -15,21 +15,30 @@ describe('src | components | pages | my-bookings | BookingItemContainer', () => 
       const pathname = '/reservations'
       const search = ''
       const thumbUrl = 'https://example.net/mediation/image'
-      const recommendation = {
-        id: 'AE',
-        mediationId,
-        offer: {
-          id: offerId,
-          isEvent: true,
-          product: { name: productName },
-          venue: {
-            departementCode,
-          },
+      const mediation = {
+        id: mediationId,
+      }
+      const isFinished = false
+      const offer = {
+        id: offerId,
+        isEvent: true,
+        isFinished,
+        product: { name: productName },
+        venue: {
+          departementCode,
         },
+      }
+      const recommendationId = 'AE'
+      const recommendation = {
+        id: recommendationId,
+        mediationId,
+        offerId,
         thumbUrl,
       }
       const state = {
         data: {
+          mediations: [mediation],
+          offers: [offer],
           recommendations: [recommendation],
         },
       }
@@ -37,12 +46,10 @@ describe('src | components | pages | my-bookings | BookingItemContainer', () => 
         booking: {
           id: bookingId,
           isCancelled,
-          recommendationId: 'AE',
+          recommendationId,
           stock: {
             beginningDatetime,
-            resolvedOffer: {
-              id: offerId,
-            },
+            offerId,
           },
           token,
         },
@@ -56,7 +63,16 @@ describe('src | components | pages | my-bookings | BookingItemContainer', () => 
       const props = mapStateToProps(state, ownProps)
 
       // then
-      const expected = { recommendation }
+      const expected = {
+        isFinished,
+        mediation,
+        offer,
+        recommendation,
+        ribbon: {
+          label: 'Annulé',
+          type: 'cancelled',
+        },
+      }
       expect(props).toStrictEqual(expected)
     })
   })

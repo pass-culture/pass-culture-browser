@@ -11,7 +11,7 @@ import {
 import selectCurrentRecommendation from './selectors/selectCurrentRecommendation'
 import { withRequiredLogin } from '../../hocs'
 import { getOfferIdAndMediationIdApiPathQueryString } from '../../../helpers'
-import { saveLastRecommendationsRequestTimestamp } from '../../../reducers/data'
+import { resetPageData, saveLastRecommendationsRequestTimestamp } from '../../../reducers/data'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
@@ -89,14 +89,7 @@ export const mapDispatchToProps = (dispatch, props) => ({
     dispatch(assignData({ readRecommendations: [] }))
   },
 
-  resetRecommendationsAndBookings: () => {
-    dispatch(
-      assignData({
-        bookings: [],
-        recommendations: [],
-      })
-    )
-  },
+  resetPageData: () => dispatch(resetPageData()),
 
   saveLoadRecommendationsTimestamp: () => {
     dispatch(saveLastRecommendationsRequestTimestamp())

@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
-import { assignData, requestData } from 'redux-saga-data'
+import { requestData } from 'redux-saga-data'
 
 import MyBookingsLists from './MyBookingsLists'
-import selectMyBookings from './selectors/selectMyBookings'
+import selectOtherBookings from './selectors/selectOtherBookings'
 import selectSoonBookings from './selectors/selectSoonBookings'
 import { bookingNormalizer } from '../../../../utils/normalizers'
 
 export const mapStateToProps = state => {
-  const myBookings = selectMyBookings(state)
+  const otherBookings = selectOtherBookings(state)
   const soonBookings = selectSoonBookings(state)
-  return { myBookings, soonBookings }
+  return { otherBookings, soonBookings }
 }
 
 export const mapDispatchToProps = dispatch => ({
@@ -22,15 +22,7 @@ export const mapDispatchToProps = dispatch => ({
         normalizer: bookingNormalizer,
       })
     )
-  },
-  resetRecommendationsAndBookings: () => {
-    dispatch(
-      assignData({
-        bookings: [],
-        recommendations: [],
-      })
-    )
-  },
+  }
 })
 
 export default connect(

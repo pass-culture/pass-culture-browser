@@ -175,7 +175,15 @@ class Booking extends PureComponent {
 
   render() {
     const userConnected = false
-    const { bookables, booking, extraClassName, match, recommendation } = this.props
+    const {
+      bookables,
+      booking,
+      extraClassName,
+      match,
+      offer,
+      recommendation
+    } = this.props
+
     const isBooking = getIsBooking(match)
 
     if (!isBooking) {
@@ -183,7 +191,7 @@ class Booking extends PureComponent {
     }
 
     const { bookedPayload, errors, isErrored, isSubmitting, mounted } = this.state
-    const { id: recommendationId, offer } = recommendation || {}
+    const { id: recommendationId  } = recommendation || {}
     const { isEvent } = offer || {}
     const isConfirmingCancelling = getIsConfirmingCancelling(match)
     const showForm = !isSubmitting && !bookedPayload && !isErrored && !isConfirmingCancelling
@@ -215,7 +223,7 @@ class Booking extends PureComponent {
             style={{ ...defaultStyle, ...transitionStyles[state] }}
           >
             <div className="main flex-rows flex-1 scroll-y">
-              <BookingHeader recommendation={recommendation} />
+              <BookingHeader offer={offer} />
               <div
                 className={`content flex-1 flex-center ${
                   isConfirmingCancelling ? '' : 'items-center'
@@ -266,6 +274,7 @@ Booking.defaultProps = {
   bookables: null,
   booking: null,
   extraClassName: null,
+  offer: null,
   recommendation: null,
 }
 
@@ -283,7 +292,12 @@ Booking.propTypes = {
     }),
     url: PropTypes.string.isRequired,
   }).isRequired,
-  recommendation: PropTypes.shape(),
+  offer: PropTypes.shape({
+    isEvent: PropTypes.bool
+  }),
+  recommendation: PropTypes.shape({
+    id: PropTypes.string
+  }),
 }
 
 export default Booking

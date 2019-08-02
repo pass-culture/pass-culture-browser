@@ -7,7 +7,6 @@ import { mergeData, requestData } from 'redux-saga-data'
 
 import Card from './Card'
 import { getRecommendationSelectorByCardPosition } from '../../helpers'
-import selectFirstMatchingBookingByStocks from '../../../../../selectors/selectFirstMatchingBookingByStocks'
 import { recommendationNormalizer } from '../../../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
@@ -16,12 +15,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { mediationId, offerId } = params
   const recommendationSelector = getRecommendationSelectorByCardPosition(position)
   const recommendation = recommendationSelector(state, offerId, mediationId)
-  const { offer } = recommendation || {}
-  const { stocks } = offer || {}
-  const firstMatchingBooking = selectFirstMatchingBookingByStocks(state, stocks)
-
   return {
-    firstMatchingBooking,
     recommendation,
   }
 }

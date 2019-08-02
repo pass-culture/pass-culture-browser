@@ -6,13 +6,12 @@ import Icon from '../../../layout/Icon'
 
 const MyFavorite = ({
   favorite,
-  firstMatchingRecommendation,
   humanizeRelativeDistance,
   location,
+  offer,
   status
 }) => {
-  const { id: favoriteId } = favorite
-  const { offer, thumbUrl } = firstMatchingRecommendation || {}
+  const { id: favoriteId, thumbUrl } = favorite
   const { name: offerName, product } = offer || {}
   const { offerType } = product || {}
   const { appLabel = '' } = offerType || {}
@@ -49,35 +48,32 @@ const MyFavorite = ({
 }
 
 MyFavorite.defaultProps = {
-  favorite: null,
-  firstMatchingRecommendation: null
+  favorite: null
 }
 
 MyFavorite.propTypes = {
   favorite: PropTypes.shape({
-    id: PropTypes.string.isRequired
-  }),
-  firstMatchingRecommendation: PropTypes.shape({
-    offer: PropTypes.shape({
-      dateRange: PropTypes,
-      isFinished: PropTypes.bool,
-      isFullyBooked: PropTypes.bool,
-      name: PropTypes.string,
-      product: PropTypes.shape({
-        offerType: PropTypes.shape({
-          appLabel: PropTypes.string
-        })
-      }),
-      stocks: PropTypes.arrayOf(PropTypes.shape({
-        bookings: PropTypes.arrayOf(PropTypes.shape())
-      }))
-    }),
-    thumbUrl: PropTypes.string
+    id: PropTypes.string.isRequired,
+    thumbUrl: PropTypes.string.isRequired
   }),
   humanizeRelativeDistance: PropTypes.string.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired
+  }).isRequired,
+  offer: PropTypes.shape({
+    dateRange: PropTypes.arrayOf(PropTypes.string),
+    isFinished: PropTypes.bool,
+    isFullyBooked: PropTypes.bool,
+    name: PropTypes.string,
+    product: PropTypes.shape({
+      offerType: PropTypes.shape({
+        appLabel: PropTypes.string
+      })
+    }),
+    stocks: PropTypes.arrayOf(PropTypes.shape({
+      bookings: PropTypes.arrayOf(PropTypes.shape())
+    }))
   }).isRequired,
   status: PropTypes.shape({
     class: PropTypes.string,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ROOT_PATH } from '../../../utils/config'
 import RelativeFooterContainer from '../../layout/RelativeFooter/RelativeFooterContainer'
-import PageHeader from '../../layout/Header/PageHeader'
+import Header from '../../layout/Header/Header'
 import MesInformations from './MesInformations'
 import MonAvatar from './MonAvatar'
 import MonPassCulture from './MonPassCulture'
@@ -15,7 +15,7 @@ const ProfileMainView = ({ config, currentUser }) => (
     className="pc-page-view pc-theme-default flex-rows with-header"
     id="profile-page-main-view"
   >
-    <PageHeader title="Mon compte" />
+    <Header title="Mon compte" />
     <main
       className="pc-main is-clipped is-relative"
       role="main"

@@ -9,24 +9,18 @@ describe('src | components | pages | search | Result | RecommendationItem', () =
   beforeEach(() => {
     props = {
       dispatch: jest.fn(),
-      history: {
-        push: jest.fn(),
-      },
-      location: {
-        pathname: '/recherche/resultats',
-        search: '?categories=Applaudir',
+      handleMarkSearchRecommendationsAsClicked: jest.fn(),
+      offer: {
+        dateRange: [],
+        name: 'sur la route des migrants ; rencontres à Calais',
+        product: {
+          offerType: {
+            appLabel: 'Livres, cartes bibliothèque ou médiathèque',
+          },
+        },
       },
       recommendation: {
         id: 'QA',
-        offer: {
-          dateRange: [],
-          name: 'sur la route des migrants ; rencontres à Calais',
-          product: {
-            offerType: {
-              appLabel: 'Livres, cartes bibliothèque ou médiathèque',
-            },
-          },
-        },
         offerId: 'X9',
         thumbUrl: 'http://localhost/storage/thumbs/products/QE',
       },

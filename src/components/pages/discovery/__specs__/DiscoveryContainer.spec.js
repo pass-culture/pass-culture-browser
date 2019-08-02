@@ -1,5 +1,7 @@
 import { mapDispatchToProps } from '../DiscoveryContainer'
 
+import { recommendationNormalizer } from '../../../../utils/normalizers'
+
 jest.useFakeTimers()
 
 describe('src | components | pages | discovery | DiscoveryContainer', () => {
@@ -53,9 +55,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleFail: handleRequestFail,
           handleSuccess: handleRequestSuccess,
           method: 'PUT',
-          normalizer: {
-            bookings: 'bookings',
-          },
+          normalizer: recommendationNormalizer,
         },
         type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
       })
@@ -96,11 +96,17 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
 
     it('should reset recommendations and bookings with the right configuration', () => {
       // when
-      mapDispatchToProps(dispatch, props).resetRecommendationsAndBookings()
+      mapDispatchToProps(dispatch, props).resetPageData()
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
-        patch: { bookings: [], recommendations: [] },
+        patch: {
+          bookings: [],
+          favorites: [],
+          mediations: [],
+          offers: [],
+          recommendations: []
+        },
         type: 'ASSIGN_DATA',
       })
     })

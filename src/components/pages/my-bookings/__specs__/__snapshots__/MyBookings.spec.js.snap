@@ -38,7 +38,7 @@ ShallowWrapper {
         ],
       }
     }
-    resetRecommendationsAndBookings={[MockFunction]}
+    resetPageData={[MockFunction]}
     soonBookings={
       Array [
         Object {

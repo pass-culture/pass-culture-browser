@@ -2,21 +2,21 @@ import { mapStateToProps } from '../MyBookingsListsContainer'
 
 describe('src | components | pages | my-bookings | MyBookingsLists', () => {
   describe('mapStateToProps()', () => {
-    it('should return my bookings', () => {
+    it('should return soon and other bookings', () => {
       // given
       const state = {
         data: {
           bookings: [],
-          recommendations: [],
+          offers: [],
         },
       }
 
       // when
-      const myBookings = mapStateToProps(state)
+      const props = mapStateToProps(state)
 
       // then
-      expect(myBookings).toStrictEqual({
-        myBookings: [],
+      expect(props).toStrictEqual({
+        otherBookings: [],
         soonBookings: [],
       })
     })

@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
-import MyFavoriteDetails from './MyFavoriteDetails'
-import selectFavoriteById from '../selectors/selectFavoriteById'
-import selectFirstMatchingBookingByStocks from '../../../../selectors/selectFirstMatchingBookingByStocks'
-import selectRecommendationByOfferIdAndMediationId from '../../../../selectors/selectRecommendationByOfferIdAndMediationId'
+import DetailsContainer from '../../../layout/Details/DetailsContainer'
+import selectFavoriteById from '../../../../selectors/selectFavoriteById'
 import { favoriteNormalizer } from '../../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
@@ -15,25 +13,16 @@ export const mapStateToProps = (state, ownProps) => {
   const { favoriteId } = params
   const needsToRequestGetFavorite = typeof favoriteId !== 'undefined'
   const favorite = selectFavoriteById(state, favoriteId)
-  const { mediationId, offerId } = favorite || {}
-  const firstMatchingRecommendation = selectRecommendationByOfferIdAndMediationId(
-    state,
-    offerId,
-    mediationId
-  )
-  const { offer } = firstMatchingRecommendation || {}
-  const { stocks } = offer || {}
-  const firstMatchingBooking = selectFirstMatchingBookingByStocks(state, stocks)
+  const hasReceivedData = typeof favorite !== "undefined"
   return {
-    firstMatchingBooking,
-    firstMatchingRecommendation,
+    hasReceivedData,
     needsToRequestGetFavorite,
   }
 }
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    requestGetFavorite: handleSuccess => {
+    requestGetData: handleSuccess => {
       const { match } = ownProps
       const { params } = match
       const { favoriteId } = params
@@ -55,4 +44,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(MyFavoriteDetails)
+)(DetailsContainer)

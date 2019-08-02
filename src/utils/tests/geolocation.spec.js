@@ -1,7 +1,7 @@
-import { computeDistanceInMeters, humanizeDistance, humanizeRelativeDistance } from '../geolocation'
+import { computeDistanceInMeters, getHumanizeRelativeDistance, humanizeDistance } from '../geolocation'
 
 describe('src | utils | geolocation', () => {
-  describe('humanizeRelativeDistance()', () => {
+  describe('getHumanizeRelativeDistance()', () => {
     describe('when the user is not geolocalized and the offer address is provided', () => {
       it('should return "-"', () => {
         // given
@@ -9,7 +9,7 @@ describe('src | utils | geolocation', () => {
         const venueLongitude = 2.49043
 
         // when
-        const distance = humanizeRelativeDistance(venueLatitude, venueLongitude)
+        const distance = getHumanizeRelativeDistance(venueLatitude, venueLongitude)
 
         // then
         expect(distance).toBe('-')
@@ -25,7 +25,7 @@ describe('src | utils | geolocation', () => {
         const userLongitude = 2.3371120999999997
 
         // when
-        const distance = humanizeRelativeDistance(
+        const distance = getHumanizeRelativeDistance(
           venueLatitude,
           venueLongitude,
           userLatitude,

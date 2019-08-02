@@ -33,8 +33,8 @@ describe('src | components | pages | MyBookings | MyBookingDetailsContainer', ()
 
     // then
     const expectedProps = {
-      booking,
-      recommendation,
+      hasReceivedData: true,
+      needsToRequestGetData: true,
     }
     expect(receivedProps).toStrictEqual(expectedProps)
   })
@@ -53,7 +53,7 @@ describe('src | components | pages | MyBookings | MyBookingDetailsContainer', ()
     }
 
     // when
-    mapDispatchToProps(dispatch, ownProps).requestGetBooking(handleSuccess)
+    mapDispatchToProps(dispatch, ownProps).requestGetData(handleSuccess)
 
     // then
     expect(dispatch).toHaveBeenCalledWith({

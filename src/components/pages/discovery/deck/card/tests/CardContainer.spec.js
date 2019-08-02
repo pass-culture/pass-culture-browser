@@ -5,7 +5,7 @@ import { configureStore } from '../../../../../../utils/store'
 
 navigator.geolocation = {}
 
-describe('src | components | pages | discovery | card | connect', () => {
+describe('src | components | pages | discovery | Deck | Card | CardContainer', () => {
   describe('mapStateToProps', () => {
     it('default return', () => {
       // given
@@ -20,7 +20,6 @@ describe('src | components | pages | discovery | card | connect', () => {
 
       // then
       const expected = {
-        firstMatchingBooking: undefined,
         recommendation: undefined,
       }
       expect(result).toStrictEqual(expected)

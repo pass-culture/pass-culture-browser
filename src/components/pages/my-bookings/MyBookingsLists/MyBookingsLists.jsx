@@ -6,7 +6,7 @@ import BookingsList from './BookingsList/BookingsList'
 import NoItems from '../../../layout/NoItems/NoItems'
 import RelativeFooterContainer from '../../../layout/RelativeFooter/RelativeFooterContainer'
 
-const MyBookingsLists = ({ isEmpty, myBookings, soonBookings }) => (
+const MyBookingsLists = ({ isEmpty, otherBookings, soonBookings }) => (
   <Fragment>
     <div className={classnames("page-content", { "teaser-no-teasers": isEmpty })}>
       {isEmpty && <NoItems sentence="Dès que vous aurez réservé une offre," />}
@@ -18,10 +18,10 @@ const MyBookingsLists = ({ isEmpty, myBookings, soonBookings }) => (
         </section>
       )}
 
-      {!isEmpty && myBookings.length > 0 && (
+      {!isEmpty && otherBookings.length > 0 && (
         <section className="my-bookings-section">
           <header className="my-bookings-header">{'Réservations'}</header>
-          <BookingsList bookings={myBookings} />
+          <BookingsList bookings={otherBookings} />
         </section>
       )}
     </div>
@@ -34,7 +34,7 @@ const MyBookingsLists = ({ isEmpty, myBookings, soonBookings }) => (
 
 MyBookingsLists.propTypes = {
   isEmpty: PropTypes.bool.isRequired,
-  myBookings: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  otherBookings: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   soonBookings: PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 

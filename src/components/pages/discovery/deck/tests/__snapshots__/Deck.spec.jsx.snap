@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src | components | pages | discovery | deck | Deck snapshot should match snapshot 1`] = `
+exports[`src | components | pages | discovery | Deck | Deck snapshot should match snapshot 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Deck
@@ -113,14 +113,11 @@ ShallowWrapper {
             </div>
           </div>
         </Draggable>,
-        <DeckNavigation
+        <withRouter(Connect(Navigation))
           flipHandler={[Function]}
           handleGoNext={null}
           handleGoPrevious={null}
           height={947}
-          recommendation={Object {}}
-          transitionTimeout={250}
-          verticalSlideRatio={0.3}
         />,
       ],
       "className": "is-clipped is-relative",
@@ -235,15 +232,12 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "class",
+        "nodeType": "function",
         "props": Object {
           "flipHandler": [Function],
           "handleGoNext": null,
           "handleGoPrevious": null,
           "height": 947,
-          "recommendation": Object {},
-          "transitionTimeout": 250,
-          "verticalSlideRatio": 0.3,
         },
         "ref": null,
         "rendered": null,
@@ -315,14 +309,11 @@ ShallowWrapper {
               </div>
             </div>
           </Draggable>,
-          <DeckNavigation
+          <withRouter(Connect(Navigation))
             flipHandler={[Function]}
             handleGoNext={null}
             handleGoPrevious={null}
             height={947}
-            recommendation={Object {}}
-            transitionTimeout={250}
-            verticalSlideRatio={0.3}
           />,
         ],
         "className": "is-clipped is-relative",
@@ -437,15 +428,12 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "class",
+          "nodeType": "function",
           "props": Object {
             "flipHandler": [Function],
             "handleGoNext": null,
             "handleGoPrevious": null,
             "height": 947,
-            "recommendation": Object {},
-            "transitionTimeout": 250,
-            "verticalSlideRatio": 0.3,
           },
           "ref": null,
           "rendered": null,

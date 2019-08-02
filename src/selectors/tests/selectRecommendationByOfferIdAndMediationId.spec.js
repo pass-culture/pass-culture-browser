@@ -1,7 +1,7 @@
 import selectRecommendationByOfferIdAndMediationId from '../selectRecommendationByOfferIdAndMediationId'
 
 describe('src | selectors | searchSelectors', () => {
-  it('return null when mediationId and offerId are not defined', () => {
+  it('return undefined when mediationId and offerId are not defined', () => {
     // given
     const state = {
       data: {
@@ -22,10 +22,10 @@ describe('src | selectors | searchSelectors', () => {
     )
 
     // then
-    expect(result).toStrictEqual(null)
+    expect(result).toBeUndefined()
   })
 
-  it('return null when any recommantions is matching with offerId or mediationId', () => {
+  it('return undefined when any recommantions is matching with offerId or mediationId', () => {
     // given
     const state = {
       data: {
@@ -46,10 +46,10 @@ describe('src | selectors | searchSelectors', () => {
     )
 
     // then
-    expect(result).toStrictEqual(null)
+    expect(result).toBeUndefined()
   })
 
-  it('return null when recommendations are empties', () => {
+  it('return undefined when recommendations are empties', () => {
     // given
     const state = {
       data: {
@@ -67,7 +67,7 @@ describe('src | selectors | searchSelectors', () => {
     )
 
     // then
-    expect(result).toStrictEqual(null)
+    expect(result).toBeUndefined()
   })
 
   it('return recommendation with offerId AAAA when mediationId 5678', () => {
