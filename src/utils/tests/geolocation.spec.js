@@ -1,4 +1,8 @@
-import { computeDistanceInMeters, getHumanizeRelativeDistance, humanizeDistance } from '../geolocation'
+import {
+  computeDistanceInMeters,
+  getHumanizeRelativeDistance,
+  humanizeDistance,
+} from '../geolocation'
 
 describe('src | utils | geolocation', () => {
   describe('getHumanizeRelativeDistance()', () => {
@@ -46,7 +50,7 @@ describe('src | utils | geolocation', () => {
         const userLongitude = 2.3371120999999997
 
         // when
-        const distance = humanizeRelativeDistance(
+        const distance = getHumanizeRelativeDistance(
           venueLatitude,
           venueLongitude,
           userLatitude,
