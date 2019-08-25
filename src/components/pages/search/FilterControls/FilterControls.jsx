@@ -53,11 +53,11 @@ class FilterControls extends Component {
   }
 
   handleOnClickFilterButton = () => {
-    const { resetSearchStore, query, onClickFilterButton, isVisible } = this.props
+    const { resetSearchData, query, onClickFilterButton, isVisible } = this.props
     const { filterParamsMatchingQueryParams, params } = this.state
 
     if (filterParamsMatchingQueryParams) {
-      resetSearchStore()
+      resetSearchData()
     }
 
     params.page = null
@@ -69,9 +69,9 @@ class FilterControls extends Component {
   }
 
   handleOnClickReset = () => {
-    const { query, resetSearchStore } = this.props
+    const { query, resetSearchData } = this.props
 
-    resetSearchStore()
+    resetSearchData()
 
     this.setState({
       filterParamsMatchingQueryParams: false,
@@ -198,7 +198,7 @@ FilterControls.propTypes = {
   location: PropTypes.shape().isRequired,
   onClickFilterButton: PropTypes.func.isRequired,
   query: PropTypes.shape().isRequired,
-  resetSearchStore: PropTypes.func.isRequired,
+  resetSearchData: PropTypes.func.isRequired,
 }
 
 export default FilterControls

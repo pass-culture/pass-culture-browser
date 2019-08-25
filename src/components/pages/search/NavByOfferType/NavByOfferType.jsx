@@ -3,12 +3,12 @@ import React from 'react'
 
 import SearchPicture from '../SearchPicture'
 
-const update = (category, resetSearchStore, updateSearchQuery) => () => {
-  resetSearchStore()
+const update = (category, resetSearchData, updateSearchQuery) => () => {
+  resetSearchData()
   updateSearchQuery(category)
 }
 
-const NavByOfferType = ({ title, categories, resetSearchStore, updateSearchQuery }) => (
+const NavByOfferType = ({ title, categories, resetSearchData, updateSearchQuery }) => (
   <div id="nav-by-offer-type">
     <h2 className="is-italic fs15">{title}</h2>
     <div className="pc-list flex-columns wrap-2">
@@ -16,7 +16,7 @@ const NavByOfferType = ({ title, categories, resetSearchStore, updateSearchQuery
         <button
           className="item no-border no-background no-outline mt12 col-1of2"
           key={category}
-          onClick={update(category, resetSearchStore, updateSearchQuery)}
+          onClick={update(category, resetSearchData, updateSearchQuery)}
           type="button"
         >
           <SearchPicture category={category} />
@@ -28,7 +28,7 @@ const NavByOfferType = ({ title, categories, resetSearchStore, updateSearchQuery
 
 NavByOfferType.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  resetSearchStore: PropTypes.func.isRequired,
+  resetSearchData: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
 }

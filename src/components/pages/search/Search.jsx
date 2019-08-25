@@ -64,14 +64,14 @@ class Search extends PureComponent {
   }
 
   componentWillUnmount() {
-    const { resetPageData } = this.props
-    resetPageData()
+    const { resetSearchData } = this.props
+    resetSearchData()
   }
 
   clearSearchResults = value => {
-    const { resetPageData } = this.props
+    const { resetSearchData } = this.props
     if (value === '') return
-    resetPageData()
+    resetSearchData()
   }
 
   getBackToUrl = () => {
@@ -137,6 +137,7 @@ class Search extends PureComponent {
           this.setState({ hasMore, isLoading: false })
         },
         normalizer: recommendationNormalizer,
+        tag: 'search',
       })
     )
   }
@@ -424,7 +425,7 @@ Search.propTypes = {
   }).isRequired,
   query: PropTypes.shape().isRequired,
   recommendations: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  resetPageData: PropTypes.func.isRequired,
+  resetSearchData: PropTypes.func.isRequired,
   typeSublabels: PropTypes.arrayOf(PropTypes.string).isRequired,
   typeSublabelsAndDescription: PropTypes.arrayOf(
     PropTypes.shape({

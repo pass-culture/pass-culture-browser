@@ -23,7 +23,7 @@ ShallowWrapper {
         },
       }
     }
-    resetSearchStore={[MockFunction]}
+    resetSearchData={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

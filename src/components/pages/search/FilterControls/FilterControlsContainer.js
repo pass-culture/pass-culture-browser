@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { assignData } from 'redux-saga-data'
+import { deleteData } from 'redux-saga-data'
 
 import FilterControls from './FilterControls'
 import withFrenchQueryRouter from '../../../hocs/withFrenchQueryRouter'
 
 const mapDispatchToProps = dispatch => ({
-  resetSearchStore: () => {
-    dispatch(assignData({ bookings: [], recommendations: [] }))
+  resetSearchData: () => {
+    dispatch(deleteData(null, { tags: ['search'] }))
   },
 })
 

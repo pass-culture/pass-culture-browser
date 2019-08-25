@@ -1,10 +1,10 @@
-import createSagaMiddleware from 'redux-saga'
-import { persistStore } from 'redux-persist'
 import { compose, createStore, applyMiddleware } from 'redux'
+import { persistStore } from 'redux-persist'
+import createSagaMiddleware from 'redux-saga'
 
-import rootSaga from '../sagas'
-import rootReducer from '../reducers'
 import initGeolocation from './initGeolocation'
+import rootReducer from '../reducers'
+import rootSaga from '../sagas'
 
 const buildStoreEnhancer = (middlewares = []) => {
   const enhancers = []

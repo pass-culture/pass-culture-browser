@@ -11,7 +11,7 @@ describe('src | components | search | searchByType | NavByOfferType', () => {
     // given
     props = {
       categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'],
-      resetSearchStore: jest.fn(),
+      resetSearchData: jest.fn(),
       title: 'Fake title',
       updateSearchQuery: jest.fn(),
     }
@@ -50,7 +50,7 @@ describe('src | components | search | searchByType | NavByOfferType', () => {
         categories.first().simulate('click')
 
         // then
-        expect(props.resetSearchStore).toHaveBeenCalled()
+        expect(props.resetSearchData).toHaveBeenCalledWith(null, { tags: ['search'] })
       })
 
       it('should update the search parameter of the query', () => {

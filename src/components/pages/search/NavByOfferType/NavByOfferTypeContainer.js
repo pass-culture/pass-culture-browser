@@ -1,14 +1,12 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { assignData } from 'redux-saga-data'
+import { deleteData } from 'redux-saga-data'
 
 import NavByOfferType from './NavByOfferType'
 import withFrenchQueryRouter from '../../../hocs/withFrenchQueryRouter'
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  resetSearchStore: () => {
-    dispatch(assignData({ bookings: [], recommendations: [] }))
-  },
+  resetSearchData: () => dispatch(deleteData(null, { tags: ['search'] })),
 
   updateSearchQuery: categories => {
     const { query } = ownProps

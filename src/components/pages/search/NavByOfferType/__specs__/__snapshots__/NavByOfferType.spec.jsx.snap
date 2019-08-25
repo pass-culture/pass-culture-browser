@@ -12,7 +12,7 @@ ShallowWrapper {
         "Category 4",
       ]
     }
-    resetSearchStore={[MockFunction]}
+    resetSearchData={[MockFunction]}
     title="Fake title"
     updateSearchQuery={[MockFunction]}
   />,

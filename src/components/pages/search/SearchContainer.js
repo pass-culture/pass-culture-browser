@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { deleteData } from 'redux-saga-data'
 
 import Search from './Search'
-import { withRequiredLogin } from '../../hocs'
-import { resetPageData } from '../../../reducers/data'
 import selectTypeSublabels, { selectTypes } from './selectors/selectTypes'
+import { withRequiredLogin } from '../../hocs'
+import selectRecommendationsByActivityTag from '../../../selectors/selectRecommendationsByActivityTag'
 
 const mapStateToProps = state => {
-  const { recommendations } = state.data
+  const recommendations = selectRecommendationsByActivityTag(state, 'search')
   const typeSublabels = selectTypeSublabels(state)
   const typeSublabelsAndDescription = selectTypes(state)
   const { user } = state
@@ -22,7 +23,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  resetPageData: () => dispatch(resetPageData()),
+  resetSearchData: () => dispatch(deleteData(null, { tags: ['search'] })),
 })
 
 export default compose(

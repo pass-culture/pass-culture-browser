@@ -26,7 +26,7 @@ describe('src | components | pages | search | FilterControls', () => {
         change: jest.fn(),
         parse: jest.fn(),
       },
-      resetSearchStore: jest.fn(),
+      resetSearchData: jest.fn(),
     }
   })
 
@@ -105,7 +105,7 @@ describe('src | components | pages | search | FilterControls', () => {
       wrapper.instance().handleOnClickFilterButton()
 
       // then
-      expect(props.resetSearchStore).toHaveBeenCalledWith()
+      expect(props.resetSearchData).toHaveBeenCalledWith()
     })
   })
 
@@ -123,7 +123,7 @@ describe('src | components | pages | search | FilterControls', () => {
         initialDateParams: true,
         params: {},
       }
-      expect(props.resetSearchStore).toHaveBeenCalledWith()
+      expect(props.resetSearchData).toHaveBeenCalledWith()
       expect(wrapper.state()).toStrictEqual(expected)
       expect(props.query.change).toHaveBeenCalledWith(INITIAL_FILTER_PARAMS, {
         pathname: '/recherche/resultats/tout',
