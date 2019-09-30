@@ -24,7 +24,7 @@ const selectThumbUrlByRouterMatch = createCachedSelector(
     if (booking && booking.thumbUrl) {
       return booking.thumbUrl
     }
-    if (offer && offer.product.thumbCount) {
+    if (offer && (offer.product.thumbCount || offer.product.idAtProviders)) {
       return offer.product.thumbUrl
     }
     return DEFAULT_THUMB_URL

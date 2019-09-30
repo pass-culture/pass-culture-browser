@@ -12,6 +12,7 @@ describe('src | selectors | selectThumbUrlByRouterMatch', () => {
   const bookingThumbUrl = 'http://foo/mediations/AE'
   const productThumbUrl = 'http://foo/products/AE'
   const mediationThumbUrl = 'http://foo/mediations/AE'
+
   beforeEach(() => {
     bookingId = 'AB'
     mediationId = 'AE'
@@ -71,8 +72,36 @@ describe('src | selectors | selectThumbUrlByRouterMatch', () => {
     expect(result).toBe(DEFAULT_THUMB_URL)
   })
 
-  it('should return product thumbUrl when offerId in match and offer is without mediation and without booking', () => {
+  it('should return product thumbUrl when offerId in match and offer is without mediation and without booking, and has a thumbCount > 0, and no idAtProviders', () => {
     // given
+    offer.product.thumbCount = 1
+    offer.product.idAtProviders = null
+    const state = {
+      data: {
+        bookings: [],
+        favorites: [],
+        mediations: [],
+        offers: [offer],
+        stocks: [],
+      },
+    }
+    const match = {
+      params: {
+        offerId,
+      },
+    }
+
+    // when
+    const result = selectThumbUrlByRouterMatch(state, match)
+
+    // then
+    expect(result).toBe(productThumbUrl)
+  })
+
+  it('should return product thumbUrl when offerId in match and offer is without mediation and without booking, has a thumbCount = 0 and an idAtProviders', () => {
+    // given
+    offer.product.thumbCount = 0
+    offer.product.idAtProviders = '1111'
     const state = {
       data: {
         bookings: [],
