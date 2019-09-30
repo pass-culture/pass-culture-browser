@@ -25,10 +25,10 @@ export const favoriteNormalizer = {
 
 export const recommendationNormalizer = {
   bookings: {
-    stateKey: 'bookings',
     normalizer: {
       stock: 'stocks',
     },
+    stateKey: 'bookings',
   },
   mediation: 'mediations',
   offer: {

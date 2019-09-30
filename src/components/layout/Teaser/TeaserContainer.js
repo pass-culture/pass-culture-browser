@@ -74,7 +74,7 @@ export default compose(
   withTracking('Offer'),
   connect(
     mapStateToProps,
-    {},
+    null,
     mergeProps
   )
 )(Teaser)
