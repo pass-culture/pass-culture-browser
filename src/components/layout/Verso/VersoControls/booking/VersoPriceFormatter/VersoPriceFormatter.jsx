@@ -5,7 +5,9 @@ const VersoPriceFormatter = ({ endingPrice, devise, startingPrice }) => {
   const arrow = '\u27A4'
   return (
     <Fragment>
-      <span>{startingPrice}</span>
+      <span>
+        {startingPrice}
+      </span>
       {endingPrice && (
         <Fragment>
           <span className="fs12">
@@ -13,7 +15,9 @@ const VersoPriceFormatter = ({ endingPrice, devise, startingPrice }) => {
             {arrow}
             &nbsp;
           </span>
-          <span>{endingPrice}</span>
+          <span>
+            {endingPrice}
+          </span>
         </Fragment>
       )}
       <span>

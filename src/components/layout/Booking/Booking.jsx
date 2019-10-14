@@ -10,7 +10,7 @@ import BookingError from './BookingError/BookingError'
 import BookingLoader from './BookingLoader/BookingLoader'
 import BookingHeader from './BookingHeader/BookingHeader'
 import BookingSuccess from './BookingSuccess/BookingSuccess'
-import { externalSubmitForm } from '../../forms/utils'
+import externalSubmitForm from '../../forms/utils/externalSubmitForm'
 import { priceIsDefined } from '../../../helpers/getDisplayPrice'
 import getIsBooking from '../../../helpers/getIsBooking'
 import getIsConfirmingCancelling from '../../../helpers/getIsConfirmingCancelling'
@@ -120,7 +120,9 @@ class Booking extends PureComponent {
             onClick={this.handleReturnToDetails}
             type="reset"
           >
-            <span>{'Annuler'}</span>
+            <span>
+              {'Annuler'}
+            </span>
           </button>
         )}
 
@@ -131,7 +133,9 @@ class Booking extends PureComponent {
             onClick={externalSubmitForm(BOOKING_FORM_ID)}
             type="submit"
           >
-            <b>{'Valider'}</b>
+            <b>
+              {'Valider'}
+            </b>
           </button>
         )}
 
@@ -142,7 +146,9 @@ class Booking extends PureComponent {
             onClick={this.handleReturnToDetails}
             type="button"
           >
-            <b>{'OK'}</b>
+            <b>
+              {'OK'}
+            </b>
           </button>
         )}
 

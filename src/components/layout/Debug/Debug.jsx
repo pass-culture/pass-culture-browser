@@ -3,17 +3,21 @@
 import moment from 'moment'
 import get from 'lodash.get'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import '../../../utils/debugInitializer'
 
-class Debug extends React.PureComponent {
+class Debug extends PureComponent {
   showDebug = () => {
     const { dispatchShowModal } = this.props
     dispatchShowModal(
       <div className="debug-modal">
-        <h1 className="title">{'pass Culture Debug'}</h1>
-        <pre>{get(window, 'logContent', []).map(this.renderLine)}</pre>
+        <h1 className="title">
+          {'pass Culture Debug'}
+        </h1>
+        <pre>
+          {get(window, 'logContent', []).map(this.renderLine)}
+        </pre>
       </div>,
       {
         fullscreen: true,
@@ -47,9 +51,13 @@ class Debug extends React.PureComponent {
     >
       <div className="header">
         {`${method.toUpperCase()} | `}
-        <time dateTime={time}>{moment(time).format('h:mm:ss')}</time>
+        <time dateTime={time}>
+          {moment(time).format('h:mm:ss')}
+        </time>
       </div>
-      <div className="log">{values.map(this.displayVariable).join('\n')}</div>
+      <div className="log">
+        {values.map(this.displayVariable).join('\n')}
+      </div>
     </code>
   )
 

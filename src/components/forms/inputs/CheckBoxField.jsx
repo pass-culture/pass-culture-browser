@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'react-final-form'
 
 import FormError from '../FormError'
-import { isEmpty } from '../../../utils/strings'
+import isEmpty from '../../../utils/strings/isEmpty'
 
 const DEFAULT_REQUIRED_ERROR = 'Ce champ est requis'
 const validateRequiredField = value => {
@@ -11,7 +11,7 @@ const validateRequiredField = value => {
   return DEFAULT_REQUIRED_ERROR
 }
 
-class CheckBoxField extends Component {
+class CheckBoxField extends PureComponent {
   renderField = ({ input, meta }) => {
     const { children, name, required } = this.props
 

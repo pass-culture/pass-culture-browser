@@ -90,6 +90,7 @@ class ShareButton extends PureComponent {
   render() {
     return (
       <button
+        aria-label="Partager cette offre"
         className="no-background"
         onClick={this.handleOnClickShare}
         type="button"

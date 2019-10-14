@@ -25,4 +25,4 @@ describe('src | components | verso | verso-content | VersoContentTutoContainer',
       expect(mapStateToProps(state, ownProps).imageURL).toBe('http://fake_thumb.url/AQ_1')
     })
   })
-});
+})

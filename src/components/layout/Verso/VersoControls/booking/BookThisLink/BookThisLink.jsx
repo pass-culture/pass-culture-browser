@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import VersoPriceFormatter from '../VersoPriceFormatter/VersoPriceFormatter'
 import Price from '../../../../Price/Price'
 
-class BookThisLink extends Component {
+class BookThisLink extends PureComponent {
   formatOutputPrice = ([startingPrice, endingPrice], devise) => (
     <VersoPriceFormatter
       devise={devise}
@@ -30,7 +30,9 @@ class BookThisLink extends Component {
           free="Gratuit"
           value={priceRange}
         />
-        <span className="pc-ticket-button-label">{'J’y vais !'}</span>
+        <span className="pc-ticket-button-label">
+          {'J’y vais !'}
+        </span>
       </Link>
     )
   }

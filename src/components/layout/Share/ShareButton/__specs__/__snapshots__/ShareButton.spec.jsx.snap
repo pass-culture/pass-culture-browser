@@ -27,6 +27,7 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "aria-label": "Partager cette offre",
       "children": <span
         aria-hidden={true}
         className="font-icon icon-ico-share"
@@ -58,6 +59,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "aria-label": "Partager cette offre",
         "children": <span
           aria-hidden={true}
           className="font-icon icon-ico-share"

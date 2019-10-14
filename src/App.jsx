@@ -31,7 +31,9 @@ const App = ({ children, history, location }) => {
     <Fragment>
       <Helmet>
         <body className={`web ${bodyClass}`} />
-        <title>{`${pageTitle}${PROJECT_NAME}${(IS_DEV && ' | DEV') || ''}`}</title>
+        <title>
+          {`${pageTitle}${PROJECT_NAME}${(IS_DEV && ' | DEV') || ''}`}
+        </title>
       </Helmet>
       <DebugContainer className="app is-relative">
         <ErrorCatcherContainer>

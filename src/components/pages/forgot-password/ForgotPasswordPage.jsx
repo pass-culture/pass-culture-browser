@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import NotMatch from '../not-match/NotMatch'
@@ -8,7 +8,7 @@ import RequestEmailForm from './RequestEmailForm'
 import ResetThePasswordForm from './ResetThePasswordForm'
 import SuccessView from './SuccessView'
 
-class ForgotPasswordPage extends Component {
+class ForgotPasswordPage extends PureComponent {
   renderforgotPasswordSuccessViewRoute = token => routeProps => (
     // si token -> affiche le form success pour le confirm
     // sinon -> affiche le form success pour le request

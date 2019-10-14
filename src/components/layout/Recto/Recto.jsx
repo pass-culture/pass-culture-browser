@@ -19,7 +19,12 @@ const Recto = ({
         withMediation={withMediation}
       />
     )}
-    {frontText && <div className="mediation-front-text fs20">{frontText}</div>}
+    {
+      frontText &&
+      <div className="mediation-front-text fs20">
+        {frontText}
+      </div>
+    }
   </div>
 )
 

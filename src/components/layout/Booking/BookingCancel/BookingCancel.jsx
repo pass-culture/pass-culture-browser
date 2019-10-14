@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from '../../Icon/Icon'
-import { getDisplayPrice } from '../../../../helpers'
+import { getDisplayPrice } from '../../../../helpers/getDisplayPrice'
 
 const BookingCancel = ({ isEvent, booking }) => {
   const { amount } = booking || {}
@@ -18,12 +18,18 @@ const BookingCancel = ({ isEvent, booking }) => {
         >
           <Icon svg="picto-validation" />
         </span>
-        <span className="is-block fs22">{'Votre réservation est annulée.'}</span>
+        <span className="is-block fs22">
+          {'Votre réservation est annulée.'}
+        </span>
       </div>
 
       <p className="mt40">
-        <span className="is-block">{`${price} vont être recrédités sur votre pass.`}</span>
-        <span className="is-block">{'Vous allez recevoir un e-mail de confirmation.'}</span>
+        <span className="is-block">
+          {`${price} vont être recrédités sur votre pass.`}
+        </span>
+        <span className="is-block">
+          {'Vous allez recevoir un e-mail de confirmation.'}
+        </span>
       </p>
     </div>
   )

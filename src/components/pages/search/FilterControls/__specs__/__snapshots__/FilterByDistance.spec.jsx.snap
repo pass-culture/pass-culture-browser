@@ -63,9 +63,16 @@ ShallowWrapper {
           >
             Activez votre géolocalisation pour utiliser ce filtre.
           </div>
+          <label
+            className="is-hidden"
+            htmlFor="distance"
+          >
+            Sélectionnez une distance
+          </label>
           <select
             className="pc-selectbox pl24 py5 fs19"
             disabled={true}
+            id="distance"
             name="distance"
             onBlur={[Function]}
             onChange={[Function]}
@@ -116,9 +123,16 @@ ShallowWrapper {
             >
               Activez votre géolocalisation pour utiliser ce filtre.
             </div>,
+            <label
+              className="is-hidden"
+              htmlFor="distance"
+            >
+              Sélectionnez une distance
+            </label>,
             <select
               className="pc-selectbox pl24 py5 fs19"
               disabled={true}
+              id="distance"
               name="distance"
               onBlur={[Function]}
               onChange={[Function]}
@@ -180,6 +194,19 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
+              "children": "Sélectionnez une distance",
+              "className": "is-hidden",
+              "htmlFor": "distance",
+            },
+            "ref": null,
+            "rendered": "Sélectionnez une distance",
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
               "children": Array [
                 <option
                   value={20000}
@@ -204,6 +231,7 @@ ShallowWrapper {
               ],
               "className": "pc-selectbox pl24 py5 fs19",
               "disabled": true,
+              "id": "distance",
               "name": "distance",
               "onBlur": [Function],
               "onChange": [Function],
@@ -300,9 +328,16 @@ ShallowWrapper {
             >
               Activez votre géolocalisation pour utiliser ce filtre.
             </div>
+            <label
+              className="is-hidden"
+              htmlFor="distance"
+            >
+              Sélectionnez une distance
+            </label>
             <select
               className="pc-selectbox pl24 py5 fs19"
               disabled={true}
+              id="distance"
               name="distance"
               onBlur={[Function]}
               onChange={[Function]}
@@ -353,9 +388,16 @@ ShallowWrapper {
               >
                 Activez votre géolocalisation pour utiliser ce filtre.
               </div>,
+              <label
+                className="is-hidden"
+                htmlFor="distance"
+              >
+                Sélectionnez une distance
+              </label>,
               <select
                 className="pc-selectbox pl24 py5 fs19"
                 disabled={true}
+                id="distance"
                 name="distance"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -417,6 +459,19 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
+                "children": "Sélectionnez une distance",
+                "className": "is-hidden",
+                "htmlFor": "distance",
+              },
+              "ref": null,
+              "rendered": "Sélectionnez une distance",
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
                 "children": Array [
                   <option
                     value={20000}
@@ -441,6 +496,7 @@ ShallowWrapper {
                 ],
                 "className": "pc-selectbox pl24 py5 fs19",
                 "disabled": true,
+                "id": "distance",
                 "name": "distance",
                 "onBlur": [Function],
                 "onChange": [Function],

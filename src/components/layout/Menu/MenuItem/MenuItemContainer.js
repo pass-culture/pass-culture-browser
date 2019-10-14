@@ -7,7 +7,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { item } = ownProps
   const { featureName } = item
 
-  const isFeatureFlipped = item.hasOwnProperty('featureName')
+  const isFeatureFlipped = Object.prototype.hasOwnProperty.call(item, 'featureName')
 
   let disabled
   if (!isFeatureFlipped) {

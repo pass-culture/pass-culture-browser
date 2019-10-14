@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import isEqual from 'lodash.isequal'
 
 import VersoContentOfferContainer from './VersoContent/VersoContentOffer/VersoContentOfferContainer'
@@ -9,7 +9,7 @@ import VersoControlsContainer from './VersoControls/VersoControlsContainer'
 import VersoHeaderContainer from './VersoHeader/VersoHeaderContainer'
 import AbsoluteFooterContainer from '../AbsoluteFooter/AbsoluteFooterContainer'
 
-class Verso extends React.PureComponent {
+class Verso extends PureComponent {
   constructor(props) {
     super(props)
     this.versoWrapper = React.createRef()

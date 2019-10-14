@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { FormError } from '../../../forms'
-import { validateMatchingFields } from '../../../forms/validators'
+import FormError from '../../../forms/FormError'
+import validateMatchingFields from '../../../forms/validators/validateMatchingFields'
 import CheckBoxField from '../../../forms/inputs/CheckBoxField'
 import HiddenField from '../../../forms/inputs/HiddenField'
 import PasswordField from '../../../forms/inputs/PasswordField'
@@ -17,12 +17,20 @@ const FormInputs = ({ formValues, formErrors, isLoading }) => {
   return (
     <div>
       <div className="logout-form-header">
-        <div className="logout-form-title">{'Pour commencer, choisissez votre mot de passe.'}</div>
-        <div className="logout-form-mandatory-label">{'* Champs obligatoires'}</div>
+        <div className="logout-form-title">
+          {'Pour commencer, choisissez votre mot de passe.'}
+        </div>
+        <div className="logout-form-mandatory-label">
+          {'* Champs obligatoires'}
+        </div>
       </div>
       <div className="logout-form-header">
-        <div className="activation-email-label">{'Adresse e-mail :'}</div>
-        <div className="activation-email">{email}</div>
+        <div className="activation-email-label">
+          {'Adresse e-mail :'}
+        </div>
+        <div className="activation-email">
+          {email}
+        </div>
       </div>
       <PasswordField
         disabled={isLoading}

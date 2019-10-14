@@ -10,16 +10,16 @@ const Test = () => null
 const NotRequiredLoginTest = withNotRequiredLogin(Test)
 
 describe('src | components | pages | hocs | with-login | withNotRequiredLogin', () => {
+  beforeEach(() => {
+    fetch.resetMocks()
+  })
+
   it('should match the snapshot', () => {
     // when
     const wrapper = shallow(<NotRequiredLoginTest />)
 
     // then
     expect(wrapper).toMatchSnapshot()
-  })
-
-  beforeEach(() => {
-    fetch.resetMocks()
   })
 
   describe('handleSuccess()', () => {

@@ -1,4 +1,4 @@
-import { getDepartementByCode } from '../getDepartementByCode'
+import getDepartementByCode from '../getDepartementByCode'
 
 describe('getDepartementByCode ', () => {
   it('should return Finistère name', () => {
@@ -42,6 +42,6 @@ describe('getDepartementByCode ', () => {
   })
 
   it('should return Finistère name (réécrire)', () => {
-    expect(getDepartementByCode('')).toStrictEqual(null)
+    expect(getDepartementByCode('')).toBeNull()
   })
 })

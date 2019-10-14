@@ -43,5 +43,3 @@ export const getDisplayPrice = (simplePriceOrPriceRange, freeValue = null) => {
   const pricesWithComma = parsedPrices.map(value => valueToPrice(value))
   return formatPrice(pricesWithComma)
 }
-
-export default getDisplayPrice

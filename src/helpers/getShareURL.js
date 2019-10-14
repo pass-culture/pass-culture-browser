@@ -1,4 +1,4 @@
-import { isEmpty } from '../utils/strings'
+import isEmpty from '../utils/strings/isEmpty'
 
 const isValid = user => user && typeof user === 'object' && user.id && typeof user.id === 'string'
 

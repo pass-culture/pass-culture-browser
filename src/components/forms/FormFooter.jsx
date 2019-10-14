@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import { FormFooterObject } from '../../types'
 
-class FormFooter extends Component {
+class FormFooter extends PureComponent {
   renderSubmitButton = buttonOptions => {
     const attributes = {
       className: `flex-1 ${buttonOptions.className || ''}`,
@@ -28,7 +28,11 @@ class FormFooter extends Component {
       id: linkOptions.id,
       to: linkOptions.url,
     }
-    return <Link {...attributes}>{linkOptions.label}</Link>
+    return (
+      <Link {...attributes}>
+        {linkOptions.label}
+      </Link>
+    )
   }
 
   renderExternalLink = linkOptions => {
@@ -37,8 +41,13 @@ class FormFooter extends Component {
       href: linkOptions.url,
       id: linkOptions.id,
       target: linkOptions.target,
+      rel: 'noopener noreferer',
     }
-    return <a {...attributes}>{linkOptions.label}</a>
+    return (
+      <a {...attributes}>
+        {linkOptions.label}
+      </a>
+    )
   }
 
   render() {

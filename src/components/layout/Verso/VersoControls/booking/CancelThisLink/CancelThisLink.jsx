@@ -75,7 +75,9 @@ class CancelThisLink extends PureComponent {
             />
           )}
         </span>
-        <span className="pc-ticket-button-label">{'Annuler'}</span>
+        <span className="pc-ticket-button-label">
+          {'Annuler'}
+        </span>
       </button>
     )
   }

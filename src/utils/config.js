@@ -4,7 +4,7 @@ import 'moment-duration-format'
 import 'moment-timezone'
 
 import { version } from '../../package.json'
-import { getMobileOperatingSystem } from '../helpers'
+import getMobileOperatingSystem from '../helpers/getMobileOperatingSystem'
 
 moment.locale('fr-fr')
 
@@ -23,7 +23,6 @@ export const WEBAPP_CONTACT_EXTERNAL_PAGE =
 // - ./webapp/README.md
 // - ./webapp/config-staging.xml
 // - ./webapp/config-production.xml
-// - ./webapp/public/MentionsLegalesPass.md
 export const SUPPORT_EMAIL = 'support@passculture.app'
 export const SUPPORT_EMAIL_SUBJECT = encodeURI('Votre question depuis l’application pass Culture')
 

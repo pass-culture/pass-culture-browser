@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import BackLink from './BackLink'
@@ -6,7 +6,7 @@ import CloseLink from './CloseLink/CloseLink'
 import SubmitButton from './SubmitButton'
 import getIsTransitionDetailsUrl from '../../../helpers/getIsTransitionDetailsUrl'
 
-class Header extends Component {
+class Header extends PureComponent {
   componentDidMount() {
     const { history, match } = this.props
 
@@ -72,7 +72,9 @@ class Header extends Component {
             />
           </div>
         )}
-        <h1 className="header-title">{title}</h1>
+        <h1 className="header-title">
+          {title}
+        </h1>
         {closeTo && (
           <div className="header-end">
             <CloseLink

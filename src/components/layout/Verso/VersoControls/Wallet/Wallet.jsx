@@ -13,7 +13,7 @@ const Wallet = ({ value }) => (
       className="is-block"
       id="verso-wallet-value"
     >
-      {value}&nbsp;{'€'}
+      {`${value}\u00a0€`}
     </span>
   </div>
 )

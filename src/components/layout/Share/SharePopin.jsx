@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Transition } from 'react-transition-group'
 
 import { closeSharePopin } from '../../../reducers/share'
@@ -20,7 +20,7 @@ const transitionStyles = {
   exiting: { bottom: '-100%', opacity: 0 },
 }
 
-class SharePopin extends React.PureComponent {
+class SharePopin extends PureComponent {
   handleCloseHandler = () => {
     const { dispatch, options } = this.props
     const { handleClose } = options
@@ -32,6 +32,7 @@ class SharePopin extends React.PureComponent {
 
   renderCloseButton = () => (
     <button
+      aria-label="Fermer la popin de partage"
       className="pc-text-button is-absolute fs16"
       id="share-popin-close-button"
       onClick={this.handleCloseHandler}
@@ -69,13 +70,19 @@ class SharePopin extends React.PureComponent {
                 >
                   <div className="ml24 mr48 mt20 mb32">
                     <h3>
-                      <span className="is-bold">{title}</span>
+                      <span className="is-bold">
+                        {title}
+                      </span>
                     </h3>
                     <p className="mt18">
-                      <span>{text}</span>
+                      <span>
+                        {text}
+                      </span>
                     </p>
                   </div>
-                  <div className="dotted-top-white flex-columns flex-around">{buttons}</div>
+                  <div className="dotted-top-white flex-columns flex-around">
+                    {buttons}
+                  </div>
                 </div>
               </div>
             )}

@@ -28,15 +28,24 @@ class FilterByDistance extends PureComponent {
           className="distance-filter-options"
           id="filter-by-distance"
         >
-          <h2 className="distance-filter-title">{'Où'}</h2>
+          <h2 className="distance-filter-title">
+            {'Où'}
+          </h2>
           {!geolocationActive && (
             <div className="geoloc-warning">
               {'Activez votre géolocalisation pour utiliser ce filtre.'}
             </div>
           )}
+          <label
+            className="is-hidden"
+            htmlFor="distance"
+          >
+            {'Sélectionnez une distance'}
+          </label>
           <select
             className="pc-selectbox pl24 py5 fs19"
             disabled={!geolocationActive}
+            id="distance"
             name="distance"
             onBlur={this.handleOnChangeDistance}
             onChange={this.handleOnChangeDistance}

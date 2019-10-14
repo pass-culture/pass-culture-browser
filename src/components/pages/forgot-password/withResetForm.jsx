@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Form as FinalForm } from 'react-final-form'
 import { connect } from 'react-redux'
 import { requestData } from 'redux-saga-data'
@@ -10,7 +10,7 @@ const withPasswordForm = (WrappedComponent, validator, routePath, routeMethod) =
   const name = WrappedComponent.displayName || 'Component'
   withPasswordForm.displayName = `withPasswordForm(${name})`
 
-  class ResetPasswordForm extends React.PureComponent {
+  class ResetPasswordForm extends PureComponent {
     constructor(props) {
       super(props)
       const { initialValues } = this.props

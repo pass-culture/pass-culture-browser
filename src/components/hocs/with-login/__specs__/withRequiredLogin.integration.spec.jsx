@@ -1,4 +1,4 @@
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { createBrowserHistory } from 'history'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -6,14 +6,7 @@ import { Route, Router, Switch } from 'react-router-dom'
 
 import { configureTestStore } from './configure'
 import { OnMountCaller } from './OnMountCaller'
-import withRequiredLogin, {
-  handleFail,
-  handleSuccess,
-} from '../withRequiredLogin'
-import {
-  getRedirectToSignin,
-  getRedirectToCurrentLocationOrTypeform,
-} from '../helpers'
+import withRequiredLogin from '../withRequiredLogin'
 
 const Test = () => null
 const RequiredLoginTest = withRequiredLogin(Test)
@@ -47,7 +40,7 @@ describe('src | components | pages | hocs | with-login | withRequiredLogin - int
       })
     })
 
-    it('should redirect to typeform when authenticated and not needsToFillCulturalSurvey', done => {
+    it('should redirect to typeform when authenticated and not needsToFillCulturalSurvey', () => {return new Promise(done => {
       // given
       const history = createBrowserHistory()
       history.push('/test')
@@ -77,7 +70,7 @@ describe('src | components | pages | hocs | with-login | withRequiredLogin - int
             </Router>
           </Provider>
         )
-      })
+      })})
 
     it('should not redirect when authenticated and needsToFillCulturalSurvey', () => {
       // given

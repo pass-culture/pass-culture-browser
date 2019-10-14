@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ICONS_URL } from '../../../utils/config'
@@ -7,7 +7,7 @@ import Icon from '../Icon/Icon'
 
 const DEFAULT_THUMB_URL = `${ICONS_URL}/picto-placeholder-visueloffre.png`
 
-class Teaser extends Component {
+class Teaser extends PureComponent {
   renderTeaser = () => {
     const {
       date,
@@ -30,9 +30,18 @@ class Teaser extends Component {
           />
         </div>
         <div className="teaser-wrapper">
-          <div className="teaser-title">{name}</div>
-          <div className="teaser-sub-title">{offerTypeLabel}</div>
-          {date && <div className="teaser-date">{date}</div>}
+          <div className="teaser-title">
+            {name}
+          </div>
+          <div className="teaser-sub-title">
+            {offerTypeLabel}
+          </div>
+          {
+            date &&
+            <div className="teaser-date">
+              {date}
+            </div>
+          }
           <div className="teaser-infos">
             {statuses.length > 0 &&
               statuses.map(status => (
@@ -43,7 +52,9 @@ class Teaser extends Component {
                   {status.label}
                 </span>
               ))}
-            <span className="teaser-distance">{humanizeRelativeDistance}</span>
+            <span className="teaser-distance">
+              {humanizeRelativeDistance}
+            </span>
           </div>
         </div>
         <div className="teaser-arrow">
@@ -72,7 +83,9 @@ class Teaser extends Component {
     return (
       <li className="teaser-item">
         {isEditMode ? (
-          <div className="teaser-link">{this.renderTeaser()}</div>
+          <div className="teaser-link">
+            {this.renderTeaser()}
+          </div>
         ) : (
           <Link
             className="teaser-link"

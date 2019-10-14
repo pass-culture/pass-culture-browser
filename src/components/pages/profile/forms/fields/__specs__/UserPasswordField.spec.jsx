@@ -2,13 +2,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { UserPasswordField } from '../UserPasswordField'
 
-import { FormError } from '../../../../../forms'
-import { validateMatchingFields } from '../../../../../forms/validators'
+import FormError from '../../../../../forms/FormError'
+import validateMatchingFields from '../../../../../forms/validators/validateMatchingFields'
 import PasswordField from '../../../../../forms/inputs/PasswordField'
 
-jest.mock('../../../../../forms/validators', () => ({
-  validateMatchingFields: jest.fn(),
-}))
+jest.mock('../../../../../forms/validators/validateMatchingFields')
 
 describe('src | components | pages | profile | forms | fields | UserPasswordField', () => {
   let props

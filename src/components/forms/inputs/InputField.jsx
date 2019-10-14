@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'react-final-form'
 
 import FormError from '../FormError'
 import InputLabel from '../InputLabel'
-import { validateRequiredField } from '../validators'
+import validateRequiredField from '../validators/validateRequiredField'
 import hasErrorMessage from '../utils/hasErrorMessage'
 
-class InputField extends Component {
+class InputField extends PureComponent {
   renderField = ({ input, meta }) => {
     const {
       autoComplete,

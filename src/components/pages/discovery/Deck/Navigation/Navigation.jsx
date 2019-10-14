@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import Draggable from 'react-draggable'
 
 import Icon from '../../../../layout/Icon/Icon'
@@ -15,7 +15,7 @@ const toRectoDraggableBounds = {
   top: 0,
 }
 
-export class Navigation extends React.PureComponent {
+export class Navigation extends PureComponent {
   handleStopDrag = event => {
     const { flipHandler, height, verticalSlideRatio } = this.props
     const shiftedDistance = height - getPageY(event)
@@ -124,8 +124,12 @@ export class Navigation extends React.PureComponent {
                         id="deck-navigation-offer-price"
                         value={priceRange}
                       />
-                      <div className="separator">{separator}</div>
-                      <div>{distanceClue}</div>
+                      <div className="separator">
+                        {separator}
+                      </div>
+                      <div>
+                        {distanceClue}
+                      </div>
                     </FinishableContainer>
                   </div>
                 </div>

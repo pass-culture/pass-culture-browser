@@ -52,10 +52,16 @@ const BookingItem = ({ booking, location, offer, ribbon, stock, trackConsultOffe
         </div>
         <div className="teaser-wrapper">
           <div className="mb-heading">
-            <div className="teaser-title-booking">{productName}</div>
-            <div className="teaser-sub-title">{stringifyDate || 'Permanent'}</div>
+            <div className="teaser-title-booking">
+              {productName}
+            </div>
+            <div className="teaser-sub-title">
+              {stringifyDate || 'Permanent'}
+            </div>
           </div>
-          <div className="mb-token">{token.toLowerCase()}</div>
+          <div className="mb-token">
+            {token.toLowerCase()}
+          </div>
         </div>
         <div className="teaser-arrow">
           {ribbon && <Ribbon

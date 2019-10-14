@@ -56,6 +56,7 @@ describe('src | components | booking | utils | parseHoursByStockId', () => {
     result = parseHoursByStockId(value)
     expect(result).toStrictEqual(expected)
   })
+
   it('returns an array of objects with label and id', () => {
     const format = 'HH:mm'
     const now = moment()

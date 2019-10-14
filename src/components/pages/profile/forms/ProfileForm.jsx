@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Form as FinalForm } from 'react-final-form'
 import { requestData } from 'redux-saga-data'
 import { resolveCurrentUser } from 'with-react-redux-login'
 
 import { ROOT_PATH } from '../../../../utils/config'
-import { parseSubmitErrors } from '../../../forms/utils'
+import parseSubmitErrors from '../../../forms/utils/parseSubmitErrors'
 import Header from '../../../layout/Header/Header'
 import RelativeFooterContainer from '../../../layout/RelativeFooter/RelativeFooterContainer'
 
 const BACKGROUND_IMAGE = `url('${ROOT_PATH}/mosaic-k.png')`
 
-class ProfileForm extends React.PureComponent {
+class ProfileForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = { isLoading: false }

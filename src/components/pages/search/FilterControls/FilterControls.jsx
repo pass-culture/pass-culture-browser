@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Transition } from 'react-transition-group'
 
 import FilterByDates from './FilterByDates'
@@ -22,7 +22,7 @@ const transitionStyles = {
   exiting: { marginTop: `-${filtersPanelHeight}px` },
 }
 
-class FilterControls extends Component {
+class FilterControls extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -181,7 +181,9 @@ class FilterControls extends Component {
                   onClick={this.handleOnClickFilterButton}
                   type="submit"
                 >
-                  <span className="is-bold">{'Filtrer'}</span>
+                  <span className="is-bold">
+                    {'Filtrer'}
+                  </span>
                 </button>
               </div>
             </div>

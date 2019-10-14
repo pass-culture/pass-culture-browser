@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-transition-group'
 
@@ -19,7 +19,7 @@ const transitionStyles = {
   exited: { display: 'none', visibility: 'none' },
 }
 
-class Loader extends React.PureComponent {
+class Loader extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -91,7 +91,9 @@ class Loader extends React.PureComponent {
                 draggable={false}
                 svg="ico-loading-card"
                             />}
-              <h2 className="fs20 is-normal">{this.renderMessage()}</h2>
+              <h2 className="fs20 is-normal">
+                {this.renderMessage()}
+              </h2>
             </div>
             {showFooter && (
               <RelativeFooterContainer

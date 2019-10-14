@@ -37,8 +37,9 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "aria-label": "Retirer des favoris",
       "children": <i
-        aria-hidden="true"
+        aria-hidden={true}
         className="font-icon icon-ico-like-on"
         title="Retirer des favoris"
       />,
@@ -53,7 +54,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "aria-hidden": "true",
+        "aria-hidden": true,
         "className": "font-icon icon-ico-like-on",
         "title": "Retirer des favoris",
       },
@@ -69,8 +70,9 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "aria-label": "Retirer des favoris",
         "children": <i
-          aria-hidden="true"
+          aria-hidden={true}
           className="font-icon icon-ico-like-on"
           title="Retirer des favoris"
         />,
@@ -85,7 +87,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "aria-hidden": "true",
+          "aria-hidden": true,
           "className": "font-icon icon-ico-like-on",
           "title": "Retirer des favoris",
         },
@@ -163,8 +165,9 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "aria-label": "Retirer des favoris",
       "children": <i
-        aria-hidden="true"
+        aria-hidden={true}
         className="font-icon icon-ico-like-on"
         title="Retirer des favoris"
       />,
@@ -179,7 +182,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "aria-hidden": "true",
+        "aria-hidden": true,
         "className": "font-icon icon-ico-like-on",
         "title": "Retirer des favoris",
       },
@@ -195,8 +198,9 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "aria-label": "Retirer des favoris",
         "children": <i
-          aria-hidden="true"
+          aria-hidden={true}
           className="font-icon icon-ico-like-on"
           title="Retirer des favoris"
         />,
@@ -211,7 +215,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "aria-hidden": "true",
+          "aria-hidden": true,
           "className": "font-icon icon-ico-like-on",
           "title": "Retirer des favoris",
         },
@@ -289,8 +293,9 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "aria-label": "Ajouter aux favoris",
       "children": <i
-        aria-hidden="true"
+        aria-hidden={true}
         className="font-icon icon-ico-like"
         title="Ajouter aux favoris"
       />,
@@ -305,7 +310,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "aria-hidden": "true",
+        "aria-hidden": true,
         "className": "font-icon icon-ico-like",
         "title": "Ajouter aux favoris",
       },
@@ -321,8 +326,9 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "aria-label": "Ajouter aux favoris",
         "children": <i
-          aria-hidden="true"
+          aria-hidden={true}
           className="font-icon icon-ico-like"
           title="Ajouter aux favoris"
         />,
@@ -337,7 +343,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "aria-hidden": "true",
+          "aria-hidden": true,
           "className": "font-icon icon-ico-like",
           "title": "Ajouter aux favoris",
         },

@@ -83,7 +83,7 @@ describe('src | components | pages | profile | forms | ProfileForm', () => {
       wrapper.instance().handleOnFormReset()
 
       // then
-      expect(goBack).toHaveBeenCalled()
+      expect(goBack).toHaveBeenCalledWith()
     })
   })
 
@@ -98,7 +98,7 @@ describe('src | components | pages | profile | forms | ProfileForm', () => {
 
       // then
       expect(wrapper.state('isLoading')).toBe(false)
-      expect(formResolver).toHaveBeenCalled()
+      expect(formResolver).toHaveBeenCalledWith()
       expect(replace).toHaveBeenCalledWith('fake location/success')
     })
   })

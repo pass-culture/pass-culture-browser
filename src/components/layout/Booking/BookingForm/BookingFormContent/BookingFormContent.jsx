@@ -1,13 +1,14 @@
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Field } from 'react-final-form'
 
-import { getCalendarProvider, parseHoursByStockId } from '../../utils'
+import getCalendarProvider from '../../utils/getCalendarProvider'
+import parseHoursByStockId from '../../utils/parseHoursByStockId'
 import SelectField from '../../../../forms/inputs/SelectField'
 import DatePickerField from '../../../../forms/inputs/DatePickerField/DatePickerField'
 
-class BookingFormContent extends Component {
+class BookingFormContent extends PureComponent {
   componentDidMount() {
     const { invalid, onChange, values } = this.props
     const { price, stockId } = values
@@ -93,8 +94,12 @@ class BookingFormContent extends Component {
 
         {!isEvent && (
           <p className="text-center fs22">
-            <span className="is-block">{'Vous êtes sur le point de réserver'}</span>
-            <span className="is-block">{`cette offre pour ${price} €.`}</span>
+            <span className="is-block">
+              {'Vous êtes sur le point de réserver'}
+            </span>
+            <span className="is-block">
+              {`cette offre pour ${price} €.`}
+            </span>
           </p>
         )}
       </form>

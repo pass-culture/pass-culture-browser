@@ -4,7 +4,7 @@ import { requestData } from 'redux-saga-data'
 import { selectCurrentUser } from 'with-react-redux-login'
 
 import TypeForm from './TypeForm'
-import { withRequiredLogin } from '../../hocs'
+import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
 
 export const mapStateToProps = state => {
   const currentUser = selectCurrentUser(state)

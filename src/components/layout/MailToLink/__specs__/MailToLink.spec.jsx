@@ -5,7 +5,9 @@ import MailToLink from '../MailToLink'
 
 const children = (
   <header>
-    <h1>{'Fake children'}</h1>
+    <h1>
+      {'Fake children'}
+    </h1>
   </header>
 )
 

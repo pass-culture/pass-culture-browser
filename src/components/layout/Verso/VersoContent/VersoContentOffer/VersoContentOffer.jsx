@@ -23,7 +23,9 @@ class VersoContentOffer extends PureComponent {
 
     return (
       <Fragment>
-        <h3>{'Et en détails ?'}</h3>
+        <h3>
+          {'Et en détails ?'}
+        </h3>
         <pre
           className="is-raw-description"
           id="verso-offer-description"
@@ -43,7 +45,9 @@ class VersoContentOffer extends PureComponent {
 
     return (
       <Fragment>
-        <h3>{'Quoi ?'}</h3>
+        <h3>
+          {'Quoi ?'}
+        </h3>
         <div>
           <span
             className="is-bold"
@@ -51,13 +55,25 @@ class VersoContentOffer extends PureComponent {
           >
             {appLabel}
           </span>
-          {durationMinutes && <span>{` - Durée ${duration}`}</span>}
+          {durationMinutes && <span>
+            {` - Durée ${duration}`}
+                              </span>}
         </div>
-        {style && <div>{`Genre : ${style}`}</div>}
-        {author && <div>{`Auteur : ${author}`}</div>}
-        {performer && <div>{`Interprète : ${performer}`}</div>}
-        {speaker && <div>{`Intervenant : ${speaker}`}</div>}
-        {stageDirector && <div>{`Metteur en scène : ${stageDirector}`}</div>}
+        {style && <div>
+          {`Genre : ${style}`}
+                  </div>}
+        {author && <div>
+          {`Auteur : ${author}`}
+                   </div>}
+        {performer && <div>
+          {`Interprète : ${performer}`}
+                      </div>}
+        {speaker && <div>
+          {`Intervenant : ${speaker}`}
+                    </div>}
+        {stageDirector && <div>
+          {`Metteur en scène : ${stageDirector}`}
+                          </div>}
       </Fragment>
     )
   }
@@ -77,7 +93,9 @@ class VersoContentOffer extends PureComponent {
               ' (réservé)'}
           </li>
         ))}
-        {hasMoreBookables && <li>{'Cliquez sur "j’y vais" pour voir plus de dates.'}</li>}
+        {hasMoreBookables && <li>
+          {'Cliquez sur "j’y vais" pour voir plus de dates.'}
+                             </li>}
       </Fragment>
     )
   }
@@ -86,11 +104,9 @@ class VersoContentOffer extends PureComponent {
     const { bookables } = this.props
     const limitDatetime = get(bookables, '[0].bookinglimitDatetime')
 
-    return (
-      <Fragment>
-        <li>{`Dès maintenant${limitDatetime ? ` et jusqu’au ${limitDatetime}` : ''}`}</li>
-      </Fragment>
-    )
+    return (<li>
+      {`Dès maintenant${limitDatetime ? ` et jusqu’au ${limitDatetime}` : ''}`}
+    </li>)
   }
 
   renderOfferWhen() {
@@ -103,9 +119,13 @@ class VersoContentOffer extends PureComponent {
 
     return (
       <Fragment>
-        <h3>{'Quand ?'}</h3>
+        <h3>
+          {'Quand ?'}
+        </h3>
         <ul className="dates-info">
-          {isFinished ? <li>{'L’offre n’est plus disponible.'}</li> : offerDateInfos}
+          {isFinished ? <li>
+            {'L’offre n’est plus disponible.'}
+                        </li> : offerDateInfos}
         </ul>
       </Fragment>
     )
@@ -118,7 +138,9 @@ class VersoContentOffer extends PureComponent {
 
     return (
       <Fragment>
-        <h3>{'Où ?'}</h3>
+        <h3>
+          {'Où ?'}
+        </h3>
         <div className="flex-columns flex-between">
           <address>
             {publicName || name}
@@ -137,7 +159,10 @@ class VersoContentOffer extends PureComponent {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <span>{distance}&nbsp;</span>
+              <span>
+                {distance}
+                &nbsp;
+              </span>
               <Icon
                 alt="Géolocalisation dans Open Street Map"
                 svg="ico-geoloc-solid2"

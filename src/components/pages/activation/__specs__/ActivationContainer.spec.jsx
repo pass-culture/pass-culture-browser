@@ -3,7 +3,7 @@ import React from 'react'
 import configureStore from 'redux-mock-store'
 
 import ActivationContainer from '../ActivationContainer'
-import { withNotRequiredLogin } from '../../../hocs'
+import { withNotRequiredLogin } from '../../../hocs/with-login'
 
 jest.mock('../../../hocs/with-login', () => ({
   withNotRequiredLogin: jest.fn(() => ''),
