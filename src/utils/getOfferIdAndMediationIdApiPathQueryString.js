@@ -1,4 +1,4 @@
-export const DEFAULT_VIEW_IDENTIFIERS = ['fin', 'tuto', 'vide']
+export const DEFAULT_VIEW_IDENTIFIERS = ['fin', 'menu', 'tuto', 'vide']
 
 export const getOfferIdAndMediationIdApiPathQueryString = (match, currentRecommendation) => {
   const isValid = match && typeof match === 'object' && !Array.isArray(match)

@@ -314,6 +314,51 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           type: 'UPDATE_PAGE',
         })
       })
+
+      it('should load the recommendations with page equals 1 when user just arrive on discovery and refresh his page so offerId is menu', () => {
+        // given
+        const handleRequestSuccess = jest.fn()
+        const handleRequestFail = jest.fn()
+        const currentRecommendation = {}
+        const recommendations = []
+        const readRecommendations = null
+        const shouldReloadRecommendations = false
+        const functions = mapDispatchToProps(dispatch, props)
+        const { loadRecommendations } = functions
+        props.match.params.offerId = 'menu'
+
+        // when
+        loadRecommendations(
+          handleRequestSuccess,
+          handleRequestFail,
+          currentRecommendation,
+          page,
+          recommendations,
+          readRecommendations,
+          seed,
+          shouldReloadRecommendations
+        )
+
+        // then
+        expect(dispatch.mock.calls[0][0]).toStrictEqual({
+          config: {
+            apiPath: `/recommendations?&page=1&seed=0.5`,
+            body: {
+              readRecommendations: null,
+              seenRecommendationIds: [],
+            },
+            handleFail: handleRequestFail,
+            handleSuccess: handleRequestSuccess,
+            method: 'PUT',
+            normalizer: recommendationNormalizer,
+          },
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=1&SEED=0.5',
+        })
+        expect(dispatch.mock.calls[1][0]).toStrictEqual({
+          page: 1,
+          type: 'UPDATE_PAGE',
+        })
+      })
     })
 
     describe('when mapping redirectHome', () => {
