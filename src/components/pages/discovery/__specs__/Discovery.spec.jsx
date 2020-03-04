@@ -18,7 +18,6 @@ describe('src | components | pages | discovery | Discovery', () => {
       match: {
         params: {},
       },
-      page: 1,
       redirectHome: jest.fn(),
       readRecommendations: [],
       recommendations: [],
@@ -27,11 +26,10 @@ describe('src | components | pages | discovery | Discovery', () => {
       resetRecommendations: jest.fn(),
       resetRecommendationsAndBookings: jest.fn(),
       saveLastRecommendationsRequestTimestamp: jest.fn(),
-      seed: 0.5,
       seedLastRequestTimestamp: 1574236357670,
       shouldReloadRecommendations: false,
       tutorials: [],
-      updatePageAndSeedAndLastRequestTimestamp: jest.fn(),
+      updateLastRequestTimestamp: jest.fn(),
     }
   })
 
@@ -71,10 +69,8 @@ describe('src | components | pages | discovery | Discovery', () => {
         expect.any(Function),
         expect.any(Function),
         props.currentRecommendation,
-        props.page,
         props.recommendations,
         props.readRecommendations,
-        props.seed,
         props.shouldReloadRecommendations
       )
       expect(props.saveLastRecommendationsRequestTimestamp).toHaveBeenCalledWith()
@@ -90,27 +86,33 @@ describe('src | components | pages | discovery | Discovery', () => {
       // then
       expect(props.loadRecommendations).not.toHaveBeenCalledWith()
       expect(props.saveLastRecommendationsRequestTimestamp).not.toHaveBeenCalledWith()
-      expect(props.redirectToFirstRecommendationIfNeeded).toHaveBeenCalledWith(props.recommendations)
+      expect(props.redirectToFirstRecommendationIfNeeded).toHaveBeenCalledWith(
+        props.recommendations
+      )
     })
   })
 
   describe('when unmount', () => {
     it('should delete tutorials for current user', () => {
       // given
-      props.tutorials = [{
-        id: 'hello',
-        productOrTutoIdentifier: 'tuto_0',
-      }]
+      props.tutorials = [
+        {
+          id: 'hello',
+          productOrTutoIdentifier: 'tuto_0',
+        },
+      ]
       const wrapper = shallow(<Discovery {...props} />)
 
       // when
       wrapper.unmount()
 
       // then
-      expect(props.deleteTutorials).toHaveBeenCalledWith([{
-        id: 'hello',
-        productOrTutoIdentifier: 'tuto_0',
-      }])
+      expect(props.deleteTutorials).toHaveBeenCalledWith([
+        {
+          id: 'hello',
+          productOrTutoIdentifier: 'tuto_0',
+        },
+      ])
     })
 
     it('should not delete tutorials for current user', () => {
@@ -132,8 +134,8 @@ describe('src | components | pages | discovery | Discovery', () => {
         // given
         const action = {
           payload: {
-            data: [{ id: 'ABC1' }]
-          }
+            data: [{ id: 'ABC1' }],
+          },
         }
         const wrapper = shallow(<Discovery {...props} />)
 
@@ -148,8 +150,8 @@ describe('src | components | pages | discovery | Discovery', () => {
         // given
         const action = {
           payload: {
-            data: []
-          }
+            data: [],
+          },
         }
         props.recommendations = [{ id: 'ABC1' }]
         const wrapper = shallow(<Discovery {...props} />)
@@ -162,7 +164,7 @@ describe('src | components | pages | discovery | Discovery', () => {
           atWorldsEnd: true,
           hasError: false,
           isEmpty: false,
-          isLoading: false
+          isLoading: false,
         })
       })
 
@@ -170,8 +172,8 @@ describe('src | components | pages | discovery | Discovery', () => {
         // given
         const action = {
           payload: {
-            data: [{ id: 'DEF2' }]
-          }
+            data: [{ id: 'DEF2' }],
+          },
         }
         props.recommendations = [{ id: 'ABC1' }]
         const wrapper = shallow(<Discovery {...props} />)
@@ -184,7 +186,7 @@ describe('src | components | pages | discovery | Discovery', () => {
           atWorldsEnd: false,
           hasError: false,
           isEmpty: false,
-          isLoading: false
+          isLoading: false,
         })
       })
 
@@ -192,8 +194,8 @@ describe('src | components | pages | discovery | Discovery', () => {
         // given
         const action = {
           payload: {
-            data: []
-          }
+            data: [],
+          },
         }
         props.recommendations = []
         const wrapper = shallow(<Discovery {...props} />)
@@ -206,7 +208,7 @@ describe('src | components | pages | discovery | Discovery', () => {
           atWorldsEnd: true,
           hasError: false,
           isEmpty: true,
-          isLoading: false
+          isLoading: false,
         })
       })
     })
@@ -225,45 +227,47 @@ describe('src | components | pages | discovery | Discovery', () => {
           atWorldsEnd: false,
           hasError: true,
           isEmpty: null,
-          isLoading: true
+          isLoading: true,
         })
       })
     })
   })
 
   describe('when update', () => {
-    it('should update seed and seed last request timestamp when date is posterior to limit', () => {
+    it('should update seed last request timestamp when date is posterior to limit', () => {
       // given
       jest
         .spyOn(global.Date, 'now')
-        .mockImplementationOnce(() =>
-          new Date('2019-11-20T13:00:00.000Z').valueOf()
-        )
+        .mockImplementationOnce(() => new Date('2019-11-20T13:00:00.000Z').valueOf())
 
       // when
       const wrapper = shallow(<Discovery {...props} />)
-      props.seed = 1
+      props.location = {
+        pathname: 'nouveauPath',
+        search: '',
+      }
       wrapper.setProps(props)
 
       // then
-      expect(props.updatePageAndSeedAndLastRequestTimestamp).toHaveBeenCalledWith()
+      expect(props.updateLastRequestTimestamp).toHaveBeenCalledWith()
     })
 
-    it('should not update seed and seed last request timestamp when date is anterior to limit', () => {
+    it('should not update seed last request timestamp when date is anterior to limit', () => {
       // given
       jest
         .spyOn(global.Date, 'now')
-        .mockImplementationOnce(() =>
-          new Date('2019-11-20T00:00:00.000Z').valueOf()
-        )
+        .mockImplementationOnce(() => new Date('2019-11-20T00:00:00.000Z').valueOf())
 
       // when
       const wrapper = shallow(<Discovery {...props} />)
-      props.seed = 1
+      props.location = {
+        pathname: 'nouveauPath',
+        search: '',
+      }
       wrapper.setProps(props)
 
       // then
-      expect(props.updatePageAndSeedAndLastRequestTimestamp).not.toHaveBeenCalledWith()
+      expect(props.updateLastRequestTimestamp).not.toHaveBeenCalledWith()
     })
   })
 })

@@ -10,7 +10,6 @@ import {
 } from '../../../selectors/data/typesSelectors'
 import { selectSearchedRecommendations } from '../../../selectors/data/searchedRecommendationsSelectors'
 import { recommendationNormalizer } from '../../../utils/normalizers'
-import { updatePage } from '../../../reducers/pagination'
 
 export const mapStateToProps = state => {
   const searchedRecommendations = selectSearchedRecommendations(state)
@@ -37,7 +36,6 @@ export const mapDispatchToProps = dispatch => ({
         stateKey: 'searchedRecommendations',
       })
     )
-    dispatch(updatePage(1))
   },
 
   getTypes: () => {

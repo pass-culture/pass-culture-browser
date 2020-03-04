@@ -18,7 +18,6 @@ ShallowWrapper {
         "params": Object {},
       }
     }
-    page={1}
     readRecommendations={Array []}
     recommendations={Array []}
     redirectHome={[MockFunction]}
@@ -41,11 +40,10 @@ ShallowWrapper {
     resetRecommendations={[MockFunction]}
     resetRecommendationsAndBookings={[MockFunction]}
     saveLastRecommendationsRequestTimestamp={[MockFunction]}
-    seed={0.5}
     seedLastRequestTimestamp={1574236357670}
     shouldReloadRecommendations={false}
     tutorials={Array []}
-    updatePageAndSeedAndLastRequestTimestamp={[MockFunction]}
+    updateLastRequestTimestamp={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

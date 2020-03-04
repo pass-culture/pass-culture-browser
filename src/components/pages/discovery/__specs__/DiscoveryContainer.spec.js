@@ -18,8 +18,6 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
   let dispatch
   let replace
   let props
-  const page = 1
-  const seed = 0.5
 
   beforeEach(() => {
     dispatch = jest.fn()
@@ -48,8 +46,6 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           recommendations: [],
         },
         pagination: {
-          page: 1,
-          seed: 0.5,
           seedLastRequestTimestamp: 11111111112,
         },
       }
@@ -78,10 +74,8 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           productOrTutoIdentifier: 'tuto_-1',
           thumbUrl: 'http://localhost/splash-finReco@2x.png',
         },
-        page: 1,
         readRecommendations: undefined,
         recommendations: [],
-        seed: 0.5,
         seedLastRequestTimestamp: 11111111112,
         shouldReloadRecommendations: true,
         tutorials: [],
@@ -107,17 +101,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
-          page,
           recommendations,
           readRecommendations,
-          seed,
           shouldReloadRecommendations
         )
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?&page=1&seed=0.5`,
+            apiPath: `/recommendations?`,
             body: {
               readRecommendations: null,
               seenRecommendationIds: [],
@@ -127,11 +119,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=1&SEED=0.5',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
         })
       })
 
@@ -151,17 +139,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
-          page,
           recommendations,
           readRecommendations,
-          seed,
           shouldReloadRecommendations
         )
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?&page=1&seed=0.5`,
+            apiPath: `/recommendations?`,
             body: {
               readRecommendations: null,
               seenRecommendationIds: [],
@@ -171,11 +157,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=1&SEED=0.5',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
         })
       })
 
@@ -195,17 +177,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
-          page,
           recommendations,
           readRecommendations,
-          seed,
           shouldReloadRecommendations
         )
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?&page=1&seed=0.5`,
+            apiPath: `/recommendations?`,
             body: {
               readRecommendations: null,
               seenRecommendationIds: [],
@@ -215,11 +195,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=1&SEED=0.5',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
         })
       })
 
@@ -239,17 +215,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
-          page,
           recommendations,
           readRecommendations,
-          seed,
           shouldReloadRecommendations
         )
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?&page=1&seed=0.5`,
+            apiPath: `/recommendations?`,
             body: {
               readRecommendations: null,
               seenRecommendationIds: [],
@@ -259,11 +233,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=1&SEED=0.5',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
         })
       })
 
@@ -287,17 +257,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
-          page,
           recommendations,
           readRecommendations,
-          seed,
           shouldReloadRecommendations
         )
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?&page=2&seed=0.5`,
+            apiPath: `/recommendations?`,
             body: {
               readRecommendations: null,
               seenRecommendationIds: ['AE3'],
@@ -307,11 +275,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?&PAGE=2&SEED=0.5',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          page: 2,
-          type: 'UPDATE_PAGE',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
         })
       })
     })
@@ -469,23 +433,15 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
       })
     })
 
-    describe('when mapping updatePageAndSeedAndLastRequestTimestamp', () => {
+    describe('when mapping updateLastRequestTimestamp', () => {
       it('should save update last seed request timestamp', () => {
         // when
-        mapDispatchToProps(dispatch, props).updatePageAndSeedAndLastRequestTimestamp()
+        mapDispatchToProps(dispatch, props).updateLastRequestTimestamp()
 
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           seedLastRequestTimestamp: expect.any(Number),
           type: 'UPDATE_SEED_LAST_REQUEST_TIMESTAMP',
-        })
-        expect(dispatch.mock.calls[1][0]).toStrictEqual({
-          seed: expect.any(Number),
-          type: 'UPDATE_SEED',
-        })
-        expect(dispatch.mock.calls[2][0]).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
         })
       })
     })

@@ -14,13 +14,8 @@ jest.mock('redux-thunk-data', () => ({
 describe('src | components | layout | Menu | SignoutButton | SignoutButtonContainer', () => {
   describe('mapDispatchToProps()', () => {
     describe('onSignOutClick()', () => {
-      it('should land to /connexion, close the menu, reset readRecommendations and pagination in store', () => {
+      it('should land to /connexion, close the menu, reset readRecommendations', () => {
         // given
-        const initialPagination = {
-          page: 4,
-          seed: 0.1,
-          seedLastRequestTimestamp: 11111111112,
-        }
         const { store } = configureStore({
           data: {
             bookings: [{ id: 'b1' }],
@@ -28,7 +23,9 @@ describe('src | components | layout | Menu | SignoutButton | SignoutButtonContai
             users: [{ id: 'u1' }],
           },
           menu: true,
-          pagination: initialPagination,
+          pagination: {
+            seedLastRequestTimestamp: 11111111112,
+          },
         })
         const history = createBrowserHistory()
         const readRecommendations = [
@@ -66,11 +63,7 @@ describe('src | components | layout | Menu | SignoutButton | SignoutButtonContai
         })
         expect(data.readRecommendations).toHaveLength(0)
         expect(history.location.pathname).toBe('/connexion')
-        expect(pagination.page).toBe(1)
-        expect(pagination.seed).not.toStrictEqual(initialPagination.seed)
-        expect(pagination.seedLastRequestTimestamp).not.toStrictEqual(
-          initialPagination.seedLastRequestTimestamp
-        )
+        expect(pagination.seedLastRequestTimestamp).not.toBe(11111111112)
       })
     })
   })

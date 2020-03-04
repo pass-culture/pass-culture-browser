@@ -44,7 +44,7 @@ class Discovery extends PureComponent {
       recommendations,
       redirectToFirstRecommendationIfNeeded,
       seedLastRequestTimestamp,
-      updatePageAndSeedAndLastRequestTimestamp,
+      updateLastRequestTimestamp,
     } = this.props
     const { location: prevLocation } = prevProps
 
@@ -53,7 +53,7 @@ class Discovery extends PureComponent {
     }
 
     if (Date.now() > seedLastRequestTimestamp + MINIMUM_DELAY_BEFORE_UPDATING_SEED_3_HOURS) {
-      updatePageAndSeedAndLastRequestTimestamp()
+      updateLastRequestTimestamp()
     }
   }
 
@@ -92,10 +92,8 @@ class Discovery extends PureComponent {
     const {
       currentRecommendation,
       loadRecommendations,
-      page,
       readRecommendations,
       recommendations,
-      seed,
       shouldReloadRecommendations,
     } = this.props
 
@@ -109,10 +107,8 @@ class Discovery extends PureComponent {
         this.handleSuccess,
         this.handleFail,
         currentRecommendation,
-        page,
         recommendations,
         readRecommendations,
-        seed,
         shouldReloadRecommendations
       )
     })
@@ -185,18 +181,16 @@ Discovery.propTypes = {
       view: PropTypes.string,
     }),
   }).isRequired,
-  page: PropTypes.number.isRequired,
   readRecommendations: PropTypes.arrayOf(PropTypes.shape()),
   recommendations: PropTypes.arrayOf(PropTypes.shape()),
   redirectHome: PropTypes.func.isRequired,
   redirectToFirstRecommendationIfNeeded: PropTypes.func.isRequired,
   resetReadRecommendations: PropTypes.func.isRequired,
   saveLastRecommendationsRequestTimestamp: PropTypes.func.isRequired,
-  seed: PropTypes.number.isRequired,
   seedLastRequestTimestamp: PropTypes.number.isRequired,
   shouldReloadRecommendations: PropTypes.bool.isRequired,
   tutorials: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  updatePageAndSeedAndLastRequestTimestamp: PropTypes.func.isRequired,
+  updateLastRequestTimestamp: PropTypes.func.isRequired,
 }
 
 export default Discovery

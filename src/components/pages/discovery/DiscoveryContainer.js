@@ -2,11 +2,11 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { assignData, deleteData, requestData } from 'redux-thunk-data'
 import { saveLastRecommendationsRequestTimestamp } from '../../../reducers/data'
-import { updatePage, updateSeed, updateSeedLastRequestTimestamp } from '../../../reducers/pagination'
+import { updateSeedLastRequestTimestamp } from '../../../reducers/pagination'
 import { selectReadRecommendations } from '../../../selectors/data/readRecommendationsSelectors'
 import { selectRecommendations } from '../../../selectors/data/recommendationsSelectors'
-import { selectPage, selectSeed, selectSeedLastRequestTimestamp } from '../../../selectors/pagination/paginationSelector'
-import getOfferIdAndMediationIdApiPathQueryString, { DEFAULT_VIEW_IDENTIFIERS } from '../../../utils/getOfferIdAndMediationIdApiPathQueryString'
+import { selectSeedLastRequestTimestamp } from '../../../selectors/pagination/paginationSelector'
+import getOfferIdAndMediationIdApiPathQueryString from '../../../utils/getOfferIdAndMediationIdApiPathQueryString'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
 import Discovery from './Discovery'
@@ -22,8 +22,6 @@ export const mapStateToProps = (state, ownProps) => {
   const tutorials = selectTutorials(state)
   const recommendations = selectRecommendations(state)
   const readRecommendations = selectReadRecommendations(state)
-  const page = selectPage(state)
-  const seed = selectSeed(state)
   const hasNoRecommendations = recommendations && recommendations.length === 0
   const shouldReloadRecommendations =
     checkIfShouldReloadRecommendationsBecauseOfLongTime(state) || hasNoRecommendations
@@ -31,10 +29,8 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     currentRecommendation,
-    page,
     readRecommendations,
     recommendations,
-    seed,
     seedLastRequestTimestamp,
     shouldReloadRecommendations,
     tutorials,
@@ -49,10 +45,8 @@ export const mapDispatchToProps = (dispatch, prevProps) => ({
     handleSuccess,
     handleFail,
     currentRecommendation,
-    page,
     recommendations,
     readRecommendations,
-    seed,
     shouldReloadRecommendations
   ) => {
     const { match } = prevProps
@@ -61,18 +55,9 @@ export const mapDispatchToProps = (dispatch, prevProps) => ({
       (recommendations && recommendations.map(reco => reco.id))
     let queryParams = getOfferIdAndMediationIdApiPathQueryString(match, currentRecommendation)
 
-    let newPage = page
-    const currentRecommendationIsNotEmpty = currentRecommendation && Object.keys(currentRecommendation).length > 0
-    if (currentRecommendationIsNotEmpty) {
-      if (!DEFAULT_VIEW_IDENTIFIERS.includes(currentRecommendation.mediationId)) {
-        newPage = page + 1
-      }
-    }
-    let paginationParams = `&page=${newPage}&seed=${seed}`
-
     dispatch(
       requestData({
-        apiPath: `/recommendations?${queryParams}${paginationParams}`,
+        apiPath: `/recommendations?${queryParams}`,
         body: {
           readRecommendations,
           seenRecommendationIds,
@@ -83,7 +68,6 @@ export const mapDispatchToProps = (dispatch, prevProps) => ({
         normalizer: recommendationNormalizer,
       })
     )
-    dispatch(updatePage(newPage))
   },
   redirectHome: () => {
     const { history } = prevProps
@@ -111,10 +95,8 @@ export const mapDispatchToProps = (dispatch, prevProps) => ({
   saveLastRecommendationsRequestTimestamp: () => {
     dispatch(saveLastRecommendationsRequestTimestamp())
   },
-  updatePageAndSeedAndLastRequestTimestamp: () => {
+  updateLastRequestTimestamp: () => {
     dispatch(updateSeedLastRequestTimestamp(Date.now()))
-    dispatch(updateSeed(Math.random()))
-    dispatch(updatePage(1))
   },
 })
 

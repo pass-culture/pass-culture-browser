@@ -45,9 +45,8 @@ describe('src | components | pages | SearchContainer', () => {
         mapDispatchToProps(dispatch, props).getSearchedRecommendations(apiPath)
 
         // then
-        const firstDispatchedAction = dispatch.mock.calls[0][0]
-        const secondDispatchedAction = dispatch.mock.calls[1][0]
-        expect(firstDispatchedAction).toStrictEqual({
+        const dispatchedAction = dispatch.mock.calls[0][0]
+        expect(dispatchedAction).toStrictEqual({
           config: {
             apiPath: '/recommendations?categories=Applaudir',
             handleSuccess: undefined,
@@ -71,10 +70,6 @@ describe('src | components | pages | SearchContainer', () => {
             stateKey: 'searchedRecommendations',
           },
           type: 'REQUEST_DATA_GET_SEARCHEDRECOMMENDATIONS',
-        })
-        expect(secondDispatchedAction).toStrictEqual({
-          page: 1,
-          type: 'UPDATE_PAGE',
         })
       })
     })
