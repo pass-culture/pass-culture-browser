@@ -13,20 +13,15 @@ const selectPreviousRecommendation = createCachedSelector(
       const currentRecommendationIndex = recommendations.findIndex(
         recommendation => recommendation.id === currentRecommendation.id
       )
-      previousRecommendation = currentRecommendation && recommendations[currentRecommendationIndex - 1]
+      previousRecommendation =
+        currentRecommendation && recommendations[currentRecommendationIndex - 1]
     }
 
     if (!previousRecommendation) {
       return null
     }
 
-    const { mediationId, offerId } = previousRecommendation
-    const path = `/decouverte/${offerId}/${mediationId || ''}`
-
-    return {
-      path,
-      ...previousRecommendation
-    }
+    return previousRecommendation
   }
 )(mapArgsToCacheKey)
 

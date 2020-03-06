@@ -11,13 +11,14 @@ const selectNextRecommendation = createCachedSelector(
       return null
     }
 
-    const nextRecommendation = recommendations.find(recommendation => recommendation.index === currentRecommendation.index + 1)
+    const nextRecommendation = recommendations.find(
+      recommendation => recommendation.index === currentRecommendation.index + 1
+    )
     if (!nextRecommendation) {
       return null
     }
-    const { mediationId, offerId } = nextRecommendation
-    const path = `/decouverte/${offerId}/${mediationId || ''}`
-    return Object.assign({ path }, nextRecommendation)
+
+    return nextRecommendation
   }
 )(mapArgsToCacheKey)
 

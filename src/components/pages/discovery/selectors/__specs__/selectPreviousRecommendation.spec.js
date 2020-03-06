@@ -25,8 +25,7 @@ describe('components | selectPreviousRecommendation', () => {
     expect(result).toStrictEqual({
       index: 0,
       offerId: 'BF',
-      path: `/decouverte/${previousRecommendation.offerId}/`,
-      productOrTutoIdentifier: 'bar'
+      productOrTutoIdentifier: 'bar',
     })
   })
 

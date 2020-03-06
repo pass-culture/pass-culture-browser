@@ -11,6 +11,14 @@ import isDetailsView from '../../../utils/isDetailsView'
 import isCancelView from '../../../utils/isCancelView'
 import { MINIMUM_DELAY_BEFORE_UPDATING_SEED_3_HOURS } from './utils/utils'
 
+export const getPathChunk = () => {
+  if (window.location.pathname.includes('/decouverte-v2/')) {
+    return '/decouverte-v2/'
+  }
+
+  return '/decouverte/'
+}
+
 class Discovery extends PureComponent {
   constructor(props) {
     super(props)
@@ -121,12 +129,18 @@ class Discovery extends PureComponent {
 
   renderBookingCancellation = () => <BookingCancellationContainer />
 
-  renderDeck = () => <DeckContainer handleRequestPutRecommendations={this.updateRecommendations} />
+  renderDeck = () => (
+    <DeckContainer
+      handleRequestPutRecommendations={this.updateRecommendations}
+      pathChunk={getPathChunk()}
+    />
+  )
 
   render() {
     const { match } = this.props
     const { hasError, isEmpty, isLoading } = this.state
     const cancelView = isCancelView(match)
+    const pathChunk = getPathChunk()
 
     return (
       <Fragment>
@@ -135,13 +149,13 @@ class Discovery extends PureComponent {
             <Fragment>
               <Route
                 key="route-discovery-deck"
-                path="/decouverte/:offerId(tuto|[A-Z0-9]+)/:mediationId(vide|fin|[A-Z0-9]+)/:details(details|transition)?/:booking(reservation)?/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?"
+                path={`${pathChunk}:offerId(tuto|[A-Z0-9]+)/:mediationId(vide|fin|[A-Z0-9]+)/:details(details|transition)?/:booking(reservation)?/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?`}
                 render={this.renderDeck}
                 sensitive
               />
               <Route
                 key="route-discovery-booking"
-                path="/decouverte/:offerId(tuto|[A-Z0-9]+)/:mediationId(vide|fin|[A-Z0-9]+)/:details(details)/:booking(reservation)/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?/:confirmation(confirmation)?"
+                path={`${pathChunk}:offerId(tuto|[A-Z0-9]+)/:mediationId(vide|fin|[A-Z0-9]+)/:details(details)/:booking(reservation)/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?/:confirmation(confirmation)?`}
                 render={cancelView ? this.renderBookingCancellation : this.renderBooking}
                 sensitive
               />

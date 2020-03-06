@@ -55,7 +55,7 @@ class Deck extends PureComponent {
       width,
     } = this.props
 
-    const index = currentRecommendation && currentRecommendation.index || 0
+    const index = (currentRecommendation && currentRecommendation.index) || 0
     const offset = (data.x + width * index) / width
 
     if (data.y > height * verticalSlideRatio) {
@@ -70,25 +70,25 @@ class Deck extends PureComponent {
   }
 
   handleGoNext = () => {
-    const { history, match, nextRecommendation } = this.props
+    const { history, match, nextRecommendation, pathChunk } = this.props
     if (!nextRecommendation || isDetailsView(match)) {
       return
     }
 
     const { offerId, mediationId } = nextRecommendation
-    const nextUrl = `/decouverte/${offerId || 'tuto'}/${mediationId || 'vide'}`
+    const nextUrl = `${pathChunk}${offerId || 'tuto'}/${mediationId || 'vide'}`
     history.push(nextUrl)
     this.handleRefreshNext()
   }
 
   handleGoPrevious = () => {
-    const { history, match, previousRecommendation } = this.props
+    const { history, match, previousRecommendation, pathChunk } = this.props
     if (!previousRecommendation || isDetailsView(match)) {
       return
     }
 
     const { offerId, mediationId } = previousRecommendation
-    const previousUrl = `/decouverte/${offerId || 'tuto'}/${mediationId || 'vide'}`
+    const previousUrl = `${pathChunk}${offerId || 'tuto'}/${mediationId || 'vide'}`
     history.push(previousUrl)
   }
 
@@ -193,11 +193,10 @@ class Deck extends PureComponent {
         data-nb-recos={nbRecommendations}
         id="deck"
       >
-        {detailView &&
-        <CloseLink
+        {detailView && <CloseLink
           closeTitle="Fermer"
           closeTo={this.buildCloseToUrl()}
-        />}
+                       />}
 
         {this.renderDraggableCards()}
 
@@ -247,6 +246,7 @@ Deck.propTypes = {
   nextLimit: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
   nextRecommendation: PropTypes.shape(),
   noDataTimeout: PropTypes.number,
+  pathChunk: PropTypes.string.isRequired,
   previousRecommendation: PropTypes.shape(),
   readTimeout: PropTypes.number,
   recommendations: PropTypes.arrayOf(PropTypes.shape()).isRequired,

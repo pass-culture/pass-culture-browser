@@ -25,7 +25,6 @@ describe('src | components | pages | discovery | selectors | selectNextRecommend
     // then
     const expected = {
       index: 1,
-      path: `/decouverte/${nextRecommendation.offerId}/`,
       ...nextRecommendation,
     }
     expect(result).toStrictEqual(expected)
