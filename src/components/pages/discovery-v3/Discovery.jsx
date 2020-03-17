@@ -24,8 +24,6 @@ class Discovery extends PureComponent {
 
   componentDidMount() {
     const {
-      recommendations,
-      redirectToFirstRecommendationIfNeeded,
       saveLastRecommendationsRequestTimestamp,
       shouldReloadRecommendations,
     } = this.props
@@ -33,24 +31,15 @@ class Discovery extends PureComponent {
     if (shouldReloadRecommendations) {
       this.updateRecommendations()
       saveLastRecommendationsRequestTimestamp()
-    } else {
-      redirectToFirstRecommendationIfNeeded(recommendations)
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const {
-      location,
-      recommendations,
-      redirectToFirstRecommendationIfNeeded,
       seedLastRequestTimestamp,
       updateLastRequestTimestamp,
     } = this.props
-    const { location: prevLocation } = prevProps
 
-    if (prevLocation.pathname !== location.pathname && location.pathname === '/decouverte-v3') {
-      redirectToFirstRecommendationIfNeeded(recommendations)
-    }
 
     if (Date.now() > seedLastRequestTimestamp + MINIMUM_DELAY_BEFORE_UPDATING_SEED_3_HOURS) {
       updateLastRequestTimestamp()
@@ -77,7 +66,6 @@ class Discovery extends PureComponent {
     const {
       recommendations,
       resetReadRecommendations,
-      redirectToFirstRecommendationIfNeeded,
     } = this.props
 
     const { data: loadedRecommendations = [] } = action && action.payload
@@ -86,7 +74,6 @@ class Discovery extends PureComponent {
 
     this.setState({ atWorldsEnd, isEmpty, isLoading: false }, () => {
       resetReadRecommendations()
-      redirectToFirstRecommendationIfNeeded(loadedRecommendations)
     })
   }
 
@@ -97,7 +84,6 @@ class Discovery extends PureComponent {
       loadRecommendations,
       readRecommendations,
       recommendations,
-      shouldReloadRecommendations,
     } = this.props
 
     const { atWorldsEnd, isLoading } = this.state
@@ -112,7 +98,6 @@ class Discovery extends PureComponent {
         currentRecommendation,
         recommendations,
         readRecommendations,
-        shouldReloadRecommendations,
         coordinates
       )
     })
@@ -189,7 +174,6 @@ Discovery.propTypes = {
   readRecommendations: PropTypes.arrayOf(PropTypes.shape()),
   recommendations: PropTypes.arrayOf(PropTypes.shape()),
   redirectHome: PropTypes.func.isRequired,
-  redirectToFirstRecommendationIfNeeded: PropTypes.func.isRequired,
   resetReadRecommendations: PropTypes.func.isRequired,
   resetRecommendations: PropTypes.func.isRequired,
   saveLastRecommendationsRequestTimestamp: PropTypes.func.isRequired,

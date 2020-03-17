@@ -26,7 +26,6 @@ describe('src | components | pages | discovery | Discovery', () => {
       redirectHome: jest.fn(),
       readRecommendations: [],
       recommendations: [],
-      redirectToFirstRecommendationIfNeeded: jest.fn(),
       resetReadRecommendations: jest.fn(),
       resetRecommendations: jest.fn(),
       resetRecommendationsAndBookings: jest.fn(),
@@ -38,13 +37,6 @@ describe('src | components | pages | discovery | Discovery', () => {
     }
   })
 
-  it('should match the snapshot', () => {
-    // given
-    const wrapper = shallow(<Discovery {...props} />)
-
-    // then
-    expect(wrapper).toMatchSnapshot()
-  })
 
   describe('constructor', () => {
     it('should initialize state with default values', () => {
@@ -76,7 +68,6 @@ describe('src | components | pages | discovery | Discovery', () => {
         props.currentRecommendation,
         props.recommendations,
         props.readRecommendations,
-        props.shouldReloadRecommendations,
         props.coordinates
       )
       expect(props.saveLastRecommendationsRequestTimestamp).toHaveBeenCalledWith()
@@ -92,9 +83,6 @@ describe('src | components | pages | discovery | Discovery', () => {
       // then
       expect(props.loadRecommendations).not.toHaveBeenCalledWith()
       expect(props.saveLastRecommendationsRequestTimestamp).not.toHaveBeenCalledWith()
-      expect(props.redirectToFirstRecommendationIfNeeded).toHaveBeenCalledWith(
-        props.recommendations
-      )
     })
   })
 
