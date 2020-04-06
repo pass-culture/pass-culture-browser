@@ -79,7 +79,6 @@ const routes = [
    ---------------------------------------------------  */
   {
     component: DiscoveryRouterContainer,
-    featureName: 'RECOMMENDATIONS_WITH_DISCOVERY_VIEW',
     icon: 'ico-offres',
     path:
       '/decouverte' +
