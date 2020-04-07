@@ -11,6 +11,8 @@ import { fetchAlgolia } from '../../../../../vendor/algolia/algolia'
 import HeaderContainer from '../../../../layout/Header/HeaderContainer'
 import RelativeFooterContainer from '../../../../layout/RelativeFooter/RelativeFooterContainer'
 import Spinner from '../../../../layout/Spinner/Spinner'
+import { Criteria } from '../../Criteria/Criteria'
+import { SORT_CRITERIA } from '../../Criteria/criteriaEnums'
 import FiltersContainer from '../../Filters/FiltersContainer'
 import Result from '../Result'
 import SearchAlgoliaDetailsContainer from '../ResultDetail/ResultDetailContainer'
@@ -191,7 +193,7 @@ describe('components | SearchResults', () => {
     })
 
     describe('when no keywords in url', () => {
-      it('should fetch data with page 0, given categories, geolocation, sorting criteria', () => {
+      it('should fetch data with page 0, given categories, geolocation, sort criteria', () => {
         props.criteria = {
           categories: ['Cinéma'],
           isSearchAroundMe: true,
@@ -461,8 +463,8 @@ describe('components | SearchResults', () => {
       })
     })
 
-    describe('when sorting filter', () => {
-      it('should fetch data using sorting filter when provided from url', async () => {
+    describe('when sort filter', () => {
+      it('should fetch data using sort filter when provided from url', async () => {
         // given
         fetchAlgolia.mockReturnValue(
           new Promise(resolve => {
@@ -495,7 +497,7 @@ describe('components | SearchResults', () => {
         })
       })
 
-      it('should fetch data using sorting filter when provided from prop', async () => {
+      it('should fetch data using sort filter when provided from prop', async () => {
         // given
         props.criteria.sortBy = '_by_proximity'
         fetchAlgolia.mockReturnValue(
@@ -529,7 +531,7 @@ describe('components | SearchResults', () => {
         })
       })
 
-      it('should fetch data not using sorting filter when not provided', async () => {
+      it('should fetch data not using sort filter when not provided', async () => {
         // given
         fetchAlgolia.mockReturnValue(
           new Promise(resolve => {
@@ -565,7 +567,7 @@ describe('components | SearchResults', () => {
         })
       })
 
-      it('should display the sorting filter received from props', () => {
+      it('should display the sort filter received from props', () => {
         // Given
         props.criteria.sortBy = '_by_price'
 
@@ -577,7 +579,7 @@ describe('components | SearchResults', () => {
         expect(sortButton).toHaveLength(1)
       })
 
-      it('should display the sorting filter received from url', () => {
+      it('should display the sort filter received from url', () => {
         // Given
         props.criteria.sortBy = ''
         parse.mockReturnValue({
@@ -944,6 +946,7 @@ describe('components | SearchResults', () => {
         results: [{ objectID: 'AG', offer: { name: 'Livre nul' } }],
         resultsCount: 1,
         searchedKeywords: 'vas-y',
+        sortCriterionLabel: 'Au hasard',
         totalPagesNumber: 0,
       })
     })
@@ -1411,6 +1414,38 @@ describe('components | SearchResults', () => {
       expect(filtersContainer.prop('updateFilteredOffers')).toStrictEqual(expect.any(Function))
       expect(filtersContainer.prop('updateFilters')).toStrictEqual(expect.any(Function))
     })
+
+    it('should render sort page when current route is /recherche-offres/resultats/tri', () => {
+      // Given
+      history.push('/recherche-offres/resultats/tri')
+      props.query.parse.mockReturnValue({
+        categories: 'VISITE;CINEMA',
+        'mots-cles': 'librairie',
+        tri: '_by_price',
+      })
+
+      // When
+      const wrapper = mount(
+        <Router history={history}>
+          <Provider store={store}>
+            <SearchResults {...props} />
+          </Provider>
+        </Router>
+      )
+
+      // Then
+      const sortPage = wrapper.find(Criteria)
+      expect(sortPage).toHaveLength(1)
+      expect(sortPage.prop('activeCriterionLabel')).toStrictEqual('Prix')
+      expect(sortPage.prop('backTo')).toStrictEqual(
+        '/recherche-offres/resultats?mots-cles=librairie'
+      )
+      expect(sortPage.prop('criteria')).toStrictEqual(SORT_CRITERIA)
+      expect(sortPage.prop('history')).toStrictEqual(props.history)
+      expect(sortPage.prop('match')).toStrictEqual(props.match)
+      expect(sortPage.prop('onCriterionSelection')).toStrictEqual(expect.any(Function))
+      expect(sortPage.prop('title')).toStrictEqual('Trier par')
+    })
   })
 
   describe('when filtering', () => {
@@ -1438,13 +1473,12 @@ describe('components | SearchResults', () => {
       // when
       filterButton.simulate('click')
 
-      // then
-      expect(history.location.pathname + history.location.search).toBe(
-        '/recherche-offres/resultats/filtres?mots-cles=librairie'
-      )
+      // then cons
+      const expectedUrl = history.location.pathname + history.location.search
+      expect(expectedUrl).toBe('/recherche-offres/resultats/filtres?mots-cles=librairie')
     })
 
-    it('should redirect to sort page', () => {
+    it('should redirect to sort page when clicking on sort button', () => {
       // given
       const history = createBrowserHistory()
       history.push('/recherche-offres/resultats?mots-cles=librairie')
@@ -1463,12 +1497,11 @@ describe('components | SearchResults', () => {
       sortButton.simulate('click')
 
       // then
-      expect(history.location.pathname + history.location.search).toBe(
-        '/recherche-offres/resultats/tri?mots-cles=librairie'
-      )
+      const expectedUrl = history.location.pathname + history.location.search
+      expect(expectedUrl).toBe('/recherche-offres/resultats/tri?mots-cles=librairie')
     })
 
-    it('should change sorting button name after sort criterion selection', () => {
+    it('should change sort button name after sort criterion selection', () => {
       // given
       const history = createBrowserHistory()
       history.push('/recherche-offres/resultats/tri?mots-cles=librairie&tri=_by_price')
@@ -1487,9 +1520,8 @@ describe('components | SearchResults', () => {
       byProximityButton.simulate('click')
 
       // then
-      expect(history.location.pathname + history.location.search).toBe(
-        '/recherche-offres/resultats?mots-cles=librairie&tri=_by_proximity'
-      )
+      const expectedUri = history.location.pathname + history.location.search
+      expect(expectedUri).toBe('/recherche-offres/resultats?mots-cles=librairie&tri=_by_proximity')
       const sortButton = wrapper.find({ children: 'Proximité' })
       expect(sortButton).toHaveLength(1)
     })
