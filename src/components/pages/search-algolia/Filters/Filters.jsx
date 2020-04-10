@@ -69,28 +69,18 @@ export class Filters extends PureComponent {
     const queryParams = query.parse()
     const keywords = queryParams['mots-cles'] || ''
 
-    const { aroundRadius, isSearchAroundMe, offerIsDuo, offerIsFree, offerTypes, sortBy } = filters
+    const { offerIsDuo, offerIsFree, offerTypes, sortBy } = filters
     const offerCategories = this.getSelectedCategories()
 
-    isSearchAroundMe
-      ? this.fetchOffers({
-        aroundRadius,
-        keywords,
-        geolocation,
-        offerCategories,
-        offerIsDuo,
-        offerIsFree,
-        offerTypes,
-        sortBy,
-      })
-      : this.fetchOffers({
-        keywords,
-        offerCategories,
-        offerIsDuo,
-        offerIsFree,
-        offerTypes,
-        sortBy,
-      })
+    this.fetchOffers({
+      keywords,
+      geolocation,
+      offerCategories,
+      offerIsDuo,
+      offerIsFree,
+      offerTypes,
+      sortBy,
+    })
 
     const autourDeMoi = checkIfAroundMe(filters.isSearchAroundMe)
     const categories = offerCategories.join(';') || ''
