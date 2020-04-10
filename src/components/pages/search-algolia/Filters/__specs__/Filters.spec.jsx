@@ -105,7 +105,8 @@ describe('components | Filters', () => {
         it('should trigger search and redirect to filters page when clicking on "Partout" criterion', () => {
           // given
           props.history = createBrowserHistory()
-          jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {})
+          jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {
+          })
           props.history.location.pathname = '/recherche-offres/resultats/filtres/localisation'
           props.isUserAllowedToSelectCriterion.mockReturnValue(true)
           props.query.parse.mockReturnValue({
@@ -138,6 +139,10 @@ describe('components | Filters', () => {
 
           // then
           expect(fetchAlgolia).toHaveBeenCalledWith({
+            geolocation: {
+              latitude: 40,
+              longitude: 41
+            },
             keywords: 'librairie',
             offerCategories: ['VISITE', 'CINEMA'],
             offerIsDuo: false,
@@ -160,7 +165,8 @@ describe('components | Filters', () => {
         it('should trigger search and redirect to filters page when clicking on "Autour de moi" criterion', () => {
           // given
           props.history = createBrowserHistory()
-          jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {})
+          jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {
+          })
           props.history.location.pathname = '/recherche-offres/resultats/filtres/localisation'
           props.initialFilters = {
             aroundRadius: 50,
@@ -206,7 +212,6 @@ describe('components | Filters', () => {
 
           // then
           expect(fetchAlgolia).toHaveBeenCalledWith({
-            aroundRadius: 50,
             geolocation: { latitude: 40, longitude: 41 },
             keywords: 'librairie',
             offerCategories: ['VISITE'],
@@ -525,7 +530,7 @@ describe('components | Filters', () => {
           const wrapper = shallow(<Filters {...props} />)
 
           // then
-          const title = wrapper.findWhere(node => node.text() === "Type d'offres").first()
+          const title = wrapper.findWhere(node => node.text() === 'Type d\'offres').first()
           expect(title).toHaveLength(1)
         })
 
@@ -659,6 +664,10 @@ describe('components | Filters', () => {
 
           // then
           expect(fetchAlgolia).toHaveBeenCalledWith({
+            geolocation: {
+              latitude: 40,
+              longitude: 41
+            },
             keywords: 'librairies',
             offerCategories: ['VISITE', 'CINEMA'],
             offerIsDuo: false,
@@ -682,7 +691,7 @@ describe('components | Filters', () => {
           const wrapper = shallow(<Filters {...props} />)
 
           // then
-          const title = wrapper.findWhere(node => node.text() === "Uniquement les offres duo").first()
+          const title = wrapper.findWhere(node => node.text() === 'Uniquement les offres duo').first()
           expect(title).toHaveLength(1)
         })
 
@@ -733,6 +742,10 @@ describe('components | Filters', () => {
 
           // then
           expect(fetchAlgolia).toHaveBeenCalledWith({
+            geolocation: {
+              latitude: 40,
+              longitude: 41
+            },
             keywords: '',
             offerCategories: ['VISITE', 'CINEMA'],
             offerIsDuo: true,
@@ -756,7 +769,7 @@ describe('components | Filters', () => {
           const wrapper = shallow(<Filters {...props} />)
 
           // then
-          const title = wrapper.findWhere(node => node.text() === "Uniquement les offres gratuites").first()
+          const title = wrapper.findWhere(node => node.text() === 'Uniquement les offres gratuites').first()
           expect(title).toHaveLength(1)
         })
 
@@ -807,6 +820,10 @@ describe('components | Filters', () => {
 
           // then
           expect(fetchAlgolia).toHaveBeenCalledWith({
+            geolocation: {
+              latitude: 40,
+              longitude: 41
+            },
             keywords: '',
             offerCategories: ['VISITE', 'CINEMA'],
             offerIsDuo: false,
@@ -1010,9 +1027,11 @@ describe('components | Filters', () => {
           it('should reset filters and trigger search to Algolia with given category', () => {
             // given
             props.history = createBrowserHistory()
-            jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {})
+            jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {
+            })
             props.history.location.pathname = '/recherche-offres/resultats/filtres'
             props.initialFilters = {
+              aroundRadius: 0,
               isSearchAroundMe: true,
               offerCategories: ['VISITE'],
               offerIsDuo: false,
@@ -1052,6 +1071,10 @@ describe('components | Filters', () => {
             // then
             expect(fetchAlgolia).toHaveBeenCalledWith({
               //radiusRevert: aroundRadius: 0,
+              geolocation: {
+                latitude: 40,
+                longitude: 41
+              },
               keywords: 'librairie',
               offerCategories: [],
               offerIsDuo: false,
@@ -1070,7 +1093,8 @@ describe('components | Filters', () => {
           it('should reset filters and trigger search to Algolia with given categories', () => {
             // given
             props.history = createBrowserHistory()
-            jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {})
+            jest.spyOn(props.history, 'replace').mockImplementationOnce(() => {
+            })
             props.history.location.pathname = '/recherche-offres/resultats/filtres'
             props.initialFilters = {
               isSearchAroundMe: true,
@@ -1112,6 +1136,10 @@ describe('components | Filters', () => {
             // then
             expect(fetchAlgolia).toHaveBeenCalledWith({
               //radiusRevert: aroundRadius: 0,
+              geolocation: {
+                latitude: 40,
+                longitude: 41
+              },
               keywords: 'librairie',
               offerCategories: [],
               offerIsDuo: false,
