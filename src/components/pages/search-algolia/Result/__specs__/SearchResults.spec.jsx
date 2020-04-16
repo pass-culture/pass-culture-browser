@@ -1230,7 +1230,7 @@ describe('components | SearchResults', () => {
     it('should remove focus from input when scrolling the results', () => {
       // given
       const history = createBrowserHistory()
-      history.push('/recherche-offres/resultats')
+      history.push('/recherche/resultats')
       const wrapper = mount(
         <Router history={history}>
           <SearchResults {...props} />
@@ -1283,7 +1283,7 @@ describe('components | SearchResults', () => {
       it('should clear text input when clicking on reset cross', () => {
         // given
         const history = createMemoryHistory()
-        history.push('/recherche-offres/resultats?mots-cles=librairie&page=2')
+        history.push('/recherche/resultats?mots-cles=librairie&page=2')
         const wrapper = mount(
           <Router history={history}>
             <SearchResults {...props} />
@@ -1323,9 +1323,9 @@ describe('components | SearchResults', () => {
       store = buildStore(state)
     })
 
-    it('should render search main page when current route is /recherche-offres/resultats', () => {
+    it('should render search main page when current route is /recherche/resultats', () => {
       // given
-      history.push('/recherche-offres/resultats')
+      history.push('/recherche/resultats')
 
       // when
       const wrapper = mount(
@@ -1343,9 +1343,9 @@ describe('components | SearchResults', () => {
       expect(searchDetails).toHaveLength(0)
     })
 
-    it('should render item details when current route is /recherche-offres/resultats/details/AE', () => {
+    it('should render item details when current route is /recherche/resultats/details/AE', () => {
       // given
-      history.push('/recherche-offres/resultats/details/AE')
+      history.push('/recherche/resultats/details/AE')
 
       // when
       const wrapper = mount(
@@ -1426,7 +1426,7 @@ describe('components | SearchResults', () => {
     describe('header', () => {
       it('should not render header when search has been made', () => {
         // given
-        history.push('/recherche-offres/resultats?mots-cles=librairie&page=1')
+        history.push('/recherche/resultats?mots-cles=librairie&page=1')
         const offer1 = { objectID: 'AE', offer: { name: 'Livre de folie de la librairie' } }
         const offer2 = { objectID: 'AF', offer: { name: 'Livre bien de la librairie' } }
         fetchAlgolia.mockReturnValueOnce(
@@ -1468,7 +1468,7 @@ describe('components | SearchResults', () => {
 
       it('should render header when on details page', () => {
         // given
-        history.push('/recherche-offres/resultats/details/AE?mots-cles=librairie&page=1')
+        history.push('/recherche/resultats/details/AE?mots-cles=librairie&page=1')
 
         // when
         const wrapper = mount(
@@ -1485,9 +1485,9 @@ describe('components | SearchResults', () => {
       })
     })
 
-    it('should render filters page when current route is /recherche-offres/resultats/filtres', () => {
+    it('should render filters page when current route is /recherche/resultats/filtres', () => {
       // given
-      history.push('/recherche-offres/resultats/filtres')
+      history.push('/recherche/resultats/filtres')
       props.query.parse.mockReturnValue({
         categories: 'VISITE;CINEMA',
         'mots-cles': 'librairie',
@@ -1529,9 +1529,9 @@ describe('components | SearchResults', () => {
       expect(filtersContainer.prop('updateFilters')).toStrictEqual(expect.any(Function))
     })
 
-    it('should render sort page when current route is /recherche-offres/resultats/tri', () => {
+    it('should render sort page when current route is /recherche/resultats/tri', () => {
       // Given
-      history.push('/recherche-offres/resultats/tri')
+      history.push('/recherche/resultats/tri')
       props.query.parse.mockReturnValue({
         categories: 'VISITE;CINEMA',
         'mots-cles': 'librairie',
@@ -1552,7 +1552,7 @@ describe('components | SearchResults', () => {
       expect(sortPage).toHaveLength(1)
       expect(sortPage.prop('activeCriterionLabel')).toStrictEqual('Prix')
       expect(sortPage.prop('backTo')).toStrictEqual(
-        '/recherche-offres/resultats?mots-cles=librairie'
+        '/recherche/resultats?mots-cles=librairie'
       )
       expect(sortPage.prop('criteria')).toStrictEqual(SORT_CRITERIA)
       expect(sortPage.prop('history')).toStrictEqual(props.history)
@@ -1566,7 +1566,7 @@ describe('components | SearchResults', () => {
     it('should redirect to filters page', () => {
       // given
       const history = createBrowserHistory()
-      history.push('/recherche-offres/resultats?mots-cles=librairie')
+      history.push('/recherche/resultats?mots-cles=librairie')
       props.history = history
       const initialState = {
         geolocation: {
@@ -1589,13 +1589,13 @@ describe('components | SearchResults', () => {
 
       // then cons
       const expectedUrl = history.location.pathname + history.location.search
-      expect(expectedUrl).toBe('/recherche-offres/resultats/filtres?mots-cles=librairie')
+      expect(expectedUrl).toBe('/recherche/resultats/filtres?mots-cles=librairie')
     })
 
     it('should redirect to sort page when clicking on sort button', () => {
       // given
       const history = createBrowserHistory()
-      history.push('/recherche-offres/resultats?mots-cles=librairie')
+      history.push('/recherche/resultats?mots-cles=librairie')
       props.history = history
       const store = configureStore([])({})
       const wrapper = mount(
@@ -1612,13 +1612,13 @@ describe('components | SearchResults', () => {
 
       // then
       const expectedUrl = history.location.pathname + history.location.search
-      expect(expectedUrl).toBe('/recherche-offres/resultats/tri?mots-cles=librairie')
+      expect(expectedUrl).toBe('/recherche/resultats/tri?mots-cles=librairie')
     })
 
     it('should change sort button name after sort criterion selection', () => {
       // given
       const history = createBrowserHistory()
-      history.push('/recherche-offres/resultats/tri?mots-cles=librairie&tri=_by_price')
+      history.push('/recherche/resultats/tri?mots-cles=librairie&tri=_by_price')
       props.history = history
       const store = configureStore([])({})
       const wrapper = mount(
@@ -1635,7 +1635,7 @@ describe('components | SearchResults', () => {
 
       // then
       const expectedUri = history.location.pathname + history.location.search
-      expect(expectedUri).toBe('/recherche-offres/resultats?mots-cles=librairie&tri=_by_proximity')
+      expect(expectedUri).toBe('/recherche/resultats?mots-cles=librairie&tri=_by_proximity')
       const sortButton = wrapper.find({ children: 'Proximité' })
       expect(sortButton).toHaveLength(1)
     })
@@ -1643,7 +1643,7 @@ describe('components | SearchResults', () => {
     it('should fetch new results on sort criterion selection', () => {
       // Given
       const history = createBrowserHistory()
-      history.push('/recherche-offres/resultats/tri?mots-cles=&tri=_by_price')
+      history.push('/recherche/resultats/tri?mots-cles=&tri=_by_price')
       props.history = history
       const store = configureStore([])({})
       const wrapper = mount(
@@ -1711,7 +1711,7 @@ describe('components | SearchResults', () => {
             })
           })
         )
-      history.push('/recherche-offres/resultats/tri?mots-cles=&tri=_by_price')
+      history.push('/recherche/resultats/tri?mots-cles=&tri=_by_price')
       props.history = history
       const store = configureStore([])({})
       const wrapper = await mount(
