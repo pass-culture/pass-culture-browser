@@ -448,6 +448,10 @@ class SearchResults extends PureComponent {
                 </button>
               </div>
             )}
+            <RelativeFooterContainer
+              extraClassName="dotted-top-red"
+              theme="white"
+            />
           </Route>
           <Route
             path={`${SEARCH_RESULTS_URI}/:details(details|transition)/:offerId([A-Z0-9]+)(/menu)?/:booking(reservation)?/:bookingId([A-Z0-9]+)?/:cancellation(annulation)?/:confirmation(confirmation)?`}
@@ -491,10 +495,6 @@ class SearchResults extends PureComponent {
             />
           </Route>
         </Switch>
-        <RelativeFooterContainer
-          extraClassName="dotted-top-red"
-          theme="white"
-        />
       </main>
     )
   }
