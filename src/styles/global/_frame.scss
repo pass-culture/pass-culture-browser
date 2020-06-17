@@ -185,8 +185,9 @@ img {
 #root {
   background-image: $linear-gradient-to-right;
   height: 100%;
-  overflow: hidden;
+  //overflow: hidden;
   position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 #error-catcher {

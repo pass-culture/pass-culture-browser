@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
+  //overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   .header {
     padding: rem(10px);

@@ -6,6 +6,8 @@
   min-height: rem(96px);
   max-height: rem(96px);
   padding: rem(12px) 0;
+  position: fixed;
+  width: 100%;
 
   .sh-input-wrapper {
     display: flex;

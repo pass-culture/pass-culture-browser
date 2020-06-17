@@ -10,7 +10,8 @@
   flex-grow: 1;
   height: 100%;
   padding: rem(21px);
-  overflow-y: auto;
+//   overflow-y: auto;
+  margin-top: rem(96px);
 
   a:last-child .result-wrapper {
     margin-bottom: $navbar-height + rem(51px);
@@ -52,7 +53,7 @@
   bottom: $footer-height + rem(20px);
   display: flex;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   width: 100%;
 
   .sr-filter-button {
