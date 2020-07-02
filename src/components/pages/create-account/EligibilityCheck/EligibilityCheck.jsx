@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import InputMask from 'react-input-mask'
 import PropTypes from 'prop-types'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
 import BackLink from '../../../layout/Header/BackLink/BackLink'
 import { checkIfDepartmentIsEligible } from '../domain/checkIfDepartmentIsEligible'
@@ -66,7 +68,7 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
   return (
     <main className="eligibility-check-page">
       <BackLink backTo="/beta" />
-      <span className="eligibility-title">
+      <span css={titleStyle}>
         {'Créer un compte'}
       </span>
       <form
@@ -77,6 +79,7 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
           <label>
             {'Quel est ton code postal de résidence ?'}
             <input
+              css={inputStyle}
               inputMode="numeric"
               maxLength="5"
               onChange={handlePostalCodeInputChange}
@@ -88,6 +91,7 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
           <label>
             {'Quelle est ta date de naissance ?'}
             <InputMask
+              css={inputStyle}
               inputMode="numeric"
               mask="99/99/9999"
               onChange={handleDOBInputChange}
@@ -110,6 +114,34 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
 EligibilityCheck.propTypes = {
   historyPush: PropTypes.func.isRequired,
   pathname: PropTypes.string.isRequired,
+}
+
+const whiteColor = '#FFF'
+const titleStyle = {
+  gridRow: ' 1/2',
+  gridColumn: '1/3',
+  placeSelf: 'center',
+  color: whiteColor,
+  fontSize: '18px',
+}
+const inputStyle = {
+  border:'1px solid #C7C7CC',
+  borderRadius:'24px',
+  fontSize:'22px',
+  fontWeight:'500',
+  margin:'16px 0',
+  outline:'none',
+  padding:'11px 0',
+  textAlign:'center',
+
+  '&::placeholder': {
+    color:'#C7C7CC',
+  },
+
+  '&:focus': {
+    border:'2px solid #EB0055',
+    caretColor:'#EB0055',
+  }
 }
 
 export default EligibilityCheck
