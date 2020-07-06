@@ -9,8 +9,14 @@ import { createBrowserHistory } from 'history'
 
 describe('components | CriteriaLocation', () => {
   let props
+  let fakeMatomo
 
   beforeEach(() => {
+    fakeMatomo = {
+      push: jest.fn(),
+    }
+    window._paq = fakeMatomo
+
     props = {
       activeCriterionLabel: 'Autour de moi',
       backTo: '/recherche',

@@ -4,12 +4,12 @@ import React, { PureComponent } from 'react'
 import { Route, Switch } from 'react-router'
 
 import { CATEGORY_CRITERIA, GEOLOCATION_CRITERIA, SORT_CRITERIA } from './Criteria/criteriaEnums'
-import CriteriaCategory from './CriteriaCategory/CriteriaCategory'
-import CriteriaLocation from './CriteriaLocation/CriteriaLocation'
-import { buildPlaceLabel } from './CriteriaLocation/utils/buildPlaceLabel'
-import CriteriaSort from './CriteriaSort/CriteriaSort'
-import { Home } from './Home/Home'
+import Home from './Home/HomeContainer'
 import Results from './Results/Results'
+import CriteriaLocation from './CriteriaLocation/CriteriaLocationContainer'
+import CriteriaCategory from './CriteriaCategory/CriteriaCategoryContainer'
+import CriteriaSort from './CriteriaSort/CriteriaSortContainer'
+import { buildPlaceLabel } from './CriteriaLocation/utils/buildPlaceLabel'
 
 const DEFAULT_META_VIEWPORT_CONTENT =
   'width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no'

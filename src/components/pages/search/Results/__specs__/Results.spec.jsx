@@ -53,6 +53,7 @@ const stubRef = wrapper => {
 }
 
 describe('components | Results', () => {
+  let fakeMatomo
   let props
   let parse
   let replace
@@ -62,6 +63,10 @@ describe('components | Results', () => {
     parse = jest.fn().mockReturnValue({})
     replace = jest.fn()
     push = jest.fn()
+    fakeMatomo = {
+      push: jest.fn(),
+    }
+    window._paq = fakeMatomo
 
     props = {
       criteria: {

@@ -7,7 +7,7 @@ import { fetchAlgolia } from '../../../../vendor/algolia/algolia'
 import { DEFAULT_RADIUS_IN_KILOMETERS } from '../../../../vendor/algolia/filters'
 import HeaderContainer from '../../../layout/Header/HeaderContainer'
 import { CATEGORY_CRITERIA, GEOLOCATION_CRITERIA } from '../Criteria/criteriaEnums'
-import CriteriaLocation from '../CriteriaLocation/CriteriaLocation'
+import CriteriaLocation from '../CriteriaLocation/CriteriaLocationContainer'
 import { buildPlaceLabel } from '../CriteriaLocation/utils/buildPlaceLabel'
 import { checkIfSearchAround } from '../utils/checkIfSearchAround'
 import Checkbox from './Checkbox/Checkbox'
@@ -1021,3 +1021,5 @@ Filters.propTypes = {
   updatePlace: PropTypes.func.isRequired,
   userGeolocation: PropTypes.shape().isRequired,
 }
+
+export default Filters

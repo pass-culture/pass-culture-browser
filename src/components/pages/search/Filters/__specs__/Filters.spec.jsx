@@ -11,7 +11,7 @@ import { fetchAlgolia } from '../../../../../vendor/algolia/algolia'
 import HeaderContainer from '../../../../layout/Header/HeaderContainer'
 import { Criteria } from '../../Criteria/Criteria'
 import { GEOLOCATION_CRITERIA } from '../../Criteria/criteriaEnums'
-import CriteriaLocation from '../../CriteriaLocation/CriteriaLocation'
+import CriteriaLocation from '../../CriteriaLocation/CriteriaLocationContainer'
 import Checkbox from '../Checkbox/Checkbox'
 import { Filters } from '../Filters'
 import { RadioList } from '../RadioList/RadioList'
@@ -42,8 +42,14 @@ describe('components | Filters', () => {
   const now = new Date(2020, 3, 14)
   const store = configureStore([])()
   let props
+  let fakeMatomo
 
   beforeEach(() => {
+    fakeMatomo = {
+      push: jest.fn(),
+    }
+    window._paq = fakeMatomo
+
     props = {
       history: {
         location: {

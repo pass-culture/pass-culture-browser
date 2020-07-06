@@ -5,10 +5,10 @@ import React from 'react'
 import { Route, Router } from 'react-router'
 
 import { CATEGORY_CRITERIA } from '../Criteria/criteriaEnums'
-import { CriteriaCategory } from '../CriteriaCategory/CriteriaCategory'
-import CriteriaLocation from '../CriteriaLocation/CriteriaLocation'
-import { CriteriaSort } from '../CriteriaSort/CriteriaSort'
-import { Home } from '../Home/Home'
+import CriteriaCategory from '../CriteriaCategory/CriteriaCategoryContainer'
+import CriteriaLocation from '../CriteriaLocation/CriteriaLocationContainer'
+import CriteriaSort from '../CriteriaSort/CriteriaSortContainer'
+import Home from '../Home/HomeContainer'
 import Results from '../Results/Results'
 import Search from '../Search'
 
@@ -18,8 +18,14 @@ jest.mock('query-string', () => ({
 
 describe('components | Search', () => {
   let props
+  let fakeMatomo
 
   beforeEach(() => {
+    fakeMatomo = {
+      push: jest.fn(),
+    }
+    window._paq = fakeMatomo
+
     props = {
       geolocation: {
         latitude: 32,

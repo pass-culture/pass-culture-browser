@@ -140,3 +140,5 @@ Home.propTypes = {
     requiresGeolocation: PropTypes.bool.isRequired,
   }).isRequired,
 }
+
+export default Home
