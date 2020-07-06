@@ -203,5 +203,3 @@ Discovery.propTypes = {
 }
 
 export default Discovery
-
-

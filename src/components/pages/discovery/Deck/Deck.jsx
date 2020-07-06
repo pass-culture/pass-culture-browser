@@ -8,6 +8,7 @@ import CloseLink from '../../../layout/Header/CloseLink/CloseLink'
 import isDetailsView from '../../../../utils/isDetailsView'
 import getUrlWithoutDetailsPart from '../../../../utils/getUrlWithoutDetailsPart'
 import getIsTransitionDetailsUrl from '../../../../utils/getIsTransitionDetailsUrl'
+import trackPageView from '../../../../tracking/trackPageView'
 
 class Deck extends PureComponent {
   constructor(props) {
@@ -78,6 +79,7 @@ class Deck extends PureComponent {
     const { offerId, mediationId } = nextRecommendation
     const nextUrl = `/decouverte/${offerId}/${mediationId}`
     history.push(nextUrl)
+    trackPageView()
     this.handleRefreshNext()
   }
 
@@ -90,6 +92,7 @@ class Deck extends PureComponent {
     const { offerId, mediationId } = previousRecommendation
     const previousUrl = `/decouverte/${offerId}/${mediationId}`
     history.push(previousUrl)
+    trackPageView()
   }
 
   handleRefreshNext = () => {
@@ -115,6 +118,7 @@ class Deck extends PureComponent {
       return
     }
     history.push(`${pathname}/details${search}`)
+    trackPageView()
   }
 
   onHandleCloseCardDetails = () => {

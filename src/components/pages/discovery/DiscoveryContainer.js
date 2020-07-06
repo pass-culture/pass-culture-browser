@@ -6,6 +6,7 @@ import { selectRecommendations } from '../../../redux/selectors/data/recommendat
 import { selectSeedLastRequestTimestamp } from '../../../redux/selectors/pagination/paginationSelector'
 import { recommendationNormalizer } from '../../../utils/normalizers'
 import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
+import withPageTracking from '../../../tracking/withPageTracking'
 import Discovery from './Discovery'
 import selectCurrentRecommendation from './selectors/selectCurrentRecommendation'
 import {
@@ -102,6 +103,7 @@ export const mapDispatchToProps = (dispatch, prevProps) => ({
 
 export default compose(
   withRequiredLogin,
+  withPageTracking,
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -9,6 +9,7 @@ import selectNextRecommendation from '../selectors/selectNextRecommendation'
 import selectPreviousRecommendation from '../selectors/selectPreviousRecommendation'
 import selectIndexifiedRecommendations from '../selectors/selectIndexifiedRecommendations'
 import { getNextLimit } from './utils/limits'
+import withPageTracking from '../../../../tracking/withPageTracking'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
@@ -38,6 +39,7 @@ export const mapSizeToProps = ({ width, height }) => ({
 })
 
 export default compose(
+  withPageTracking,
   withRouter,
   withSizes(mapSizeToProps),
   connect(mapStateToProps)
