@@ -7,6 +7,7 @@ import { selectBookings } from '../../../redux/selectors/data/bookingsSelectors'
 import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
 import { myBookingsNormalizer } from '../../../utils/normalizers'
 import selectIsFeatureDisabled from '../../router/selectors/selectIsFeatureDisabled'
+import withPageTracking from '../../../tracking/withPageTracking'
 
 export const mapStateToProps = state => {
   const isQrCodeFeatureDisabled = selectIsFeatureDisabled(state, 'QR_CODE')
@@ -31,6 +32,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withRequiredLogin,
+  withPageTracking,
   connect(
     mapStateToProps,
     mapDispatchToProps
