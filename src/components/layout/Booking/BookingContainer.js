@@ -9,6 +9,7 @@ import { selectRecommendationByRouterMatch } from '../../../redux/selectors/data
 import { bookingNormalizer } from '../../../utils/normalizers'
 import withTracking from '../../hocs/withTracking'
 import Booking from './Booking'
+import trackPageView from '../../../tracking/trackPageView'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
@@ -48,6 +49,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
     trackBookingSuccess: () => {
       ownProps.tracking.trackEvent({ action: 'bookingOffer', name: offerId })
+      trackPageView()
     },
   }
 }

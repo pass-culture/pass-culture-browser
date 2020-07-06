@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 
 import isCancelView from '../../../utils/isCancelView'
 import Details from './Details'
+import withPageTracking from '../../../tracking/withPageTracking'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
@@ -15,6 +16,7 @@ export const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
+  withPageTracking,
   withRouter,
   connect(mapStateToProps)
 )(Details)

@@ -5,6 +5,7 @@ import { compose } from 'redux'
 import BookingCancellation from './BookingCancellation'
 import { selectBookingByRouterMatch } from '../../../redux/selectors/data/bookingsSelectors'
 import { selectOfferByRouterMatch } from '../../../redux/selectors/data/offersSelectors'
+import withPageTracking from '../../../tracking/withPageTracking'
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
@@ -18,6 +19,7 @@ export const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
+  withPageTracking,
   withRouter,
   connect(mapStateToProps)
 )(BookingCancellation)

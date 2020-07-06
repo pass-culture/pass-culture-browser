@@ -20,7 +20,14 @@ describe('src | components | layout | Booking | BookingContainer', () => {
   let recommendation
   let offer
 
+  let fakeTracking
+
   beforeEach(() => {
+    fakeTracking = {
+      push: jest.fn(),
+    }
+    window._paq = fakeTracking
+
     booking = {
       id: 'AAA',
       isCancelled: false,
