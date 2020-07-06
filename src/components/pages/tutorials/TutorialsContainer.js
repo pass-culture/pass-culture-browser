@@ -4,6 +4,7 @@ import { requestData } from 'redux-thunk-data'
 
 import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
 import Tutorials from './Tutorials'
+import withPageTracking from '../../../tracking/withPageTracking'
 
 export const mapDispatchToProps = dispatch => ({
   saveUserHasSeenTutorials: () => {
@@ -21,6 +22,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withRequiredLogin,
+  withPageTracking,
   connect(
     null,
     mapDispatchToProps

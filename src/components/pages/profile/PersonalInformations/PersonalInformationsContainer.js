@@ -2,6 +2,8 @@ import { connect } from 'react-redux'
 
 import { updateUser } from '../repository/updateUser'
 import PersonalInformations from './PersonalInformations'
+import { compose } from 'redux'
+import withPageTracking from '../../../../tracking/withPageTracking'
 
 const mapDispatchToProps = dispatch => ({
   handleSubmit: (formValues, handleSubmitFail, handleSubmitSuccess) => {
@@ -9,7 +11,10 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
+export default compose(
+  withPageTracking,
+  connect(
+    null,
+    mapDispatchToProps
+  )
 )(PersonalInformations)

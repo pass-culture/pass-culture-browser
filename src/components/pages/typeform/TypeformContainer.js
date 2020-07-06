@@ -6,6 +6,7 @@ import Typeform from './Typeform'
 import { withRouter } from 'react-router-dom'
 import withRequiredLogin from '../../hocs/with-login/withRequiredLogin'
 import moment from 'moment'
+import withPageTracking from '../../../tracking/withPageTracking'
 
 export const mapDispatchToProps = dispatch => ({
   flagUserHasFilledTypeform: (id, handleRequestSuccess) => {
@@ -31,6 +32,7 @@ export const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withRequiredLogin,
+  withPageTracking,
   withRouter,
   connect(
     null,
