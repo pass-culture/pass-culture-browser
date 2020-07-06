@@ -26,8 +26,6 @@ const Matomo = ({ location, userId, coordinates }) => {
     Matomo.push(['resetUserId'])
   }
 
-  Matomo.push(['trackPageView'])
-
   if (coordinates.latitude && coordinates.longitude) {
     Matomo.push(['trackGoal', MATOMO_GEOLOCATION_GOAL_ID])
   }
