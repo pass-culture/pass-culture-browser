@@ -4,9 +4,9 @@ import React, { PureComponent } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import NotMatch from '../not-match/NotMatch'
-import RequestEmailForm from './RequestEmailForm/RequestEmailForm'
-import ResetThePasswordForm from './ResetPasswordForm/ResetPasswordForm'
-import SuccessView from './SuccessView/SuccessView'
+import RequestEmailForm from './RequestEmailForm/RequestEmailFormContainer'
+import ResetThePasswordForm from './ResetPasswordForm/ResetPasswordFormContainer'
+import SuccessView from './SuccessView/SuccessViewContainer'
 
 class ForgotPassword extends PureComponent {
   renderForgotPasswordSuccessViewRoute = token => routeProps => (
