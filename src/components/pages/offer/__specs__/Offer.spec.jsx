@@ -14,9 +14,14 @@ jest.mock('../../../hocs/with-login/withRequiredLogin', () => WrappedComponent =
 ))
 
 describe('offerContainer', () => {
+  let fakeMatomo
   let props
 
   beforeEach(() => {
+    fakeMatomo = {
+      push: jest.fn(),
+    }
+    window._paq = fakeMatomo
     props = {
       match: {
         params: {
