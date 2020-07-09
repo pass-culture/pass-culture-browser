@@ -22,72 +22,8 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "function",
     "props": Object {
-      "children": <Icon
-        alt="Retour"
-        className="close-link-img"
-        svg="ico-back"
-      />,
-      "className": "back-link",
-      "onClick": null,
-      "to": "/fake-url",
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "function",
-      "props": Object {
-        "alt": "Retour",
-        "className": "close-link-img",
-        "svg": "ico-back",
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-    "type": Object {
-      "$$typeof": Symbol(react.forward_ref),
-      "displayName": "Link",
-      "propTypes": Object {
-        "innerRef": [Function],
-        "onClick": [Function],
-        "replace": [Function],
-        "target": [Function],
-        "to": [Function],
-      },
-      "render": [Function],
-    },
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "function",
-      "props": Object {
-        "children": <Icon
-          alt="Retour"
-          className="close-link-img"
-          svg="ico-back"
-        />,
-        "className": "back-link",
-        "onClick": null,
-        "to": "/fake-url",
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "function",
-        "props": Object {
-          "alt": "Retour",
-          "className": "close-link-img",
-          "svg": "ico-back",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      "type": Object {
+      "__EMOTION_LABEL_PLEASE_DO_NOT_USE__": "BackLink",
+      "__EMOTION_TYPE_PLEASE_DO_NOT_USE__": Object {
         "$$typeof": Symbol(react.forward_ref),
         "displayName": "Link",
         "propTypes": Object {
@@ -97,6 +33,122 @@ ShallowWrapper {
           "target": [Function],
           "to": [Function],
         },
+        "render": [Function],
+      },
+      "children": <ForwardRef(render)
+        __EMOTION_LABEL_PLEASE_DO_NOT_USE__="BackLink"
+        __EMOTION_TYPE_PLEASE_DO_NOT_USE__={[Function]}
+        alt="Retour"
+        css={
+          Object {
+            "height": " 21px",
+            "width": "21px",
+          }
+        }
+        svg="ico-back"
+      />,
+      "css": Object {
+        "gridColumn": "1/2",
+        "gridRow": "1/2",
+        "placeSelf": "center",
+      },
+      "onClick": null,
+      "to": "/fake-url",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "__EMOTION_LABEL_PLEASE_DO_NOT_USE__": "BackLink",
+        "__EMOTION_TYPE_PLEASE_DO_NOT_USE__": [Function],
+        "alt": "Retour",
+        "css": Object {
+          "height": " 21px",
+          "width": "21px",
+        },
+        "svg": "ico-back",
+      },
+      "ref": null,
+      "rendered": null,
+      "type": Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "EmotionCssPropInternal",
+        "render": [Function],
+      },
+    },
+    "type": Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "EmotionCssPropInternal",
+      "render": [Function],
+    },
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "__EMOTION_LABEL_PLEASE_DO_NOT_USE__": "BackLink",
+        "__EMOTION_TYPE_PLEASE_DO_NOT_USE__": Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "Link",
+          "propTypes": Object {
+            "innerRef": [Function],
+            "onClick": [Function],
+            "replace": [Function],
+            "target": [Function],
+            "to": [Function],
+          },
+          "render": [Function],
+        },
+        "children": <ForwardRef(render)
+          __EMOTION_LABEL_PLEASE_DO_NOT_USE__="BackLink"
+          __EMOTION_TYPE_PLEASE_DO_NOT_USE__={[Function]}
+          alt="Retour"
+          css={
+            Object {
+              "height": " 21px",
+              "width": "21px",
+            }
+          }
+          svg="ico-back"
+        />,
+        "css": Object {
+          "gridColumn": "1/2",
+          "gridRow": "1/2",
+          "placeSelf": "center",
+        },
+        "onClick": null,
+        "to": "/fake-url",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "__EMOTION_LABEL_PLEASE_DO_NOT_USE__": "BackLink",
+          "__EMOTION_TYPE_PLEASE_DO_NOT_USE__": [Function],
+          "alt": "Retour",
+          "css": Object {
+            "height": " 21px",
+            "width": "21px",
+          },
+          "svg": "ico-back",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "EmotionCssPropInternal",
+          "render": [Function],
+        },
+      },
+      "type": Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "EmotionCssPropInternal",
         "render": [Function],
       },
     },

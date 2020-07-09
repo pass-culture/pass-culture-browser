@@ -48,7 +48,7 @@ describe('eligibility check page', () => {
       )
 
       // then
-      const eligibilityTitle = wrapper.find({children: 'Créer un compte'})
+      const eligibilityTitle = wrapper.find({ children: 'Créer un compte' }).last()
       expect(eligibilityTitle).toHaveLength(1)
     })
 
@@ -123,7 +123,7 @@ describe('eligibility check page', () => {
 
       // when
       act(() => {
-        eligibilityPostalCodeInput.invoke('onChange')({target: {value: '76530'}})
+        eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '76530' } })
       })
       wrapper.update()
 
@@ -143,7 +143,7 @@ describe('eligibility check page', () => {
 
       // when
       act(() => {
-        eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05031997'}})
+        eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05031997' } })
       })
       wrapper.update()
 
@@ -160,7 +160,6 @@ describe('eligibility check page', () => {
       checkIfDepartmentIsEligible.mockReturnValue(false)
       props.pathname = '/verification-eligibilite'
 
-
       const wrapper = mount(
         <MemoryRouter>
           <EligibilityCheck {...props} />
@@ -171,8 +170,8 @@ describe('eligibility check page', () => {
       const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
       act(() => {
-        eligibilityPostalCodeInput.invoke('onChange')({target: {value: '27200'}})
-        eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2002'}})
+        eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '27200' } })
+        eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2002' } })
       })
       wrapper.update()
 
@@ -184,10 +183,12 @@ describe('eligibility check page', () => {
       })
 
       // Then
-      expect(props.historyPush).toHaveBeenCalledWith('/verification-eligibilite/departement-non-eligible')
+      expect(props.historyPush).toHaveBeenCalledWith(
+        '/verification-eligibilite/departement-non-eligible'
+      )
     })
 
-    it('should check if age is eligible based on user\'s date of birth', () => {
+    it("should check if age is eligible based on user's date of birth", () => {
       // given
       const wrapper = mount(
         <MemoryRouter>
@@ -200,8 +201,8 @@ describe('eligibility check page', () => {
       const dateOfBirth = '05/03/2002'
 
       act(() => {
-        eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-        eligibilityDateOfBirthInput.invoke('onChange')({target: {value: dateOfBirth}})
+        eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+        eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: dateOfBirth } })
       })
       wrapper.update()
 
@@ -221,7 +222,7 @@ describe('eligibility check page', () => {
         checkIfAgeIsEligible.mockReturnValue('eligible')
       })
 
-      it('should check if department is eligible based on user\'s postal code', () => {
+      it("should check if department is eligible based on user's postal code", () => {
         // given
         const wrapper = mount(
           <MemoryRouter>
@@ -234,8 +235,8 @@ describe('eligibility check page', () => {
         const postalCode = '93800'
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: postalCode}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2002'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: postalCode } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2002' } })
         })
         wrapper.update()
 
@@ -264,8 +265,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2002'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2002' } })
         })
         wrapper.update()
 
@@ -294,8 +295,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '27200'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2002'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '27200' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2002' } })
         })
         wrapper.update()
 
@@ -307,7 +308,9 @@ describe('eligibility check page', () => {
         })
 
         // then
-        expect(props.historyPush).toHaveBeenCalledWith('/verification-eligibilite/departement-non-eligible')
+        expect(props.historyPush).toHaveBeenCalledWith(
+          '/verification-eligibilite/departement-non-eligible'
+        )
       })
     })
 
@@ -330,8 +333,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2003'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2003' } })
         })
         wrapper.update()
 
@@ -360,8 +363,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/1997'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/1997' } })
         })
         wrapper.update()
 
@@ -390,8 +393,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '05/03/2005'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '05/03/2005' } })
         })
         wrapper.update()
 
@@ -424,8 +427,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '99/02/2002'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '99/02/2002' } })
         })
         wrapper.update()
 
@@ -452,8 +455,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '03/99/2002'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '03/99/2002' } })
         })
         wrapper.update()
 
@@ -480,8 +483,8 @@ describe('eligibility check page', () => {
         const eligibilityDateOfBirthInput = wrapper.find('input[placeholder="JJ/MM/AAAA"]')
 
         act(() => {
-          eligibilityPostalCodeInput.invoke('onChange')({target: {value: '93800'}})
-          eligibilityDateOfBirthInput.invoke('onChange')({target: {value: '99/02/2021'}})
+          eligibilityPostalCodeInput.invoke('onChange')({ target: { value: '93800' } })
+          eligibilityDateOfBirthInput.invoke('onChange')({ target: { value: '99/02/2021' } })
         })
         wrapper.update()
 
