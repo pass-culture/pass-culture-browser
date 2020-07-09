@@ -3,7 +3,9 @@ import InputMask from 'react-input-mask'
 import PropTypes from 'prop-types'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import styled from '@emotion/styled'
 import style from './style'
+import colors from '../../../../styles/variables/colors'
 
 import BackLink from '../../../layout/Header/BackLink/BackLink'
 import { checkIfDepartmentIsEligible } from '../domain/checkIfDepartmentIsEligible'
@@ -66,6 +68,25 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
     [postalCodeInputValue, dateOfBirthInputValue]
   )
 
+  const SubmitInput = styled.input`
+    background-image: linear-gradient(101deg, ${colors.primary} -42%, ${colors.secondary} 128%);
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.25);
+    color: ${colors.white};
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    padding: 15px 0;
+    width: 300px;
+
+    &:disabled {
+      opacity: 0.5;
+      -webkit-text-fill-color: ${colors.white};
+    }
+  `
+
   return (
     <main css={style.page}>
       <BackLink backTo="/beta" />
@@ -101,8 +122,7 @@ const EligibilityCheck = ({ historyPush, pathname }) => {
             />
           </label>
         </div>
-        <input
-          css={style.submitInput}
+        <SubmitInput
           disabled={isMissingField}
           type="submit"
           value="Vérifier mon éligibilité"
@@ -116,7 +136,5 @@ EligibilityCheck.propTypes = {
   historyPush: PropTypes.func.isRequired,
   pathname: PropTypes.string.isRequired,
 }
-
-
 
 export default EligibilityCheck
