@@ -14,6 +14,7 @@ class Module extends Component {
     super(props)
     this.state = {
       hits: [],
+      isDragging: false,
       lastPositionOnXAxis: 0,
       position: DEFAULT_POSITION,
       step: DEFAULT_STEP,
@@ -35,7 +36,7 @@ class Module extends Component {
   }
 
   moveToPreviousOrNextTile = (event, data) => {
-    const { hits, lastPositionOnXAxis, position, step } = this.state
+    const { hits, isDragging, lastPositionOnXAxis, position, step } = this.state
     const firstOfferImageWidth = document.getElementsByClassName('otw-image-wrapper')[0].offsetWidth
 
     const maxSteps = hits.length
@@ -53,14 +54,17 @@ class Module extends Component {
       width: firstOfferImageWidth,
     })
 
-    this.setState({
-      lastPositionOnXAxis: newPositionOnXAxis,
-      position: {
-        x: newPositionOnXAxis,
-        y: position.y,
-      },
-      step: newStep,
-    })
+    if (isDragging) {
+      this.setState({
+        isDragging: false,
+        lastPositionOnXAxis: newPositionOnXAxis,
+        position: {
+          x: newPositionOnXAxis,
+          y: position.y,
+        },
+        step: newStep,
+      })
+    }
 
     this.getAllLinks().forEach(link => {
       link.classList.remove('disabled-click-event')
@@ -68,6 +72,10 @@ class Module extends Component {
   }
 
   removeClickableLinks = () => {
+    this.setState({
+      isDragging: true,
+    })
+
     this.getAllLinks().forEach(link => {
       link.classList.add('disabled-click-event')
     })
