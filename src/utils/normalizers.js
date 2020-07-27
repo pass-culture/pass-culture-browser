@@ -24,7 +24,6 @@ export const bookingNormalizer = {
 
 export const favoriteNormalizer = {
   firstMatchingBooking: 'bookings',
-  mediation: 'mediations',
   offer: {
     normalizer: {
       stocks: 'stocks',
