@@ -48,7 +48,7 @@ test('je peux naviguer vers les favoris', async t => {
 })
 
 test('je peux naviguer vers mon profil', async t => {
-  const navBarProfileLink = linksOfNavBar.nth(5)
+  const navBarProfileLink = linksOfNavBar.nth(4)
   await t
     .expect(navBarProfileLink.exists)
     .ok()
