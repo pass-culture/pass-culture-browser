@@ -50,8 +50,7 @@ test('je peux naviguer vers les favoris', async t => {
 test('je peux naviguer vers mon profil', async t => {
   const navBarProfileLink = linksOfNavBar.nth(4)
   await t
-    .expect(navBarProfileLink.exists)
-    .ok()
+    .navigateTo(`${ROOT_PATH}decouverte`)
     .click(navBarProfileLink)
     .expect(getPageUrl())
     .eql(`${ROOT_PATH}profil`)
