@@ -21,50 +21,47 @@ jobs:
             export NVM_DIR="/opt/circleci/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd ~/pass-culture-main/webapp
-            nvm install
             yarn install
             yarn test:unit --coverage
             yarn coveralls
       - run:
-          name: Install dockerize
+          name: Installing dockerize
           command: |
             wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           environment:
             DOCKERIZE_VERSION: v0.6.1
-      - run:
-          name: Running API server
-          command: |
-            cd ~/pass-culture-main
-            ./pc start-backend
-          background: true
-      - run:
-          name: Running Frontend
-          command: |
-            export NVM_DIR="/opt/circleci/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            cd ~/pass-culture-main/webapp
-            nvm install
-            yarn start
-          background: true
-      - run:
-          name: Running industrial sandbox
-          command: |
-            cd pass-culture-main
-            dockerize -wait http://localhost/health/api -timeout 5m -wait-retry-interval 5s
-            dockerize -wait http://localhost/health/database -timeout 5m -wait-retry-interval 5s
-            ./pc sandbox --name=industrial
-      - run:
-          name: Running end2end tests
-          command: |
-            export NVM_DIR="/opt/circleci/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            cd ~/pass-culture-main/webapp
-            nvm install
-            yarn test:cafe
-      - store_artifacts:
-          path: ~/pass-culture-main/webapp/testcafe_screenshots
+      # - run:
+      #     name: Running API server
+      #     command: |
+      #       cd ~/pass-culture-main
+      #       ./pc start-backend
+      #     background: true
+      # - run:
+      #     name: Running Frontend
+      #     command: |
+      #       export NVM_DIR="/opt/circleci/.nvm"
+      #       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      #       cd ~/pass-culture-main/webapp
+      #       yarn start
+      #     background: true
+      # - run:
+      #     name: Running industrial sandbox
+      #     command: |
+      #       cd pass-culture-main
+      #       dockerize -wait http://localhost/health/api -timeout 5m -wait-retry-interval 5s
+      #       dockerize -wait http://localhost/health/database -timeout 5m -wait-retry-interval 5s
+      #       ./pc sandbox --name=industrial
+      # - run:
+      #     name: Running end2end tests
+      #     command: |
+      #       export NVM_DIR="/opt/circleci/.nvm"
+      #       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      #       cd ~/pass-culture-main/webapp
+      #       yarn test:cafe
+      # - store_artifacts:
+      #     path: ~/pass-culture-main/webapp/testcafe_screenshots
 
   deploy-webapp:
     machine:
@@ -88,7 +85,6 @@ jobs:
             cd ~/pass-culture-main/webapp
             export NVM_DIR="/opt/circleci/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-            nvm install
             yarn install
 
             set -a; source ~/pass-culture-main/config/run_envs/testing;
