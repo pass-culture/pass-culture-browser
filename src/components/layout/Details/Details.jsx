@@ -23,7 +23,7 @@ class Details extends PureComponent {
     const { getOfferById, match } = this.props
     const { params } = match
     const { offerId } = params
-    getOfferById(offerId)
+    if (offerId) getOfferById(offerId)
   }
 
   componentDidUpdate() {
