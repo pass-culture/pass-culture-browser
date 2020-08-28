@@ -82,7 +82,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
 
   describe('mapDispatchToProps()', () => {
     describe('when mapping loadRecommendations', () => {
-      it('should load the recommendations with page equals 1 when no current recommendation', () => {
+      it('should load the recommendations with page equals 1 when no current recommendation', async () => {
         // given
         const handleRequestSuccess = jest.fn()
         const handleRequestFail = jest.fn()
@@ -93,8 +93,24 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         const functions = mapDispatchToProps(dispatch, props)
         const { loadRecommendations } = functions
 
+        Object.defineProperty(navigator, 'permissions', {
+          writable: true,
+          value: {
+            query: jest.fn(() => ({
+              status: 'denied',
+            })),
+          },
+        })
+
+        Object.defineProperty(navigator, 'geolocation', {
+          writable: true,
+          value: {
+            getCurrentPosition: jest.fn(success => success()),
+          },
+        })
+
         // when
-        loadRecommendations(
+        await loadRecommendations(
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
@@ -104,6 +120,8 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         )
 
         // then
+        expect(navigator.permissions.query).toHaveBeenCalledWith({ name: 'geolocation' })
+        expect(navigator.geolocation.getCurrentPosition).not.toHaveBeenCalled()
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
             apiPath: `/recommendations?`,
@@ -120,7 +138,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         })
       })
 
-      it('should load the recommendations with page equals 2 when current recommendation is a valid one attached to an offer', () => {
+      it('should load the recommendations with page equals 2 when current recommendation is a valid one attached to an offer', async () => {
         // given
         const handleRequestSuccess = jest.fn()
         const handleRequestFail = jest.fn()
@@ -135,8 +153,24 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         const functions = mapDispatchToProps(dispatch, props)
         const { loadRecommendations } = functions
 
+        Object.defineProperty(navigator, 'permissions', {
+          writable: true,
+          value: {
+            query: jest.fn(() => ({
+              status: 'denied',
+            })),
+          },
+        })
+
+        Object.defineProperty(navigator, 'geolocation', {
+          writable: true,
+          value: {
+            getCurrentPosition: jest.fn(success => success()),
+          },
+        })
+
         // when
-        loadRecommendations(
+        await loadRecommendations(
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
@@ -162,7 +196,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         })
       })
 
-      it('should make request with given geolocation to API', () => {
+      it('should make request with given geolocation to API', async () => {
         // given
         const handleRequestSuccess = jest.fn()
         const handleRequestFail = jest.fn()
@@ -178,8 +212,24 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         const { loadRecommendations } = functions
         const coordinates = { latitude: 48.192, longitude: 1.291 }
 
+        Object.defineProperty(navigator, 'permissions', {
+          writable: true,
+          value: {
+            query: jest.fn(() => ({
+              status: 'granted',
+            })),
+          },
+        })
+
+        Object.defineProperty(navigator, 'geolocation', {
+          writable: true,
+          value: {
+            getCurrentPosition: jest.fn(success => success()),
+          },
+        })
+
         // when
-        loadRecommendations(
+        await loadRecommendations(
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
@@ -206,7 +256,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         })
       })
 
-      it('should load the recommendations when user is geolocated', () => {
+      it('should load the recommendations when user is geolocated', async () => {
         // given
         const handleRequestSuccess = jest.fn()
         const handleRequestFail = jest.fn()
@@ -226,8 +276,24 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         const functions = mapDispatchToProps(dispatch, props)
         const { loadRecommendations } = functions
 
+        Object.defineProperty(navigator, 'permissions', {
+          writable: true,
+          value: {
+            query: jest.fn(() => ({
+              status: 'granted',
+            })),
+          },
+        })
+
+        Object.defineProperty(navigator, 'geolocation', {
+          writable: true,
+          value: {
+            getCurrentPosition: jest.fn(success => success()),
+          },
+        })
+
         // when
-        loadRecommendations(
+        await loadRecommendations(
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
@@ -254,7 +320,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         })
       })
 
-      it('should load the recommendations when user is not geolocated', () => {
+      it('should load the recommendations when user is not geolocated', async () => {
         // given
         const handleRequestSuccess = jest.fn()
         const handleRequestFail = jest.fn()
@@ -274,8 +340,31 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         const functions = mapDispatchToProps(dispatch, props)
         const { loadRecommendations } = functions
 
+        Object.defineProperty(navigator, 'permissions', {
+          writable: true,
+          value: {
+            query: jest.fn(() => ({
+              status: 'granted',
+            })),
+          },
+        })
+
+        Object.defineProperty(navigator, 'geolocation', {
+          writable: true,
+          value: {
+            getCurrentPosition: jest.fn(success =>
+              success({
+                coords: {
+                  latitude: 1,
+                  longitude: 2,
+                },
+              })
+            ),
+          },
+        })
+
         // when
-        loadRecommendations(
+        await loadRecommendations(
           handleRequestSuccess,
           handleRequestFail,
           currentRecommendation,
@@ -288,7 +377,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
         // then
         expect(dispatch.mock.calls[0][0]).toStrictEqual({
           config: {
-            apiPath: `/recommendations?`,
+            apiPath: `/recommendations?longitude=2&latitude=1`,
             body: {
               readRecommendations: null,
               offersSentInLastCall: ['AE4'],
@@ -298,7 +387,7 @@ describe('src | components | pages | discovery | DiscoveryContainer', () => {
             method: 'PUT',
             normalizer: recommendationNormalizer,
           },
-          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?',
+          type: 'REQUEST_DATA_PUT_/RECOMMENDATIONS?LONGITUDE=2&LATITUDE=1',
         })
       })
     })
