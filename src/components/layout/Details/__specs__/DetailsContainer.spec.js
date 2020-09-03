@@ -1,4 +1,10 @@
-import { mapStateToProps } from '../DetailsContainer'
+import { mapDispatchToProps, mapStateToProps } from '../DetailsContainer'
+import { requestData } from '../../../../utils/fetch-normalize-data/requestData'
+
+jest.mock('../../../../utils/fetch-normalize-data/requestData', () => ({
+  requestData: jest.fn()
+}))
+
 
 describe('src | components | layout | Details | DetailsContainer', () => {
   let ownProps
@@ -36,6 +42,34 @@ describe('src | components | layout | Details | DetailsContainer', () => {
       // then
       expect(props).toStrictEqual({
         cancelView: false,
+      })
+    })
+  })
+
+  describe('mapDispatchToProps', () => {
+    it('should not load offer details when offer id is not defined', () => {
+      // given
+      const dispatch = jest.fn()
+
+      // when
+      mapDispatchToProps(dispatch).getOfferById(undefined)
+
+      // then
+      expect(dispatch).not.toHaveBeenCalled()
+    })
+
+    it('should load offer details', () => {
+      // given
+      const dispatch = jest.fn()
+
+      // when
+      mapDispatchToProps(dispatch).getOfferById('AE')
+
+      // then
+      expect(dispatch).toHaveBeenCalled()
+      expect(requestData).toHaveBeenCalled()
+      expect(requestData.mock.calls[0][0]).toMatchObject({
+        apiPath: '/offers/AE'
       })
     })
   })

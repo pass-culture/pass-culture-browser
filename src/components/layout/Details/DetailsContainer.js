@@ -18,12 +18,14 @@ export const mapStateToProps = (state, ownProps) => {
 
 export const mapDispatchToProps = dispatch => ({
   getOfferById: offerId => {
-    dispatch(
-      requestData({
-        apiPath: `/offers/${offerId}`,
-        normalizer: offerNormalizer,
-      })
-    )
+    if(offerId) {
+      dispatch(
+        requestData({
+          apiPath: `/offers/${offerId}`,
+          normalizer: offerNormalizer,
+        })
+      )
+    }
   },
 })
 
