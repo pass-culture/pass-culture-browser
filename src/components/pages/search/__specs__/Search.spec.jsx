@@ -52,15 +52,17 @@ describe('components | Search', () => {
 
       // Then
       expect(document.querySelector().content).toMatch(
-        'height=123px, width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no',
+        'height=123px, width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no'
       )
     })
 
-    it('should reset the resize event and meta tag when unmounting', () => {
+    it('should reset the resize event and meta tag when unmounting', async () => {
       // Given
       const metaTag = document.createElement('meta')
       jest.spyOn(document, 'querySelector').mockReturnValue(metaTag)
       const wrapper = shallow(<Search {...props} />)
+      const flushPromises = () => new Promise(setImmediate)
+      await flushPromises()
 
       // When
       wrapper.unmount()
@@ -68,18 +70,21 @@ describe('components | Search', () => {
       // Then
       expect(window.onresize).toBeNull()
       expect(document.querySelector().content).toBe(
-        'width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no',
+        'width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no'
       )
     })
 
-    it('should select "Partout" by default', () => {
+    it('should select "Partout" by default', async () => {
       // given
+      const flushPromises = () => new Promise(setImmediate)
       props.history.location.pathname = '/recherche'
       const wrapper = mount(
         <Router history={props.history}>
           <Search {...props} />
-        </Router>,
+        </Router>
       )
+      await flushPromises()
+      wrapper.update()
 
       // when
       const geolocationCriterion = wrapper.find({ children: 'Partout' })
@@ -88,14 +93,17 @@ describe('components | Search', () => {
       expect(geolocationCriterion).toHaveLength(1)
     })
 
-    it('should select "Toutes les catégories" by default', () => {
+    it('should select "Toutes les catégories" by default', async () => {
       // given
+      const flushPromises = () => new Promise(setImmediate)
       props.history.location.pathname = '/recherche/criteres-categorie'
       const wrapper = mount(
         <Router history={props.history}>
           <Search {...props} />
-        </Router>,
+        </Router>
       )
+      await flushPromises()
+      wrapper.update()
 
       // when
       const categoryCriterion = wrapper.find({ children: 'Toutes les catégories' })
@@ -104,14 +112,17 @@ describe('components | Search', () => {
       expect(categoryCriterion).toHaveLength(1)
     })
 
-    it('should select "Pertinence" by default', () => {
+    it('should select "Pertinence" by default', async () => {
       // given
+      const flushPromises = () => new Promise(setImmediate)
       props.history.location.pathname = '/recherche/criteres-tri'
       const wrapper = mount(
         <Router history={props.history}>
           <Search {...props} />
-        </Router>,
+        </Router>
       )
+      await flushPromises()
+      wrapper.update()
 
       // when
       const sortCriterion = wrapper.find({ children: 'Pertinence' })
@@ -123,9 +134,12 @@ describe('components | Search', () => {
 
   describe('routing', () => {
     describe('home page', () => {
-      it('should render search home page when path is exactly /recherche', () => {
+      it('should render search home page when path is exactly /recherche', async () => {
+        const flushPromises = () => new Promise(setImmediate)
         // when
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // then
         const routes = wrapper.find(Route)
@@ -166,10 +180,14 @@ describe('components | Search', () => {
     })
 
     describe('results page', () => {
-      it('should render search results page when path is /recherche/resultats', () => {
+      it('should render search results page when path is /recherche/resultats', async () => {
+        const flushPromises = () => new Promise(setImmediate)
+
         // given
         props.history.location.pathname = 'recherche/resultats'
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
@@ -187,17 +205,20 @@ describe('components | Search', () => {
         expect(searchResultsComponent.prop('match')).toStrictEqual(props.match)
         expect(searchResultsComponent.prop('parse')).toStrictEqual(parse)
         expect(searchResultsComponent.prop('redirectToSearchMainPage')).toStrictEqual(
-          props.redirectToSearchMainPage,
+          props.redirectToSearchMainPage
         )
         expect(searchResultsComponent.prop('search')).toStrictEqual(props.history.location.search)
         expect(searchResultsComponent.prop('userGeolocation')).toStrictEqual(props.geolocation)
       })
 
-      it('should render search results page with given category when path is /recherche/resultats', () => {
+      it('should render search results page with given category when path is /recherche/resultats', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.location.pathname = 'recherche/resultats'
         const wrapper = shallow(<Search {...props} />)
         wrapper.setState({ categoryCriterion: CATEGORY_CRITERIA.CINEMA })
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
@@ -213,11 +234,14 @@ describe('components | Search', () => {
         })
       })
 
-      it('should render search results page when path is /recherche/resultats and query params are given through location', () => {
+      it('should render search results page when path is /recherche/resultats and query params are given through location', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.location.pathname = 'recherche/resultats'
         props.location = { parametersFromHome: { isDuo: true } }
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
@@ -236,7 +260,7 @@ describe('components | Search', () => {
         expect(searchResultsComponent.prop('parametersFromHome')).toStrictEqual({ isDuo: true })
         expect(searchResultsComponent.prop('parse')).toStrictEqual(parse)
         expect(searchResultsComponent.prop('redirectToSearchMainPage')).toStrictEqual(
-          props.redirectToSearchMainPage,
+          props.redirectToSearchMainPage
         )
         expect(searchResultsComponent.prop('search')).toStrictEqual(props.history.location.search)
         expect(searchResultsComponent.prop('userGeolocation')).toStrictEqual(props.geolocation)
@@ -244,10 +268,13 @@ describe('components | Search', () => {
     })
 
     describe('geolocation criteria page', () => {
-      it('should render geolocation criteria page when path is /recherche/criteres-localisation', () => {
+      it('should render geolocation criteria page when path is /recherche/criteres-localisation', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.location.pathname = '/recherche/criteres-localisation'
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
@@ -263,21 +290,24 @@ describe('components | Search', () => {
         expect(searchCriteriaLocation.prop('history')).toStrictEqual(props.history)
         expect(searchCriteriaLocation.prop('match')).toStrictEqual(props.match)
         expect(searchCriteriaLocation.prop('onCriterionSelection')).toStrictEqual(
-          expect.any(Function),
+          expect.any(Function)
         )
         expect(searchCriteriaLocation.prop('onPlaceSelection')).toStrictEqual(expect.any(Function))
         expect(searchCriteriaLocation.prop('place')).toBeNull()
         expect(searchCriteriaLocation.prop('title')).toStrictEqual('Localisation')
       })
 
-      it('should redirect to main page when clicking on "Partout" option', () => {
+      it('should redirect to main page when clicking on "Partout" option', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.push('/recherche/criteres-localisation')
         const wrapper = mount(
           <Router history={props.history}>
             <Search {...props} />
-          </Router>,
+          </Router>
         )
+        await flushPromises()
+        wrapper.update()
         const everywhereButton = wrapper.find({ children: 'Partout' })
 
         // when
@@ -289,10 +319,13 @@ describe('components | Search', () => {
     })
 
     describe('category criteria page', () => {
-      it('should render category criteria page when path is /recherche/criteres-categorie', () => {
+      it('should render category criteria page when path is /recherche/criteres-categorie', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.location.pathname = '/recherche/criteres-categorie'
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
@@ -311,10 +344,13 @@ describe('components | Search', () => {
     })
 
     describe('sort criteria page', () => {
-      it('should render sorting criteria page when path is /recherche/criteres-tri', () => {
+      it('should render sorting criteria page when path is /recherche/criteres-tri', async () => {
         // given
+        const flushPromises = () => new Promise(setImmediate)
         props.history.location.pathname = '/recherche/criteres-tri'
         const wrapper = shallow(<Search {...props} />)
+        await flushPromises()
+        wrapper.update()
 
         // when
         const routes = wrapper.find(Route)
