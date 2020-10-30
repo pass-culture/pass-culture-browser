@@ -11,10 +11,13 @@ import { CriteriaSort } from '../CriteriaSort/CriteriaSort'
 import { Home } from '../Home/Home'
 import Results from '../Results/Results'
 import Search from '../Search'
+import * as Geoloc from '../../../../utils/geolocation'
 
 jest.mock('query-string', () => ({
   parse: jest.fn(),
 }))
+
+const getCurrentPositionSpy = jest.spyOn(Geoloc, 'getCurrentPosition')
 
 describe('components | Search', () => {
   let props
@@ -73,7 +76,22 @@ describe('components | Search', () => {
         'width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no'
       )
     })
+    it('should show a loading screen while waiting for geolocation and call getCurrentPosition', () => {
+      getCurrentPositionSpy.mockClear()
+      // Given
+      props.history.location.pathname = '/recherche'
+      const wrapper = mount(
+        <Router history={props.history}>
+          <Search {...props} />
+        </Router>
+      )
+      // When
+      const loadingScreen = wrapper.find({ children: 'Chargement en cours…' })
 
+      // Then
+      expect(getCurrentPositionSpy).toHaveBeenCalledTimes(1)
+      expect(loadingScreen).toHaveLength(1)
+    })
     it('should select "Partout" by default', async () => {
       // given
       const flushPromises = () => new Promise(setImmediate)
