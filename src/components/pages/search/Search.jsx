@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Route, Switch } from 'react-router'
-
+import { getCurrentPosition } from '../../../utils/geolocation'
+import LoaderContainer from '../../layout/Loader/LoaderContainer'
 import PageNotFoundContainer from '../../layout/ErrorBoundaries/ErrorsPage/PageNotFound/PageNotFoundContainer'
 import { CATEGORY_CRITERIA, GEOLOCATION_CRITERIA, SORT_CRITERIA } from './Criteria/criteriaEnums'
 import CriteriaCategory from './CriteriaCategory/CriteriaCategory'
@@ -31,17 +32,35 @@ class Search extends PureComponent {
         userGeolocation: props.geolocation,
       },
       sortCriterion: SORT_CRITERIA.RELEVANCE,
+      isLoading: true,
     }
   }
 
   componentDidMount() {
     this.preventWindowResize()
+    this.loadCoordinates()
   }
 
   componentWillUnmount() {
     this.resetWindowResize()
   }
 
+  loadCoordinates = async () => {
+    const { geolocation } = this.props
+    const { geolocationCriterion } = this.state
+    try {
+      const userGeolocation = await getCurrentPosition(geolocation)
+      this.setState({
+        geolocationCriterion: {
+          ...geolocationCriterion,
+          userGeolocation,
+        },
+        isLoading: false,
+      })
+    } catch (error) {
+      this.setState({ isLoading: false })
+    }
+  }
   preventWindowResize() {
     const pageDefaultHeight = document.querySelector('body').offsetHeight
     window.onresize = () => {
@@ -119,82 +138,86 @@ class Search extends PureComponent {
 
   render() {
     const { history, location, match, redirectToSearchMainPage } = this.props
-    const { categoryCriterion, geolocationCriterion, sortCriterion } = this.state
+    const { categoryCriterion, geolocationCriterion, sortCriterion, isLoading } = this.state
     const { place, userGeolocation } = geolocationCriterion
     const { parametersFromHome } = location
-
     return (
-      <Switch>
-        <Route
-          exact
-          path={match.path}
-        >
-          <Home
-            categoryCriterion={categoryCriterion}
-            geolocationCriterion={geolocationCriterion}
-            history={history}
-            sortCriterion={sortCriterion}
-            userGeolocation={userGeolocation}
-          />
-        </Route>
-        <Route path={`${match.path}/resultats`}>
-          <Results
-            criteria={{
-              categories: categoryCriterion.facetFilter ? [categoryCriterion.facetFilter] : [],
-              searchAround: geolocationCriterion.searchAround,
-              sortBy: sortCriterion.index,
-            }}
-            history={history}
-            match={match}
-            parametersFromHome={parametersFromHome}
-            parse={parse}
-            place={place}
-            redirectToSearchMainPage={redirectToSearchMainPage}
-            search={history.location.search}
-            userGeolocation={userGeolocation}
-          />
-        </Route>
-        <Route path={`${match.path}/criteres-localisation`}>
-          <CriteriaLocation
-            activeCriterionLabel={geolocationCriterion.params.label}
-            backTo={match.path}
-            criteria={GEOLOCATION_CRITERIA}
-            geolocation={userGeolocation}
-            history={history}
-            match={match}
-            onCriterionSelection={this.handleGeolocationCriterionSelection}
-            onPlaceSelection={this.handleOnPlaceSelection}
-            place={place}
-            title="Localisation"
-          />
-        </Route>
-        <Route path={`${match.path}/criteres-categorie`}>
-          <CriteriaCategory
-            activeCriterionLabel={categoryCriterion.label}
-            backTo={match.path}
-            criteria={CATEGORY_CRITERIA}
-            history={history}
-            match={match}
-            onCriterionSelection={this.handleCategoryCriterionSelection}
-            title="Catégories"
-          />
-        </Route>
-        <Route path={`${match.path}/criteres-tri`}>
-          <CriteriaSort
-            activeCriterionLabel={sortCriterion.label}
-            backTo={match.path}
-            criteria={SORT_CRITERIA}
-            geolocation={userGeolocation}
-            history={history}
-            match={match}
-            onCriterionSelection={this.handleSortCriterionSelection}
-            title="Trier par"
-          />
-        </Route>
-        <Route>
-          <PageNotFoundContainer />
-        </Route>
-      </Switch>
+      <Fragment>
+        {isLoading && <LoaderContainer />}
+        {!isLoading && (
+          <Switch>
+            <Route
+              exact
+              path={match.path}
+            >
+              <Home
+                categoryCriterion={categoryCriterion}
+                geolocationCriterion={geolocationCriterion}
+                history={history}
+                sortCriterion={sortCriterion}
+                userGeolocation={userGeolocation}
+              />
+            </Route>
+            <Route path={`${match.path}/resultats`}>
+              <Results
+                criteria={{
+                  categories: categoryCriterion.facetFilter ? [categoryCriterion.facetFilter] : [],
+                  searchAround: geolocationCriterion.searchAround,
+                  sortBy: sortCriterion.index,
+                }}
+                history={history}
+                match={match}
+                parametersFromHome={parametersFromHome}
+                parse={parse}
+                place={place}
+                redirectToSearchMainPage={redirectToSearchMainPage}
+                search={history.location.search}
+                userGeolocation={userGeolocation}
+              />
+            </Route>
+            <Route path={`${match.path}/criteres-localisation`}>
+              <CriteriaLocation
+                activeCriterionLabel={geolocationCriterion.params.label}
+                backTo={match.path}
+                criteria={GEOLOCATION_CRITERIA}
+                geolocation={userGeolocation}
+                history={history}
+                match={match}
+                onCriterionSelection={this.handleGeolocationCriterionSelection}
+                onPlaceSelection={this.handleOnPlaceSelection}
+                place={place}
+                title="Localisation"
+              />
+            </Route>
+            <Route path={`${match.path}/criteres-categorie`}>
+              <CriteriaCategory
+                activeCriterionLabel={categoryCriterion.label}
+                backTo={match.path}
+                criteria={CATEGORY_CRITERIA}
+                history={history}
+                match={match}
+                onCriterionSelection={this.handleCategoryCriterionSelection}
+                title="Catégories"
+              />
+            </Route>
+            <Route path={`${match.path}/criteres-tri`}>
+              <CriteriaSort
+                activeCriterionLabel={sortCriterion.label}
+                backTo={match.path}
+                criteria={SORT_CRITERIA}
+                geolocation={userGeolocation}
+                history={history}
+                match={match}
+                onCriterionSelection={this.handleSortCriterionSelection}
+                title="Trier par"
+              />
+            </Route>
+            <Route>
+              <PageNotFoundContainer />
+            </Route>
+          </Switch>
+        )}
+      </Fragment>
     )
   }
 }
