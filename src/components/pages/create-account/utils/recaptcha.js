@@ -15,10 +15,10 @@ export const useReCaptchaScript = () =>
     }
   }, [])
 
-export const getReCaptchaToken = action =>
+export const getReCaptchaToken = () =>
   new Promise(resolve =>
-    window.grecaptcha.ready(function () {
-      window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action }).then(function (token) {
+    window.grecaptcha.ready(function() {
+      window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' }).then(function(token) {
         resolve(token)
       })
     })
