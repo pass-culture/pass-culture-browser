@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { parse } from 'query-string'
-import React, { Component, createRef, Fragment } from 'react'
+import React, { Component, createRef, Fragment, useEffect } from 'react'
 import { Link, Route } from 'react-router-dom'
 
 import { formatToFrenchDecimal } from '../../../../utils/getDisplayPrice'
@@ -19,16 +19,19 @@ import Icon from '../../../layout/Icon/Icon'
 import Profile from '../Profile/Profile'
 import User from '../Profile/ValueObjects/User'
 import { setCustomUserId } from '../../../../notifications/setUpBatchSDK'
+import BusinessPane from './domain/ValueObjects/BusinessPane'
 
-class MainView extends Component {
+export default class MainView extends Component {
   constructor(props) {
     super(props)
     this.state = {
       modules: [],
       fetchingError: false,
+      areAllModulesRendered: false,
       haveSeenAllModules: false,
     }
     this.modulesListRef = createRef()
+    this.onModulesRender = this.onModulesRender.bind(this)
   }
 
   componentDidMount() {
@@ -65,6 +68,9 @@ class MainView extends Component {
   }
 
   checkIfAllModulesHaveBeenSeen = () => {
+    if (!this.state.areAllModulesRendered) {
+      return
+    }
     const navbarHeight = 60
     const modulePaddingBottom = 24
     const hasReachedEndOfPage =
@@ -78,39 +84,12 @@ class MainView extends Component {
     }
   }
 
-  renderModule = (module, row) => {
-    const { geolocation, history, trackAllTilesSeen } = this.props
-    if (module instanceof Offers || module instanceof OffersWithCover) {
-      return (
-        <Module
-          geolocation={geolocation}
-          historyPush={history.push}
-          key={`${row}-module`}
-          module={module}
-          row={row}
-          trackAllTilesSeen={trackAllTilesSeen}
-        />
-      )
-    } else {
-      if (module instanceof ExclusivityPane) {
-        return (
-          <ExclusivityModule
-            key={`${row}-exclusivity-module`}
-            module={module}
-          />
-        )
-      }
-      return (
-        <BusinessModule
-          key={`${row}-business-module`}
-          module={module}
-        />
-      )
-    }
+  onModulesRender() {
+    this.setState({ areAllModulesRendered: true })
   }
 
   render() {
-    const { fetchingError, modules } = this.state
+    const { fetchingError } = this.state
     const { history, match, user } = this.props
     const { publicName, wallet_balance } = user
     const formattedPublicName = formatPublicName(publicName)
@@ -151,7 +130,15 @@ class MainView extends Component {
             className="hw-modules"
             ref={this.modulesListRef}
           >
-            {modules.map((module, row) => this.renderModule(module, row))}
+            {this.state.modules && this.state.modules.length > 0 && (
+              <Modules
+                geolocation={this.props.geolocation}
+                history={this.props.history}
+                modules={this.state.modules}
+                onRender={this.onModulesRender}
+                trackAllTilesSeen={this.props.trackAllTilesSeen}
+              />
+            )}
           </div>
         </div>
         <Route
@@ -185,4 +172,50 @@ MainView.propTypes = {
   user: PropTypes.shape(User).isRequired,
 }
 
-export default MainView
+const Modules = props => {
+  const { onRender } = props
+  useEffect(() => {
+    onRender()
+  }, [onRender])
+
+  return props.modules.map((module, row) => {
+    if (module instanceof Offers || module instanceof OffersWithCover) {
+      return (
+        <Module
+          geolocation={props.geolocation}
+          historyPush={props.history.push}
+          key={`${row}-module`} // eslint-disable-line react/no-array-index-key
+          module={module}
+          row={row}
+          trackAllTilesSeen={props.trackAllTilesSeen}
+        />
+      )
+    } else {
+      if (module instanceof ExclusivityPane) {
+        return (
+          <ExclusivityModule
+            key={`${row}-exclusivity-module`} // eslint-disable-line react/no-array-index-key
+            module={module}
+          />
+        )
+      }
+      return (
+        <BusinessModule
+          key={`${row}-business-module`} // eslint-disable-line react/no-array-index-key
+          module={module}
+        />
+      )
+    }
+  })
+}
+
+Modules.propTypes = {
+  geolocation: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
+  history: PropTypes.shape().isRequired,
+  modules: PropTypes.arrayOf(Offers | OffersWithCover | ExclusivityPane | BusinessPane),
+  onRender: PropTypes.func.isRequired,
+  trackAllTilesSeen: PropTypes.func.isRequired,
+}
