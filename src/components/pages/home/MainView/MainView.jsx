@@ -31,6 +31,7 @@ const MainView = props => {
     trackAllModulesSeen,
     trackAllTilesSeen,
     trackConsultOffer,
+    trackInFavorite,
     trackSeeMoreHasBeenClicked,
   } = props
   const haveSeenAllModules = useRef(false)
@@ -132,6 +133,7 @@ const MainView = props => {
           <CloseLink closeTo="/accueil" />
           <OfferDetailsContainer
             match={match}
+            trackInFavorite={trackInFavorite}
             withHeader={false}
           />
         </div>
@@ -160,6 +162,7 @@ MainView.propTypes = {
   trackAllModulesSeen: PropTypes.func.isRequired,
   trackAllTilesSeen: PropTypes.func.isRequired,
   trackConsultOffer: PropTypes.func.isRequired,
+  trackInFavorite: PropTypes.func.isRequired,
   trackSeeMoreHasBeenClicked: PropTypes.func.isRequired,
   updateCurrentUser: PropTypes.func.isRequired,
   user: PropTypes.shape(User).isRequired,

@@ -14,6 +14,10 @@ describe('src | components | Details', () => {
       match: {
         params: {},
       },
+      trackInFavorite: jest.fn(),
+      location: {
+        moduleName: 'Name of the module',
+      },
     }
   })
 

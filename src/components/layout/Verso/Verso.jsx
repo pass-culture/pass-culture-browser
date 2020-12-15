@@ -12,6 +12,7 @@ const Verso = ({
   offerName,
   offerType,
   offerVenueNameOrPublicName,
+  trackInFavorite,
 }) => {
   const [isLoading, setIsLoading] = useState(offerName === null)
 
@@ -29,7 +30,7 @@ const Verso = ({
           title={offerName}
           type={offerType}
         />
-        <VersoControlsContainer />
+        <VersoControlsContainer trackInFavorite={trackInFavorite} />
         <div className="mosaic-background verso-content">
           <VersoContentOfferContainer />
         </div>
@@ -51,6 +52,7 @@ Verso.propTypes = {
   offerName: PropTypes.string,
   offerType: PropTypes.string,
   offerVenueNameOrPublicName: PropTypes.string,
+  trackInFavorite: PropTypes.func.isRequired,
 }
 
 export default Verso

@@ -9,6 +9,7 @@ const OneItem = ({
   historyPush,
   isSwitching,
   layout,
+  moduleName,
   parsedParameters,
   row,
   tile,
@@ -44,6 +45,7 @@ const OneItem = ({
         isSwitching={isSwitching}
         key={`${row}${tile.offer.id}`}
         layout={layout}
+        moduleName={moduleName}
         trackConsultOffer={trackConsultOffer}
       />
     )
@@ -54,6 +56,7 @@ OneItem.propTypes = {
   historyPush: PropTypes.func.isRequired,
   isSwitching: PropTypes.bool.isRequired,
   layout: PropTypes.string.isRequired,
+  moduleName: PropTypes.string.isRequired,
   parsedParameters: PropTypes.shape().isRequired,
   row: PropTypes.number.isRequired,
   tile: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.shape()]).isRequired,

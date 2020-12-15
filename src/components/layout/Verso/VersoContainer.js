@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+
 import { selectOfferByRouterMatch } from '../../../redux/selectors/data/offersSelectors'
 import Verso from './Verso'
 
@@ -18,7 +19,4 @@ export const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps)
-)(Verso)
+export default compose(withRouter, connect(mapStateToProps))(Verso)

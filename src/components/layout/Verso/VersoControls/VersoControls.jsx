@@ -8,14 +8,14 @@ import WalletContainer from './Wallet/WalletContainer'
 import FinishableContainer from '../../Finishable/FinishableContainer'
 import ShareButtonContainer from '../../Share/ShareButton/ShareButtonContainer'
 
-const VersoControls = ({ isBooked }) => (
+const VersoControls = ({ isBooked, trackInFavorite }) => (
   <FinishableContainer>
     <ul className="verso-controls">
       <li>
         <WalletContainer />
       </li>
       <li>
-        <FavoriteContainer />
+        <FavoriteContainer trackInFavorite={trackInFavorite} />
       </li>
       <li>
         <ShareButtonContainer />
@@ -33,6 +33,7 @@ VersoControls.defaultProps = {
 
 VersoControls.propTypes = {
   isBooked: PropTypes.bool,
+  trackInFavorite: PropTypes.func.isRequired,
 }
 
 export default VersoControls

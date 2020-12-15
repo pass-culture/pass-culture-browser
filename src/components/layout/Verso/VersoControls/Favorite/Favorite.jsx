@@ -26,6 +26,9 @@ class Favorite extends PureComponent {
   }
 
   handleSuccess = () => {
+    const { isFavorite, trackInFavorite } = this.props
+
+    if (isFavorite) trackInFavorite()
     this.setState({ isWaitingApi: false })
   }
 
@@ -69,6 +72,7 @@ Favorite.propTypes = {
   loadFavorites: PropTypes.func.isRequired,
   mediationId: PropTypes.string,
   offerId: PropTypes.string.isRequired,
+  trackInFavorite: PropTypes.func.isRequired,
 }
 
 export default Favorite

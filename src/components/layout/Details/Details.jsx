@@ -62,6 +62,13 @@ class Details extends PureComponent {
     )
   }
 
+  trackInFavorite = () => {
+    const { location, trackInFavorite } = this.props
+    const { moduleName } = location
+
+    trackInFavorite(moduleName)
+  }
+
   render() {
     const { bookingPath, withHeader } = this.props
     const { isDetailsView } = this.state
@@ -76,6 +83,7 @@ class Details extends PureComponent {
         <VersoContainer
           areDetailsVisible={isDetailsView}
           extraClassName={`${withHeader ? 'with-header' : ''}`}
+          trackInFavorite={this.trackInFavorite}
         />
         {isDetailsView && <RectoContainer areDetailsVisible />}
       </Fragment>
@@ -93,12 +101,16 @@ Details.propTypes = {
   bookingPath: PropTypes.string,
   cancelView: PropTypes.bool,
   getOfferById: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    moduleName: PropTypes.string.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       details: PropTypes.string,
       offerId: PropTypes.string,
     }),
   }).isRequired,
+  trackInFavorite: PropTypes.func.isRequired,
   withHeader: PropTypes.bool,
 }
 

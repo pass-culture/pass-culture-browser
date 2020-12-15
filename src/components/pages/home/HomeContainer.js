@@ -42,6 +42,12 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       name: moduleName,
     })
   },
+  trackInFavorite: moduleName => {
+    ownProps.tracking.trackEvent({
+      action: 'InFavorite',
+      name: moduleName,
+    })
+  },
 })
 
 export default compose(
