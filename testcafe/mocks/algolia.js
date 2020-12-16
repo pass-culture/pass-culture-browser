@@ -8,7 +8,7 @@ export const mockAlgoliaResponse = {
         dates: [],
         description:
           'Ainsi la personne avec qui elle avait confessé qu’elle allait goûter, avec qui elle vous avait supplié de la laisser goûter, cette personne, raison avouée par la nécessité, ce n’était pas elle, c’était une autre, c’était encore autre chose ! Autre chose, quoi ? Une autre, qui ?',
-        id: 'AWDQ',
+        id: 'EM',
         isbn: {},
         isDigital: true,
         isDuo: false,
@@ -42,7 +42,7 @@ export const mockAlgoliaResponse = {
         publicName: null,
       },
       _geoloc: { lat: 47.158459, lng: 2.409289 },
-      objectID: 'AWDQ',
+      objectID: 'EM',
       _highlightResult: {
         offer: {
           category: { value: 'JEUX_VIDEO', matchLevel: 'none', matchedWords: [] },
@@ -53,7 +53,7 @@ export const mockAlgoliaResponse = {
             matchLevel: 'none',
             matchedWords: [],
           },
-          id: { value: 'AWDQ', matchLevel: 'none', matchedWords: [] },
+          id: { value: 'EM', matchLevel: 'none', matchedWords: [] },
           label: { value: 'Jeu vidéo', matchLevel: 'none', matchedWords: [] },
           name: { value: 'Dormons peu soupons bien', matchLevel: 'none', matchedWords: [] },
           prices: [{ value: '14.0', matchLevel: 'none', matchedWords: [] }],

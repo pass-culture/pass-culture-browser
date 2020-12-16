@@ -6,6 +6,7 @@ import { fetchSandbox } from './helpers/sandboxes'
 
 fixture('Favoris,')
 
+// eslint-disable-next-line jest/no-done-callback
 test('je peux ajouter une offre à mes favoris et supprimer une offre de mes favoris', async t => {
   const userRole = await createUserRoleFromUserSandbox(
     'webapp_08_booking',

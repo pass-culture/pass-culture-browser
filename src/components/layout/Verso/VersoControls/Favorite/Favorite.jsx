@@ -28,7 +28,7 @@ class Favorite extends PureComponent {
   handleSuccess = () => {
     const { isFavorite, trackInFavorite } = this.props
 
-    if (isFavorite) trackInFavorite()
+    if (isFavorite && trackInFavorite) trackInFavorite()
     this.setState({ isWaitingApi: false })
   }
 
@@ -64,6 +64,7 @@ class Favorite extends PureComponent {
 Favorite.defaultProps = {
   isFavorite: true,
   mediationId: null,
+  trackInFavorite: null,
 }
 
 Favorite.propTypes = {
@@ -72,7 +73,7 @@ Favorite.propTypes = {
   loadFavorites: PropTypes.func.isRequired,
   mediationId: PropTypes.string,
   offerId: PropTypes.string.isRequired,
-  trackInFavorite: PropTypes.func.isRequired,
+  trackInFavorite: PropTypes.func,
 }
 
 export default Favorite

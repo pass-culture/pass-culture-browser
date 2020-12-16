@@ -66,7 +66,7 @@ class Details extends PureComponent {
     const { location, trackInFavorite } = this.props
     const { moduleName } = location
 
-    trackInFavorite(moduleName)
+    if (moduleName && trackInFavorite) trackInFavorite(moduleName)
   }
 
   render() {
@@ -94,6 +94,7 @@ class Details extends PureComponent {
 Details.defaultProps = {
   bookingPath: '',
   cancelView: false,
+  trackInFavorite: null,
   withHeader: true,
 }
 
@@ -102,7 +103,7 @@ Details.propTypes = {
   cancelView: PropTypes.bool,
   getOfferById: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    moduleName: PropTypes.string.isRequired,
+    moduleName: PropTypes.string,
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -110,7 +111,7 @@ Details.propTypes = {
       offerId: PropTypes.string,
     }),
   }).isRequired,
-  trackInFavorite: PropTypes.func.isRequired,
+  trackInFavorite: PropTypes.func,
   withHeader: PropTypes.bool,
 }
 
