@@ -37,9 +37,13 @@ const MainView = props => {
   const modulesListRef = useRef(null)
 
   useEffect(() => {
-    setCustomUserId(user.id)
-    updateCurrentUser({ lastConnectionDate: new Date() })
-  }, [updateCurrentUser, user.id])
+    if (window.batchSDK && user.id) {
+      setCustomUserId(user.id)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.batchSDK && user.id])
+
+  useEffect(() => updateCurrentUser({ lastConnectionDate: new Date() }), [updateCurrentUser])
 
   const checkIfAllModulesHaveBeenSeen = useCallback(() => {
     if (!modulesListRef.current || haveSeenAllModules.current) return
