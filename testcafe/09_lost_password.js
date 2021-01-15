@@ -24,6 +24,7 @@ test('je clique sur "mot de passe oublié", je remplis le formulaire avec une ad
     .eql('Renseigne ton adresse e-mail pour réinitialiser ton mot de passe.')
     .typeText(inputUserEmail, email)
     .click(sendTokenButton)
+    .wait(8000)
     .expect(getPageUrl())
     .eql(`${ROOT_PATH}mot-de-passe-perdu/succes`)
 })
