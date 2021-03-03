@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import { selectUserGeolocation } from '../../../redux/selectors/geolocationSelectors'
 import { updateCurrentUser } from '../../../redux/actions/currentUser'
 import Home from './Home'
+import withGeolocationTracking from '../../../tracking/withGeolocationTracking'
 
 export const mapStateToProps = state => ({
   geolocation: selectUserGeolocation(state),
@@ -47,5 +48,6 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 export default compose(
   withRequiredLogin,
   withTracking('Home'),
-  connect(mapStateToProps, mapDispatchToProps, mergeProps)
+  connect(mapStateToProps, mapDispatchToProps, mergeProps),
+  withGeolocationTracking
 )(Home)
