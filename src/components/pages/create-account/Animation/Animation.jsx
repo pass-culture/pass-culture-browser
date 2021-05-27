@@ -17,7 +17,7 @@ export const Animation = ({ name, loop, speed }) => {
         path: `${ANIMATIONS_URL}/${name}.json`,
       })
       .setSpeed(speed)
-  }, [])
+  }, [loop, name, speed])
 
   return (
     <div

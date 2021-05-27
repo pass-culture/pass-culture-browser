@@ -1,13 +1,14 @@
+import { setUser } from '@sentry/browser'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+
 import { fetchCurrentUser } from '../../../redux/actions/currentUser'
 import LoadingPage from '../../layout/LoadingPage/LoadingPage'
 import selectIsFeatureDisabled from '../../router/selectors/selectIsFeatureDisabled'
 import { FEATURES } from '../../router/selectors/features'
-import { setUser }from '@sentry/browser'
 
 export default ({
   isRequired,
@@ -25,12 +26,11 @@ export default ({
         if (isLoggedIn) {
           setUser({ id: currentUser.pk })
           handleSuccess({ currentUser, history, isHomepageDisabled, location })
-        }
-        else handleFail(history, location)
+        } else handleFail(history, location)
 
         if (!isRequired || isLoggedIn) setLoading(false)
       })
-    }, [])
+    }, [dispatchFetchCurrentUser, history, isHomepageDisabled, location])
 
     return loading ? <LoadingPage /> : <WrappedComponent {...props} />
   }
@@ -59,9 +59,6 @@ export default ({
 
   return compose(
     withRouter,
-    connect(
-      mapStateToProps,
-      { dispatchFetchCurrentUser: fetchCurrentUser },
-    ),
+    connect(mapStateToProps, { dispatchFetchCurrentUser: fetchCurrentUser })
   )(_withLogin)
 }
