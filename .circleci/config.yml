@@ -59,6 +59,14 @@ commands:
           gsutil rsync -r << parameters.build_path >> gs://<< parameters.bucket_name >>
           true
 
+  invalidate-cache:
+    description: Invalidate Cache to url map
+    parameters:
+      url_map_name:
+        type: string
+    steps:
+      - run: gcloud compute url-maps invalidate-cdn-cache << parameters.url_map_name >> --path "/*"
+
 ###################
 #  JOBS
 ###################
@@ -176,6 +184,8 @@ jobs:
       - push-to-bucket:
           build_path: ~/pass-culture-main/webapp/build/
           bucket_name: ${GCP_PROJECT}-testing-webapp
+      - invalidate-cache:
+          url_map_name: testing-webapp-url-map
 
 
 ###################
@@ -202,6 +212,7 @@ workflows:
             branches:
               only:
                 - master
+                - PC-10018
           context:
             - GCP
             - GCP_EHP
