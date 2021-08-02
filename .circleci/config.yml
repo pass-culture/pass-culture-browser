@@ -192,6 +192,7 @@ workflows:
             branches:
               only:
                 - master
+                - PC-10253
           requires:
             - test
 
