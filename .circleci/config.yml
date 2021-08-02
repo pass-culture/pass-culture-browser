@@ -152,13 +152,11 @@ jobs:
             nvm install
             yarn install
 
-            set -a; source ~/pass-culture-main/config/run_envs/testing;
-            # TODO : Remove once env variables are cleaned in every app
             export NODE_ENV=testing
 
             yarn build
             npm install -g netlify-cli@2.46.0
-            netlify deploy -s "${NETLIFY_SITE_ID_WEBAPP}" -a "${NETLIFY_TOKEN}" -d build/ --prod
+            netlify deploy -s "d429892f-4e65-4853-ae9b-e11c97415bd5" -a "${NETLIFY_TOKEN}" -d build/ --prod
 
   deploy-webapp-gcp:
     executor: node-gcp
