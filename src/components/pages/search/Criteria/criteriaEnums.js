@@ -20,61 +20,61 @@ export const CATEGORY_CRITERIA = {
   CINEMA: {
     label: 'Cinéma',
     icon: 'ico-cinema',
-    facetFilter: 'Cinéma',
+    facetFilter: 'CINEMA',
   },
   EXHIBITION: {
     label: 'Visite, exposition',
     icon: 'ico-exposition',
-    facetFilter: 'Visite, exposition',
+    facetFilter: 'VISITE',
   },
   MUSIC: {
     label: 'Musique',
     icon: 'ico-music',
-    facetFilter: 'Musique',
+    facetFilter: 'MUSIQUE',
   },
   SHOW: {
     label: 'Spectacles',
     icon: 'ico-show',
-    facetFilter: 'Spectacles',
+    facetFilter: 'SPECTACLE',
   },
   LESSON: {
     label: 'Cours, ateliers',
     icon: 'ico-arts',
-    facetFilter: 'Cours, ateliers',
+    facetFilter: 'COURS',
   },
   BOOK: {
     label: 'Livre',
     icon: 'ico-books',
-    facetFilter: 'Livre',
+    facetFilter: 'LIVRE',
   },
   FILM: {
     label: 'Films, séries',
     icon: 'ico-movie',
-    facetFilter: 'Films, séries',
+    facetFilter: 'FILM',
   },
   PRESS: {
     label: 'Presse, médias',
     icon: 'ico-newspaper',
-    facetFilter: 'Presse, médias',
+    facetFilter: 'PRESSE',
   },
   GAME: {
     label: 'Jeux',
     icon: 'ico-game',
-    facetFilter: 'Jeux',
+    facetFilter: 'JEU',
   },
   CONFERENCE: {
     label: 'Conférences, rencontres',
     icon: 'ico-conference',
-    facetFilter: 'Conférences, rencontres',
+    facetFilter: 'CONFERENCE',
   },
   INSTRUMENT: {
     label: 'Instruments de musique',
     icon: 'ico-instrument',
-    facetFilter: 'Instruments de musique',
+    facetFilter: 'INSTRUMENT',
   },
   ART_SUPPLY: {
     label: 'Beaux-arts',
     icon: 'ico-materiel-creatif',
-    facetFilter: 'Beaux-arts',
+    facetFilter: 'MATERIEL',
   },
 }
