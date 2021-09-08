@@ -23,9 +23,9 @@ export const CATEGORY_CRITERIA = {
     facetFilter: 'Cinéma',
   },
   EXHIBITION: {
-    label: 'Visites, expositions',
+    label: 'Visite, exposition',
     icon: 'ico-exposition',
-    facetFilter: 'Visites, expositions',
+    facetFilter: 'Visite, exposition',
   },
   MUSIC: {
     label: 'Musique',
@@ -43,19 +43,19 @@ export const CATEGORY_CRITERIA = {
     facetFilter: 'Cours, ateliers',
   },
   BOOK: {
-    label: 'Livres',
+    label: 'Livre',
     icon: 'ico-books',
-    facetFilter: 'Livres',
+    facetFilter: 'Livre',
   },
   FILM: {
-    label: 'Films, séries, podcasts',
+    label: 'Films, séries',
     icon: 'ico-movie',
-    facetFilter: 'Films, séries, podcasts',
+    facetFilter: 'Films, séries',
   },
   PRESS: {
-    label: 'Presse',
+    label: 'Presse, médias',
     icon: 'ico-newspaper',
-    facetFilter: 'Presse',
+    facetFilter: 'Presse, médias',
   },
   GAME: {
     label: 'Jeux',
@@ -73,8 +73,8 @@ export const CATEGORY_CRITERIA = {
     facetFilter: 'Instruments de musique',
   },
   ART_SUPPLY: {
-    label: 'Matériel arts créatifs',
+    label: 'Beaux-arts',
     icon: 'ico-materiel-creatif',
-    facetFilter: 'Matériel arts créatifs',
+    facetFilter: 'Beaux-arts',
   },
 }

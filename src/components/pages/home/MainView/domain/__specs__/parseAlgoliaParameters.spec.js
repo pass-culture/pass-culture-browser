@@ -29,7 +29,7 @@ describe('src | components | parseAlgoliaParameters', () => {
   it('should return parsed algolia parameters with mapped categories when provided', () => {
     // given
     const parameters = {
-      categories: ['Cinéma', 'Cours, ateliers', 'Livres'],
+      categories: ['Cinéma', 'Cours, ateliers', 'Livre'],
     }
 
     // when
@@ -42,7 +42,7 @@ describe('src | components | parseAlgoliaParameters', () => {
       endingDatetime: null,
       geolocation: null,
       hitsPerPage: null,
-      offerCategories: ['Cinéma', 'Cours, ateliers', 'Livres'],
+      offerCategories: ['Cinéma', 'Cours, ateliers', 'Livre'],
       offerIsDuo: false,
       offerIsFree: false,
       offerIsNew: false,

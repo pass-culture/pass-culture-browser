@@ -29,7 +29,7 @@ describe('src | components | Module', () => {
     algolia = {
       aroundRadius: null,
       beginningDatetime: null,
-      categories: ['Cinéma', 'Cours, ateliers', 'Livres'],
+      categories: ['Cinéma', 'Cours, ateliers', 'Livre'],
       endingDatetime: null,
       hitsPerPage: 3,
       isDigital: false,
@@ -215,7 +215,7 @@ describe('src | components | Module', () => {
           longitude: 2,
         },
         hitsPerPage: 3,
-        offerCategories: ['Cinéma', 'Cours, ateliers', 'Livres'],
+        offerCategories: ['Cinéma', 'Cours, ateliers', 'Livre'],
         offerIsDuo: true,
         offerIsFree: false,
         offerIsNew: true,
