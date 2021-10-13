@@ -192,6 +192,7 @@ workflows:
             branches:
               only:
                 - master
+                - PC-11089/Fixer-probleme-de-cache
           requires:
             - test
 
